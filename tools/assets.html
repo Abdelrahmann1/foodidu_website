@@ -128,18 +128,21 @@ async function og(pattern, face, data) {
       home: ["Every bite, a better price.", "Promo codes for KFC, Pizza Hut, Rabbit, noon and more in Egypt & the GCC."],
       codes: ["All promo codes in one place", "Restaurants, grocery apps and online shopping in Egypt & the GCC."],
       partners: ["Partner with Foodidu", "Put your restaurant's promo code in front of people about to order."],
+      "day-deals": ["Weekly day deals", "Offers that come back every week, like the KFC Tuesday offer."],
       brand: (b) => [b.moreCodes ? `${b.name.en} promo codes` : `${b.name.en} promo code`, [b.offer.en, ...(b.moreCodes || []).map((x) => x.offer.en)].join(" · ")]
     },
     ar: {
       home: ["كل أكلة… بسعر أحلى.", "أكواد خصم كنتاكي وبيتزا هت ورابيت ونون وغيرها في مصر والخليج."],
       codes: ["كل أكواد الخصم في مكان واحد", "مطاعم وتطبيقات بقالة وتسوق أونلاين في مصر والخليج."],
       partners: ["انضم لشركاء Foodidu", "اعرض كود خصم مطعمك أمام أشخاص على وشك الطلب."],
+      "day-deals": ["عروض الأيام", "عروض تتكرر كل أسبوع، مثل عرض كنتاكي يوم الثلاثاء."],
       brand: (b) => [b.moreCodes ? `أكواد خصم ${b.name.ar}` : `كود خصم ${b.name.ar}`, [b.offer.ar, ...(b.moreCodes || []).map((x) => x.offer.ar)].join(" · ")]
     }
   };
   const jobs = [];
   for (const lang of ["en", "ar"]) {
     for (const k of ["home", "codes", "partners"]) jobs.push({ lang, file: `${k}-${lang}`, text: copy[lang][k], brands: ["pizza-hut", "kfc"] });
+    jobs.push({ lang, file: `day-deals-${lang}`, text: copy[lang]["day-deals"], brands: ["kfc"] });
     for (const b of data.brands) jobs.push({ lang, file: `${b.key}-${lang}`, text: copy[lang].brand(b), items: [b, ...(b.moreCodes || []).map((x) => ({ ...b, code: x.code, badge: x.badge }))] });
   }
   const byKey = Object.fromEntries(data.brands.map((b) => [b.key, b]));

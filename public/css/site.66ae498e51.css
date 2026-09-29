@@ -94,7 +94,7 @@ ul, ol { margin: 0; padding: 0; }
 .brand:hover img { transform: rotate(-3deg) scale(1.04); }
 .nav { display: flex; align-items: center; gap: 4px; }
 .nav > a {
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
   padding: 10px 14px; border-radius: 999px; text-decoration: none; font-weight: 500; font-size: .98rem;
   transition: background-color .15s;
 }
@@ -118,7 +118,7 @@ ul, ol { margin: 0; padding: 0; }
 .menu-btn[aria-expanded="true"] .i-menu { display: none; }
 .menu-btn[aria-expanded="true"] .i-close { display: block; }
 
-@media (max-width: 900px) {
+@media (max-width: 1060px) {
   .menu-btn { display: inline-flex; }
   .lang { padding: 0 12px; }
   html.menu-open { overflow: hidden; }
@@ -548,6 +548,59 @@ a.store:hover { background: #000; transform: translateY(-2px); }
 .stores-foot .store.soon { color: #EADFC6; border-color: rgba(234, 223, 198, .45); background: transparent; }
 .stores-foot .store.soon .icon { color: #EADFC6; }
 .site-footer .foot-app { margin-top: 22px; margin-bottom: 0; }
+
+/* day deals: calendar-page badge + offer card */
+.dday-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); gap: 18px; }
+.dday {
+  position: relative; display: flex; gap: 18px; align-items: flex-start; height: 100%;
+  padding: 20px; background: var(--paper); border: 2px solid var(--line); border-radius: var(--r);
+  transition: border-color .2s, box-shadow .2s;
+}
+.dday:hover { border-color: var(--ink); }
+.dday.is-today { border-color: var(--leaf-deep); box-shadow: 0 0 0 4px rgba(74, 122, 30, .16); }
+.dday-cal {
+  flex: none; width: 96px; border-radius: 16px; overflow: hidden; text-align: center; background: var(--cream);
+  border: 2.5px solid var(--ink-deep); box-shadow: 0 4px 0 var(--ink-deep);
+}
+.dday-cal span { display: block; background: var(--ink-deep); color: var(--sun); font-weight: 700; font-size: .82rem; padding: 4px 0 6px; }
+.dday-cal b { display: block; font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; line-height: 1.2; padding: 12px 4px 14px; color: var(--ink-deep); }
+[dir="rtl"] .dday-cal b { font-size: 1.5rem; line-height: 1.5; padding: 8px 4px 10px; }
+.dday.is-today .dday-cal span { background: var(--leaf-deep); color: #fff; }
+.dday-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.dday-brand { display: flex; align-items: center; gap: 12px; }
+.dday-brand .logo-tile { width: 44px; height: 44px; border-radius: 12px; }
+.dday-brand .logo-tile .icon { width: 22px; height: 22px; }
+.dday-name { font-family: var(--font-body); font-weight: 700; font-size: 1.05rem; line-height: 1.25; }
+.dday-name a { text-decoration: none; }
+.dday-name a:hover { text-decoration: underline; }
+.today-tag { margin-inline-start: auto; align-self: flex-start; flex: none; font-size: .78rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--leaf-deep); color: #fff; }
+.today-tag[hidden] { display: none; }
+.dday-title { font-family: var(--font-display); font-size: 1.55rem; line-height: 1.2; color: var(--ink); }
+[dir="rtl"] .dday-title { line-height: 1.5; }
+.dday-text { color: var(--ink-2); font-size: .95rem; }
+.dday-src { display: flex; align-items: flex-start; gap: 6px; font-size: .84rem; color: var(--ink-2); }
+.dday-src .icon { width: 1em; height: 1em; margin-top: .25em; flex: none; }
+.dday-src a { font-weight: 700; color: var(--ink); }
+.dd-more { margin-top: 12px; }
+.dd-more a { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
+.dd-more .icon { width: 1em; height: 1em; }
+.dd-know {
+  margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 22px; border: 2px dashed var(--line-2); border-radius: var(--r); background: var(--paper);
+}
+.dd-know h2 { font-size: 1.45rem; margin-bottom: 4px; }
+.dd-know p { color: var(--ink-2); max-width: 40em; }
+.dd-know-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.dd-know-links .btn { min-height: 44px; padding: .5em 1.1em; font-size: .95rem; }
+@media (max-width: 520px) {
+  .dday { gap: 12px; padding: 14px; }
+  .dday-cal { width: 68px; border-radius: 13px; }
+  .dday-cal span { font-size: .72rem; padding: 3px 0 4px; }
+  .dday-cal b { font-size: 1.05rem; padding: 8px 2px 10px; }
+  [dir="rtl"] .dday-cal b { font-size: 1.15rem; padding: 4px 2px 6px; }
+  .dday-brand .logo-tile { width: 38px; height: 38px; }
+  .dday-title { font-size: 1.3rem; }
+}
 
 /* FAQ */
 .faq { display: grid; gap: 12px; }

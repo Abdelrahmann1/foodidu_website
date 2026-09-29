@@ -35,7 +35,7 @@
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && nav.classList.contains("open")) { setMenu(false); menuBtn.focus(); }
     });
-    window.addEventListener("resize", function () { if (window.innerWidth > 900 && nav.classList.contains("open")) setMenu(false); });
+    window.addEventListener("resize", function () { if (window.innerWidth > 1060 && nav.classList.contains("open")) setMenu(false); });
   }
   if (header) {
     var onScroll = function () { header.classList.toggle("scrolled", window.scrollY > 8); };
@@ -89,6 +89,22 @@
       showToast(T.copyFail || "Copy failed, select the code manually");
     });
   });
+
+  /* ---------- day deals: mark today's offers (Cairo time) and move them first ---------- */
+  var ddCards = document.querySelectorAll(".dday[data-days]");
+  if (ddCards.length) {
+    var today = "";
+    try { today = new Intl.DateTimeFormat("en-US", { weekday: "short", timeZone: "Africa/Cairo" }).format(new Date()).toLowerCase().slice(0, 3); }
+    catch (e) { today = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][new Date().getDay()]; }
+    ddCards.forEach(function (card) {
+      if ((" " + card.getAttribute("data-days") + " ").indexOf(" " + today + " ") === -1) return;
+      card.classList.add("is-today");
+      var tag = card.querySelector(".today-tag");
+      if (tag) tag.hidden = false;
+      var li = card.parentElement, list = li && li.parentElement;
+      if (list && list.firstElementChild !== li) list.insertBefore(li, list.firstElementChild);
+    });
+  }
 
   /* ---------- filters (chips) + query ---------- */
   var list = document.querySelector("[data-filterable]");

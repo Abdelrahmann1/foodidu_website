@@ -1,0 +1,18 @@
+{
+  "_help": "Offers that repeat on a fixed weekday. days: sat sun mon tue wed thu fri. brand: a key from brands.json (links to its page and logo), or give name/logo for a brand without a page. Always keep a source link to the brand's official page and set lastChecked (YYYY-MM-DD). Then run: perl tools/build.pl",
+  "deals": [
+    {
+      "id": "kfc-tuesday",
+      "brand": "kfc",
+      "days": ["tue"],
+      "title": { "en": "6 crispy chicken pieces for 219 EGP", "ar": "6 قطع دجاج كرسبي بـ 219 جنيه" },
+      "details": {
+        "en": "KFC Egypt's Tuesday offer: 6 crispy chicken pieces for 219 EGP instead of 450 EGP, according to its latest official post.",
+        "ar": "عرض كنتاكي مصر يوم الثلاثاء: 6 قطع دجاج كرسبي بـ 219 جنيه بدلاً من 450 جنيه، حسب آخر إعلان رسمي لها."
+      },
+      "source": "https://www.facebook.com/KFCegypt/videos/50-off-this-tuesday/4075630192655026/",
+      "sourceLabel": { "en": "KFC Egypt on Facebook", "ar": "صفحة كنتاكي مصر على فيسبوك" },
+      "lastChecked": "2026-09-29"
+    }
+  ]
+}
