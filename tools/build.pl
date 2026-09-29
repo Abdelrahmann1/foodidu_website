@@ -30,7 +30,11 @@ my @SOCIAL = (
 
 sub slurp { my ($f, $raw) = @_; open my $fh, ($raw ? '<:raw' : '<:encoding(UTF-8)'), $f or die "read $f: $!"; local $/; my $s = <$fh>; close $fh; $s }
 sub spit  { my ($f, $s, $raw) = @_; make_path(dirname($f)); open my $fh, ($raw ? '>:raw' : '>:encoding(UTF-8)'), $f or die "write $f: $!"; print $fh $s; close $fh }
-sub mdate { strftime('%Y-%m-%d', gmtime((stat $_[0])[9])) }
+sub mdate {                             # last commit date of a file (stable across checkouts), else mtime
+  my $f = shift;
+  my $d = `git -C "$ROOT" log -1 --format=%cs -- "$f" 2>/dev/null`; chomp $d;
+  return $d =~ /^\d{4}-\d\d-\d\d$/ ? $d : strftime('%Y-%m-%d', gmtime((stat $f)[9]));
+}
 
 my $DATA   = JSON::PP->new->utf8->decode(slurp("$ROOT/data/brands.json", 1));
 my @BRANDS = @{ $DATA->{brands} };
