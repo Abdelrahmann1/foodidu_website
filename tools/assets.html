@@ -62,19 +62,21 @@ async function logos() {
   }
 }
 
-async function icons(face) {
-  const make = async (S, path, type = "image/png", full = true) => {
+// App-icon style: brand green square (like the Google Play icon) with the Foodidu logo centred.
+async function icons(logo, pattern) {
+  const make = async (S, path, scale) => {
     const c = canvas(S, S), x = c.getContext("2d");
-    if (full) { x.fillStyle = SUN2; x.fillRect(0, 0, S, S); }
-    x.drawImage(face, 0, 0, S, S);
-    await save(path, c, type);
-    return c;
+    x.fillStyle = "#8CC24A"; x.fillRect(0, 0, S, S);
+    if (S >= 128) { x.globalAlpha = .25; x.globalCompositeOperation = "soft-light"; for (let py = 0; py < S; py += S * 1.1) for (let px = 0; px < S; px += S / 2) x.drawImage(pattern, px, py, S / 2, S * 1.08); x.globalAlpha = 1; x.globalCompositeOperation = "source-over"; }
+    const w = S * scale, h = w * 304 / 767;
+    x.drawImage(logo, (S - w) / 2, (S - h) / 2, w, h);
+    await save(path, c, "image/png");
   };
-  await make(180, "static/img/apple-touch-icon.png");
-  await make(192, "static/img/icon-192.png");
-  await make(512, "static/img/icon-512.png");
-  await make(512, "static/img/foodidu-logo-512.png");
-  await make(32, "static/img/favicon-32.png", "image/png", false);
+  await make(180, "static/img/apple-touch-icon.png", .84);
+  await make(192, "static/img/icon-192.png", .84);
+  await make(512, "static/img/icon-512.png", .84);
+  await make(512, "static/img/foodidu-logo-512.png", .84);
+  await make(32, "static/img/favicon-32.png", 1);
 }
 
 // ---------- Open Graph ----------
@@ -152,11 +154,9 @@ async function og(pattern, face, data) {
     // text column
     const colW = 600, colX = rtl ? W - 64 : 64;
     x.direction = rtl ? "rtl" : "ltr"; x.textAlign = rtl ? "right" : "left";
-    const fx = rtl ? W - 64 - 72 : 64;
-    x.drawImage(face, fx, 50, 72, 72);
-    x.fillStyle = INK; x.font = "54px Lalezar"; x.direction = "ltr"; x.textAlign = rtl ? "right" : "left";
-    x.fillText("Foodidu", rtl ? fx - 18 : fx + 72 + 18, 104);
-    x.direction = rtl ? "rtl" : "ltr";
+    const lw = 200, lh0 = lw * 304 / 767, fx = rtl ? W - 64 - lw : 64;
+    x.drawImage(face, fx, 36, lw, lh0);
+    x.fillStyle = INK;
     let size = 92; x.font = `${size}px Lalezar`;
     let lines = wrap(x, j.text[0], colW);
     while (lines.length > 3 && size > 60) { size -= 6; x.font = `${size}px Lalezar`; lines = wrap(x, j.text[0], colW); }
@@ -183,9 +183,9 @@ document.getElementById("go").onclick = async () => {
     await document.fonts.load("92px Lalezar"); await document.fonts.load("700 30px 'Readex Pro'"); await document.fonts.load("400 30px 'Readex Pro'");
     await document.fonts.load("700 30px 'Readex Pro'", "كود خصم"); await document.fonts.load("92px Lalezar", "كود خصم");
     const data = await (await fetch("/__data/brands.json")).json();
-    const face = await load("/__static/img/foodidu-icon.svg");
+    const face = await load("/__static/img/foodidu-logo.svg");
     const pattern = await load("/__static/img/pattern.svg");
-    if (!document.getElementById("only-og").checked) { await logos(); await icons(face); }
+    if (!document.getElementById("only-og").checked) { await logos(); await icons(face, pattern); }
     await og(pattern, face, data);
     log("DONE");
   } catch (e) { log("ERROR " + e.message); }

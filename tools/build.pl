@@ -28,6 +28,9 @@ my @SOCIAL = (
   ['linkedin',  'LinkedIn',  'https://www.linkedin.com/company/foodidu/'],
 );
 
+my $PLAY_URL = 'https://play.google.com/store/apps/details?id=com.fooddidu.app';
+my $LOGO = '/img/foodidu-logo.svg';   # the "welcome to Foodidu" brand logo, 767x304
+
 sub slurp { my ($f, $raw) = @_; open my $fh, ($raw ? '<:raw' : '<:encoding(UTF-8)'), $f or die "read $f: $!"; local $/; my $s = <$fh>; close $fh; $s }
 sub spit  { my ($f, $s, $raw) = @_; make_path(dirname($f)); open my $fh, ($raw ? '>:raw' : '>:encoding(UTF-8)'), $f or die "write $f: $!"; print $fh $s; close $fh }
 sub mdate {                             # last commit date of a file (stable across checkouts), else mtime
@@ -77,7 +80,15 @@ my %S = (
   h_w1 => 'All in one place', h_w1p => 'Codes for restaurants, grocery delivery and online shopping, together on one site.',
   h_w2 => 'Conditions up front', h_w2p => "Every code shows what it's for: first order, minimum amount or app only.",
   h_w3 => 'Arabic & English', h_w3p => "Use Foodidu in the language you're most comfortable with.",
-  h_w4 => 'Free, no sign-up', h_w4p => 'No account and no app to install. Just copy and save.',
+  h_w4 => 'Free, no sign-up', h_w4p => "You don't need an account to use a code. Just copy and save.",
+  home_logo => 'Foodidu home', menu_more => 'Language & app',
+  app_eyebrow => 'The Foodidu app', app_title => 'Discover restaurants and food near you',
+  app_sub => 'Browse restaurants and cafés around you, check opening hours and menus, and catch limited-time offers, all in one app.',
+  app_f1 => 'Restaurants near you', app_f1p => 'Browse restaurants and cafés based on your location.',
+  app_f2 => 'Hours & offers', app_f2p => 'Check opening hours and the special offers each place has.',
+  app_f3 => 'Limited-time deals', app_f3p => 'Catch exclusive promotions and discounts before they end.',
+  app_f4 => 'Menus before you go', app_f4p => 'Explore the menu before you visit, so you know what to order.',
+  gp_small => 'Get it on', gp_big => 'Google Play', as_small => 'Coming soon on', as_big => 'App Store', foot_app => 'Get the app',
   band_title => 'Own a restaurant or food brand?', band_text => 'Put your promo code in front of people who are about to order. Apply in two minutes and our team will get in touch.', band_btn => 'Partner with Foodidu',
   faq_eyebrow => 'FAQ', faq_title => 'Questions, answered',
   # codes page
@@ -162,7 +173,15 @@ my %S = (
   h_w1 => 'كل الأكواد في مكان واحد', h_w1p => 'أكواد المطاعم وتوصيل البقالة والتسوق أونلاين معاً في موقع واحد.',
   h_w2 => 'الشروط واضحة', h_w2p => 'كل كود يوضّح شروطه: أول طلب، أو حد أدنى للطلب، أو على التطبيق فقط.',
   h_w3 => 'عربي وإنجليزي', h_w3p => 'استخدم Foodidu باللغة التي تفضّلها.',
-  h_w4 => 'مجاني وبدون تسجيل', h_w4p => 'لا حساب ولا تطبيق لتثبيته، فقط انسخ ووفّر.',
+  h_w4 => 'مجاني وبدون تسجيل', h_w4p => 'لا تحتاج إلى حساب لاستخدام أي كود، فقط انسخ ووفّر.',
+  home_logo => 'الصفحة الرئيسية لـ Foodidu', menu_more => 'اللغة والتطبيق',
+  app_eyebrow => 'تطبيق Foodidu', app_title => 'اكتشف المطاعم والأكل حواليك',
+  app_sub => 'تصفّح المطاعم والكافيهات القريبة منك، واطّلع على مواعيد العمل والمنيو، واغتنم العروض المحدودة، كل ذلك في تطبيق واحد.',
+  app_f1 => 'مطاعم قريبة منك', app_f1p => 'تصفّح المطاعم والكافيهات حسب موقعك.',
+  app_f2 => 'مواعيد وعروض', app_f2p => 'اعرف مواعيد العمل والعروض الخاصة المتاحة في كل مكان.',
+  app_f3 => 'عروض لفترة محدودة', app_f3p => 'استفد من الخصومات والعروض الحصرية قبل انتهائها.',
+  app_f4 => 'المنيو قبل الزيارة', app_f4p => 'تصفّح قائمة الطعام قبل زيارتك لتعرف ماذا ستطلب.',
+  gp_small => 'احصل عليه من', gp_big => 'Google Play', as_small => 'قريباً على', as_big => 'App Store', foot_app => 'حمّل التطبيق',
   band_title => 'عندك مطعم أو براند أكل؟', band_text => 'اعرض كود الخصم الخاص بك أمام أشخاص على وشك الطلب. قدّم في دقيقتين وسيتواصل معك فريقنا.', band_btn => 'انضم لشركاء Foodidu',
   faq_eyebrow => 'أسئلة شائعة', faq_title => 'عندك سؤال؟',
   c_title => 'كل أكواد الخصم: مطاعم وبقالة وتسوق أونلاين',
@@ -256,6 +275,13 @@ my %ICON = (
   info     => '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
   plus     => '<path d="M12 5v14M5 12h14"/>',
   pin      => '<path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/>',
+  tag      => '<path d="M3 12V4h8l10 10-8 8L3 12Z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
+  store    => '<path d="M4 9h16l-1-5H5L4 9Z"/><path d="M5 9v11h14V9M9 20v-6h6v6"/>',
+  phone    => '<rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M11 18.5h2"/>',
+  play     => '<path fill="currentColor" stroke="none" d="M5 3.8v16.4a1 1 0 0 0 1.5.9l14-8.2a1 1 0 0 0 0-1.8l-14-8.2A1 1 0 0 0 5 3.8Z"/>',
+  clock    => '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  menubook => '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5Z"/><path d="M4 19a2 2 0 0 1 2-2h13v4H6a2 2 0 0 1-2-2ZM9 7h6M9 11h6"/>',
+  bolt     => '<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>',
   facebook => '<path fill="currentColor" stroke="none" d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v7h4v-7h3l.5-4h-3.5V9c0-.6.4-1 1-1Z"/>',
   instagram=> '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>',
   tiktok   => '<path fill="currentColor" stroke="none" d="M16.5 3c.3 2.3 1.8 3.9 4 4.1v3.3c-1.5 0-2.9-.4-4-1.2v6.3A5.5 5.5 0 1 1 11 10v3.4a2.2 2.2 0 1 0 2 2.2V3h3.5Z"/>',
@@ -329,7 +355,23 @@ sub search_form {
 }
 sub band {
   my ($l) = @_;
-  qq{<section class="wrap section-tight"><div class="band"><div><h2>} . T($l, 'band_title') . '</h2><p>' . T($l, 'band_text') . qq{</p><a class="btn btn-sun" href="} . path_for($l, '/partners/') . '">' . T($l, 'band_btn') . ' ' . icon('arrow', 'flip') . qq{</a></div><img class="face" src="/img/foodidu-icon.svg" alt="" width="150" height="150" loading="lazy"></div></section>};
+  qq{<section class="wrap section-tight"><div class="band"><div><h2>} . T($l, 'band_title') . '</h2><p>' . T($l, 'band_text') . qq{</p><a class="btn btn-sun" href="} . path_for($l, '/partners/') . '">' . T($l, 'band_btn') . ' ' . icon('arrow', 'flip') . qq{</a></div><img class="face" src="$LOGO" alt="" width="200" height="79" loading="lazy"></div></section>};
+}
+sub store_buttons {
+  my ($l, $cls) = @_;
+  $cls = $cls ? " $cls" : '';
+  qq{<div class="stores$cls"><a class="store" href="$PLAY_URL" rel="noopener" target="_blank">} . icon('play')
+  . '<span><small>' . T($l, 'gp_small') . '</small><b>' . T($l, 'gp_big') . '</b></span></a>'
+  . '<span class="store soon" aria-disabled="true">' . icon('phone') . '<span><small>' . T($l, 'as_small') . '</small><b>' . T($l, 'as_big') . '</b></span></span></div>';
+}
+sub app_section {
+  my ($l) = @_;
+  my $feats = join '', map { my ($ic, $n) = @$_; '<li><span class="ic">' . icon($ic) . '</span><div><h3>' . T($l, "app_f$n") . '</h3><p>' . T($l, "app_f${n}p") . '</p></div></li>' }
+    (['pin', 1], ['clock', 2], ['bolt', 3], ['menubook', 4]);
+  qq{<section class="wrap section-tight" id="app" aria-labelledby="app-title"><div class="app-band"><div class="app-copy">}
+  . qq{<img class="app-logo" src="$LOGO" alt="Foodidu" width="152" height="60" loading="lazy">}
+  . '<p class="eyebrow">' . T($l, 'app_eyebrow') . qq{</p><h2 class="h2" id="app-title">} . T($l, 'app_title') . '</h2><p class="app-sub">' . T($l, 'app_sub') . '</p>'
+  . store_buttons($l) . qq{</div><ul class="app-feats">$feats</ul></div></section>};
 }
 sub crumbs_html {
   my ($l, $crumbs) = @_;
@@ -374,11 +416,14 @@ sub layout {
   my $home = path_for($l, '/');
   my $codes = path_for($l, '/promo-codes/');
   my @nav = (
-    [T($l, 'nav_codes'), $codes, 'codes'], [T($l, 'nav_rest'), "$codes#restaurants", ''], [T($l, 'nav_groc'), "$codes#groceries", ''],
-    [T($l, 'nav_shop'), "$codes#shopping", ''], [T($l, 'nav_partner'), path_for($l, '/partners/'), 'partners'],
+    [T($l, 'nav_codes'), $codes, 'codes', 'tag'], [T($l, 'nav_rest'), "$codes#restaurants", '', 'fork'], [T($l, 'nav_groc'), "$codes#groceries", '', 'basket'],
+    [T($l, 'nav_shop'), "$codes#shopping", '', 'bag'], [T($l, 'nav_partner'), path_for($l, '/partners/'), 'partners', 'store'],
   );
-  my $nav = join '', map { qq{<a href="$_->[1]"} . ($_->[2] && ($a{nav} // '') eq $_->[2] ? ' aria-current="page"' : '') . ">$_->[0]</a>" } @nav;
+  my $nav = join '', map { qq{<a href="$_->[1]"} . ($_->[2] && ($a{nav} // '') eq $_->[2] ? ' aria-current="page"' : '') . '><span class="nav-ic">' . icon($_->[3]) . "</span><span>$_->[0]</span>" . icon('arrow', 'nav-go flip') . '</a>' } @nav;
   my $other_label = $other eq 'ar' ? 'العربية' : 'English';
+  $nav .= '<div class="nav-extra"><p class="nav-label">' . T($l, 'menu_more') . '</p>'
+    . ($a{nolang} ? '' : qq{<a class="nav-lang" href="} . path_for($other, $key) . qq{" hreflang="$other" lang="$other">} . icon('globe') . "<span>$other_label</span></a>")
+    . store_buttons($l, 'stores-menu') . '</div>';
   my $alt_links = $a{noindex} ? '' : join("\n", (map { qq{<link rel="alternate" hreflang="$_" href="} . absu(path_for($_, $key)) . '">' } @LANGS), qq{<link rel="alternate" hreflang="x-default" href="} . absu(path_for('en', $key)) . '">');
   my $lang_link = $a{nolang} ? '' : qq{<a class="lang" href="} . path_for($other, $key) . qq{" hreflang="$other" lang="$other" aria-label="$other_label">} . icon('globe') . qq{<span class="lang-long">$other_label</span></a>};
   my $robots = $a{noindex} ? 'noindex,follow' : 'index,follow,max-image-preview:large,max-snippet:-1';
@@ -419,7 +464,7 @@ $alt_links
 <meta name="twitter:description" content="$edesc">
 <meta name="twitter:image" content="$og">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
-<link rel="icon" href="/img/foodidu-icon.svg" type="image/svg+xml">
+<link rel="icon" href="/img/icon-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -433,8 +478,9 @@ $alt_links
 <a class="skip" href="#main">@{[ T($l, 'skip') ]}</a>
 <header class="site-header is-home">
 <div class="wrap header-in">
-<a class="brand" href="$home"><img src="/img/foodidu-icon.svg" width="42" height="42" alt=""><span>Foodidu</span></a>
+<a class="brand" href="$home" aria-label="@{[ T($l, 'home_logo') ]}"><img src="$LOGO" width="116" height="46" alt="Foodidu"></a>
 <nav class="nav" id="site-nav" aria-label="@{[ T($l, 'mainnav') ]}">$nav</nav>
+<div class="nav-backdrop" data-nav-close hidden></div>
 $lang_link
 <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="@{[ T($l, 'menu') ]}">@{[ icon('menu', 'i-menu') . icon('close', 'i-close') ]}</button>
 </div>
@@ -445,7 +491,7 @@ $a{body}
 <footer class="site-footer">
 <div class="wrap">
 <div class="foot-grid">
-<div class="foot-brand"><a class="brand" href="$home"><img src="/img/foodidu-icon.svg" width="42" height="42" alt="" loading="lazy"><span>Foodidu</span></a><p>@{[ T($l, 'foot_blurb') ]}</p><div class="social">$social</div></div>
+<div class="foot-brand"><a class="brand" href="$home" aria-label="@{[ T($l, 'home_logo') ]}"><img src="$LOGO" width="140" height="55" alt="Foodidu" loading="lazy"></a><p>@{[ T($l, 'foot_blurb') ]}</p><div class="social">$social</div><h2 class="foot-app">@{[ T($l, 'foot_app') ]}</h2>@{[ store_buttons($l, 'stores-foot') ]}</div>
 <nav aria-label="@{[ T($l, 'foot_codes') ]}"><h2>@{[ T($l, 'foot_codes') ]}</h2><ul class="foot-links cols">$foot_codes</ul></nav>
 <nav aria-label="Foodidu"><h2>Foodidu</h2><ul class="foot-links">
 <li><a href="$codes">@{[ T($l, 'foot_all') ]}</a></li>
@@ -505,7 +551,7 @@ for my $l (@LANGS) {
 @{[ search_form($l) ]}
 <ul class="hero-facts"><li>@{[ icon('layers') ]}<span>@{[ nbrands($l, $n) =~ s/^(\d+)/<b>$1<\/b>/r ]}</span></li><li>@{[ icon('pin') ]}<span>@{[ T($l, 'h_fact_region') ]}</span></li><li>@{[ icon('shield') ]}<span>@{[ T($l, 'h_fact_free') ]}</span></li></ul>
 </div>
-<div class="stack" role="group" aria-label="@{[ T($l, 'h_top') ]}">$stack<img class="sticker" src="/img/foodidu-badge.svg" alt="" width="128" height="51"></div>
+<div class="stack" role="group" aria-label="@{[ T($l, 'h_top') ]}">$stack</div>
 </div>
 </section>
 <div class="scallop" aria-hidden="true"></div>
@@ -530,6 +576,7 @@ for my $l (@LANGS) {
 <div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_brands_eyebrow') ]}</p><h2 class="h2" id="brands-title">@{[ T($l, 'h_brands_title') ]}</h2></div></div>
 <ul class="side-list brand-wall">$logos</ul>
 </section>
+@{[ app_section($l) ]}
 <section class="wrap section-tight" aria-labelledby="why-title">
 <div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_why_eyebrow') ]}</p><h2 class="h2" id="why-title">@{[ T($l, 'h_why_title') ]}</h2></div></div>
 <ul class="why">
@@ -546,7 +593,10 @@ for my $l (@LANGS) {
 </section>
 HTML
     layout(lang => $l, key => '/', title => T($l, 'h_title'), desc => T($l, 'h_desc'), body => $body,
-      ld => [ faq_ld(@qa) ], fd => { brands => search_index($l) }, og => "/img/og/home-$l.png");
+      ld => [ faq_ld(@qa), { '@type' => 'MobileApplication', name => 'Foodidu', alternateName => 'فوديدو', operatingSystem => 'Android',
+        applicationCategory => 'LifestyleApplication', installUrl => $PLAY_URL, url => $PLAY_URL, description => strip_tags(T($l, 'app_sub')),
+        publisher => { '@id' => "$SITE/#org" }, offers => { '@type' => 'Offer', price => '0', priceCurrency => 'EGP' } } ],
+      fd => { brands => search_index($l) }, og => "/img/og/home-$l.png");
   }
 
   # ---------- all codes
@@ -740,7 +790,7 @@ HTML
 {
   my $body = <<"HTML";
 <section class="wrap lost">
-<img src="/img/foodidu-icon.svg" alt="" width="150" height="150">
+<img src="/img/foodidu-logo.svg" alt="Foodidu" width="220" height="87">
 <h1>This page went out for delivery.</h1>
 <p>We couldn't find that page. The code you're looking for is probably on our promo codes page.</p>
 <div class="row"><a class="btn btn-ink" href="/promo-codes/">Browse promo codes</a><a class="btn btn-line" href="/">Back to home</a></div>
@@ -772,8 +822,7 @@ HTML
   spit("$OUT/site.webmanifest", JSON::PP->new->canonical->pretty->encode({
     name => 'Foodidu', short_name => 'Foodidu', description => 'Promo codes & discounts in Egypt and the GCC',
     start_url => '/', scope => '/', display => 'standalone', background_color => '#FFF9EB', theme_color => '#FFD15C',
-    icons => [ { src => '/img/icon-192.png', sizes => '192x192', type => 'image/png' }, { src => '/img/icon-512.png', sizes => '512x512', type => 'image/png' },
-               { src => '/img/foodidu-icon.svg', sizes => 'any', type => 'image/svg+xml' } ] }));
+    icons => [ { src => '/img/icon-192.png', sizes => '192x192', type => 'image/png' }, { src => '/img/icon-512.png', sizes => '512x512', type => 'image/png' } ] }));
   for my $f (['favicon.ico', 'img/favicon.ico'], ['apple-touch-icon.png', 'img/apple-touch-icon.png']) {
     my $src = "$ROOT/static/$f->[1]";
     spit("$OUT/$f->[0]", slurp($src, 1), 1) if -f $src;

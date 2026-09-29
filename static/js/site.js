@@ -16,15 +16,26 @@
   var header = document.querySelector(".site-header");
   var menuBtn = document.querySelector(".menu-btn");
   var nav = document.getElementById("site-nav");
+  var backdrop = document.querySelector(".nav-backdrop");
+  function setMenu(open) {
+    if (!menuBtn || !nav) return;
+    menuBtn.setAttribute("aria-expanded", String(open));
+    nav.classList.toggle("open", open);
+    doc.classList.toggle("menu-open", open);
+    if (backdrop) {
+      if (open) { backdrop.hidden = false; requestAnimationFrame(function () { backdrop.classList.add("show"); }); }
+      else { backdrop.classList.remove("show"); setTimeout(function () { if (!nav.classList.contains("open")) backdrop.hidden = true; }, 300); }
+    }
+    if (open) { var first = nav.querySelector("a"); if (first) setTimeout(function () { first.focus({ preventScroll: true }); }, 50); }
+  }
   if (menuBtn && nav) {
-    menuBtn.addEventListener("click", function () {
-      var open = menuBtn.getAttribute("aria-expanded") !== "true";
-      menuBtn.setAttribute("aria-expanded", String(open));
-      nav.classList.toggle("open", open);
-    });
+    menuBtn.addEventListener("click", function () { setMenu(menuBtn.getAttribute("aria-expanded") !== "true"); });
+    if (backdrop) backdrop.addEventListener("click", function () { setMenu(false); });
+    nav.addEventListener("click", function (e) { if (e.target.closest("a")) setMenu(false); });
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && nav.classList.contains("open")) { menuBtn.click(); menuBtn.focus(); }
+      if (e.key === "Escape" && nav.classList.contains("open")) { setMenu(false); menuBtn.focus(); }
     });
+    window.addEventListener("resize", function () { if (window.innerWidth > 900 && nav.classList.contains("open")) setMenu(false); });
   }
   if (header) {
     var onScroll = function () { header.classList.toggle("scrolled", window.scrollY > 8); };
@@ -120,6 +131,10 @@
       c.setAttribute("aria-pressed", String(c.getAttribute("data-value") === state.cat));
     });
     apply();
+    window.addEventListener("hashchange", function () {
+      var chip = document.querySelector('[data-filter="cat"][data-value="' + location.hash.slice(1).replace(/[^\w-]/g, "") + '"]');
+      if (chip) { chip.click(); var t = document.getElementById("codes"); if (t) t.scrollIntoView(); }
+    });
     if (hashCat && state.cat !== "all") {
       var target = document.getElementById("codes");
       if (target) setTimeout(function () { target.scrollIntoView(); }, 0);
