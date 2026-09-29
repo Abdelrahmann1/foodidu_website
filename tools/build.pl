@@ -1,0 +1,778 @@
+#!/usr/bin/perl
+# Foodidu static site builder.
+#   perl tools/build.pl        -> regenerates public/ from data/, content/ and static/
+# Every page is pre-rendered HTML (EN at /, AR at /ar/) with canonical, hreflang,
+# Open Graph, JSON-LD and a sitemap, so search engines read everything without JS.
+use strict; use warnings; use utf8;
+use JSON::PP ();
+use File::Path qw(make_path remove_tree);
+use File::Find ();
+use File::Basename qw(dirname basename);
+use Cwd qw(abs_path);
+use Digest::MD5 qw(md5_hex);
+use POSIX qw(strftime);
+use Time::Local qw(timegm);
+binmode STDOUT, ':encoding(UTF-8)';
+
+my $ROOT  = abs_path(dirname(abs_path(__FILE__)) . '/..');
+my $OUT   = "$ROOT/public";
+my $SITE  = 'https://foodidu.com';
+my @LANGS = ('en', 'ar');
+my $NOW   = time;
+my $YEAR  = strftime('%Y', gmtime $NOW);
+my $FORM_URL = 'https://script.google.com/macros/s/AKfycbyxKza22srkcMWv5bFGp4ZzQ0ulZaVc29RV_8brZ6l_Zih_rxz0tdMCHrM_CDvQ84-d/exec';
+my @SOCIAL = (
+  ['facebook',  'Facebook',  'https://www.facebook.com/Foodidu.EG'],
+  ['instagram', 'Instagram', 'https://www.instagram.com/foodidu_official'],
+  ['tiktok',    'TikTok',    'https://www.tiktok.com/@foodidu_'],
+  ['linkedin',  'LinkedIn',  'https://www.linkedin.com/company/foodidu/'],
+);
+
+sub slurp { my ($f, $raw) = @_; open my $fh, ($raw ? '<:raw' : '<:encoding(UTF-8)'), $f or die "read $f: $!"; local $/; my $s = <$fh>; close $fh; $s }
+sub spit  { my ($f, $s, $raw) = @_; make_path(dirname($f)); open my $fh, ($raw ? '>:raw' : '>:encoding(UTF-8)'), $f or die "write $f: $!"; print $fh $s; close $fh }
+sub mdate { strftime('%Y-%m-%d', gmtime((stat $_[0])[9])) }
+
+my $DATA   = JSON::PP->new->utf8->decode(slurp("$ROOT/data/brands.json", 1));
+my @BRANDS = @{ $DATA->{brands} };
+my %CATN   = %{ $DATA->{categories} };
+my @CATS   = qw(restaurants groceries shopping);
+my %CATICON = (restaurants => 'fork', groceries => 'basket', shopping => 'bag');
+my $DATA_DATE = mdate("$ROOT/data/brands.json");
+
+# ------------------------------------------------------------------ strings
+my %S = (
+ en => {
+  skip => 'Skip to content', home => 'Home', menu => 'Menu', mainnav => 'Main',
+  nav_codes => 'Promo codes', nav_rest => 'Restaurants', nav_groc => 'Groceries', nav_shop => 'Shopping', nav_partner => 'For restaurants',
+  copy => 'Copy', copy_code => 'Copy code', copied => 'Copied', copy_aria => 'Copy code {code}',
+  copiedToast => 'Code {code} copied. Paste it at checkout.', copyFail => "Couldn't copy. Select the code and copy it manually.",
+  details => 'Details', exclusive => 'Exclusive', eg => 'Egypt', gcc => 'GCC', all => 'All', all_regions => 'All countries',
+  noResults => 'No codes found for that brand yet.', search_label => 'Search for a brand', search_ph => 'Search KFC, noon, Rabbit…', search_btn => 'Search',
+  sending => 'Sending…', formOk => 'Thank you! Your application was sent. Our team will contact you soon.',
+  formErr => "Sorry, we couldn't send your application. Please try again in a moment.",
+  logo_alt => '{name} logo',
+  foot_blurb => 'Promo codes and discounts for restaurants, groceries and online shopping in Egypt and the GCC.',
+  foot_codes => 'Promo codes', foot_code_link => '{name} promo code', foot_all => 'All promo codes', privacy => 'Privacy policy', terms => 'Terms & conditions',
+  cookie_settings => 'Cookie settings', made => 'Made with love for food lovers.', disclaimer => 'Brand names and logos belong to their owners.',
+  cookie_text => 'We use cookies to understand how Foodidu is used and to improve it.', accept => 'Accept', decline => 'Decline', cookies => 'Cookies',
+  # home
+  h_title => 'Foodidu – Promo Codes & Discounts in Egypt and the GCC',
+  h_desc => 'Promo codes for KFC, Pizza Hut, noon, Rabbit, Breadfast and more, all in one place and in Arabic and English. Copy a code, check the conditions and save.',
+  h_kicker => 'Promo codes & discounts in Egypt and the GCC',
+  h_display => 'Every bite, <em>a better price.</em>',
+  h_lede => 'Copy promo codes for KFC, Pizza Hut, Rabbit, noon and more, with the conditions spelled out before you order. Free, no sign-up.',
+  h_fact_region => 'Egypt & GCC', h_fact_free => 'Free, no sign-up', h_top => 'Top codes',
+  h_cat_eyebrow => 'Browse by category', h_cat_title => 'What are you ordering?',
+  h_feat_eyebrow => 'Featured codes', h_feat_title => 'Our top codes', h_feat_sub => 'Tap a code to copy it, then paste it at checkout.', h_see_all => 'See all {n} codes',
+  h_brands_eyebrow => 'Brands', h_brands_title => 'Every brand on Foodidu',
+  h_how_eyebrow => 'How it works', h_how_title => 'Saving takes three taps',
+  h_s1 => 'Find your brand', h_s1p => 'Search or browse restaurants, grocery apps and online stores.',
+  h_s2 => 'Copy the code', h_s2p => 'One tap copies it. The conditions are right there, so there are no surprises.',
+  h_s3 => 'Paste & save', h_s3p => "Paste it at checkout in the brand's app or website and enjoy the discount.",
+  h_why_eyebrow => 'Why Foodidu', h_why_title => 'Made for people who love a good deal',
+  h_w1 => 'All in one place', h_w1p => 'Codes for restaurants, grocery delivery and online shopping, together on one site.',
+  h_w2 => 'Conditions up front', h_w2p => "Every code shows what it's for: first order, minimum amount or app only.",
+  h_w3 => 'Arabic & English', h_w3p => "Use Foodidu in the language you're most comfortable with.",
+  h_w4 => 'Free, no sign-up', h_w4p => 'No account and no app to install. Just copy and save.',
+  band_title => 'Own a restaurant or food brand?', band_text => 'Put your promo code in front of people who are about to order. Apply in two minutes and our team will get in touch.', band_btn => 'Partner with Foodidu',
+  faq_eyebrow => 'FAQ', faq_title => 'Questions, answered',
+  # codes page
+  c_title => 'All Promo Codes: Restaurants, Groceries & Shopping',
+  c_desc => 'Browse every Foodidu promo code in one list: restaurants like KFC and Pizza Hut, grocery apps like Rabbit and Breadfast, and noon for online shopping.',
+  c_h1 => 'All promo codes', c_lede => 'Every Foodidu code in one place: {n} across restaurants, grocery apps and online shopping in Egypt and the GCC.',
+  c_group_restaurants => 'Restaurant promo codes', c_group_groceries => 'Grocery promo codes', c_group_shopping => 'Online shopping promo codes',
+  c_empty => 'No codes match this filter.', c_filters => 'Filter codes',
+  # brand page
+  b_h1 => '{name} promo code', b_checked => 'Checked by Foodidu on {date}', b_go => 'Go to {name}',
+  b_how => 'How to use your {name} code', b_st1 => 'Copy the code', b_st1p => 'Tap “Copy code” to copy {code}.',
+  b_st2 => 'Open {where}', b_st2p => 'Add what you want to your cart as usual.',
+  b_st3 => 'Paste it at checkout', b_st3p => 'Paste the code in the promo code or voucher field. The discount applies when your order meets the conditions.',
+  b_about => 'About {name}', b_faq => '{name} code: FAQ',
+  b_q1 => 'What is the {name} promo code?', b_a1 => 'The {name} code on Foodidu is {code}: {offer}.',
+  b_q2 => 'How do I use the {name} code?', b_a2 => 'Copy {code}, open {where}, add your order to the cart and paste the code in the promo code field at checkout.',
+  b_q3 => 'Are there any conditions?', b_q4 => "Why isn't the {name} code working?",
+  b_a4 => 'Check that your order meets the conditions (for example first order only or a minimum amount) and that you typed the code exactly as shown. Offers are set by {name} and can change or end at any time. If it still fails, try another code on Foodidu.',
+  b_note => 'Offers are set by {name} and can change or end without notice. Brand names and logos belong to their owners.',
+  b_side_code => 'Your {name} code', b_side_cats => 'Browse by category', b_related => 'More {cat} codes', b_terms => 'Conditions',
+  cat_def_restaurants => 'restaurant', cat_def_groceries => 'grocery', cat_def_shopping => 'shopping',
+  # partners
+  p_title => "Partner with Foodidu: Promote Your Restaurant's Offers",
+  p_desc => 'Own a restaurant, café or food brand in Egypt? Apply to list your promo code on Foodidu and reach people who are about to order.',
+  p_h1 => 'Partner with Foodidu',
+  p_lede => 'Own a restaurant, café, cloud kitchen or food brand? List your promo code on Foodidu and reach people who are looking for a deal right before they order.',
+  p_cta => 'Apply now', p_v_eyebrow => 'Why partner', p_v_title => 'Get in front of hungry customers',
+  p_v1 => 'Reach ready-to-order customers', p_v1p => "People visit Foodidu when they're about to order and want a better price. Your offer is in front of them at that moment.",
+  p_v2 => 'Your own brand page', p_v2p => "A dedicated page for your code in Arabic and English, built to show up when people search for your brand's promo code.",
+  p_v3 => 'You set the offer', p_v3p => 'Choose the discount, the conditions and how long it runs. Tell us when it changes and we update it.',
+  p_how_title => 'How it works', p_s1 => 'Apply', p_s1p => 'Fill in the short form below.', p_s2 => 'We talk', p_s2p => 'Our team reviews your application and contacts you.', p_s3 => 'Go live', p_s3p => 'Your code and brand page go live on Foodidu.',
+  p_form_title => 'Apply to become a partner', p_form_sub => 'Fields marked * are required.',
+  f_business => 'Business name', f_contact => 'Contact person', f_contact_hint => 'Arabic or English letters only.', f_phone => 'Phone number', f_email => 'Email address',
+  f_location => 'Business location', f_location_ph => 'e.g. Nasr City, Cairo', f_type => 'Business type', f_type_ph => 'Select business type',
+  f_restaurant => 'Restaurant', f_cafe => 'Café', f_cloud => 'Cloud kitchen', f_truck => 'Food truck', f_bakery => 'Bakery', f_other => 'Other',
+  f_desc => 'Tell us about your business', f_desc_ph => 'Your cuisine, branches and the offer you have in mind', f_web => 'Website or social page (optional)',
+  f_submit => 'Send application', f_privacy => 'We only use these details to review your application.',
+  p_q1 => 'What kind of businesses can apply?', p_a1 => 'Restaurants, cafés, cloud kitchens, food trucks, bakeries and other food businesses.',
+  p_q2 => 'Do I need a website?', p_a2 => 'No. Your phone number and location are enough to apply. Add your website or social page if you have one.',
+  p_q3 => 'Can I change my offer later?', p_a3 => "Yes. Tell us when your offer changes and we'll update your code and page.",
+  # legal
+  pr_seo => 'Foodidu Privacy Policy: How We Use Your Data',
+  pr_title => 'Privacy Policy', pr_desc => 'How Foodidu collects, uses and protects your information, which services we use, and the choices you have about cookies and your data.',
+  te_seo => 'Foodidu Terms & Conditions for Using the Site',
+  te_title => 'Terms & Conditions', te_desc => 'The terms that apply when you use Foodidu and its promo codes, including code availability, accuracy and your responsibilities.',
+  updated => 'Last updated: {date}',
+  # home faq
+  q1 => 'What is Foodidu?', a1 => 'Foodidu is a free website that collects promo codes and discounts for restaurants, grocery apps and online shopping in Egypt and the GCC, in Arabic and English.',
+  q2 => 'Is Foodidu free?', a2 => "Yes. You don't need an account. Copy any code and use it directly in the brand's app or website.",
+  q3 => 'How do I use a promo code?', a3 => "Tap Copy on the code, open the brand's app or website, add your order to the cart and paste the code in the promo code field at checkout.",
+  q4 => "Why didn't a code work?", a4 => 'Most codes have conditions, such as first order only or a minimum order amount, and brands can change or end offers at any time. Check the conditions on the code page and make sure you typed it exactly.',
+  q5 => 'How can my restaurant appear on Foodidu?', a5 => 'Fill in the <a href="{partners}">partner application</a> and our team will contact you.',
+ },
+ ar => {
+  skip => 'تخطَّ إلى المحتوى', home => 'الرئيسية', menu => 'القائمة', mainnav => 'القائمة الرئيسية',
+  nav_codes => 'أكواد الخصم', nav_rest => 'مطاعم', nav_groc => 'بقالة', nav_shop => 'تسوق', nav_partner => 'للمطاعم',
+  copy => 'انسخ', copy_code => 'انسخ الكود', copied => 'تم النسخ', copy_aria => 'انسخ الكود {code}',
+  copiedToast => 'تم نسخ الكود {code}، الصقه عند الدفع.', copyFail => 'تعذّر النسخ، حدّد الكود وانسخه يدوياً.',
+  details => 'التفاصيل', exclusive => 'حصري', eg => 'مصر', gcc => 'الخليج', all => 'الكل', all_regions => 'كل الدول',
+  noResults => 'لا توجد أكواد لهذه العلامة حتى الآن.', search_label => 'ابحث عن علامة تجارية', search_ph => 'ابحث عن كنتاكي، نون، رابيت…', search_btn => 'بحث',
+  sending => 'جارٍ الإرسال…', formOk => 'شكراً لك! تم إرسال طلبك، وسيتواصل معك فريقنا قريباً.',
+  formErr => 'عذراً، تعذّر إرسال طلبك. حاول مرة أخرى بعد قليل.',
+  logo_alt => 'شعار {name}',
+  foot_blurb => 'أكواد وكوبونات خصم للمطاعم والبقالة والتسوق أونلاين في مصر والخليج.',
+  foot_codes => 'أكواد الخصم', foot_code_link => 'كود خصم {name}', foot_all => 'كل أكواد الخصم', privacy => 'سياسة الخصوصية', terms => 'الشروط والأحكام',
+  cookie_settings => 'إعدادات ملفات تعريف الارتباط', made => 'صُنع بحب لعشّاق الأكل.', disclaimer => 'أسماء وشعارات العلامات التجارية مملوكة لأصحابها.',
+  cookie_text => 'نستخدم ملفات تعريف الارتباط لفهم كيفية استخدام Foodidu وتحسينه.', accept => 'موافق', decline => 'رفض', cookies => 'ملفات تعريف الارتباط',
+  h_title => 'Foodidu – أكواد وكوبونات خصم في مصر والخليج',
+  h_desc => 'أكواد خصم كنتاكي وبيتزا هت ونون ورابيت وبريدفاست وغيرها في مكان واحد وباللغتين. انسخ الكود واعرف الشروط ووفّر على طلبك القادم.',
+  h_kicker => 'أكواد وكوبونات خصم في مصر والخليج',
+  h_display => 'كل أكلة… <em>بسعر أحلى.</em>',
+  h_lede => 'انسخ أكواد خصم كنتاكي وبيتزا هت ورابيت ونون وغيرها، مع توضيح الشروط قبل أن تطلب. مجاناً وبدون تسجيل.',
+  h_fact_region => 'مصر والخليج', h_fact_free => 'مجاني وبدون تسجيل', h_top => 'أقوى الأكواد',
+  h_cat_eyebrow => 'تصفّح حسب الفئة', h_cat_title => 'ماذا ستطلب اليوم؟',
+  h_feat_eyebrow => 'أكواد مختارة', h_feat_title => 'أقوى الأكواد عندنا', h_feat_sub => 'اضغط على الكود لنسخه، ثم الصقه عند الدفع.', h_see_all => 'عرض كل الأكواد ({n})',
+  h_brands_eyebrow => 'العلامات التجارية', h_brands_title => 'كل العلامات على Foodidu',
+  h_how_eyebrow => 'كيف يعمل', h_how_title => 'التوفير في ثلاث خطوات',
+  h_s1 => 'اختر العلامة', h_s1p => 'ابحث أو تصفّح المطاعم وتطبيقات البقالة والمتاجر أونلاين.',
+  h_s2 => 'انسخ الكود', h_s2p => 'ضغطة واحدة تنسخه، والشروط أمامك حتى لا تتفاجأ.',
+  h_s3 => 'الصق ووفّر', h_s3p => 'الصقه عند الدفع في تطبيق أو موقع العلامة التجارية واستمتع بالخصم.',
+  h_why_eyebrow => 'لماذا Foodidu', h_why_title => 'لكل من يحب العروض الحلوة',
+  h_w1 => 'كل الأكواد في مكان واحد', h_w1p => 'أكواد المطاعم وتوصيل البقالة والتسوق أونلاين معاً في موقع واحد.',
+  h_w2 => 'الشروط واضحة', h_w2p => 'كل كود يوضّح شروطه: أول طلب، أو حد أدنى للطلب، أو على التطبيق فقط.',
+  h_w3 => 'عربي وإنجليزي', h_w3p => 'استخدم Foodidu باللغة التي تفضّلها.',
+  h_w4 => 'مجاني وبدون تسجيل', h_w4p => 'لا حساب ولا تطبيق لتثبيته، فقط انسخ ووفّر.',
+  band_title => 'عندك مطعم أو براند أكل؟', band_text => 'اعرض كود الخصم الخاص بك أمام أشخاص على وشك الطلب. قدّم في دقيقتين وسيتواصل معك فريقنا.', band_btn => 'انضم لشركاء Foodidu',
+  faq_eyebrow => 'أسئلة شائعة', faq_title => 'عندك سؤال؟',
+  c_title => 'كل أكواد الخصم: مطاعم وبقالة وتسوق أونلاين',
+  c_desc => 'تصفّح كل أكواد خصم Foodidu في قائمة واحدة: مطاعم مثل كنتاكي وبيتزا هت، وتطبيقات بقالة مثل رابيت وبريدفاست، ونون للتسوق أونلاين.',
+  c_h1 => 'كل أكواد الخصم', c_lede => 'كل أكواد Foodidu في مكان واحد: {n} بين المطاعم وتطبيقات البقالة والتسوق أونلاين في مصر والخليج.',
+  c_group_restaurants => 'أكواد خصم المطاعم', c_group_groceries => 'أكواد خصم البقالة والسوبر ماركت', c_group_shopping => 'أكواد خصم التسوق أونلاين',
+  c_empty => 'لا توجد أكواد تطابق هذا الاختيار.', c_filters => 'تصفية الأكواد',
+  b_h1 => 'كود خصم {name}', b_checked => 'تحقّق منه فريق Foodidu في {date}', b_go => 'اذهب إلى {name}',
+  b_how => 'طريقة استخدام كود {name}', b_st1 => 'انسخ الكود', b_st1p => 'اضغط على «انسخ الكود» لنسخ {code}.',
+  b_st2 => 'افتح {where}', b_st2p => 'وأضف ما تريده إلى السلة كالمعتاد.',
+  b_st3 => 'الصقه عند الدفع', b_st3p => 'الصق الكود في خانة كود الخصم أو القسيمة، وسيُطبَّق الخصم إذا كان طلبك مطابقاً للشروط.',
+  b_about => 'عن {name}', b_faq => 'أسئلة عن كود {name}',
+  b_q1 => 'ما هو كود خصم {name}؟', b_a1 => 'كود {name} على Foodidu هو {code}، ويمنحك: {offer}.',
+  b_q2 => 'كيف أستخدم كود خصم {name}؟', b_a2 => 'انسخ الكود {code}، وافتح {where}، وأضف طلبك إلى السلة، ثم الصق الكود في خانة كود الخصم عند الدفع.',
+  b_q3 => 'هل للكود شروط؟', b_q4 => 'لماذا لا يعمل كود {name}؟',
+  b_a4 => 'تأكد أن طلبك يطابق الشروط (مثل أن يكون أول طلب أو بحد أدنى للقيمة) وأنك كتبت الكود تماماً كما هو. العروض تحددها {name} وقد تتغير أو تنتهي في أي وقت، وإذا لم ينجح الكود جرّب كوداً آخر على Foodidu.',
+  b_note => 'العروض تحددها {name} وقد تتغير أو تنتهي دون إشعار. أسماء وشعارات العلامات التجارية مملوكة لأصحابها.',
+  b_side_code => 'كود {name}', b_side_cats => 'تصفّح حسب الفئة', b_related => 'المزيد من أكواد {cat}', b_terms => 'الشروط',
+  cat_def_restaurants => 'المطاعم', cat_def_groceries => 'البقالة', cat_def_shopping => 'التسوق أونلاين',
+  p_title => 'انضم لشركاء Foodidu: اعرض عروض مطعمك',
+  p_desc => 'عندك مطعم أو كافيه أو براند أكل في مصر؟ قدّم الآن لعرض كود الخصم الخاص بك على Foodidu والوصول لأشخاص على وشك الطلب.',
+  p_h1 => 'انضم لشركاء Foodidu',
+  p_lede => 'عندك مطعم أو كافيه أو مطبخ سحابي أو براند أكل؟ اعرض كود الخصم الخاص بك على Foodidu، ووصّل عرضك لأشخاص يبحثون عن خصم قبل أن يطلبوا مباشرة.',
+  p_cta => 'قدّم الآن', p_v_eyebrow => 'لماذا تنضم', p_v_title => 'اظهر أمام عملاء جائعين',
+  p_v1 => 'عملاء جاهزون للطلب', p_v1p => 'يزور الناس Foodidu عندما يكونون على وشك الطلب ويبحثون عن سعر أفضل، فيظهر عرضك أمامهم في هذه اللحظة.',
+  p_v2 => 'صفحة خاصة لعلامتك', p_v2p => 'صفحة مخصصة لكودك بالعربية والإنجليزية، مصمَّمة لتظهر عندما يبحث الناس عن كود خصم علامتك.',
+  p_v3 => 'أنت تحدد العرض', p_v3p => 'اختر نسبة الخصم والشروط ومدة العرض، وأخبرنا عند أي تغيير لنحدّثه.',
+  p_how_title => 'كيف تعمل الشراكة', p_s1 => 'قدّم', p_s1p => 'املأ النموذج القصير بالأسفل.', p_s2 => 'نتواصل معك', p_s2p => 'يراجع فريقنا طلبك ويتواصل معك.', p_s3 => 'انطلق', p_s3p => 'ينطلق كودك وصفحة علامتك على Foodidu.',
+  p_form_title => 'قدّم طلب الشراكة', p_form_sub => 'الحقول المميزة بـ * مطلوبة.',
+  f_business => 'اسم النشاط', f_contact => 'اسم المسؤول', f_contact_hint => 'حروف عربية أو إنجليزية فقط.', f_phone => 'رقم الهاتف', f_email => 'البريد الإلكتروني',
+  f_location => 'موقع النشاط', f_location_ph => 'مثال: مدينة نصر، القاهرة', f_type => 'نوع النشاط', f_type_ph => 'اختر نوع النشاط',
+  f_restaurant => 'مطعم', f_cafe => 'كافيه', f_cloud => 'مطبخ سحابي', f_truck => 'عربة طعام', f_bakery => 'مخبز', f_other => 'أخرى',
+  f_desc => 'أخبرنا عن نشاطك', f_desc_ph => 'نوع الأكل والفروع والعرض الذي تفكر فيه', f_web => 'الموقع الإلكتروني أو صفحة السوشيال (اختياري)',
+  f_submit => 'أرسل الطلب', f_privacy => 'نستخدم هذه البيانات لمراجعة طلبك فقط.',
+  p_q1 => 'ما أنواع الأنشطة التي يمكنها التقديم؟', p_a1 => 'المطاعم والكافيهات والمطابخ السحابية وعربات الطعام والمخابز وأي نشاط طعام آخر.',
+  p_q2 => 'هل أحتاج إلى موقع إلكتروني؟', p_a2 => 'لا. رقم الهاتف والموقع كافيان للتقديم، وأضف موقعك أو صفحة السوشيال إن وُجدت.',
+  p_q3 => 'هل يمكنني تغيير العرض لاحقاً؟', p_a3 => 'نعم، أخبرنا عند تغيير عرضك وسنحدّث الكود والصفحة.',
+  pr_seo => 'سياسة الخصوصية في Foodidu: كيف نستخدم بياناتك',
+  pr_title => 'سياسة الخصوصية', pr_desc => 'تعرّف على كيفية جمع Foodidu لمعلوماتك واستخدامها وحمايتها، والخدمات التي نستخدمها، وخياراتك بشأن ملفات تعريف الارتباط وبياناتك.',
+  te_seo => 'الشروط والأحكام لاستخدام موقع Foodidu',
+  te_title => 'الشروط والأحكام', te_desc => 'الشروط التي تنطبق عند استخدامك Foodidu وأكواد الخصم، بما في ذلك توفّر الأكواد ودقتها ومسؤولياتك كمستخدم.',
+  updated => 'آخر تحديث: {date}',
+  q1 => 'ما هو Foodidu؟', a1 => 'Foodidu (فوديدو) موقع مجاني يجمع أكواد وكوبونات الخصم للمطاعم وتطبيقات البقالة والتسوق أونلاين في مصر والخليج، باللغتين العربية والإنجليزية.',
+  q2 => 'هل Foodidu مجاني؟', a2 => 'نعم، لا تحتاج إلى حساب. انسخ أي كود واستخدمه مباشرة في تطبيق أو موقع العلامة التجارية.',
+  q3 => 'كيف أستخدم كود الخصم؟', a3 => 'اضغط «انسخ» على الكود، وافتح تطبيق أو موقع العلامة التجارية، وأضف طلبك إلى السلة، ثم الصق الكود في خانة كود الخصم عند الدفع.',
+  q4 => 'لماذا لم يعمل الكود؟', a4 => 'معظم الأكواد لها شروط مثل أول طلب فقط أو حد أدنى لقيمة الطلب، ويمكن للعلامات التجارية تغيير العروض أو إنهاؤها في أي وقت. راجع الشروط في صفحة الكود وتأكد أنك كتبته كما هو تماماً.',
+  q5 => 'كيف يظهر مطعمي على Foodidu؟', a5 => 'املأ <a href="{partners}">نموذج طلب الشراكة</a> وسيتواصل معك فريقنا.',
+ },
+);
+my @MONTHS_EN = qw(January February March April May June July August September October November December);
+my @MONTHS_AR = qw(يناير فبراير مارس أبريل مايو يونيو يوليو أغسطس سبتمبر أكتوبر نوفمبر ديسمبر);
+
+sub esc { my $s = shift // ''; $s =~ s/&/&amp;/g; $s =~ s/</&lt;/g; $s =~ s/>/&gt;/g; $s =~ s/"/&quot;/g; $s }
+sub T {                                 # T(lang, key, var => value ...) ; values are inserted raw
+  my ($l, $k, %v) = @_;
+  my $s = $S{$l}{$k} // die "missing string $l.$k";
+  $s =~ s/\{(\w+)\}/exists $v{$1} ? $v{$1} : "{$1}"/ge;
+  $s;
+}
+sub Te { my ($l, $k, %v) = @_; T($l, $k, map { ($_ => esc($v{$_})) } keys %v) }   # escaped values
+sub strip_tags { my $s = shift; $s =~ s/<[^>]+>//g; $s =~ s/&amp;/&/g; $s }
+sub path_for { my ($l, $p) = @_; $l eq 'ar' ? ($p eq '/' ? '/ar/' : "/ar$p") : $p }
+sub absu { $SITE . $_[0] }
+sub nbrands { my ($l, $n) = @_; return $l eq 'en' ? "$n brands" : ($n <= 10 ? "$n علامات تجارية" : "$n علامة تجارية") }
+sub ncodes  { my ($l, $n) = @_; return $n == 1 ? '1 code' : "$n codes" if $l eq 'en'; return $n == 1 ? 'كود واحد' : $n == 2 ? 'كودان' : $n <= 10 ? "$n أكواد" : "$n كوداً" }
+sub fmt_date { my ($l, $ymd) = @_; my ($y, $m, $d) = split /-/, $ymd; return $l eq 'en' ? ($d + 0) . " $MONTHS_EN[$m-1] $y" : ($d + 0) . " $MONTHS_AR[$m-1] $y" }
+sub month_year { my ($l, $ymd) = @_; my ($y, $m) = split /-/, $ymd; return $l eq 'en' ? substr($MONTHS_EN[$m-1], 0, 3) . " $y" : "$MONTHS_AR[$m-1] $y" }
+sub fresh { my $ymd = shift or return 0; my ($y, $m, $d) = split /-/, $ymd; my $t = eval { timegm(0, 0, 12, $d, $m - 1, $y) } or return 0; return ($NOW - $t) / 86400 <= 45 && $t <= $NOW + 86400 }
+
+# ------------------------------------------------------------------ icons
+my %ICON = (
+  copy     => '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',
+  check    => '<path d="M20 6 9 17l-5-5"/>',
+  arrow    => '<path d="M5 12h14M13 5l7 7-7 7"/>',
+  external => '<path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/>',
+  search   => '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  menu     => '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  close    => '<path d="M6 6l12 12M18 6 6 18"/>',
+  globe    => '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+  fork     => '<path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10M17 21V3c-2.2 1.2-3.5 3.8-3.5 7v3H17"/>',
+  basket   => '<path d="M4 10h16l-1.6 8.2A2 2 0 0 1 16.4 20H7.6a2 2 0 0 1-2-1.8L4 10Z"/><path d="m8 10 3-6M16 10l-3-6M9.5 14v2.5M14.5 14v2.5"/>',
+  bag      => '<path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+  layers   => '<path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/>',
+  list     => '<path d="M10 6h10M10 12h10M10 18h10"/><path d="m3.5 6 1.5 1.5L7.5 5M3.5 12l1.5 1.5 2.5-2.5M3.5 18l1.5 1.5 2.5-2.5"/>',
+  lang     => '<path d="M4 5h9M8.5 3v2M11 5c-.8 4-3.5 7-7 8.5M6 9c1.2 2 3 3.6 5 4.5"/><path d="m13 21 4-9 4 9M14.5 18h5"/>',
+  gift     => '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M12 8H8.5a2.5 2.5 0 1 1 0-5C11 3 12 8 12 8Zm0 0h3.5a2.5 2.5 0 1 0 0-5C13 3 12 8 12 8Z"/>',
+  target   => '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+  page     => '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
+  sliders  => '<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
+  shield   => '<path d="M12 3 5 6v6c0 4.4 3 8 7 9 4-1 7-4.6 7-9V6l-7-3Z"/><path d="m9 12 2 2 4-4"/>',
+  info     => '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+  plus     => '<path d="M12 5v14M5 12h14"/>',
+  pin      => '<path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/>',
+  facebook => '<path fill="currentColor" stroke="none" d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v7h4v-7h3l.5-4h-3.5V9c0-.6.4-1 1-1Z"/>',
+  instagram=> '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>',
+  tiktok   => '<path fill="currentColor" stroke="none" d="M16.5 3c.3 2.3 1.8 3.9 4 4.1v3.3c-1.5 0-2.9-.4-4-1.2v6.3A5.5 5.5 0 1 1 11 10v3.4a2.2 2.2 0 1 0 2 2.2V3h3.5Z"/>',
+  linkedin => '<path fill="currentColor" stroke="none" d="M4 9h4v12H4zM6 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm4 6h3.8v1.7c.6-1 1.9-2 3.9-2 4 0 4.3 2.6 4.3 6V21h-4v-5.5c0-1.5 0-3.3-2-3.3s-2.3 1.5-2.3 3.2V21H10z"/>',
+);
+sub icon { my ($n, $cls) = @_; $cls = $cls ? " $cls" : ''; qq{<svg class="icon$cls" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">$ICON{$n}</svg>} }
+
+# ------------------------------------------------------------------ static assets (fingerprinted css/js)
+remove_tree($OUT) if -d $OUT;
+make_path($OUT);
+my %ASSET;
+File::Find::find({ no_chdir => 1, wanted => sub {
+  return unless -f $_;
+  my $rel = substr($_, length("$ROOT/static/"));
+  $rel =~ s{\\}{/}g;
+  my $bytes = slurp($_, 1);
+  my $dest = $rel;
+  if ($rel =~ m{^(css/site|js/site)\.(css|js)$}) { $dest = "$1." . substr(md5_hex($bytes), 0, 10) . ".$2"; }
+  $ASSET{"/$rel"} = "/$dest";
+  spit("$OUT/$dest", $bytes, 1);
+}}, "$ROOT/static");
+sub asset { $ASSET{$_[0]} // $_[0] }
+sub logo_src { "/img/brands/$_[0]{logo}" }
+
+# ------------------------------------------------------------------ components
+sub code_btn {
+  my ($b, $l, $lg) = @_;
+  my $code = esc($b->{code});
+  qq{<button type="button" class="code-btn} . ($lg ? ' lg' : '') . qq{" data-code="$code" data-brand="$b->{key}" aria-label="} . Te($l, 'copy_aria', code => $b->{code}) . qq{">}
+  . qq{<span class="code" dir="ltr">$code</span>}
+  . qq{<span class="act">} . icon('copy', 'i-copy') . icon('check', 'i-check') . qq{<span class="act-label">} . T($l, 'copy') . qq{</span></span></button>};
+}
+sub deal_html {
+  my ($b, $l) = @_;
+  my ($big, $small) = map { esc($_) } @{ $b->{badge}{$l} };
+  return $l eq 'ar' ? qq{<p class="deal"><span>$small</span><b>$big</b></p>} : qq{<p class="deal"><b>$big</b><span>$small</span></p>};
+}
+sub brand_url { my ($b, $l) = @_; path_for($l, "/$b->{slug}/") }
+sub meta_line { my ($b, $l) = @_; esc($CATN{$b->{category}}{$l}) . ' · ' . T($l, $b->{region}) }
+sub logo_img  { my ($b, $l, $size, $eager) = @_; qq{<img src="} . logo_src($b) . qq{" alt="} . Te($l, 'logo_alt', name => $b->{name}{$l}) . qq{" width="$size" height="$size"} . ($eager ? ' fetchpriority="high"' : ' loading="lazy"') . qq{ decoding="async">} }
+
+sub ticket {
+  my ($b, $l, %o) = @_;
+  my $url = brand_url($b, $l);
+  my $name = esc($b->{name}{$l});
+  my $tag = $o{mini} ? 'p' : ($o{h} // 'h3');
+  my $flag = $b->{exclusive} ? '<span class="flag">' . T($l, 'exclusive') . '</span>' : '';
+  my $more = $o{mini} ? '' : qq{<a class="ticket-more" href="$url" aria-label="} . T($l, 'details') . qq{: $name">} . '<span class="more-label">' . T($l, 'details') . '</span> ' . icon('arrow', 'flip') . '</a>';
+  qq{<article class="ticket"><div class="ticket-main"><div class="ticket-top"><span class="logo-tile">} . logo_img($b, $l, 52, $o{eager}) . qq{</span>}
+  . qq{<div><$tag class="ticket-brand"><a href="$url">$name</a></$tag><span class="ticket-meta">} . meta_line($b, $l) . qq{</span></div>$flag</div>}
+  . deal_html($b, $l) . qq{<p class="ticket-offer">} . esc($b->{offer}{$l}) . qq{</p></div>}
+  . qq{<div class="ticket-stub">} . code_btn($b, $l) . qq{$more</div></article>};
+}
+sub ticket_li {
+  my ($b, $l, %o) = @_;
+  my $search = lc join ' ', $b->{name}{en}, $b->{name}{ar}, $b->{code}, $b->{key};
+  qq{<li data-cat="$b->{category}" data-region="$b->{region}" data-search="} . esc($search) . qq{">} . ticket($b, $l, %o) . '</li>';
+}
+sub faq_html {
+  my (@qa) = @_;
+  '<div class="faq">' . join('', map { qq{<details><summary>$_->[0]<span class="pm">} . icon('plus') . qq{</span></summary><div class="ans"><p>$_->[1]</p></div></details>} } @qa) . '</div>';
+}
+sub faq_ld { my (@qa) = @_; { '@type' => 'FAQPage', mainEntity => [ map { { '@type' => 'Question', name => strip_tags($_->[0]), acceptedAnswer => { '@type' => 'Answer', text => strip_tags($_->[1]) } } } @qa ] } }
+sub search_form {
+  my ($l) = @_;
+  qq{<form class="search" role="search" action="} . path_for($l, '/promo-codes/') . qq{" autocomplete="off">}
+  . qq{<label class="sr-only" for="q">} . T($l, 'search_label') . '</label>'
+  . qq{<div class="search-box">} . icon('search') . qq{<input id="q" name="q" type="search" placeholder="} . T($l, 'search_ph') . qq{" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results" enterkeyhint="search">}
+  . qq{<button class="btn btn-ink" type="submit">} . T($l, 'search_btn') . '</button></div>'
+  . qq{<ul class="search-results" id="search-results" role="listbox" hidden></ul></form>};
+}
+sub band {
+  my ($l) = @_;
+  qq{<section class="wrap section-tight"><div class="band"><div><h2>} . T($l, 'band_title') . '</h2><p>' . T($l, 'band_text') . qq{</p><a class="btn btn-sun" href="} . path_for($l, '/partners/') . '">' . T($l, 'band_btn') . ' ' . icon('arrow', 'flip') . qq{</a></div><img class="face" src="/img/foodidu-icon.svg" alt="" width="150" height="150" loading="lazy"></div></section>};
+}
+sub crumbs_html {
+  my ($l, $crumbs) = @_;
+  my @li;
+  for my $i (0 .. $#$crumbs) {
+    my ($n, $p) = @{ $crumbs->[$i] };
+    push @li, $i == $#$crumbs ? '<li><span aria-current="page">' . esc($n) . '</span></li>' : qq{<li><a href="$p">} . esc($n) . '</a></li>';
+  }
+  qq{<nav class="crumbs" aria-label="Breadcrumb"><ol>} . join('', @li) . '</ol></nav>';
+}
+
+# ------------------------------------------------------------------ layout
+my @PAGES;   # for sitemap: { key, lastmod }
+sub layout {
+  my (%a) = @_;
+  my $l = $a{lang}; my $key = $a{key};
+  my $other = $l eq 'en' ? 'ar' : 'en';
+  my $url = absu(path_for($l, $key));
+  my $title = $a{title};
+  my $og = absu($a{og} // "/img/og/home-$l.png");
+  my @g = (
+    { '@type' => 'Organization', '@id' => "$SITE/#org", name => 'Foodidu', alternateName => 'فوديدو', url => "$SITE/",
+      logo => { '@type' => 'ImageObject', url => "$SITE/img/foodidu-logo-512.png", width => 512, height => 512 },
+      sameAs => [ map { $_->[2] } @SOCIAL ] },
+    { '@type' => 'WebSite', '@id' => "$SITE/#website", url => "$SITE/", name => 'Foodidu', alternateName => 'فوديدو', inLanguage => ['en', 'ar'], publisher => { '@id' => "$SITE/#org" } },
+    { '@type' => ($a{pagetype} // 'WebPage'), '@id' => "$url#webpage", url => $url, name => $title, description => $a{desc}, inLanguage => $l,
+      isPartOf => { '@id' => "$SITE/#website" }, primaryImageOfPage => { '@type' => 'ImageObject', url => $og },
+      ($a{crumbs} ? (breadcrumb => { '@id' => "$url#breadcrumb" }) : ()), ($a{about} ? (about => $a{about}) : ()) },
+  );
+  if ($a{crumbs}) {
+    my $i = 0;
+    push @g, { '@type' => 'BreadcrumbList', '@id' => "$url#breadcrumb",
+      itemListElement => [ map { { '@type' => 'ListItem', position => ++$i, name => $_->[0], item => absu($_->[1]) } } @{ $a{crumbs} } ] };
+  }
+  push @g, @{ $a{ld} // [] };
+  my $ld = JSON::PP->new->canonical->encode({ '@context' => 'https://schema.org', '@graph' => \@g });
+  $ld =~ s{</}{<\\/}g;
+
+  my %fd = (t => { map { ($_ => T($l, $_)) } qw(copy copied copiedToast copyFail noResults sending formOk formErr) }, %{ $a{fd} // {} });
+  my $fd = JSON::PP->new->canonical->encode(\%fd); $fd =~ s{</}{<\\/}g;
+
+  my $home = path_for($l, '/');
+  my $codes = path_for($l, '/promo-codes/');
+  my @nav = (
+    [T($l, 'nav_codes'), $codes, 'codes'], [T($l, 'nav_rest'), "$codes#restaurants", ''], [T($l, 'nav_groc'), "$codes#groceries", ''],
+    [T($l, 'nav_shop'), "$codes#shopping", ''], [T($l, 'nav_partner'), path_for($l, '/partners/'), 'partners'],
+  );
+  my $nav = join '', map { qq{<a href="$_->[1]"} . ($_->[2] && ($a{nav} // '') eq $_->[2] ? ' aria-current="page"' : '') . ">$_->[0]</a>" } @nav;
+  my $other_label = $other eq 'ar' ? 'العربية' : 'English';
+  my $alt_links = $a{noindex} ? '' : join("\n", (map { qq{<link rel="alternate" hreflang="$_" href="} . absu(path_for($_, $key)) . '">' } @LANGS), qq{<link rel="alternate" hreflang="x-default" href="} . absu(path_for('en', $key)) . '">');
+  my $lang_link = $a{nolang} ? '' : qq{<a class="lang" href="} . path_for($other, $key) . qq{" hreflang="$other" lang="$other" aria-label="$other_label">} . icon('globe') . qq{<span class="lang-long">$other_label</span></a>};
+  my $robots = $a{noindex} ? 'noindex,follow' : 'index,follow,max-image-preview:large,max-snippet:-1';
+  my $locale = $l eq 'ar' ? 'ar_EG' : 'en_US';
+  my $olocale = $l eq 'ar' ? 'en_US' : 'ar_EG';
+  my $css = asset('/css/site.css'); my $js = asset('/js/site.js');
+  my $etitle = esc($title); my $edesc = esc($a{desc});
+
+  my $foot_codes = join '', map { qq{<li><a href="} . brand_url($_, $l) . '">' . Te($l, 'foot_code_link', name => $_->{name}{$l}) . '</a></li>' } @BRANDS;
+  my $social = join '', map { qq{<a href="$_->[2]" rel="noopener" target="_blank" aria-label="Foodidu on $_->[1]">} . icon($_->[0]) . '</a>' } @SOCIAL;
+
+  my $html = <<"HTML";
+<!doctype html>
+<html lang="$l" dir="@{[ $l eq 'ar' ? 'rtl' : 'ltr' ]}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>$etitle</title>
+<meta name="description" content="$edesc">
+<meta name="robots" content="$robots">
+@{[ $a{noindex} ? '' : qq{<link rel="canonical" href="$url">} ]}
+$alt_links
+<meta name="theme-color" content="#FFD15C">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Foodidu">
+<meta property="og:title" content="$etitle">
+<meta property="og:description" content="$edesc">
+<meta property="og:url" content="$url">
+<meta property="og:image" content="$og">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="$etitle">
+<meta property="og:locale" content="$locale">
+<meta property="og:locale:alternate" content="$olocale">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="\@foodidu_official">
+<meta name="twitter:title" content="$etitle">
+<meta name="twitter:description" content="$edesc">
+<meta name="twitter:image" content="$og">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/img/foodidu-icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&amp;family=Readex+Pro:wght\@300..700&amp;display=swap">
+<link rel="stylesheet" href="$css">
+<script type="application/ld+json">$ld</script>
+<script src="$js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">@{[ T($l, 'skip') ]}</a>
+<header class="site-header is-home">
+<div class="wrap header-in">
+<a class="brand" href="$home"><img src="/img/foodidu-icon.svg" width="42" height="42" alt=""><span>Foodidu</span></a>
+<nav class="nav" id="site-nav" aria-label="@{[ T($l, 'mainnav') ]}">$nav</nav>
+$lang_link
+<button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="@{[ T($l, 'menu') ]}">@{[ icon('menu', 'i-menu') . icon('close', 'i-close') ]}</button>
+</div>
+</header>
+<main id="main">
+$a{body}
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="foot-grid">
+<div class="foot-brand"><a class="brand" href="$home"><img src="/img/foodidu-icon.svg" width="42" height="42" alt="" loading="lazy"><span>Foodidu</span></a><p>@{[ T($l, 'foot_blurb') ]}</p><div class="social">$social</div></div>
+<nav aria-label="@{[ T($l, 'foot_codes') ]}"><h2>@{[ T($l, 'foot_codes') ]}</h2><ul class="foot-links cols">$foot_codes</ul></nav>
+<nav aria-label="Foodidu"><h2>Foodidu</h2><ul class="foot-links">
+<li><a href="$codes">@{[ T($l, 'foot_all') ]}</a></li>
+<li><a href="@{[ path_for($l, '/partners/') ]}">@{[ T($l, 'nav_partner') ]}</a></li>
+<li><a href="@{[ path_for($l, '/privacy-policy/') ]}">@{[ T($l, 'privacy') ]}</a></li>
+<li><a href="@{[ path_for($l, '/terms-and-conditions/') ]}">@{[ T($l, 'terms') ]}</a></li>
+<li><button type="button" data-cookie-settings>@{[ T($l, 'cookie_settings') ]}</button></li>
+</ul></nav>
+</div>
+<div class="foot-bottom"><span>© $YEAR Foodidu. @{[ T($l, 'made') ]}</span><span>@{[ T($l, 'disclaimer') ]}</span></div>
+</div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite">@{[ icon('check') ]}<span></span></div>
+<div class="cookie" id="cookie" role="region" aria-label="@{[ T($l, 'cookies') ]}" hidden>
+<p>@{[ T($l, 'cookie_text') ]} <a href="@{[ path_for($l, '/privacy-policy/') ]}">@{[ T($l, 'privacy') ]}</a></p>
+<div class="row"><button class="btn btn-ink" type="button" data-accept>@{[ T($l, 'accept') ]}</button><button class="btn btn-line" type="button" data-decline>@{[ T($l, 'decline') ]}</button></div>
+</div>
+<script id="fd-data" type="application/json">$fd</script>
+</body>
+</html>
+HTML
+  $html =~ s/\n{2,}/\n/g;
+  my $file = $a{file} // "$OUT" . path_for($l, $key) . 'index.html';
+  spit($file, $html);
+  push @PAGES, { key => $key, lang => $l, lastmod => ($a{lastmod} // $DATA_DATE) } unless $a{noindex};
+}
+
+sub search_index {
+  my ($l) = @_;
+  [ map { { n => $_->{name}{$l}, s => join(' ', $_->{name}{en}, $_->{name}{ar}, $_->{code}), u => brand_url($_, $l), l => logo_src($_), o => $_->{offer}{$l} } } @BRANDS ];
+}
+my %BYKEY = map { ($_->{key} => $_) } @BRANDS;
+sub count_cat { my $c = shift; scalar grep { $_->{category} eq $c } @BRANDS }
+
+# ------------------------------------------------------------------ pages
+for my $l (@LANGS) {
+  my $codes = path_for($l, '/promo-codes/');
+  my $n = scalar @BRANDS;
+
+  # ---------- home
+  {
+    my @stack = map { $BYKEY{$_} } qw(pizza-hut rabbit kfc);
+    my $stack = join '', map { qq{<div class="mini"><div class="mini-wrap">} . ticket($_, $l, mini => 1, eager => 1) . '</div></div>' } @stack;
+    my $cats = join '', map {
+      my $c = $_;
+      qq{<a class="cat" href="$codes#$c"><span class="ic">} . icon($CATICON{$c}) . '</span><span><b>' . esc($CATN{$c}{$l}) . '</b><small>' . ncodes($l, count_cat($c)) . '</small></span>' . icon('arrow', 'go flip') . '</a>'
+    } @CATS;
+    my $featured = join '', map { ticket_li($_, $l) } grep { $_->{featured} } @BRANDS;
+    my $logos = join '', map { qq{<li><a href="} . brand_url($_, $l) . qq{"><span class="logo-tile">} . logo_img($_, $l, 42) . '</span><span><b>' . esc($_->{name}{$l}) . '</b><small>' . esc($_->{offer}{$l}) . '</small></span></a></li>' } @BRANDS;
+    my @qa = map { [T($l, "q$_"), T($l, "a$_", partners => path_for($l, '/partners/'))] } 1 .. 5;
+    my $body = <<"HTML";
+<section class="hero">
+<div class="wrap hero-grid">
+<div class="hero-copy">
+<h1><span class="kicker"><span class="dot"></span>@{[ T($l, 'h_kicker') ]}</span><span class="display">@{[ T($l, 'h_display') ]}</span></h1>
+<p class="lede">@{[ T($l, 'h_lede') ]}</p>
+@{[ search_form($l) ]}
+<ul class="hero-facts"><li>@{[ icon('layers') ]}<span>@{[ nbrands($l, $n) =~ s/^(\d+)/<b>$1<\/b>/r ]}</span></li><li>@{[ icon('pin') ]}<span>@{[ T($l, 'h_fact_region') ]}</span></li><li>@{[ icon('shield') ]}<span>@{[ T($l, 'h_fact_free') ]}</span></li></ul>
+</div>
+<div class="stack" role="group" aria-label="@{[ T($l, 'h_top') ]}">$stack<img class="sticker" src="/img/foodidu-badge.svg" alt="" width="128" height="51"></div>
+</div>
+</section>
+<div class="scallop" aria-hidden="true"></div>
+<section class="wrap section-tight" aria-labelledby="cats-title">
+<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_cat_eyebrow') ]}</p><h2 class="h2" id="cats-title">@{[ T($l, 'h_cat_title') ]}</h2></div></div>
+<div class="cats">$cats</div>
+</section>
+<section class="wrap section-tight" aria-labelledby="feat-title">
+<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_feat_eyebrow') ]}</p><h2 class="h2" id="feat-title">@{[ T($l, 'h_feat_title') ]}</h2><p class="section-sub">@{[ T($l, 'h_feat_sub') ]}</p></div>
+<a class="btn btn-ink" href="$codes">@{[ T($l, 'h_see_all', n => $n) ]} @{[ icon('arrow', 'flip') ]}</a></div>
+<ul class="ticket-list">$featured</ul>
+</section>
+<section class="wrap section-tight" aria-labelledby="how-title">
+<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_how_eyebrow') ]}</p><h2 class="h2" id="how-title">@{[ T($l, 'h_how_title') ]}</h2></div></div>
+<ol class="steps">
+<li class="step"><span class="num" aria-hidden="true">@{[ $l eq 'ar' ? '١' : '1' ]}</span><h3>@{[ T($l, 'h_s1') ]}</h3><p>@{[ T($l, 'h_s1p') ]}</p></li>
+<li class="step"><span class="num" aria-hidden="true">@{[ $l eq 'ar' ? '٢' : '2' ]}</span><h3>@{[ T($l, 'h_s2') ]}</h3><p>@{[ T($l, 'h_s2p') ]}</p></li>
+<li class="step"><span class="num" aria-hidden="true">@{[ $l eq 'ar' ? '٣' : '3' ]}</span><h3>@{[ T($l, 'h_s3') ]}</h3><p>@{[ T($l, 'h_s3p') ]}</p></li>
+</ol>
+</section>
+<section class="wrap section-tight" aria-labelledby="brands-title">
+<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_brands_eyebrow') ]}</p><h2 class="h2" id="brands-title">@{[ T($l, 'h_brands_title') ]}</h2></div></div>
+<ul class="side-list brand-wall">$logos</ul>
+</section>
+<section class="wrap section-tight" aria-labelledby="why-title">
+<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_why_eyebrow') ]}</p><h2 class="h2" id="why-title">@{[ T($l, 'h_why_title') ]}</h2></div></div>
+<ul class="why">
+<li>@{[ icon('layers') ]}<h3>@{[ T($l, 'h_w1') ]}</h3><p>@{[ T($l, 'h_w1p') ]}</p></li>
+<li>@{[ icon('list') ]}<h3>@{[ T($l, 'h_w2') ]}</h3><p>@{[ T($l, 'h_w2p') ]}</p></li>
+<li>@{[ icon('lang') ]}<h3>@{[ T($l, 'h_w3') ]}</h3><p>@{[ T($l, 'h_w3p') ]}</p></li>
+<li>@{[ icon('gift') ]}<h3>@{[ T($l, 'h_w4') ]}</h3><p>@{[ T($l, 'h_w4p') ]}</p></li>
+</ul>
+</section>
+@{[ band($l) ]}
+<section class="wrap section-tight two-col" aria-labelledby="faq-title">
+<div><p class="eyebrow">@{[ T($l, 'faq_eyebrow') ]}</p><h2 class="h2" id="faq-title">@{[ T($l, 'faq_title') ]}</h2></div>
+@{[ faq_html(@qa) ]}
+</section>
+HTML
+    layout(lang => $l, key => '/', title => T($l, 'h_title'), desc => T($l, 'h_desc'), body => $body,
+      ld => [ faq_ld(@qa) ], fd => { brands => search_index($l) }, og => "/img/og/home-$l.png");
+  }
+
+  # ---------- all codes
+  {
+    my $chips = qq{<button type="button" class="chip" data-filter="cat" data-value="all" aria-pressed="true">} . T($l, 'all') . qq{ <span class="n">$n</span></button>}
+      . join('', map { qq{<button type="button" class="chip" data-filter="cat" data-value="$_" aria-pressed="false">} . icon($CATICON{$_}) . esc($CATN{$_}{$l}) . ' <span class="n">' . count_cat($_) . '</span></button>' } @CATS)
+      . '<span class="sep" aria-hidden="true"></span>'
+      . qq{<button type="button" class="chip" data-filter="region" data-value="all" aria-pressed="true">} . T($l, 'all_regions') . '</button>'
+      . join('', map { qq{<button type="button" class="chip" data-filter="region" data-value="$_" aria-pressed="false">} . icon('pin') . T($l, $_) . '</button>' } qw(eg gcc));
+    my $groups = join '', map {
+      my $c = $_;
+      my @bs = grep { $_->{category} eq $c } @BRANDS;
+      qq{<section class="group" data-group id="$c" aria-labelledby="g-$c"><div class="group-head"><span class="ic">} . icon($CATICON{$c}) . qq{</span><h2 id="g-$c">} . T($l, "c_group_$c") . '</h2><span class="n">' . ncodes($l, scalar @bs) . '</span></div>'
+      . '<ul class="ticket-list">' . join('', map { ticket_li($_, $l) } @bs) . '</ul></section>';
+    } @CATS;
+    my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'c_h1'), $codes]];
+    my $body = <<"HTML";
+<section class="page-hero">
+<div class="wrap">
+@{[ crumbs_html($l, $crumbs) ]}
+<h1>@{[ T($l, 'c_h1') ]}</h1>
+<p class="lede">@{[ T($l, 'c_lede', n => nbrands($l, $n)) ]}</p>
+@{[ search_form($l) ]}
+</div>
+</section>
+<div class="scallop" aria-hidden="true"></div>
+<section class="wrap section-tight">
+<div class="filters" role="group" aria-label="@{[ T($l, 'c_filters') ]}">$chips</div>
+<div id="codes" data-filterable>$groups</div>
+<p class="empty" data-empty hidden>@{[ T($l, 'c_empty') ]}</p>
+</section>
+@{[ band($l) ]}
+HTML
+    my $i = 0;
+    layout(lang => $l, key => '/promo-codes/', title => T($l, 'c_title') . ' | Foodidu', desc => T($l, 'c_desc'), body => $body, nav => 'codes',
+      crumbs => $crumbs, pagetype => 'CollectionPage', og => "/img/og/codes-$l.png", fd => { brands => search_index($l) },
+      ld => [ { '@type' => 'ItemList', name => T($l, 'c_h1'), numberOfItems => $n,
+        itemListElement => [ map { { '@type' => 'ListItem', position => ++$i, name => $_->{name}{$l}, url => absu(brand_url($_, $l)) } } @BRANDS ] } ]);
+  }
+
+  # ---------- brand pages
+  for my $b (@BRANDS) {
+    my $name = $b->{name}{$l};
+    my $en = esc($name);
+    my $url = brand_url($b, $l);
+    my $where = esc($b->{where}{$l});
+    my $offer = esc($b->{offer}{$l});
+    my $terms = esc($b->{terms}{$l});
+    my $code = esc($b->{code});
+    my $is_fresh = fresh($b->{lastVerified});
+    my $title = $b->{seo}{$l}{title} . ($is_fresh ? ' (' . month_year($l, $b->{lastVerified}) . ')' : '') . ' | Foodidu';
+    my $checked = $is_fresh ? '<p class="checked">' . icon('shield') . T($l, 'b_checked', date => fmt_date($l, $b->{lastVerified})) . '</p>' : '';
+    my $go = $b->{url} ? qq{<a class="btn btn-leaf" href="} . esc($b->{url}) . qq{" rel="nofollow sponsored noopener" target="_blank">} . ($b->{urlLabel} ? esc($b->{urlLabel}{$l}) : Te($l, 'b_go', name => $name)) . ' ' . icon('external') . '</a>' : '';
+    my @qa = (
+      [Te($l, 'b_q1', name => $name), T($l, 'b_a1', name => $en, code => qq{<strong dir="ltr">$code</strong>}, offer => $offer)],
+      [Te($l, 'b_q2', name => $name), T($l, 'b_a2', code => qq{<strong dir="ltr">$code</strong>}, where => $where)],
+      [T($l, 'b_q3'), $terms],
+      [Te($l, 'b_q4', name => $name), Te($l, 'b_a4', name => $name)],
+    );
+    my @same = grep { $_->{category} eq $b->{category} && $_ ne $b } @BRANDS;
+    my @rest = grep { $_->{category} ne $b->{category} } @BRANDS;
+    my @related = (@same, @rest)[0 .. 2];
+    my $related = join '', map { ticket_li($_, $l) } @related;
+    my $sidecats = join '', map { qq{<li><a href="} . path_for($l, '/promo-codes/') . qq{#$_"><span class="logo-tile">} . icon($CATICON{$_}) . '</span><span><b>' . esc($CATN{$_}{$l}) . '</b><small>' . ncodes($l, count_cat($_)) . '</small></span></a></li>' } @CATS;
+    my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'c_h1'), path_for($l, '/promo-codes/')], [$name, $url]];
+    my $flag = $b->{exclusive} ? '<span class="pill">' . icon('gift') . T($l, 'exclusive') . '</span>' : '';
+    my $body = <<"HTML";
+<section class="page-hero">
+<div class="wrap">
+@{[ crumbs_html($l, $crumbs) ]}
+<div class="brand-grid">
+<div class="brand-intro">
+<div class="brand-id"><span class="logo-tile">@{[ logo_img($b, $l, 88, 1) ]}</span><div class="pill-row"><span class="pill">@{[ icon($CATICON{$b->{category}}) ]}@{[ esc($CATN{$b->{category}}{$l}) ]}</span><span class="pill">@{[ icon('pin') ]}@{[ T($l, $b->{region}) ]}</span>$flag</div></div>
+<h1>@{[ Te($l, 'b_h1', name => $name) ]}</h1>
+<p class="lede">$offer</p>
+$checked
+</div>
+<div class="coupon-card">
+<div class="ticket"><div class="ticket-main">
+@{[ deal_html($b, $l) ]}
+<p class="terms">@{[ icon('info') ]}<span><strong>@{[ T($l, 'b_terms') ]}:</strong> $terms</span></p>
+</div><div class="ticket-stub">@{[ code_btn($b, $l, 1) ]}</div></div>
+@{[ $go ? qq{<div class="coupon-actions">$go</div>} : '' ]}
+</div>
+</div>
+</div>
+</section>
+<div class="scallop" aria-hidden="true"></div>
+<div class="wrap brand-body">
+<article class="prose">
+<section aria-labelledby="how-title"><h2 id="how-title">@{[ Te($l, 'b_how', name => $name) ]}</h2>
+<ol class="how">
+<li><div><b>@{[ T($l, 'b_st1') ]}</b><span>@{[ T($l, 'b_st1p', code => qq{<strong dir="ltr">$code</strong>}) ]}</span></div></li>
+<li><div><b>@{[ T($l, 'b_st2', where => $where) ]}</b><span>@{[ T($l, 'b_st2p') ]}</span></div></li>
+<li><div><b>@{[ T($l, 'b_st3') ]}</b><span>@{[ T($l, 'b_st3p') ]}</span></div></li>
+</ol></section>
+<section aria-labelledby="about-title"><h2 id="about-title">@{[ Te($l, 'b_about', name => $name) ]}</h2><p>@{[ esc($b->{about}{$l}) ]}</p></section>
+<section aria-labelledby="faq-title"><h2 id="faq-title">@{[ Te($l, 'b_faq', name => $name) ]}</h2>@{[ faq_html(@qa) ]}
+<p class="note">@{[ Te($l, 'b_note', name => $name) ]}</p></section>
+</article>
+<aside class="side">
+<div class="side-card"><h2>@{[ Te($l, 'b_side_code', name => $name) ]}</h2>@{[ code_btn($b, $l, 1) ]}</div>
+<div class="side-card"><h2>@{[ T($l, 'b_side_cats') ]}</h2><ul class="side-list">$sidecats</ul></div>
+</aside>
+</div>
+<section class="wrap section-tight" aria-labelledby="rel-title">
+<div class="section-head"><h2 class="h2" id="rel-title">@{[ T($l, 'b_related', cat => T($l, "cat_def_$b->{category}")) ]}</h2></div>
+<ul class="ticket-list">$related</ul>
+</section>
+HTML
+    layout(lang => $l, key => "/$b->{slug}/", title => $title, desc => $b->{seo}{$l}{description}, body => $body, nav => 'codes',
+      crumbs => $crumbs, og => "/img/og/$b->{key}-$l.png", about => { '@type' => 'Brand', name => $b->{name}{en}, alternateName => $b->{name}{ar} },
+      ld => [ faq_ld(@qa) ], lastmod => (($b->{lastVerified} || '') gt $DATA_DATE ? $b->{lastVerified} : $DATA_DATE));
+  }
+
+  # ---------- partners
+  {
+    my @qa = map { [T($l, "p_q$_"), T($l, "p_a$_")] } 1 .. 3;
+    my $req = ' <span class="req" aria-hidden="true">*</span>';
+    my $opts = join '', map { qq{<option value="$_->[0]">} . T($l, $_->[1]) . '</option>' } (['restaurant', 'f_restaurant'], ['cafe', 'f_cafe'], ['cloud-kitchen', 'f_cloud'], ['food-truck', 'f_truck'], ['bakery', 'f_bakery'], ['other', 'f_other']);
+    my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'p_h1'), path_for($l, '/partners/')]];
+    my $body = <<"HTML";
+<section class="page-hero">
+<div class="wrap">
+@{[ crumbs_html($l, $crumbs) ]}
+<h1>@{[ T($l, 'p_h1') ]}</h1>
+<p class="lede">@{[ T($l, 'p_lede') ]}</p>
+<p style="margin-top:24px"><a class="btn btn-ink" href="#apply">@{[ T($l, 'p_cta') ]} @{[ icon('arrow', 'flip') ]}</a></p>
+</div>
+</section>
+<div class="scallop" aria-hidden="true"></div>
+<section class="wrap section-tight" aria-labelledby="val-title">
+<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'p_v_eyebrow') ]}</p><h2 class="h2" id="val-title">@{[ T($l, 'p_v_title') ]}</h2></div></div>
+<ul class="values">
+<li><span class="ic">@{[ icon('target') ]}</span><h3>@{[ T($l, 'p_v1') ]}</h3><p>@{[ T($l, 'p_v1p') ]}</p></li>
+<li><span class="ic">@{[ icon('page') ]}</span><h3>@{[ T($l, 'p_v2') ]}</h3><p>@{[ T($l, 'p_v2p') ]}</p></li>
+<li><span class="ic">@{[ icon('sliders') ]}</span><h3>@{[ T($l, 'p_v3') ]}</h3><p>@{[ T($l, 'p_v3p') ]}</p></li>
+</ul>
+</section>
+<section class="wrap section-tight" aria-labelledby="phow-title">
+<div class="section-head"><h2 class="h2" id="phow-title">@{[ T($l, 'p_how_title') ]}</h2></div>
+<ol class="steps">
+<li class="step"><span class="num" aria-hidden="true">@{[ $l eq 'ar' ? '١' : '1' ]}</span><h3>@{[ T($l, 'p_s1') ]}</h3><p>@{[ T($l, 'p_s1p') ]}</p></li>
+<li class="step"><span class="num" aria-hidden="true">@{[ $l eq 'ar' ? '٢' : '2' ]}</span><h3>@{[ T($l, 'p_s2') ]}</h3><p>@{[ T($l, 'p_s2p') ]}</p></li>
+<li class="step"><span class="num" aria-hidden="true">@{[ $l eq 'ar' ? '٣' : '3' ]}</span><h3>@{[ T($l, 'p_s3') ]}</h3><p>@{[ T($l, 'p_s3p') ]}</p></li>
+</ol>
+</section>
+<section class="wrap section-tight" id="apply" aria-labelledby="form-title">
+<div class="form-card">
+<h2 class="h2" id="form-title">@{[ T($l, 'p_form_title') ]}</h2>
+<p class="section-sub" style="margin-bottom:24px">@{[ T($l, 'p_form_sub') ]}</p>
+<form id="vendor-application-form" novalidate>
+<div class="form-grid">
+<div class="field"><label for="f-business">@{[ T($l, 'f_business') ]}$req</label><input id="f-business" name="businessName" required autocomplete="organization"></div>
+<div class="field"><label for="f-contact">@{[ T($l, 'f_contact') ]}$req</label><input id="f-contact" name="contactPerson" required autocomplete="name" pattern="^[\\p{L}\\s\\-]+\$" aria-describedby="f-contact-hint"><span class="hint" id="f-contact-hint">@{[ T($l, 'f_contact_hint') ]}</span></div>
+<div class="field"><label for="f-phone">@{[ T($l, 'f_phone') ]}$req</label><input id="f-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel"></div>
+<div class="field"><label for="f-email">@{[ T($l, 'f_email') ]}$req</label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
+<div class="field"><label for="f-location">@{[ T($l, 'f_location') ]}$req</label><input id="f-location" name="location" required placeholder="@{[ T($l, 'f_location_ph') ]}"></div>
+<div class="field"><label for="f-type">@{[ T($l, 'f_type') ]}$req</label><select id="f-type" name="businessType" required><option value="">@{[ T($l, 'f_type_ph') ]}</option>$opts</select></div>
+<div class="field full"><label for="f-desc">@{[ T($l, 'f_desc') ]}</label><textarea id="f-desc" name="description" placeholder="@{[ T($l, 'f_desc_ph') ]}"></textarea></div>
+<div class="field full"><label for="f-web">@{[ T($l, 'f_web') ]}</label><input id="f-web" name="website" inputmode="url" autocomplete="url"></div>
+</div>
+<div class="form-foot"><button class="btn btn-ink" type="submit">@{[ T($l, 'f_submit') ]}</button><small>@{[ T($l, 'f_privacy') ]} <a href="@{[ path_for($l, '/privacy-policy/') ]}">@{[ T($l, 'privacy') ]}</a></small></div>
+<p class="form-status" id="form-status" role="status" tabindex="-1" hidden></p>
+</form>
+</div>
+</section>
+<section class="wrap section-tight two-col" aria-labelledby="pfaq-title">
+<div><p class="eyebrow">@{[ T($l, 'faq_eyebrow') ]}</p><h2 class="h2" id="pfaq-title">@{[ T($l, 'faq_title') ]}</h2></div>
+@{[ faq_html(@qa) ]}
+</section>
+HTML
+    layout(lang => $l, key => '/partners/', title => T($l, 'p_title') . ' | Foodidu', desc => T($l, 'p_desc'), body => $body, nav => 'partners',
+      crumbs => $crumbs, og => "/img/og/partners-$l.png", ld => [ faq_ld(@qa) ], fd => { formUrl => $FORM_URL });
+  }
+
+  # ---------- legal
+  for my $doc (['privacy-policy', 'privacy', 'pr'], ['terms-and-conditions', 'terms', 'te']) {
+    my ($slug, $file, $p) = @$doc;
+    my $src = "$ROOT/content/$file.$l.html";
+    my $content = slurp($src);
+    $content =~ s/\{privacy\}/path_for($l, '\/privacy-policy\/')/ge;
+    my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, "${p}_title"), path_for($l, "/$slug/")]];
+    my $body = qq{<section class="page-hero"><div class="wrap">} . crumbs_html($l, $crumbs) . '<h1>' . T($l, "${p}_title") . '</h1><p class="updated">'
+      . T($l, 'updated', date => ($l eq 'en' ? 'September 2026' : 'سبتمبر 2026')) . qq{</p></div></section><div class="scallop" aria-hidden="true"></div><div class="wrap legal">$content</div>};
+    layout(lang => $l, key => "/$slug/", title => T($l, "${p}_seo"), desc => T($l, "${p}_desc"), body => $body, crumbs => $crumbs, lastmod => mdate($src));
+  }
+}
+
+# ---------- 404 (bilingual, noindex)
+{
+  my $body = <<"HTML";
+<section class="wrap lost">
+<img src="/img/foodidu-icon.svg" alt="" width="150" height="150">
+<h1>This page went out for delivery.</h1>
+<p>We couldn't find that page. The code you're looking for is probably on our promo codes page.</p>
+<div class="row"><a class="btn btn-ink" href="/promo-codes/">Browse promo codes</a><a class="btn btn-line" href="/">Back to home</a></div>
+<div lang="ar" dir="rtl" style="margin-top:48px">
+<h2 class="h2">يبدو أن هذه الصفحة خرجت للتوصيل.</h2>
+<p>لم نجد هذه الصفحة. الكود الذي تبحث عنه موجود غالباً في صفحة أكواد الخصم.</p>
+<div class="row"><a class="btn btn-ink" href="/ar/promo-codes/">تصفّح أكواد الخصم</a><a class="btn btn-line" href="/ar/">العودة للرئيسية</a></div>
+</div>
+</section>
+HTML
+  layout(lang => 'en', key => '/404/', title => 'Page not found | Foodidu', desc => "We couldn't find that page.", body => $body, noindex => 1, nolang => 1, file => "$OUT/404.html");
+}
+
+# ------------------------------------------------------------------ sitemap, robots, manifest
+{
+  my %by;
+  push @{ $by{$_->{key}} }, $_ for @PAGES;
+  my $xml = qq{<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n};
+  for my $key (sort { ($a eq '/' ? '' : $a) cmp ($b eq '/' ? '' : $b) } keys %by) {
+    for my $p (sort { $a->{lang} cmp $b->{lang} } @{ $by{$key} }) {
+      $xml .= "<url><loc>" . absu(path_for($p->{lang}, $key)) . "</loc><lastmod>$p->{lastmod}</lastmod>";
+      $xml .= qq{<xhtml:link rel="alternate" hreflang="$_" href="} . absu(path_for($_, $key)) . '"/>' for @LANGS;
+      $xml .= qq{<xhtml:link rel="alternate" hreflang="x-default" href="} . absu(path_for('en', $key)) . qq{"/></url>\n};
+    }
+  }
+  $xml .= "</urlset>\n";
+  spit("$OUT/sitemap.xml", $xml);
+  spit("$OUT/robots.txt", "User-agent: *\nAllow: /\n\nSitemap: $SITE/sitemap.xml\n");
+  spit("$OUT/site.webmanifest", JSON::PP->new->canonical->pretty->encode({
+    name => 'Foodidu', short_name => 'Foodidu', description => 'Promo codes & discounts in Egypt and the GCC',
+    start_url => '/', scope => '/', display => 'standalone', background_color => '#FFF9EB', theme_color => '#FFD15C',
+    icons => [ { src => '/img/icon-192.png', sizes => '192x192', type => 'image/png' }, { src => '/img/icon-512.png', sizes => '512x512', type => 'image/png' },
+               { src => '/img/foodidu-icon.svg', sizes => 'any', type => 'image/svg+xml' } ] }));
+  for my $f (['favicon.ico', 'img/favicon.ico'], ['apple-touch-icon.png', 'img/apple-touch-icon.png']) {
+    my $src = "$ROOT/static/$f->[1]";
+    spit("$OUT/$f->[0]", slurp($src, 1), 1) if -f $src;
+  }
+  printf "Built %d pages (%d indexable) into public/\n", scalar(@PAGES) + 1, scalar @PAGES;
+}

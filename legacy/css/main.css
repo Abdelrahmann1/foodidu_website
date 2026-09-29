@@ -1,0 +1,145 @@
+/* Main CSS File - Imports all modular CSS files */
+
+/* Base styles and utilities */
+@import url("base.css");
+
+/* Component styles */
+@import url("navigation.css");
+@import url("hero-carousel.css");
+@import url("carousel.css");
+@import url("features.css");
+@import url("deals.css");
+@import url("promo-codes.css");
+@import url("exclusive-deals.css");
+@import url("featured-cards.css");
+@import url("vendor-cards.css");
+@import url("vendor-invitation.css");
+@import url("discovery.css");
+@import url("vendor-page.css");
+@import url("testimonials.css");
+@import url("cta-section.css");
+@import url("footer.css");
+@import url("cookie-consent.css");
+@import url("animations.css");
+@import url("vendor-logo-protection.css");
+@import url("remove-logo-backgrounds.css");
+@import url("promotional-text.css");
+@import url("dropdown-fix.css");
+
+
+/* Example selector for width and height */
+.example-class {
+  width: 300px;
+  height: 300px;
+}
+
+/* OVERRIDE: Set white backgrounds for vendor logo containers with images */
+.promo-logo:has(img),
+.promo-card .promo-header .promo-logo:has(img),
+div.promo-logo:has(img) {
+  background: white !important;
+  background-color: white !important;
+  background-image: none !important;
+  padding: 8px !important;
+  border-radius: 8px !important;
+}
+
+/* For promo-logo containers without images, use green gradient and show text */
+.promo-logo:not(:has(img)),
+.promo-card .promo-header .promo-logo:not(:has(img)),
+div.promo-logo:not(:has(img)) {
+  background: linear-gradient(135deg, #7EB143, #6BA037) !important;
+  color: white !important;
+  font-weight: bold !important;
+  font-size: 1.2rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* EXCLUSIVE DEALS: Force white backgrounds for exclusive logos */
+.exclusive-logo img,
+.exclusive-banner .exclusive-logo img,
+.rabbit-banner .exclusive-logo img,
+.senem-banner .exclusive-logo img {
+  background: white !important;
+  background-color: white !important;
+  padding: 12px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  border: none !important;
+}
+
+/* VENDOR BUTTONS: Force green background and white text */
+.vendor-btn,
+.vendor-btn.secondary,
+button.vendor-btn,
+button.vendor-btn.secondary {
+  background: #7EB143 !important;
+  background-color: #7EB143 !important;
+  color: white !important;
+  border: 2px solid #7EB143 !important;
+}
+
+.vendor-btn:hover,
+.vendor-btn.secondary:hover,
+button.vendor-btn:hover,
+button.vendor-btn.secondary:hover {
+  background: #6BA037 !important;
+  background-color: #6BA037 !important;
+  color: white !important;
+  border-color: #6BA037 !important;
+}
+
+/* ENSURE HOME COMPONENTS ARE ALWAYS VISIBLE */
+#home.active .hot-promos,
+#home.active .exclusive-deals,
+#home.active .features,
+#home.active .hero-carousel {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Trending Promo Codes Section - Always Visible on Home */
+.hot-promos {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+#home-components .hot-promos {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* FORCE ALL HOME COMPONENTS TO BE VISIBLE */
+#home-components > section,
+#home-components .exclusive-deals,
+#home-components .hot-promos,
+#home-components .features,
+#home-components .how-it-works,
+#home-components .vendor-invitation,
+#home-components .app-screenshots,
+#home-components .testimonials,
+#home-components .cta-section {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  position: relative !important;
+}
+
+/* Ensure home components container is always visible */
+#home-components {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Make sure home page is visible when active */
+#home.active {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}

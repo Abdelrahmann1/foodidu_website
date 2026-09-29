@@ -1,0 +1,93 @@
+<!-- Discovery Page Component -->
+<div id="discover" class="page">
+  <section class="search-section">
+    <div class="container">
+      <h1>Discover Amazing Places</h1>
+      <div class="search-bar">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Find food, café, or restaurant..."
+          id="search-input"
+        />
+        <button class="search-btn" onclick="searchRestaurants()">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      <div class="category-filters">
+        <div
+          class="category-chip active"
+          onclick="filterCategory(this, 'all')"
+        >
+          All
+        </div>
+        <div
+          class="category-chip"
+          onclick="filterCategory(this, 'fast-food')"
+        >
+          Fast Food
+        </div>
+        <div
+          class="category-chip"
+          onclick="filterCategory(this, 'local-gems')"
+        >
+          Local Gems
+        </div>
+        <div class="category-chip" onclick="filterCategory(this, 'coffee')">
+          Coffee
+        </div>
+        <div
+          class="category-chip"
+          onclick="filterCategory(this, 'dessert')"
+        >
+          Dessert
+        </div>
+        <div
+          class="category-chip"
+          onclick="filterCategory(this, 'healthy')"
+        >
+          Healthy
+        </div>
+        <div
+          class="category-chip"
+          onclick="filterCategory(this, 'fine-dining')"
+        >
+          Fine Dining
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hidden Gems Carousel -->
+  <section class="hidden-gems">
+    <div class="container">
+      <h2 class="section-title">Hidden Gems of the Week</h2>
+      <div class="gems-carousel">
+        <div class="gem-card">
+          <div class="gem-image">🏮</div>
+          <h3>Secret Ramen Bar</h3>
+          <p>Authentic Japanese ramen in a hidden alley</p>
+          <div class="gem-rating">★★★★★ 4.9</div>
+        </div>
+        <div class="gem-card">
+          <div class="gem-image">🌮</div>
+          <h3>Abuela's Kitchen</h3>
+          <p>Family recipes passed down for generations</p>
+          <div class="gem-rating">★★★★★ 4.8</div>
+        </div>
+        <div class="gem-card">
+          <div class="gem-image">🧁</div>
+          <h3>Midnight Bakery</h3>
+          <p>Fresh pastries baked at 3 AM daily</p>
+          <div class="gem-rating">★★★★★ 4.7</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="restaurants-grid" id="restaurants-grid">
+      <!-- Restaurants will be populated by JavaScript -->
+    </div>
+  </section>
+</div>

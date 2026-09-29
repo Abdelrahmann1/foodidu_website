@@ -1,0 +1,504 @@
+/* Featured Promo Cards Styling */
+
+/* Featured Rabbit Promo Card Styling */
+.rabbit-featured-card {
+    position: relative;
+    background: linear-gradient(135deg, #ffe082 0%, #ffcc02 100%);
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(255, 204, 2, 0.4);
+    overflow: hidden;
+}
+
+.rabbit-featured-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    animation: rabbitCardShimmer 3s infinite;
+    pointer-events: none;
+}
+
+@keyframes rabbitCardShimmer {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.featured-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #dc2626;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 0 15px 0 15px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    z-index: 3;
+    animation: badgePulse 2s infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.rabbit-featured-card .promo-header {
+    position: relative;
+    z-index: 2;
+}
+
+.rabbit-featured-card .promo-logo {
+    background: white !important;
+    border-radius: 15px !important;
+    padding: 10px !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.rabbit-featured-card .vendor-logo {
+    border-radius: 10px;
+}
+
+.rabbit-featured-card .promo-brand {
+    color: #1a202c;
+    font-weight: 800;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.rabbit-featured-card .promo-code-section {
+    position: relative;
+    z-index: 2;
+}
+
+.rabbit-featured-card .promo-discount {
+    color: #1a202c;
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.rabbit-featured-card .promo-code {
+    background: white;
+    color: #1a202c;
+    font-weight: 900;
+    text-shadow: none;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.rabbit-featured-card .promo-description,
+.rabbit-featured-card .promo-expiry {
+    color: #1a202c;
+    font-weight: 600;
+}
+
+.rabbit-copy-btn {
+    background: #7EB143 !important;
+    color: white !important;
+    font-weight: 700;
+    border: 2px solid #7EB143;
+    position: relative;
+    z-index: 2;
+}
+
+.rabbit-copy-btn:hover {
+    background: #6BA037 !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(126, 177, 67, 0.3);
+}
+
+.featured-cta {
+    margin-top: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.view-details-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #7EB143;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.view-details-btn:hover {
+    background: #6BA037;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(126, 177, 67, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+/* Featured Senem Promo Card Styling */
+.senem-featured-card {
+    position: relative;
+    background: linear-gradient(135deg, #fef3c7 0%, #eab308 100%);
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(234, 179, 8, 0.4);
+    overflow: hidden;
+}
+
+.senem-featured-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    animation: senemCardShimmer 3s infinite;
+    pointer-events: none;
+}
+
+@keyframes senemCardShimmer {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.senem-featured-card .promo-header {
+    position: relative;
+    z-index: 2;
+}
+
+.senem-featured-card .promo-logo {
+    background: white !important;
+    border-radius: 15px !important;
+    padding: 10px !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.senem-featured-card .vendor-logo {
+    border-radius: 10px;
+}
+
+.senem-featured-card .promo-brand {
+    color: #1a202c;
+    font-weight: 900;
+    text-shadow: none;
+}
+
+.senem-featured-card .promo-code-section {
+    position: relative;
+    z-index: 2;
+}
+
+.senem-featured-card .promo-discount {
+    color: #1a202c;
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.senem-featured-card .promo-code {
+    background: white;
+    color: #1a202c;
+    font-weight: 900;
+    text-shadow: none;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    border: 2px dashed #eab308;
+}
+
+.senem-featured-card .promo-description,
+.senem-featured-card .promo-expiry {
+    color: #1a202c;
+    font-weight: 600;
+}
+
+.senem-copy-btn {
+    background: #7EB143 !important;
+    color: white !important;
+    font-weight: 700;
+    border: 2px solid #7EB143;
+    position: relative;
+    z-index: 2;
+}
+
+.senem-copy-btn:hover {
+    background: #6BA037 !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(126, 177, 67, 0.3);
+}
+
+.senem-featured-card .view-details-btn {
+    background: #7EB143;
+    color: white;
+}
+
+.senem-featured-card .view-details-btn:hover {
+    background: #6BA037;
+    color: white;
+}
+
+/* Featured Noon Promo Card Styling */
+.noon-featured-card {
+    position: relative;
+    background: linear-gradient(135deg, #ffe082 0%, #ffcc02 100%);
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(255, 204, 2, 0.4);
+    overflow: hidden;
+}
+
+.noon-featured-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    animation: noonCardShimmer 3s infinite;
+    pointer-events: none;
+}
+
+@keyframes noonCardShimmer {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.noon-featured-card .promo-header {
+    position: relative;
+    z-index: 2;
+}
+
+.noon-featured-card .promo-logo {
+    background: white !important;
+    border-radius: 15px !important;
+    padding: 10px !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.noon-featured-card .vendor-logo {
+    border-radius: 10px;
+}
+
+.noon-featured-card .promo-brand {
+    color: #1a202c;
+    font-weight: 900;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.noon-featured-card .promo-code-section {
+    position: relative;
+    z-index: 2;
+}
+
+.noon-featured-card .promo-discount {
+    color: #1a202c;
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.noon-featured-card .promo-code {
+    background: white;
+    color: #1a202c;
+    font-weight: 900;
+    text-shadow: none;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.noon-featured-card .promo-description,
+.noon-featured-card .promo-expiry {
+    color: #1a202c;
+    font-weight: 600;
+}
+
+.noon-copy-btn {
+    background: #7EB143 !important;
+    color: white !important;
+    font-weight: 700;
+    border: 2px solid #7EB143;
+    position: relative;
+    z-index: 2;
+}
+
+.noon-copy-btn:hover {
+    background: #6BA037 !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(126, 177, 67, 0.3);
+}
+
+.noon-featured-card .view-details-btn {
+    background: #7EB143;
+    color: white;
+}
+
+.noon-featured-card .view-details-btn:hover {
+    background: #6BA037;
+    color: white;
+}
+
+/* Featured Noon Egypt Promo Card Styling - EXACT COPY OF NOON GCC */
+.noon-egypt-featured-card {
+    position: relative;
+    background: linear-gradient(135deg, #ffe082 0%, #ffcc02 100%);
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(255, 204, 2, 0.4);
+    overflow: hidden;
+}
+
+.noon-egypt-featured-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    animation: noonEgyptCardShimmer 3s infinite;
+    pointer-events: none;
+}
+
+@keyframes noonEgyptCardShimmer {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.noon-egypt-featured-card .promo-header {
+    position: relative;
+    z-index: 2;
+}
+
+.noon-egypt-featured-card .promo-logo {
+    background: white !important;
+    border-radius: 15px !important;
+    padding: 10px !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.noon-egypt-featured-card .vendor-logo {
+    border-radius: 10px;
+}
+
+.noon-egypt-featured-card .promo-brand {
+    color: #1a202c;
+    font-weight: 900;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.noon-egypt-featured-card .promo-code-section {
+    position: relative;
+    z-index: 2;
+}
+
+.noon-egypt-featured-card .promo-discount {
+    color: #1a202c;
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.noon-egypt-featured-card .promo-code {
+    background: white;
+    color: #1a202c;
+    font-weight: 900;
+    text-shadow: none;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.noon-egypt-featured-card .promo-description,
+.noon-egypt-featured-card .promo-expiry {
+    color: #1a202c;
+    font-weight: 600;
+}
+
+.noon-egypt-copy-btn {
+    background: #7EB143 !important;
+    color: white !important;
+    font-weight: 700;
+    border: 2px solid #7EB143;
+    position: relative;
+    z-index: 2;
+}
+
+.noon-egypt-copy-btn:hover {
+    background: #6BA037 !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(126, 177, 67, 0.3);
+}
+
+.noon-egypt-featured-card .view-details-btn {
+    background: #7EB143;
+    color: white;
+}
+
+.noon-egypt-featured-card .view-details-btn:hover {
+    background: #6BA037;
+    color: white;
+}
+
+/* Ensure Featured Cards Have Same Size */
+.rabbit-featured-card,
+.senem-featured-card,
+.noon-featured-card,
+.noon-egypt-featured-card {
+    min-height: 400px;
+    max-width: 350px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.rabbit-featured-card .promo-code-section,
+.senem-featured-card .promo-code-section,
+.noon-featured-card .promo-code-section,
+.noon-egypt-featured-card .promo-code-section {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rabbit-featured-card .featured-cta,
+.senem-featured-card .featured-cta,
+.noon-featured-card .featured-cta,
+.noon-egypt-featured-card .featured-cta {
+    margin-top: auto;
+    padding-top: 15px;
+}
+
+/* Badge and Logo Styling */
+.badge-logo {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    margin-right: 5px;
+    vertical-align: middle;
+    background: white !important;
+    border-radius: 4px !important;
+    padding: 2px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.inline-rabbit-logo {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* Mobile adjustments for featured cards */
+@media (max-width: 768px) {
+    .rabbit-featured-card,
+    .senem-featured-card,
+    .noon-featured-card,
+    .noon-egypt-featured-card {
+        transform: scale(1);
+        margin-bottom: 20px;
+        min-height: 350px;
+        max-width: 100%;
+    }
+}

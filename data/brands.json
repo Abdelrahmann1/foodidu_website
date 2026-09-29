@@ -1,0 +1,311 @@
+{
+  "_help": "Edit codes and offers here, then run: perl tools/build.pl. Set lastVerified (YYYY-MM-DD) when you personally re-check a code; the page title then shows the month for 45 days, which lifts clicks from Google.",
+  "categories": {
+    "restaurants": { "en": "Restaurants", "ar": "مطاعم" },
+    "groceries": { "en": "Groceries", "ar": "بقالة" },
+    "shopping": { "en": "Online shopping", "ar": "تسوق أونلاين" }
+  },
+  "brands": [
+    {
+      "key": "rabbit",
+      "slug": "Rabbit-PromoCode",
+      "name": { "en": "Rabbit", "ar": "رابيت" },
+      "logo": "rabbit.webp",
+      "code": "RabbitFood4",
+      "category": "groceries",
+      "region": "eg",
+      "exclusive": true,
+      "featured": true,
+      "url": "",
+      "lastVerified": "",
+      "badge": { "en": ["30%", "off"], "ar": ["30%", "خصم"] },
+      "offer": { "en": "30% off your first order, up to 150 EGP", "ar": "خصم 30% على أول طلب بحد أقصى 150 جنيه" },
+      "terms": { "en": "For your first order on Rabbit. The maximum discount is 150 EGP.", "ar": "على أول طلب من رابيت. أقصى قيمة للخصم 150 جنيه." },
+      "where": { "en": "the Rabbit app", "ar": "تطبيق رابيت" },
+      "about": {
+        "en": "Rabbit is a quick-commerce app in Egypt that delivers groceries and everyday essentials to your door in minutes. New customers can use this code to take 30% off their first basket.",
+        "ar": "رابيت تطبيق توصيل سريع في مصر يوصّل البقالة واحتياجات البيت اليومية إلى باب منزلك في دقائق. يمكن للعملاء الجدد استخدام هذا الكود للحصول على خصم 30% على أول طلب."
+      },
+      "seo": {
+        "en": { "title": "Rabbit Promo Code: 30% Off Your First Order in Egypt", "description": "Rabbit promo code RabbitFood4: 30% off your first order on Rabbit, up to 150 EGP. Copy the code and save on fast grocery delivery in Egypt." },
+        "ar": { "title": "كود خصم رابيت: خصم 30% على أول طلب حتى 150 جنيه", "description": "كود خصم رابيت RabbitFood4: خصم 30% على أول طلب من رابيت بحد أقصى 150 جنيه. انسخ الكود ووفّر على توصيل البقالة السريع في مصر." }
+      }
+    },
+    {
+      "key": "senem",
+      "slug": "Senem-PromoCode",
+      "name": { "en": "Senem", "ar": "سنيم" },
+      "logo": "senem.webp",
+      "code": "FOODIDU10",
+      "category": "groceries",
+      "region": "eg",
+      "exclusive": true,
+      "featured": true,
+      "url": "https://www.senem-eg.com/discount/FOODIDU10",
+      "urlLabel": { "en": "Open the discount link", "ar": "افتح رابط الخصم" },
+      "lastVerified": "",
+      "badge": { "en": ["10%", "off"], "ar": ["10%", "خصم"] },
+      "offer": { "en": "10% off premium groceries", "ar": "خصم 10% على البقالة المميزة" },
+      "terms": { "en": "10% off your order on Senem. The discount link applies the code for you.", "ar": "خصم 10% على طلبك من سنيم. رابط الخصم يطبّق الكود تلقائياً." },
+      "where": { "en": "the Senem website", "ar": "موقع سنيم" },
+      "about": {
+        "en": "Senem is an online premium grocery store in Egypt. Copy the Foodidu code for 10% off, or open the discount link and the code is applied to your cart automatically.",
+        "ar": "سنيم متجر بقالة مميزة أونلاين في مصر. انسخ كود Foodidu للحصول على خصم 10%، أو افتح رابط الخصم ليتم تطبيق الكود على سلتك تلقائياً."
+      },
+      "seo": {
+        "en": { "title": "Senem Promo Code: 10% Off Premium Groceries in Egypt", "description": "Senem discount code FOODIDU10 gives you 10% off premium groceries in Egypt. Copy the code or use the direct discount link." },
+        "ar": { "title": "كود خصم سنيم: خصم 10% على البقالة المميزة", "description": "كود خصم سنيم FOODIDU10 يمنحك خصم 10% على البقالة المميزة في مصر. انسخ الكود أو استخدم رابط الخصم المباشر." }
+      }
+    },
+    {
+      "key": "noon",
+      "slug": "Noon-PromoCode",
+      "name": { "en": "noon", "ar": "نون" },
+      "logo": "noon.webp",
+      "code": "FFR55",
+      "category": "shopping",
+      "region": "gcc",
+      "exclusive": true,
+      "featured": true,
+      "url": "https://www.noon.com/",
+      "lastVerified": "",
+      "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
+      "offer": { "en": "15% off your first order across the GCC", "ar": "خصم 15% على أول طلب في دول الخليج" },
+      "terms": { "en": "15% off your first order on noon in the GCC.", "ar": "خصم 15% على أول طلب من نون في دول الخليج." },
+      "where": { "en": "the noon app or noon.com", "ar": "تطبيق نون أو موقع noon.com" },
+      "about": {
+        "en": "noon is one of the largest online shopping platforms in the Middle East, selling electronics, fashion, beauty, home goods and groceries. Use this code for 15% off your first noon order in the GCC.",
+        "ar": "نون من أكبر منصات التسوق أونلاين في الشرق الأوسط، وتبيع الإلكترونيات والأزياء ومنتجات التجميل والمنزل والبقالة. استخدم هذا الكود للحصول على خصم 15% على أول طلب من نون في دول الخليج."
+      },
+      "seo": {
+        "en": { "title": "noon Promo Code GCC: 15% Off Your First Order", "description": "noon promo code FFR55: 15% off your first order on noon across the GCC. Copy the code and apply it at checkout on the app or noon.com." },
+        "ar": { "title": "كود خصم نون الخليج والسعودية: 15% على أول طلب", "description": "كود خصم نون FFR55: خصم 15% على أول طلب من نون في دول الخليج ومنها السعودية. انسخ الكود واستخدمه عند الدفع في التطبيق أو الموقع." }
+      }
+    },
+    {
+      "key": "noon-egypt",
+      "slug": "Noon-EG-PromoCode",
+      "name": { "en": "noon Egypt", "ar": "نون مصر" },
+      "logo": "noon.webp",
+      "code": "WK32",
+      "category": "shopping",
+      "region": "eg",
+      "exclusive": true,
+      "featured": true,
+      "url": "https://www.noon.com/egypt-en/",
+      "lastVerified": "",
+      "badge": { "en": ["5–7%", "off"], "ar": ["5–7%", "خصم"] },
+      "offer": { "en": "5–7% off your orders in Egypt", "ar": "خصم من 5 إلى 7% على طلباتك في مصر" },
+      "terms": { "en": "5–7% off orders on noon Egypt.", "ar": "خصم من 5 إلى 7% على الطلبات من نون مصر." },
+      "where": { "en": "the noon app or noon.com", "ar": "تطبيق نون أو موقع noon.com" },
+      "about": {
+        "en": "Shopping on noon in Egypt? This code takes 5–7% off your orders across categories such as electronics, fashion, beauty and home.",
+        "ar": "بتتسوق من نون في مصر؟ هذا الكود يمنحك خصم من 5 إلى 7% على طلباتك في أقسام مثل الإلكترونيات والأزياء والتجميل والمنزل."
+      },
+      "seo": {
+        "en": { "title": "noon Egypt Promo Code: 5–7% Off Your Orders", "description": "noon Egypt promo code WK32 gives you 5–7% off your orders on noon Egypt: electronics, fashion, beauty, home and more. Copy the code and save." },
+        "ar": { "title": "كود خصم نون مصر: خصم من 5 إلى 7% على طلباتك", "description": "كود خصم نون مصر WK32 يمنحك خصم من 5 إلى 7% على طلباتك من نون مصر: إلكترونيات وأزياء وتجميل ومنزل وأكثر. انسخ الكود ووفّر." }
+      }
+    },
+    {
+      "key": "pizza-hut",
+      "slug": "Pizza-Hut-PromoCode",
+      "name": { "en": "Pizza Hut", "ar": "بيتزا هت" },
+      "logo": "pizza-hut.webp",
+      "code": "NEW40",
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": true,
+      "url": "",
+      "lastVerified": "",
+      "badge": { "en": ["40%", "off"], "ar": ["40%", "خصم"] },
+      "offer": { "en": "40% off your first order on the app", "ar": "خصم 40% على أول طلب من التطبيق" },
+      "terms": { "en": "For your first order on the Pizza Hut app.", "ar": "على أول طلب من تطبيق بيتزا هت." },
+      "where": { "en": "the Pizza Hut app", "ar": "تطبيق بيتزا هت" },
+      "about": {
+        "en": "Pizza Hut is the international pizza chain known for its pan pizzas, sides and desserts, with delivery and takeaway across Egypt. This code is for your first order through the Pizza Hut app.",
+        "ar": "بيتزا هت سلسلة البيتزا العالمية المعروفة بالبان بيتزا والمقبلات والحلويات، وتتوفر للتوصيل والاستلام في أنحاء مصر. هذا الكود لأول طلب من تطبيق بيتزا هت."
+      },
+      "seo": {
+        "en": { "title": "Pizza Hut Promo Code Egypt: 40% Off First App Order", "description": "Pizza Hut promo code NEW40 gives you 40% off your first order on the Pizza Hut app in Egypt. Copy the code and check the conditions before you order." },
+        "ar": { "title": "كود خصم بيتزا هت مصر: خصم 40% على أول طلب", "description": "كود خصم بيتزا هت NEW40 يمنحك خصم 40% على أول طلب من تطبيق بيتزا هت في مصر. انسخ الكود واطّلع على الشروط قبل الطلب." }
+      }
+    },
+    {
+      "key": "kfc",
+      "slug": "KFC-PromoCode",
+      "name": { "en": "KFC", "ar": "كنتاكي" },
+      "logo": "kfc.webp",
+      "code": "NEW25",
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": true,
+      "url": "",
+      "lastVerified": "",
+      "badge": { "en": ["25%", "off"], "ar": ["25%", "خصم"] },
+      "offer": { "en": "25% off your first 3 orders", "ar": "خصم 25% على أول 3 طلبات" },
+      "terms": { "en": "Valid on your first 3 orders. Not valid with the special Tuesday offers.", "ar": "صالح على أول 3 طلبات. لا يُستخدم مع عروض يوم الثلاثاء الخاصة." },
+      "where": { "en": "the KFC Egypt app or website", "ar": "تطبيق أو موقع كنتاكي مصر" },
+      "about": {
+        "en": "KFC is the international fried-chicken chain known for its Original Recipe, with branches and delivery all over Egypt. Use this code on your first three online orders.",
+        "ar": "كنتاكي سلسلة مطاعم الدجاج المقلي العالمية المعروفة بخلطتها الأصلية، ولها فروع وخدمة توصيل في كل أنحاء مصر. استخدم هذا الكود على أول ثلاثة طلبات أونلاين."
+      },
+      "seo": {
+        "en": { "title": "KFC Egypt Promo Code: 25% Off Your First 3 Orders", "description": "Use KFC promo code NEW25 to get 25% off your first 3 orders in Egypt. Copy the code, see the conditions and learn how to apply it at checkout." },
+        "ar": { "title": "كود خصم كنتاكي مصر: خصم 25% على أول 3 طلبات", "description": "استخدم كود خصم كنتاكي NEW25 واحصل على خصم 25% على أول 3 طلبات في مصر. انسخ الكود واعرف الشروط وطريقة استخدامه عند الدفع." }
+      }
+    },
+    {
+      "key": "breadfast",
+      "slug": "BreadFast-PromoCode",
+      "name": { "en": "Breadfast", "ar": "بريدفاست" },
+      "logo": "breadfast.webp",
+      "code": "SMR",
+      "category": "groceries",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "",
+      "lastVerified": "",
+      "badge": { "en": ["Free", "delivery"], "ar": ["مجاناً", "توصيل"] },
+      "offer": { "en": "Free delivery on your first order above 350 EGP", "ar": "توصيل مجاني على أول طلب فوق 350 جنيه" },
+      "terms": { "en": "Free delivery on your first order above 350 EGP.", "ar": "توصيل مجاني على أول طلب بقيمة أكثر من 350 جنيه." },
+      "where": { "en": "the Breadfast app", "ar": "تطبيق بريدفاست" },
+      "about": {
+        "en": "Breadfast is an Egyptian app that delivers groceries, fresh bakery and everyday essentials to your door. Use the code for free delivery on your first order above 350 EGP.",
+        "ar": "بريدفاست تطبيق مصري يوصّل البقالة والمخبوزات الطازجة واحتياجات البيت حتى باب منزلك. استخدم الكود للحصول على توصيل مجاني على أول طلب بقيمة أكثر من 350 جنيه."
+      },
+      "seo": {
+        "en": { "title": "Breadfast Promo Code: Free Delivery on Your First Order", "description": "Breadfast promo code SMR: free delivery on your first order above 350 EGP. Copy the code for groceries and fresh bakery delivery in Egypt." },
+        "ar": { "title": "كود خصم بريدفاست: توصيل مجاني على أول طلب", "description": "كود بريدفاست SMR: توصيل مجاني على أول طلب بقيمة أكثر من 350 جنيه. انسخ الكود واطلب البقالة والمخبوزات الطازجة في مصر." }
+      }
+    },
+    {
+      "key": "abu-auf",
+      "slug": "Abu-Auf-PromoCode",
+      "name": { "en": "Abu Auf", "ar": "أبو عوف" },
+      "logo": "abu-auf.webp",
+      "code": "ABUAUF20",
+      "category": "groceries",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "",
+      "lastVerified": "",
+      "badge": { "en": ["20%", "off"], "ar": ["20%", "خصم"] },
+      "offer": { "en": "20% off your first order", "ar": "خصم 20% على أول طلب" },
+      "terms": { "en": "20% off your first order.", "ar": "خصم 20% على أول طلب." },
+      "where": { "en": "the Abu Auf website or app", "ar": "موقع أو تطبيق أبو عوف" },
+      "about": {
+        "en": "Abu Auf is a well-known Egyptian brand for nuts, dried fruits, coffee and healthy snacks. Use this code for 20% off your first online order.",
+        "ar": "أبو عوف علامة مصرية معروفة للمكسرات والفواكه المجففة والبن والسناكس الصحية. استخدم هذا الكود للحصول على خصم 20% على أول طلب أونلاين."
+      },
+      "seo": {
+        "en": { "title": "Abu Auf Promo Code: 20% Off Your First Order", "description": "Abu Auf promo code ABUAUF20: 20% off your first order of nuts, dried fruits, coffee and healthy snacks in Egypt. Copy the code and save." },
+        "ar": { "title": "كود خصم أبو عوف: خصم 20% على أول طلب", "description": "كود خصم أبو عوف ABUAUF20: خصم 20% على أول طلب من المكسرات والفواكه المجففة والبن والسناكس الصحية في مصر. انسخ الكود ووفّر." }
+      }
+    },
+    {
+      "key": "just-smash",
+      "slug": "Just-Smash-Burger-PromoCode",
+      "name": { "en": "Just Smash Burger", "ar": "جست سماش برجر" },
+      "logo": "just-smash.webp",
+      "code": "AUTO10",
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "",
+      "lastVerified": "",
+      "badge": { "en": ["10%", "cashback"], "ar": ["10%", "كاش باك"] },
+      "offer": { "en": "10% cashback on every order", "ar": "كاش باك 10% على كل طلب" },
+      "terms": { "en": "10% cashback on all orders from the website or app.", "ar": "كاش باك 10% على كل الطلبات من الموقع أو التطبيق." },
+      "where": { "en": "the Just Smash website or app", "ar": "موقع أو تطبيق جست سماش" },
+      "about": {
+        "en": "Just Smash is a smash-burger restaurant in Egypt. Order through its website or app with this code and get 10% cashback on your orders.",
+        "ar": "جست سماش مطعم سماش برجر في مصر. اطلب من الموقع أو التطبيق بهذا الكود واحصل على كاش باك 10% على طلباتك."
+      },
+      "seo": {
+        "en": { "title": "Just Smash Burger Promo Code: 10% Cashback", "description": "Just Smash Burger code AUTO10: 10% cashback on orders from the Just Smash website or app in Egypt. Copy the code and enjoy your burger for less." },
+        "ar": { "title": "كود خصم جست سماش برجر: كاش باك 10%", "description": "كود جست سماش برجر AUTO10: كاش باك 10% على الطلبات من موقع أو تطبيق جست سماش في مصر. انسخ الكود واستمتع بالبرجر بسعر أقل." }
+      }
+    },
+    {
+      "key": "butchers-burger",
+      "slug": "Butchers-Burger-PromoCode",
+      "name": { "en": "Butcher's Burger", "ar": "بوتشرز برجر" },
+      "logo": "butchers-burger.webp",
+      "code": "WELCOME200",
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "",
+      "lastVerified": "",
+      "badge": { "en": ["200", "EGP gift"], "ar": ["200 جنيه", "هدية"] },
+      "offer": { "en": "200 EGP welcome gift on your online order", "ar": "هدية ترحيب 200 جنيه على طلبك أونلاين" },
+      "terms": { "en": "A 200 EGP welcome gift on your online order.", "ar": "هدية ترحيب بقيمة 200 جنيه على طلبك أونلاين." },
+      "where": { "en": "Butcher's Burger online ordering", "ar": "الطلب أونلاين من بوتشرز برجر" },
+      "about": {
+        "en": "Butcher's Burger is a burger restaurant in Egypt serving grilled beef burgers. New online customers get a 200 EGP welcome gift with this code.",
+        "ar": "بوتشرز برجر مطعم برجر في مصر يقدّم برجر اللحم المشوي. العملاء الجدد أونلاين يحصلون على هدية ترحيب بقيمة 200 جنيه بهذا الكود."
+      },
+      "seo": {
+        "en": { "title": "Butcher's Burger Promo Code: 200 EGP Welcome Gift", "description": "Butcher's Burger code WELCOME200 gets you a 200 EGP welcome gift on your online order in Egypt. Copy the code and check the conditions." },
+        "ar": { "title": "كود خصم بوتشرز برجر: هدية ترحيب 200 جنيه", "description": "كود بوتشرز برجر WELCOME200: هدية ترحيب بقيمة 200 جنيه على طلبك أونلاين في مصر. انسخ الكود واطّلع على الشروط." }
+      }
+    },
+    {
+      "key": "mini-beirut",
+      "slug": "Mini-Beirut-PromoCode",
+      "name": { "en": "Mini Beirut", "ar": "ميني بيروت" },
+      "logo": "mini-beirut.webp",
+      "code": "AUTO15",
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "",
+      "lastVerified": "",
+      "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
+      "offer": { "en": "15% off when you order on the website", "ar": "خصم 15% عند الطلب من الموقع" },
+      "terms": { "en": "15% off when you order directly from the Mini Beirut website.", "ar": "خصم 15% عند الطلب مباشرة من موقع ميني بيروت." },
+      "where": { "en": "the Mini Beirut website", "ar": "موقع ميني بيروت" },
+      "about": {
+        "en": "Mini Beirut serves Lebanese food in Egypt, from mezze to main dishes. Order directly from its website with this code to get 15% off.",
+        "ar": "ميني بيروت يقدّم الأكل اللبناني في مصر، من المزّة إلى الأطباق الرئيسية. اطلب مباشرة من موقعه بهذا الكود واحصل على خصم 15%."
+      },
+      "seo": {
+        "en": { "title": "Mini Beirut Promo Code: 15% Off Website Orders", "description": "Mini Beirut code AUTO15: 15% off when you order directly from the Mini Beirut website in Egypt. Copy the code and enjoy Lebanese food for less." },
+        "ar": { "title": "كود خصم ميني بيروت: خصم 15% على طلبات الموقع", "description": "كود ميني بيروت AUTO15: خصم 15% عند الطلب مباشرة من موقع ميني بيروت في مصر. انسخ الكود واستمتع بالأكل اللبناني بسعر أقل." }
+      }
+    },
+    {
+      "key": "my-buffalo",
+      "slug": "My-Buffalo-PromoCode",
+      "name": { "en": "My Buffalo", "ar": "ماي بافلو" },
+      "logo": "my-buffalo.webp",
+      "code": "APPONLY",
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "",
+      "lastVerified": "",
+      "badge": { "en": ["App", "exclusive"], "ar": ["حصرية", "عروض"] },
+      "offer": { "en": "Exclusive deals in the My Buffalo app", "ar": "عروض حصرية على تطبيق ماي بافلو" },
+      "terms": { "en": "Download the My Buffalo app for app-only deals and offers.", "ar": "حمّل تطبيق ماي بافلو للحصول على عروض وخصومات حصرية للتطبيق." },
+      "where": { "en": "the My Buffalo app", "ar": "تطبيق ماي بافلو" },
+      "about": {
+        "en": "My Buffalo is a restaurant in Egypt known for buffalo wings and American-style food. Its best offers live inside the My Buffalo app, so download it to unlock the app-only deals.",
+        "ar": "ماي بافلو مطعم في مصر معروف بأجنحة البافلو والأكل الأمريكي. أفضل عروضه موجودة داخل تطبيق ماي بافلو، فحمّل التطبيق لتحصل على العروض الحصرية."
+      },
+      "seo": {
+        "en": { "title": "My Buffalo Promo Code: App-Exclusive Deals in Egypt", "description": "My Buffalo code APPONLY: download the My Buffalo app in Egypt to unlock app-only deals and offers. See how to use it step by step." },
+        "ar": { "title": "كود ماي بافلو: عروض حصرية على التطبيق", "description": "كود ماي بافلو APPONLY: حمّل تطبيق ماي بافلو في مصر للحصول على عروض وخصومات حصرية للتطبيق. اعرف طريقة الاستخدام خطوة بخطوة." }
+      }
+    }
+  ]
+}

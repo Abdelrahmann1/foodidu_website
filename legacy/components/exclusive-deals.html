@@ -1,0 +1,156 @@
+<!-- Exclusive Deals Component -->
+<section class="exclusive-deals">
+  <!-- Exclusive Carousel Navigation - positioned outside container -->
+  <div class="exclusive-nav">
+    <button class="exclusive-btn-nav prev" onclick="changeExclusiveSlide(-1)">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="exclusive-btn-nav next" onclick="changeExclusiveSlide(1)">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+  
+  <div class="container">
+    <div class="exclusive-carousel">
+      <!-- Rabbit Exclusive Deal -->
+      <div class="exclusive-slide active" data-slide="0">
+        <div class="exclusive-banner rabbit-banner">
+          <div class="exclusive-content">
+            <div class="exclusive-logo">
+              <img src="images/Rabbit.png" alt="Rabbit Logo" />
+            </div>
+            <div class="exclusive-info">
+              <h3>
+                <img
+                  src="images/rabbitt.jpeg"
+                  alt="Rabbit"
+                  class="inline-logo"
+                />
+                Exclusive Rabbit Deal!
+              </h3>
+              <p>Get <strong>30% OFF upto 150 EGP</strong> on your first order on Rabbit</p>
+              <div class="exclusive-code">
+                <span class="code">RabbitFood4</span>
+                <button class="quick-copy" onclick="copyExclusiveCode('RabbitFood4', 'rabbit', event)">
+                  Copy
+                </button>
+              </div>
+            </div>
+            <div class="exclusive-cta">
+              <a href="Rabbit-PromoCode/index.html" class="exclusive-btn">
+                Get Full Details <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Senem Exclusive Deal -->
+      <div class="exclusive-slide" data-slide="1">
+        <div class="exclusive-banner senem-banner">
+          <div class="exclusive-content">
+            <div class="exclusive-logo">
+              <img src="images/senem.webp" alt="Senem Logo" />
+            </div>
+            <div class="exclusive-info">
+              <h3>
+                <img
+                  src="images/senem.webp"
+                  alt="Senem"
+                  class="inline-logo"
+                />
+                Exclusive Senem Deal!
+              </h3>
+              <p>Get <strong>10% OFF</strong> on premium groceries</p>
+              <div class="exclusive-code">
+                <span class="code">FOODIDU10</span>
+                <button class="quick-copy" onclick="copyExclusiveCode('FOODIDU10', 'senem', event)">
+                  Copy
+                </button>
+              </div>
+            </div>
+            <div class="exclusive-cta">
+              <a href="Senem-PromoCode/index.html" class="exclusive-btn">
+                Get Full Details <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Noon Exclusive Deal -->
+      <div class="exclusive-slide" data-slide="2">
+        <div class="exclusive-banner noon-banner">
+          <div class="exclusive-content">
+            <div class="exclusive-logo">
+              <img src="images/noon-logo.png" alt="Noon Logo" />
+            </div>
+            <div class="exclusive-info">
+              <h3>
+                <img
+                  src="images/noon-logo.png"
+                  alt="Noon"
+                  class="inline-logo"
+                />
+                Exclusive Noon Deal!
+              </h3>
+              <p>Get <strong>15% OFF</strong> on your first order across GCC</p>
+              <div class="exclusive-code">
+                <span class="code">FFR55</span>
+                <button class="quick-copy" onclick="copyExclusiveCode('FFR55', 'noon', event)">
+                  Copy
+                </button>
+              </div>
+            </div>
+            <div class="exclusive-cta">
+              <a href="Noon-PromoCode/index.html" class="exclusive-btn">
+                Get Full Details <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Noon Egypt Exclusive Deal -->
+      <div class="exclusive-slide" data-slide="3">
+        <div class="exclusive-banner noon-egypt-banner">
+          <div class="exclusive-content">
+            <div class="exclusive-logo">
+              <img src="images/noon-logo.png" alt="Noon Egypt Logo" />
+            </div>
+            <div class="exclusive-info">
+              <h3>
+                <img
+                  src="images/noon-logo.png"
+                  alt="Noon Egypt"
+                  class="inline-logo"
+                />
+                🇪🇬 Noon Egypt Deal!
+              </h3>
+              <p>Get <strong>5-7% OFF</strong> exclusively for Egypt</p>
+              <div class="exclusive-code">
+                <span class="code">WK32</span>
+                <button class="quick-copy" onclick="copyExclusiveCode('WK32', 'noon-egypt', event)">
+                  Copy
+                </button>
+              </div>
+            </div>
+            <div class="exclusive-cta">
+              <a href="Noon-EG-PromoCode/index.html" class="exclusive-btn">
+                Get Full Details <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carousel Indicators -->
+      <div class="exclusive-indicators">
+        <span class="exclusive-indicator active" onclick="goToExclusiveSlide(0)"></span>
+        <span class="exclusive-indicator" onclick="goToExclusiveSlide(1)"></span>
+        <span class="exclusive-indicator" onclick="goToExclusiveSlide(2)"></span>
+        <span class="exclusive-indicator" onclick="goToExclusiveSlide(3)"></span>
+      </div>
+    </div>
+  </div>
+</section>

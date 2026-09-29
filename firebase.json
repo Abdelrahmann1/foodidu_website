@@ -1,0 +1,49 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "cleanUrls": false,
+    "redirects": [
+      { "source": "/index.html", "destination": "/", "type": 301 },
+      { "source": "/ar/index.html", "destination": "/ar/", "type": 301 },
+      { "source": "/:page/index.html", "destination": "/:page/", "type": 301 },
+      { "source": "/ar/:page/index.html", "destination": "/ar/:page/", "type": 301 },
+      { "source": "/pages/vendors-page.html", "destination": "/partners/", "type": 301 },
+      { "source": "/pages/**", "destination": "/promo-codes/", "type": 301 },
+      { "source": "/components/**", "destination": "/", "type": 301 },
+      { "source": "/header.html", "destination": "/", "type": 301 },
+      { "source": "/deals", "destination": "/promo-codes/", "type": 301 },
+      { "source": "/discover", "destination": "/promo-codes/", "type": 301 },
+      { "source": "/promo", "destination": "/promo-codes/", "type": 301 },
+      { "source": "/vendors", "destination": "/partners/", "type": 301 }
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          { "key": "X-Content-Type-Options", "value": "nosniff" },
+          { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+          { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+          { "key": "Permissions-Policy", "value": "geolocation=(), camera=(), microphone=()" },
+          { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains" }
+        ]
+      },
+      {
+        "source": "**/*.html",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+      },
+      {
+        "source": "/@(css|js)/**",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      },
+      {
+        "source": "/img/**",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000" }]
+      },
+      {
+        "source": "/@(sitemap.xml|robots.txt|site.webmanifest)",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
+      }
+    ]
+  }
+}

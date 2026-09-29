@@ -1,0 +1,98 @@
+<!-- Deals Page Component -->
+<div id="deals" class="page">
+  <section class="deals-hero">
+    <div class="container">
+      <h1>Today's Hot Deals 🔥</h1>
+      <p>
+        Discover amazing discounts and special offers from your favorite
+        restaurants
+      </p>
+      <div class="deals-stats">
+        <div class="stat">
+          <span class="stat-number" id="active-deals">150+</span>
+          <span class="stat-label">Active Deals</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" id="avg-savings">35%</span>
+          <span class="stat-label">Average Savings</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" id="happy-customers">10K+</span>
+          <span class="stat-label">Happy Customers</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="filters">
+    <div class="container">
+      <!-- Search Input - Moved to top -->
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search location..."
+          onkeyup="filterDeals(this.value, 'location')"
+        />
+        <i class="fas fa-search search-icon"></i>
+      </div>
+
+      <div class="filter-dropdowns">
+        <!-- Cuisine Filter Dropdown -->
+        <div class="filter-dropdown">
+          <button class="dropdown-btn" onclick="toggleDropdown('cuisine-dropdown')">
+            <span id="cuisine-selected">All Cuisines</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="dropdown-content" id="cuisine-dropdown">
+            <div class="dropdown-item active" onclick="selectFilter(this, '', 'cuisine', 'All Cuisines')">All Cuisines</div>
+            <div class="dropdown-item" onclick="selectFilter(this, 'pizza', 'cuisine', 'Pizza')">Pizza</div>
+            <div class="dropdown-item" onclick="selectFilter(this, 'burger', 'cuisine', 'Burger')">Burger</div>
+            <div class="dropdown-item" onclick="selectFilter(this, 'coffee', 'cuisine', 'Coffee')">Coffee</div>
+            <div class="dropdown-item" onclick="selectFilter(this, 'chinese', 'cuisine', 'Chinese')">Chinese</div>
+            <div class="dropdown-item" onclick="selectFilter(this, 'indian', 'cuisine', 'Indian')">Indian</div>
+            <div class="dropdown-item" onclick="selectFilter(this, 'mexican', 'cuisine', 'Mexican')">Mexican</div>
+            <div class="dropdown-item" onclick="selectFilter(this, 'italian', 'cuisine', 'Italian')">Italian</div>
+          </div>
+        </div>
+
+        <!-- Price Filter Dropdown -->
+        <div class="filter-dropdown">
+          <button class="dropdown-btn" onclick="toggleDropdown('price-dropdown')">
+            <span id="price-selected">Sort by Price</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="dropdown-content" id="price-dropdown">
+            <div class="dropdown-item active" onclick="selectFilter(this, '', 'price', 'Sort by Price')">Default Price</div>
+            <div class="dropdown-item" onclick="selectFilter(this, 'low', 'price', 'Lowest First')">Lowest First</div>
+            <div class="dropdown-item" onclick="selectFilter(this, 'high', 'price', 'Highest First')">Highest First</div>
+          </div>
+        </div>
+
+        <!-- Discount Filter Dropdown -->
+        <div class="filter-dropdown">
+          <button class="dropdown-btn" onclick="toggleDropdown('discount-dropdown')">
+            <span id="discount-selected">Sort by Discount</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="dropdown-content" id="discount-dropdown">
+            <div class="dropdown-item active" onclick="selectFilter(this, '', 'discount', 'Sort by Discount')">Default Discount</div>
+            <div class="dropdown-item" onclick="selectFilter(this, 'highest', 'discount', 'Highest Discount')">Highest Discount</div>
+            <div class="dropdown-item" onclick="selectFilter(this, 'lowest', 'discount', 'Lowest Discount')">Lowest Discount</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="deals-grid" id="deals-grid">
+      <!-- Deals will be populated by JavaScript -->
+    </div>
+    <div class="load-more-container">
+      <button class="load-more-btn" onclick="loadMoreDeals()">
+        Load More Deals
+      </button>
+    </div>
+  </section>
+</div>

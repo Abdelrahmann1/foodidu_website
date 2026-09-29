@@ -1,0 +1,21 @@
+/* Hero Carousel Promotional Text - Green Theme */
+
+/* Only hero carousel promotional text - Higher specificity to override existing styles */
+.hero-carousel .slide-text p.promo-subtitle,
+.carousel-slide .slide-text p.promo-subtitle,
+.slide-text p.promo-subtitle {
+    color: #7EB143 !important;
+    background: none !important;
+    text-shadow: none !important;
+    font-weight: 700 !important;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .hero-carousel .slide-text p.promo-subtitle,
+    .carousel-slide .slide-text p.promo-subtitle,
+    .slide-text p.promo-subtitle {
+        color: #7EB143 !important;
+        text-shadow: none !important;
+    }
+}

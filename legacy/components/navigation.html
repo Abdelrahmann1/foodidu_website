@@ -1,0 +1,55 @@
+<!-- Navigation Component -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo">
+      <img
+        src="images/logo-foodidu.svg"
+        alt="Foodidu Logo"
+        style="
+          height: 60px;
+          width: auto;
+          object-fit: contain;
+          margin-right: 1rem;
+          vertical-align: middle;
+        "
+        onmouseover="this.style.transform='scale(1.05)';"
+        onmouseout="this.style.transform='scale(1)';"
+      />
+    </div>
+    <ul class="nav-menu">
+      <!-- Mobile Drawer Logo -->
+      <li class="mobile-drawer-logo">
+        <img
+          src="images/logo-foodidu.svg"
+          alt="Foodidu Logo"
+          class="drawer-logo-img"
+        />
+      </li>
+      <li><a href="#" onclick="showPage('home')">Home</a></li>
+      <li><a href="#" onclick="showPage('discover')">Discover</a></li>
+      <li><a href="#" onclick="showPage('deals')">Deals</a></li>
+      <li><a href="#" onclick="showPage('promo')">Promo Codes</a></li>
+      <li><a href="#" onclick="showPage('vendors')">Become a partner</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li>
+        <button class="download-btn" onclick="downloadApp()">
+          Download App
+        </button>
+      </li>
+
+      <!-- Quick Action Buttons -->
+      <li class="nav-action-buttons">
+        <button class="nav-action-btn" onclick="showPage('promo')">
+          <i class="fas fa-tags"></i>
+          Get Promo Codes
+        </button>
+      </li>
+    </ul>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</nav>
+<div class="drawer-overlay" onclick="closeDrawer()"></div>

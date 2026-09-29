@@ -1,0 +1,61 @@
+/* CLEAN DROPDOWN - NO DIVIDERS, NO SPACE */
+.dropdown-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+    padding: 0;
+}
+
+.dropdown-content.show {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 0.4rem 1rem;
+    margin: 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border: none;
+    border-top: none;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    background: transparent;
+    color: #333;
+    text-decoration: none;
+    line-height: 1.2;
+}
+
+.dropdown-item:hover {
+    background: #f8fafc;
+    color: #7EB143;
+}
+
+.dropdown-item.active {
+    background: #7EB143;
+    color: white;
+    font-weight: 600;
+}
+
+/* Remove all possible dividers */
+.dropdown-item:before,
+.dropdown-item:after {
+    display: none;
+}
+
+.dropdown-content > * {
+    border: none;
+    margin: 0;
+}

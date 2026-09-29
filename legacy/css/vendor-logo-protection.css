@@ -1,0 +1,115 @@
+/* Vendor Logo Protection CSS - Ensures no styling affects vendor logos */
+
+/* Complete vendor logo protection - removes all backgrounds, borders, shadows */
+.vendor-logo,
+.vendor-logo img,
+img.vendor-logo,
+.exclusive-logo img,
+.exclusive-logo .vendor-logo,
+.promo-logo.has-image,
+.promo-logo.has-image img,
+.promo-logo.has-image .vendor-logo,
+.rabbit-featured-card .promo-logo.has-image,
+.rabbit-featured-card .promo-logo.has-image img,
+.rabbit-featured-card .promo-logo.has-image .vendor-logo,
+.senem-featured-card .promo-logo.has-image,
+.senem-featured-card .promo-logo.has-image img,
+.senem-featured-card .promo-logo.has-image .vendor-logo,
+.vendor-logo-container img,
+.vendor-logo-container .vendor-logo {
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    outline: none !important;
+    text-shadow: none !important;
+}
+
+/* Hover states - ensure no styling on hover */
+.vendor-logo:hover,
+.vendor-logo img:hover,
+img.vendor-logo:hover,
+.exclusive-logo img:hover,
+.exclusive-logo .vendor-logo:hover,
+.promo-logo.has-image:hover,
+.promo-logo.has-image img:hover,
+.promo-logo.has-image .vendor-logo:hover,
+.rabbit-featured-card .promo-logo.has-image:hover,
+.rabbit-featured-card .promo-logo.has-image img:hover,
+.rabbit-featured-card .promo-logo.has-image .vendor-logo:hover,
+.senem-featured-card .promo-logo.has-image:hover,
+.senem-featured-card .promo-logo.has-image img:hover,
+.senem-featured-card .promo-logo.has-image .vendor-logo:hover,
+.vendor-logo-container img:hover,
+.vendor-logo-container .vendor-logo:hover {
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    transform: none !important;
+    outline: none !important;
+    text-shadow: none !important;
+}
+
+/* Remove pseudo-elements that might add effects */
+.promo-logo.has-image::before,
+.promo-logo.has-image::after,
+.rabbit-featured-card .promo-logo.has-image::before,
+.rabbit-featured-card .promo-logo.has-image::after,
+.senem-featured-card .promo-logo.has-image::before,
+.senem-featured-card .promo-logo.has-image::after,
+.vendor-logo::before,
+.vendor-logo::after,
+.vendor-logo-container::before,
+.vendor-logo-container::after {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/* Ensure vendor logo containers don't add styling */
+.vendor-logo-container {
+    background: none !important;
+    background-color: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Clean logo class protection */
+.clean-logo,
+img.clean-logo,
+.vendor-logo.clean-logo {
+    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    outline: none !important;
+}
+
+/* Ensure Foodidu logos are NOT affected by this protection */
+.foodidu-logo,
+img.foodidu-logo,
+.logo.foodidu-logo,
+.navbar-brand img,
+.footer-logo img {
+    /* This selector intentionally left empty - Foodidu logos keep their original styling */
+}

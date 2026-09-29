@@ -1,0 +1,507 @@
+/* Deals Page Styles */
+.deals-hero {
+    padding: 3rem 0;
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.1), rgba(250, 204, 21, 0.1));
+    text-align: center;
+}
+
+.deals-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: white !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    background: none !important;
+    background-image: none !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: white !important;
+    background-clip: unset !important;
+}
+
+.deals-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #7EB143;
+}
+
+.stat-label {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Filters */
+.filters {
+    padding: 2rem 0;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.search-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 1.5rem auto;
+}
+
+.filter-dropdowns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.filter-dropdown {
+    position: relative;
+    min-width: 180px;
+    flex: 1;
+    max-width: 250px;
+}
+
+.dropdown-btn {
+    width: 100%;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 25px;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-btn:hover {
+    border-color: #7EB143;
+    box-shadow: 0 4px 12px rgba(126, 177, 67, 0.2);
+}
+
+.dropdown-btn i {
+    transition: transform 0.3s ease;
+}
+
+.dropdown-btn.active i {
+    transform: rotate(180deg);
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.dropdown-content *,
+.dropdown-content *:before,
+.dropdown-content *:after {
+    border: none !important;
+    border-bottom: none !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    background-image: none !important;
+}
+
+
+
+.dropdown-content.show {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.dropdown-content {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.dropdown-item {
+    padding: 0.6rem 1rem;
+    margin: 0 !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none !important;
+    border-bottom: none !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    background-image: none !important;
+    background-color: transparent !important;
+    line-height: 1.2 !important;
+}
+
+.dropdown-item:before,
+.dropdown-item:after {
+    display: none !important;
+    content: none !important;
+    border: none !important;
+}
+
+.dropdown-item + .dropdown-item {
+    border-top: none !important;
+    margin-top: 0 !important;
+}
+
+.dropdown-item:hover {
+    background: #f8fafc;
+    color: #7EB143;
+}
+
+.dropdown-item.active {
+    background: #7EB143;
+    color: white;
+    font-weight: 600;
+}
+
+
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 3rem 0.75rem 1.25rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 25px;
+    font-size: 1rem;
+    background: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #7EB143;
+    box-shadow: 0 4px 12px rgba(126, 177, 67, 0.2);
+}
+
+.search-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    pointer-events: none;
+}
+
+.search-input::placeholder {
+    color: #666;
+}
+
+/* Deals Grid */
+.deals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+.deal-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.deal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(126, 177, 67, 0.2);
+}
+
+.deal-image {
+    height: 120px;
+    background: linear-gradient(135deg, #7EB143, #6BA037);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+}
+
+.deal-content {
+    padding: 1.5rem;
+}
+
+.deal-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.deal-description {
+    font-weight: 600;
+    color: #7EB143;
+    margin-bottom: 0.5rem;
+}
+
+.deal-content p {
+    color: #666;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.deal-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.deal-discount {
+    background: #7EB143;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.deal-validity {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.deal-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #7EB143, #6BA037);
+    color: white;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.deal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(126, 177, 67, 0.3);
+}
+
+.load-more-container {
+    text-align: center;
+    padding: 2rem 0;
+    display: block;
+}
+
+.load-more-btn {
+    background: white;
+    border: 2px solid #7EB143;
+    color: #7EB143;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.load-more-btn:hover {
+    background: #7EB143;
+    color: white;
+}
+
+/* Mobile Responsive for Deals */
+@media (max-width: 768px) {
+    .deals-hero h1 {
+        font-size: 2rem;
+    }
+    
+    .deals-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .deals-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .filters {
+        padding: 1.5rem 1rem;
+    }
+    
+    .search-container {
+        max-width: none;
+        margin: 0 0 1.5rem 0;
+    }
+    
+    .filter-dropdowns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        justify-items: stretch;
+    }
+    
+    .filter-dropdown {
+        min-width: auto;
+        max-width: none;
+        flex: none;
+    }
+    
+    .dropdown-btn {
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .dropdown-item {
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .filters {
+        padding: 1rem 0.5rem;
+    }
+    
+    .filter-dropdowns {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+    
+    .dropdown-btn {
+        padding: 0.8rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .dropdown-item {
+        padding: 0.8rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .search-input {
+        padding: 0.8rem 3rem 0.8rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .search-icon {
+        right: 1rem;
+    }
+}
+
+/* COMPACT DROPDOWN - NO DIVIDERS, NO EXTRA SPACE */
+.filter-dropdown .dropdown-content,
+.filter-dropdown .dropdown-item,
+.dropdown-content .dropdown-item {
+    border: 0 !important;
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-width: 0 !important;
+    border-style: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    background-image: none !important;
+    text-decoration: none !important;
+    margin: 0 !important;
+    line-height: 1.3 !important;
+}
+
+.dropdown-content {
+    list-style: none !important;
+    list-style-type: none !important;
+    padding: 0.3rem 0 !important;
+}
+
+.dropdown-item {
+    list-style: none !important;
+    list-style-type: none !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0.5rem 1rem !important;
+}
+/
+* ULTIMATE DIVIDER DESTROYER - FINAL SOLUTION */
+.dropdown-item,
+.dropdown-item:before,
+.dropdown-item:after,
+.dropdown-content .dropdown-item,
+.dropdown-content > .dropdown-item,
+div.dropdown-item,
+[class*="dropdown-item"] {
+    border: 0 !important;
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-width: 0 !important;
+    border-style: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    background-image: none !important;
+    text-decoration: none !important;
+    margin: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Force remove any pseudo-element dividers */
+.dropdown-item::before,
+.dropdown-item::after {
+    display: none !important;
+    content: "" !important;
+    border: none !important;
+    background: none !important;
+    height: 0 !important;
+    width: 0 !important;
+}
+
+/* Remove any inherited borders */
+.dropdown-content * {
+    border-top: none !important;
+    border-bottom: none !important;
+}/* FINAL
+ OVERRIDE - CLEAN DROPDOWN */
+.filter-dropdown .dropdown-content {
+    padding: 0 !important;
+}
+
+.filter-dropdown .dropdown-item {
+    display: block !important;
+    padding: 0.4rem 1rem !important;
+    margin: 0 !important;
+    border: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    background: transparent !important;
+    line-height: 1.2 !important;
+}
+
+.filter-dropdown .dropdown-item:hover {
+    background: #f8fafc !important;
+    color: #7EB143 !important;
+}
+
+.filter-dropdown .dropdown-item.active {
+    background: #7EB143 !important;
+    color: white !important;
+    font-weight: 600 !important;
+}

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Discover hidden culinary gems and save money with Foodidu. Connect with local restaurants, explore exclusive deals, and enjoy authentic dining experiences across Egypt and Saudi Arabia."
+    />
+    <meta
+      name="keywords"
+      content="Foodidu, restaurant deals, food discovery, dining experiences, local restaurants, food savings, Egyptian restaurants, Saudi Arabian restaurants, culinary exploration, food vendors, authentic dining"
+    />
+    <meta name="author" content="Foodidu" />
+    <meta
+      property="og:title"
+      content="Foodidu - Discover Hidden Gems & Save Money"
+    />
+    <meta
+      property="og:description"
+      content="Connect with local restaurants, explore exclusive deals, and discover authentic dining experiences across Egypt and Saudi Arabia."
+    />
+    <meta property="og:image" content="images/logo-foodidu.svg" />
+    <meta property="og:image:alt" content="Foodidu Logo" />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="https://foodidu.com" />
+    <meta property="og:site_name" content="Foodidu" />
+    <meta property="og:type" content="website" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@foodidu_official" />
+    <meta name="twitter:title" content="Foodidu - Discover Hidden Gems & Save Money" />
+    <meta name="twitter:description" content="Connect with local restaurants, explore exclusive deals, and discover authentic dining experiences" />
+    <meta name="twitter:image" content="images/logo-foodidu.svg" />
+
+    <title>Foodidu - Discover Hidden Gems & Save Money</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="images/logo-foodidu.svg" />
+    <link rel="icon" type="image/png" href="images/logo-foodidu.svg" />
+    <link rel="apple-touch-icon" href="images/logo-foodidu.svg" />
+    <link rel="shortcut icon" href="images/logo-foodidu.svg" />
+    <meta name="msapplication-TileImage" content="images/logo-foodidu.svg" />
+    <meta name="msapplication-TileColor" content="#FFD15C" />
+
+    <!-- Stylesheets -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/coming-soon-modal.css" />
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    <script>
+      fetch('header.html')
+        .then(r => r.ok ? r.text() : Promise.reject(r))
+        .then(html => {
+          const tmp = document.createElement('div');
+          tmp.innerHTML = html;
+          tmp.querySelectorAll('script').forEach(s => {
+            const sc = document.createElement('script');
+            for (const attr of s.attributes) sc.setAttribute(attr.name, attr.value);
+            sc.text = s.textContent || '';
+            document.head.appendChild(sc);
+          });
+        })
+        .catch(() => {});
+    </script>
+  </head>
+  <body>
+
+
+    <!-- Cookie Consent and Navigation will be loaded here -->
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+      <div id="home-components">
+        <!-- All home page components will be loaded here -->
+      </div>
+    </div>
+
+    <!-- Pages Container - Other pages will be loaded here -->
+    <div id="pages-container">
+      <!-- Deals, Discovery, Promo, and Vendors pages will be loaded here -->
+    </div>
+
+    <!-- Footer will be loaded here -->
+
+    <!-- Scripts -->
+    <script src="js/component-loader.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <script src="cookie-consent.js"></script>
+    <script src="js/coming-soon-modal.js"></script>
+    <script src="js/foodidu-performance.js"></script>
+
+    <!-- Initialize components loading -->
+    <script>
+      // Simple, single loading system
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM loaded, starting component loading...");
+        
+        // Load all components once
+        componentLoader.loadAllComponents(function () {
+          console.log("All components loaded successfully");
+          
+          // Single verification after loading
+          setTimeout(function() {
+            if (componentLoader.makeHomeComponentsVisible) {
+              componentLoader.makeHomeComponentsVisible();
+            }
+          }, 500);
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,573 @@
+/* Navigation Styles - Enhanced BG.svg Background */
+.navbar {
+    position: fixed !important;
+    top: 0 !important;
+    width: 100% !important;
+    background: #FFD15C !important; /* Fallback color */
+    background-image: url('../images/BG.svg') !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-size: cover !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1) !important;
+    z-index: 1000 !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Additional background enforcement */
+.navbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../images/BG.svg') center center/cover no-repeat;
+    z-index: -1;
+    opacity: 0.9;
+}
+
+/* Ensure background shows even with inline styles */
+.navbar[style] {
+    background-image: url('../images/BG.svg') !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+}
+
+/* Multiple selector approaches for maximum compatibility */
+nav.navbar,
+.navbar,
+nav,
+header.navbar,
+[class*="navbar"] {
+    background: #FFD15C !important;
+    background-image: url('../images/BG.svg') !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-size: cover !important;
+}
+
+/* CSS class for JavaScript application */
+.navbar.bg-applied,
+.navbar[data-bg-applied="true"] {
+    background: #FFD15C !important;
+    background-image: url('../images/BG.svg') !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-size: cover !important;
+}
+
+/* Ultimate fallback with highest specificity */
+html body .navbar,
+html body nav.navbar,
+html body header.navbar {
+    background: #FFD15C !important;
+    background-image: url('../images/BG.svg') !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-attachment: scroll !important;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #eab308, #facc15);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Logo in navbar */
+.logo img {
+    height: 60px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: none !important;
+    transition: box-shadow 0.2s;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+/* Make nav menu section titles bolder and bigger */
+.nav-menu a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    transition: color 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.nav-menu a:hover {
+    color: #7EB143;
+}
+
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #7EB143;
+    transition: width 0.3s ease;
+}
+
+.nav-menu a:hover::after {
+    width: 100%;
+}
+
+.download-btn {
+    background: linear-gradient(135deg, #7EB143, #6BA037);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(126, 177, 67, 0.4);
+}
+
+/* Desktop Download App button styling */
+.nav-menu .download-btn {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.4rem 0.6rem;
+    margin: 0.15rem 0.6rem;
+    width: calc(100% - 1.2rem);
+    border-radius: 10px;
+    background: linear-gradient(90deg, #7EB143 60%, #6BA037 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    position: relative;
+    z-index: 1;
+}
+
+.nav-menu .download-btn:hover {
+    background: linear-gradient(90deg, #6BA037 60%, #7EB143 100%);
+}
+
+/* Hide Download App in nav-menu except on mobile */
+@media (min-width: 900px) {
+    .nav-menu .download-btn {
+        display: none !important;
+    }
+}
+
+@media (min-width: 901px) {
+    .nav-menu .download-btn {
+        display: none !important;
+    }
+}
+
+/* Mobile Navigation */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 6px; /* Increased from 4px */
+    padding: 8px; /* Added padding for easier touch target */
+    z-index: 1001;
+}
+
+/* Mobile Drawer Styles - Compact Version */
+.mobile-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 75%;
+    max-width: 280px;
+    height: 100vh;
+    background: #fff;
+    box-shadow: -2px 0 20px rgba(0,0,0,0.15);
+    z-index: 1001;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0.3rem;
+}
+
+.mobile-drawer.active {
+    transform: translateX(0);
+}
+
+.drawer-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.drawer-menu li a {
+    color: #333;
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+    display: block;
+    line-height: 1.1;
+}
+
+.drawer-menu li a:hover {
+    color: #7EB143;
+    background: rgba(126, 177, 67, 0.1);
+}
+
+.drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.drawer-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.hamburger span {
+    width: 28px; /* Increased from 25px */
+    height: 3px;
+    background: #333;
+    transition: all 0.3s ease;
+    border-radius: 3px; /* Increased from 2px */
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px); /* Adjusted values */
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px); /* Adjusted values */
+}
+
+/* Mobile Drawer Styles - Compact Version */
+.mobile-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 75%;
+    max-width: 320px;
+    height: 100vh;
+    background: #fff;
+    box-shadow: -2px 0 20px rgba(0,0,0,0.15);
+    z-index: 1001;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0.8rem 0.8rem 0.8rem;
+}
+
+.mobile-drawer.active {
+    transform: translateX(0);
+}
+
+.drawer-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.8rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.drawer-menu li a {
+    color: #333;
+    font-size: 1.1rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    display: block;
+}
+
+.drawer-menu li a:hover {
+    color: #7EB143;
+    background: rgba(126, 177, 67, 0.1);
+}
+
+.drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.drawer-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Desktop Navigation Action Buttons */
+.nav-action-buttons {
+    margin-top: 0.5rem;
+}
+
+.nav-action-btn {
+    width: calc(100% - 1.2rem);
+    margin: 0.15rem 0.6rem;
+    padding: 0.4rem 0.6rem;
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-action-btn:hover {
+    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(26, 32, 44, 0.3);
+}
+
+.nav-action-btn i {
+    font-size: 0.9rem;
+}
+
+/* Hide action buttons on desktop - only show in mobile drawer */
+@media (min-width: 901px) {
+    .nav-action-buttons {
+        display: none;
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-drawer {
+        display: none !important;
+    }
+    
+    /* Hide mobile drawer logo on desktop */
+    .mobile-drawer-logo {
+        display: none !important;
+    }
+}
+
+/* Mobile Navigation Responsive - Enhanced Version */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+    
+    /* Show mobile drawer logo only on mobile */
+    .mobile-drawer-logo {
+        display: block !important;
+    }
+    
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: #FFD15C url('../images/BG.svg') no-repeat center center;
+        background-size: cover;
+        flex-direction: column;
+        padding: 6rem 0 2rem 0;
+        gap: 0;
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.15);
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 999;
+        overflow-y: auto;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+    
+    .nav-menu::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.3);
+        z-index: -1;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+    
+    .nav-menu.active {
+        right: 0;
+    }
+    
+    /* Mobile Drawer Logo */
+    .mobile-drawer-logo {
+        display: none; /* Hidden on desktop */
+        padding: 1.5rem 2rem 1rem 2rem !important;
+        border-bottom: 2px solid rgba(126, 177, 67, 0.2) !important;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .drawer-logo-img {
+        height: 50px !important;
+        width: auto !important;
+        object-fit: contain !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+        transition: transform 0.3s ease;
+    }
+    
+    .drawer-logo-img:hover {
+        transform: scale(1.05);
+    }
+
+    /* Mobile menu items styling */
+    .nav-menu li {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .nav-menu li a {
+        display: block;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+        border-bottom: 1px solid rgba(51, 51, 51, 0.1);
+        transition: all 0.3s ease;
+        color: #333;
+        text-decoration: none;
+    }
+    
+    .nav-menu li a:hover,
+    .nav-menu li a:active {
+        background: rgba(255, 255, 255, 0.3);
+        padding-left: 2.5rem;
+        color: #1a1a1a;
+    }
+    
+    .nav-menu li:first-child a {
+        border-top: 1px solid rgba(51, 51, 51, 0.1);
+    }
+    
+    /* Enhanced Mobile Menu Buttons */
+    .nav-menu .download-btn {
+        margin: 1rem 2rem 0.5rem 2rem;
+        padding: 0.75rem 1.5rem;
+        width: calc(100% - 4rem);
+        background: linear-gradient(135deg, #7EB143, #6BA037);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 4px 12px rgba(126, 177, 67, 0.3);
+    }
+    
+    .nav-menu .download-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(126, 177, 67, 0.4);
+        background: linear-gradient(135deg, #6BA037, #7EB143);
+    }
+    
+    .nav-action-buttons {
+        margin: 0.5rem 2rem 1rem 2rem;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .nav-action-btn {
+        width: 70%;
+        margin: 0;
+        padding: 0.75rem 1.5rem;
+        background: linear-gradient(135deg, #2d3748, #4a5568);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 4px 12px rgba(45, 55, 72, 0.3);
+    }
+    
+    .nav-action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(45, 55, 72, 0.4);
+        background: linear-gradient(135deg, #4a5568, #718096);
+    }
+    
+    .nav-action-btn i {
+        font-size: 1rem;
+    }
+}

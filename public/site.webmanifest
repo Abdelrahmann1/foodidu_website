@@ -1,0 +1,27 @@
+{
+   "background_color" : "#FFF9EB",
+   "description" : "Promo codes & discounts in Egypt and the GCC",
+   "display" : "standalone",
+   "icons" : [
+      {
+         "sizes" : "192x192",
+         "src" : "/img/icon-192.png",
+         "type" : "image/png"
+      },
+      {
+         "sizes" : "512x512",
+         "src" : "/img/icon-512.png",
+         "type" : "image/png"
+      },
+      {
+         "sizes" : "any",
+         "src" : "/img/foodidu-icon.svg",
+         "type" : "image/svg+xml"
+      }
+   ],
+   "name" : "Foodidu",
+   "scope" : "/",
+   "short_name" : "Foodidu",
+   "start_url" : "/",
+   "theme_color" : "#FFD15C"
+}

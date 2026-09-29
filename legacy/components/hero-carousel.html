@@ -1,0 +1,68 @@
+<!-- Hero Carousel Component -->
+<section class="hero-carousel">
+  <div class="carousel-container">
+    <div class="carousel-slide active" data-slide="0">
+      <div class="slide-content">
+        <div class="slide-text">
+          <h1>Discover Hidden Culinary Gems</h1>
+          <p class="promo-subtitle">
+            Find amazing local restaurants, authentic cafes, and exclusive food
+            deals near you in Egypt and Saudi Arabia. Save money with exclusive
+            promo codes and discover local dining experiences.
+          </p>
+        </div>
+        <div class="slide-image">
+          <div class="food-icon">🍕</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-slide" data-slide="1">
+      <div class="slide-content">
+        <div class="slide-text">
+          <h1>Save with Promo Codes</h1>
+          <p class="promo-subtitle">
+            Access exclusive promo codes and special discounts that you won't
+            find anywhere else. Save up to 50% on every order!
+          </p>
+        </div>
+        <div class="slide-image">
+          <div class="food-icon">🎫</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-slide" data-slide="2">
+      <div class="slide-content">
+        <div class="slide-text">
+          <h1>Explore Local Restaurants</h1>
+          <p class="promo-subtitle">
+            Uncover authentic dining experiences and hidden culinary treasures
+            in Egyptian and Saudi Arabian restaurants. Connect with the best
+            local food vendors for unforgettable meals.
+          </p>
+        </div>
+        <div class="slide-image">
+          <div class="food-icon">🍽️</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carousel Navigation -->
+  <div class="carousel-nav">
+    <button class="carousel-btn prev" onclick="changeSlide(-1)">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="carousel-btn next" onclick="changeSlide(1)">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <!-- Carousel Indicators -->
+  <div class="carousel-indicators">
+    <span class="indicator active" onclick="goToSlide(0)"></span>
+    <span class="indicator" onclick="goToSlide(1)"></span>
+    <span class="indicator" onclick="goToSlide(2)"></span>
+  </div>
+</section>

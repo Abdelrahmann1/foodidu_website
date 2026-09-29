@@ -1,0 +1,54 @@
+<!-- Promo Codes Page Component -->
+<div id="promo" class="page">
+  <section class="promo-hero">
+    <div class="container">
+      <h1>Save More with Verified Promo Codes 💸</h1>
+      <p>Get the best deals with our exclusive and verified promo codes</p>
+      <div class="promo-stats">
+        <div class="promo-stat">
+          <span class="stat-number">500+</span>
+          <span class="stat-label">Active Codes</span>
+        </div>
+        <div class="promo-stat">
+          <span class="stat-number">$2M+</span>
+          <span class="stat-label">Total Savings</span>
+        </div>
+      </div>
+      <div class="promo-categories">
+        <div
+          class="promo-category active"
+          onclick="filterPromos(this, 'all')"
+        >
+          All Categories
+        </div>
+        <div
+          class="promo-category"
+          onclick="filterPromos(this, 'fast-food')"
+        >
+          Fast Food
+        </div>
+        <div class="promo-category" onclick="filterPromos(this, 'coffee')">
+          Coffee & Drinks
+        </div>
+        <div
+          class="promo-category"
+          onclick="filterPromos(this, 'delivery')"
+        >
+          Delivery Services
+        </div>
+        <div
+          class="promo-category"
+          onclick="filterPromos(this, 'fine-dining')"
+        >
+          Fine Dining
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="promo-grid" id="promo-grid">
+      <!-- Promo codes will be populated by JavaScript -->
+    </div>
+  </section>
+</div>

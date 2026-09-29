@@ -1,0 +1,391 @@
+/* Exclusive Deals Auto-Sliding Section */
+.exclusive-deals {
+    padding: 40px 0;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    position: relative;
+}
+
+.exclusive-carousel {
+    position: relative;
+    overflow: hidden;
+    border-radius: 25px;
+    min-height: 200px;
+}
+
+/* Exclusive Carousel Navigation - positioned outside container */
+.exclusive-nav {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2rem;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.exclusive-btn-nav {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #7EB143;
+    transition: all 0.3s ease;
+    pointer-events: all;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.exclusive-btn-nav:hover {
+    background: white;
+    transform: scale(1.1);
+}
+
+.exclusive-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateX(100%) scale(0.95);
+    transition: all 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+    visibility: hidden;
+}
+
+.exclusive-slide.active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    position: relative;
+    visibility: visible;
+}
+
+.exclusive-slide.prev {
+    transform: translateX(-100%) scale(0.95);
+    opacity: 0;
+}
+
+.exclusive-slide.next {
+    transform: translateX(100%) scale(0.95);
+    opacity: 0;
+}
+
+.exclusive-banner {
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.rabbit-banner {
+    background: linear-gradient(135deg, #ffe082 0%, #ffcc02 100%);
+}
+
+.senem-banner {
+    background: linear-gradient(135deg, #ffe082 0%, #ffcc02 100%);
+}
+
+.noon-banner {
+    background: linear-gradient(135deg, #ffe082 0%, #ffcc02 100%);
+}
+
+.noon-egypt-banner {
+    background: linear-gradient(135deg, #ffe082 0%, #ffcc02 100%);
+}
+
+.exclusive-banner::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: exclusiveShimmer 4s infinite;
+}
+
+@keyframes exclusiveShimmer {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.exclusive-content {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+.exclusive-logo img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 12px;
+    background: white !important;
+    padding: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border: none !important;
+}
+
+.exclusive-info {
+    flex: 1;
+}
+
+.exclusive-info h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0 0 10px 0;
+}
+
+.exclusive-info p {
+    font-size: 1.2rem;
+    color: #1a202c;
+    margin: 0 0 15px 0;
+}
+
+.exclusive-code {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.exclusive-code .code {
+    background: white;
+    color: #1a202c;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1.3rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    border: 2px dashed #1a202c;
+}
+
+.quick-copy {
+    background: #7EB143;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.quick-copy:hover {
+    background: #6BA037;
+    transform: translateY(-2px);
+}
+
+.quick-copy.copied {
+    background: #059669;
+    animation: quickCopySuccess 0.5s ease;
+}
+
+@keyframes quickCopySuccess {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.exclusive-cta {
+    display: flex;
+    align-items: center;
+}
+
+.exclusive-btn {
+    background: #7EB143;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.exclusive-btn:hover {
+    background: #6BA037;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(126, 177, 67, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+/* Senem-specific styling - now using green theme like Rabbit */
+.senem-banner .exclusive-btn {
+    background: #7EB143;
+}
+
+.senem-banner .exclusive-btn:hover {
+    background: #6BA037;
+}
+
+.senem-banner .quick-copy {
+    background: #7EB143;
+}
+
+.senem-banner .quick-copy:hover {
+    background: #6BA037;
+}
+
+.senem-banner .quick-copy.copied {
+    background: #059669;
+}
+
+/* Noon-specific styling - same green theme */
+.noon-banner .exclusive-btn {
+    background: #7EB143;
+}
+
+.noon-banner .exclusive-btn:hover {
+    background: #6BA037;
+}
+
+.noon-banner .quick-copy {
+    background: #7EB143;
+}
+
+.noon-banner .quick-copy:hover {
+    background: #6BA037;
+}
+
+.noon-banner .quick-copy.copied {
+    background: #059669;
+}
+
+/* Noon Egypt-specific styling - SAME AS NOON GCC */
+.noon-egypt-banner .exclusive-btn {
+    background: #7EB143;
+}
+
+.noon-egypt-banner .exclusive-btn:hover {
+    background: #6BA037;
+}
+
+.noon-egypt-banner .quick-copy {
+    background: #7EB143;
+}
+
+.noon-egypt-banner .quick-copy:hover {
+    background: #6BA037;
+}
+
+.noon-egypt-banner .quick-copy.copied {
+    background: #059669;
+}
+
+/* Carousel Indicators */
+.exclusive-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.exclusive-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(26, 32, 44, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.exclusive-indicator.active {
+    background: #7EB143;
+    transform: scale(1.2);
+}
+
+.exclusive-indicator:hover {
+    background: rgba(126, 177, 67, 0.6);
+}
+
+/* Inline Logo Styling */
+.inline-logo {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* Mobile Responsive for Exclusive Section */
+@media (max-width: 768px) {
+    .exclusive-nav {
+        padding: 0 1rem;
+    }
+    
+    .exclusive-btn-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .exclusive-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+    
+    .exclusive-info h3 {
+        font-size: 1.5rem;
+    }
+    
+    .exclusive-code {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .exclusive-btn {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .exclusive-banner {
+        padding: 25px 20px;
+    }
+    
+    .exclusive-code {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .exclusive-code .code {
+        font-size: 1.1rem;
+        padding: 8px 15px;
+        letter-spacing: 1px;
+    }
+}/* Additional specificity for exclusive logo backgrounds */
+.exclusive-banner .exclusive-logo img,
+.rabbit-banner .exclusive-logo img,
+.senem-banner .exclusive-logo img,
+.noon-banner .exclusive-logo img,
+.exclusive-logo img.vendor-logo {
+    background: white !important;
+    background-color: white !important;
+    padding: 12px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border: none !important;
+}
+
+.exclusive-logo img.vendor-logo:hover {
+    background: white !important;
+    background-color: white !important;
+    padding: 12px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border: none !important;
+}

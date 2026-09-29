@@ -1,0 +1,7 @@
+/* 
+ * Legacy style.css file - now imports modular CSS structure
+ * This file is kept for backward compatibility
+ * All styles have been refactored into modular CSS files in the /css directory
+ */
+
+@import url('css/main.css');

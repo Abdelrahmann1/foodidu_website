@@ -1,0 +1,36 @@
+/* Remove only the background colors from vendor logo containers */
+/* Keep borders, shadows, and other styling intact */
+
+/* Target promo-logo containers with images - make background white */
+.promo-logo:has(img),
+.promo-card .promo-logo:has(img),
+.promo-grid .promo-logo:has(img),
+.promo-header .promo-logo:has(img),
+div.promo-logo:has(img),
+.hot-promos .promo-logo:has(img) {
+    background: white !important;
+    background-color: white !important;
+    background-image: none !important;
+}
+
+/* For promo-logo containers without images, keep gradient and show text */
+.promo-logo:not(:has(img)),
+.promo-card .promo-logo:not(:has(img)),
+.promo-grid .promo-logo:not(:has(img)),
+.promo-header .promo-logo:not(:has(img)),
+div.promo-logo:not(:has(img)),
+.hot-promos .promo-logo:not(:has(img)) {
+    background: linear-gradient(135deg, #eab308, #f59e0b) !important;
+    color: white !important;
+    font-weight: bold !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Also target any nested elements */
+.promo-logo * {
+    background: inherit !important;
+}
+
+/* Keep all other styling like borders, shadows, padding, etc. */
