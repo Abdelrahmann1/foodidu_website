@@ -270,6 +270,10 @@ ul, ol { margin: 0; padding: 0; }
 
 @media (max-width: 900px) {
   .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .hero-copy { text-align: center; }
+  .hero .lede { margin-inline: auto; }
+  .hero .search { text-align: start; }
+  .hero-facts li { justify-content: center; }
   .hero-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hero-facts li { border-radius: 14px; padding: 8px 12px; font-size: .86rem; }
   .hero-facts li:last-child:nth-child(odd) { grid-column: 1 / -1; }
