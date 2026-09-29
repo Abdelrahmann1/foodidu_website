@@ -65,7 +65,6 @@ my %S = (
   # home
   h_title => 'Foodidu – Promo Codes & Discounts in Egypt and the GCC',
   h_desc => 'Promo codes for KFC, Pizza Hut, noon, Rabbit, Breadfast and more, all in one place and in Arabic and English. Copy a code, check the conditions and save.',
-  h_kicker => 'Promo codes & discounts in Egypt and the GCC',
   h_display => 'Every bite,<br> <em>a better price</em>',
   h_lede => 'Copy promo codes for KFC, Pizza Hut, Rabbit, noon and more, with the conditions spelled out before you order. Free, no sign-up.',
   h_fact_region => 'Egypt & GCC', h_fact_free => 'Free, no sign-up', h_top => 'Top codes', h_swipe => 'Swipe',
@@ -160,7 +159,6 @@ my %S = (
   cookie_text => 'نستخدم ملفات تعريف الارتباط لفهم كيفية استخدام Foodidu وتحسينه.', accept => 'موافق', decline => 'رفض', cookies => 'ملفات تعريف الارتباط',
   h_title => 'Foodidu – أكواد وكوبونات خصم في مصر والخليج',
   h_desc => 'أكواد خصم كنتاكي وبيتزا هت ونون ورابيت وبريدفاست وغيرها في مكان واحد وباللغتين. انسخ الكود واعرف الشروط ووفّر على طلبك القادم.',
-  h_kicker => 'أكواد وكوبونات خصم في مصر والخليج',
   h_display => 'كل أكلة<br> <em>بسعر أحلى</em>',
   h_lede => 'انسخ أكواد خصم كنتاكي وبيتزا هت ورابيت ونون وغيرها، مع توضيح الشروط قبل أن تطلب. مجاناً وبدون تسجيل.',
   h_fact_region => 'مصر والخليج', h_fact_free => 'مجاني وبدون تسجيل', h_top => 'أقوى الأكواد', h_swipe => 'اسحب',
@@ -566,7 +564,7 @@ for my $l (@LANGS) {
 <section class="hero">
 <div class="wrap hero-grid">
 <div class="hero-copy">
-<h1><span class="kicker"><span class="dot"></span>@{[ T($l, 'h_kicker') ]}</span><span class="display">@{[ T($l, 'h_display') ]}</span></h1>
+<h1><span class="display">@{[ T($l, 'h_display') ]}</span></h1>
 <p class="lede">@{[ T($l, 'h_lede') ]}</p>
 @{[ search_form($l) ]}
 <ul class="hero-facts">$facts</ul>
