@@ -128,19 +128,19 @@ async function og(pattern, face, data) {
       home: ["Every bite, a better price.", "Promo codes for KFC, Pizza Hut, Rabbit, noon and more in Egypt & the GCC."],
       codes: ["All promo codes in one place", "Restaurants, grocery apps and online shopping in Egypt & the GCC."],
       partners: ["Partner with Foodidu", "Put your restaurant's promo code in front of people about to order."],
-      brand: (b) => [`${b.name.en} promo code`, b.offer.en]
+      brand: (b) => [b.moreCodes ? `${b.name.en} promo codes` : `${b.name.en} promo code`, [b.offer.en, ...(b.moreCodes || []).map((x) => x.offer.en)].join(" · ")]
     },
     ar: {
       home: ["كل أكلة… بسعر أحلى.", "أكواد خصم كنتاكي وبيتزا هت ورابيت ونون وغيرها في مصر والخليج."],
       codes: ["كل أكواد الخصم في مكان واحد", "مطاعم وتطبيقات بقالة وتسوق أونلاين في مصر والخليج."],
       partners: ["انضم لشركاء Foodidu", "اعرض كود خصم مطعمك أمام أشخاص على وشك الطلب."],
-      brand: (b) => [`كود خصم ${b.name.ar}`, b.offer.ar]
+      brand: (b) => [b.moreCodes ? `أكواد خصم ${b.name.ar}` : `كود خصم ${b.name.ar}`, [b.offer.ar, ...(b.moreCodes || []).map((x) => x.offer.ar)].join(" · ")]
     }
   };
   const jobs = [];
   for (const lang of ["en", "ar"]) {
     for (const k of ["home", "codes", "partners"]) jobs.push({ lang, file: `${k}-${lang}`, text: copy[lang][k], brands: ["pizza-hut", "kfc"] });
-    for (const b of data.brands) jobs.push({ lang, file: `${b.key}-${lang}`, text: copy[lang].brand(b), brands: [b.key] });
+    for (const b of data.brands) jobs.push({ lang, file: `${b.key}-${lang}`, text: copy[lang].brand(b), items: [b, ...(b.moreCodes || []).map((x) => ({ ...b, code: x.code, badge: x.badge }))] });
   }
   const byKey = Object.fromEntries(data.brands.map((b) => [b.key, b]));
   for (const j of jobs) {
@@ -167,7 +167,7 @@ async function og(pattern, face, data) {
     y += 6; for (const ln of wrap(x, j.text[1], colW).slice(0, 3)) { x.fillText(ln, colX, y); y += 44; }
     // tickets
     const tw = 440, tx = rtl ? 70 : W - 70 - tw;
-    const list = j.brands.map((k) => byKey[k]);
+    const list = j.items || j.brands.map((k) => byKey[k]);   // a brand with 2 codes shows 2 tickets
     if (list.length === 2) {
       ticketArt(x, { ...list[0], cat: CAT[list[0].category][j.lang] }, j.lang, logos[list[0].key], tx - (rtl ? -30 : 30), 70, tw, rtl ? .07 : -.07);
       ticketArt(x, { ...list[1], cat: CAT[list[1].category][j.lang] }, j.lang, logos[list[1].key], tx + (rtl ? -20 : 20), 205, tw, rtl ? -.04 : .04);

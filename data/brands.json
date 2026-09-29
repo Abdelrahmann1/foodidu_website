@@ -1,5 +1,5 @@
 {
-  "_help": "Edit codes and offers here, then run: perl tools/build.pl. Set lastVerified (YYYY-MM-DD) when you personally re-check a code; the page title then shows the month for 45 days, which lifts clicks from Google.",
+  "_help": "Edit codes and offers here, then run: perl tools/build.pl. A brand can list extra codes in moreCodes (code, badge, offer, terms); each one gets its own ticket. Set lastVerified (YYYY-MM-DD) when you personally re-check a code; the page title then shows the month for 45 days, which lifts clicks from Google.",
   "categories": {
     "restaurants": { "en": "Restaurants", "ar": "مطاعم" },
     "groceries": { "en": "Groceries", "ar": "بقالة" },
@@ -17,7 +17,7 @@
       "exclusive": true,
       "featured": true,
       "url": "",
-      "lastVerified": "",
+      "lastVerified": "2026-09-29",
       "badge": { "en": ["30%", "off"], "ar": ["30%", "خصم"] },
       "offer": { "en": "30% off your first order, up to 150 EGP", "ar": "خصم 30% على أول طلب بحد أقصى 150 جنيه" },
       "terms": { "en": "For your first order on Rabbit. The maximum discount is 150 EGP.", "ar": "على أول طلب من رابيت. أقصى قيمة للخصم 150 جنيه." },
@@ -43,7 +43,7 @@
       "featured": true,
       "url": "https://www.senem-eg.com/discount/FOODIDU10",
       "urlLabel": { "en": "Open the discount link", "ar": "افتح رابط الخصم" },
-      "lastVerified": "",
+      "lastVerified": "2026-09-29",
       "badge": { "en": ["10%", "off"], "ar": ["10%", "خصم"] },
       "offer": { "en": "10% off premium groceries", "ar": "خصم 10% على البقالة المميزة" },
       "terms": { "en": "10% off your order on Senem. The discount link applies the code for you.", "ar": "خصم 10% على طلبك من سنيم. رابط الخصم يطبّق الكود تلقائياً." },
@@ -68,7 +68,7 @@
       "exclusive": true,
       "featured": true,
       "url": "https://www.noon.com/",
-      "lastVerified": "",
+      "lastVerified": "2026-09-29",
       "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
       "offer": { "en": "15% off your first order across the GCC", "ar": "خصم 15% على أول طلب في دول الخليج" },
       "terms": { "en": "15% off your first order on noon in the GCC.", "ar": "خصم 15% على أول طلب من نون في دول الخليج." },
@@ -93,7 +93,7 @@
       "exclusive": true,
       "featured": true,
       "url": "https://www.noon.com/egypt-en/",
-      "lastVerified": "",
+      "lastVerified": "2026-09-29",
       "badge": { "en": ["5–7%", "off"], "ar": ["5–7%", "خصم"] },
       "offer": { "en": "5–7% off your orders in Egypt", "ar": "خصم من 5 إلى 7% على طلباتك في مصر" },
       "terms": { "en": "5–7% off orders on noon Egypt.", "ar": "خصم من 5 إلى 7% على الطلبات من نون مصر." },
@@ -118,7 +118,7 @@
       "exclusive": false,
       "featured": true,
       "url": "",
-      "lastVerified": "",
+      "lastVerified": "2026-09-29",
       "badge": { "en": ["40%", "off"], "ar": ["40%", "خصم"] },
       "offer": { "en": "40% off your first order on the app", "ar": "خصم 40% على أول طلب من التطبيق" },
       "terms": { "en": "For your first order on the Pizza Hut app.", "ar": "على أول طلب من تطبيق بيتزا هت." },
@@ -143,7 +143,7 @@
       "exclusive": false,
       "featured": true,
       "url": "",
-      "lastVerified": "",
+      "lastVerified": "2026-09-29",
       "badge": { "en": ["25%", "off"], "ar": ["25%", "خصم"] },
       "offer": { "en": "25% off your first 3 orders", "ar": "خصم 25% على أول 3 طلبات" },
       "terms": { "en": "Valid on your first 3 orders. Not valid with the special Tuesday offers.", "ar": "صالح على أول 3 طلبات. لا يُستخدم مع عروض يوم الثلاثاء الخاصة." },
@@ -168,7 +168,7 @@
       "exclusive": false,
       "featured": false,
       "url": "",
-      "lastVerified": "",
+      "lastVerified": "2026-09-29",
       "badge": { "en": ["Free", "delivery"], "ar": ["مجاناً", "توصيل"] },
       "offer": { "en": "Free delivery on your first order above 350 EGP", "ar": "توصيل مجاني على أول طلب فوق 350 جنيه" },
       "terms": { "en": "Free delivery on your first order above 350 EGP.", "ar": "توصيل مجاني على أول طلب بقيمة أكثر من 350 جنيه." },
@@ -178,7 +178,7 @@
         "ar": "بريدفاست تطبيق مصري يوصّل البقالة والمخبوزات الطازجة واحتياجات البيت حتى باب منزلك. استخدم الكود للحصول على توصيل مجاني على أول طلب بقيمة أكثر من 350 جنيه."
       },
       "seo": {
-        "en": { "title": "Breadfast Promo Code: Free Delivery on Your First Order", "description": "Breadfast promo code SMR: free delivery on your first order above 350 EGP. Copy the code for groceries and fresh bakery delivery in Egypt." },
+        "en": { "title": "Breadfast Promo Code: Free Delivery on First Order", "description": "Breadfast promo code SMR: free delivery on your first order above 350 EGP. Copy the code for groceries and fresh bakery delivery in Egypt." },
         "ar": { "title": "كود خصم بريدفاست: توصيل مجاني على أول طلب", "description": "كود بريدفاست SMR: توصيل مجاني على أول طلب بقيمة أكثر من 350 جنيه. انسخ الكود واطلب البقالة والمخبوزات الطازجة في مصر." }
       }
     },
@@ -193,7 +193,7 @@
       "exclusive": false,
       "featured": false,
       "url": "",
-      "lastVerified": "",
+      "lastVerified": "2026-09-29",
       "badge": { "en": ["20%", "off"], "ar": ["20%", "خصم"] },
       "offer": { "en": "20% off your first order", "ar": "خصم 20% على أول طلب" },
       "terms": { "en": "20% off your first order.", "ar": "خصم 20% على أول طلب." },
@@ -218,18 +218,26 @@
       "exclusive": false,
       "featured": false,
       "url": "",
-      "lastVerified": "",
+      "lastVerified": "2026-09-29",
       "badge": { "en": ["10%", "cashback"], "ar": ["10%", "كاش باك"] },
       "offer": { "en": "10% cashback on every order", "ar": "كاش باك 10% على كل طلب" },
       "terms": { "en": "10% cashback on all orders from the website or app.", "ar": "كاش باك 10% على كل الطلبات من الموقع أو التطبيق." },
+      "moreCodes": [
+        {
+          "code": "SMASH15",
+          "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
+          "offer": { "en": "15% off your order", "ar": "خصم 15% على طلبك" },
+          "terms": { "en": "15% off your order from Just Smash.", "ar": "خصم 15% على طلبك من جست سماش." }
+        }
+      ],
       "where": { "en": "the Just Smash website or app", "ar": "موقع أو تطبيق جست سماش" },
       "about": {
-        "en": "Just Smash is a smash-burger restaurant in Egypt. Order through its website or app with this code and get 10% cashback on your orders.",
-        "ar": "جست سماش مطعم سماش برجر في مصر. اطلب من الموقع أو التطبيق بهذا الكود واحصل على كاش باك 10% على طلباتك."
+        "en": "Just Smash is a smash-burger restaurant in Egypt. Foodidu has two codes for it: AUTO10 for 10% cashback on orders from the website or app, and SMASH15 for 15% off.",
+        "ar": "جست سماش مطعم سماش برجر في مصر. عندنا له كودان: كود AUTO10 لكاش باك 10% على الطلبات من الموقع أو التطبيق، وكود SMASH15 لخصم 15%."
       },
       "seo": {
-        "en": { "title": "Just Smash Burger Promo Code: 10% Cashback", "description": "Just Smash Burger code AUTO10: 10% cashback on orders from the Just Smash website or app in Egypt. Copy the code and enjoy your burger for less." },
-        "ar": { "title": "كود خصم جست سماش برجر: كاش باك 10%", "description": "كود جست سماش برجر AUTO10: كاش باك 10% على الطلبات من موقع أو تطبيق جست سماش في مصر. انسخ الكود واستمتع بالبرجر بسعر أقل." }
+        "en": { "title": "Just Smash Burger Promo Codes: 15% Off or 10% Cashback", "description": "2 Just Smash Burger promo codes in Egypt: SMASH15 for 15% off and AUTO10 for 10% cashback on website and app orders. Copy a code and enjoy your burger for less." },
+        "ar": { "title": "أكواد خصم جست سماش برجر: خصم 15% أو كاش باك 10%", "description": "أكواد خصم جست سماش برجر في مصر: كود SMASH15 لخصم 15%، وكود AUTO10 لكاش باك 10% على الطلبات من الموقع أو التطبيق. انسخ الكود واستمتع بالبرجر بسعر أقل." }
       }
     },
     {
@@ -243,18 +251,26 @@
       "exclusive": false,
       "featured": false,
       "url": "",
-      "lastVerified": "",
+      "lastVerified": "2026-09-29",
       "badge": { "en": ["200", "EGP gift"], "ar": ["200 جنيه", "هدية"] },
       "offer": { "en": "200 EGP welcome gift on your online order", "ar": "هدية ترحيب 200 جنيه على طلبك أونلاين" },
       "terms": { "en": "A 200 EGP welcome gift on your online order.", "ar": "هدية ترحيب بقيمة 200 جنيه على طلبك أونلاين." },
+      "moreCodes": [
+        {
+          "code": "BUTCHER20",
+          "badge": { "en": ["20%", "off"], "ar": ["20%", "خصم"] },
+          "offer": { "en": "20% off your burger order", "ar": "خصم 20% على طلبك" },
+          "terms": { "en": "20% off your order from Butcher's Burger.", "ar": "خصم 20% على طلبك من بوتشرز برجر." }
+        }
+      ],
       "where": { "en": "Butcher's Burger online ordering", "ar": "الطلب أونلاين من بوتشرز برجر" },
       "about": {
-        "en": "Butcher's Burger is a burger restaurant in Egypt serving grilled beef burgers. New online customers get a 200 EGP welcome gift with this code.",
-        "ar": "بوتشرز برجر مطعم برجر في مصر يقدّم برجر اللحم المشوي. العملاء الجدد أونلاين يحصلون على هدية ترحيب بقيمة 200 جنيه بهذا الكود."
+        "en": "Butcher's Burger is a burger restaurant in Egypt serving grilled beef burgers. Foodidu has two codes for it: WELCOME200 for a 200 EGP welcome gift on your online order, and BUTCHER20 for 20% off.",
+        "ar": "بوتشرز برجر مطعم برجر في مصر يقدّم برجر اللحم المشوي. عندنا له كودان: كود WELCOME200 لهدية ترحيب بقيمة 200 جنيه على طلبك أونلاين، وكود BUTCHER20 لخصم 20%."
       },
       "seo": {
-        "en": { "title": "Butcher's Burger Promo Code: 200 EGP Welcome Gift", "description": "Butcher's Burger code WELCOME200 gets you a 200 EGP welcome gift on your online order in Egypt. Copy the code and check the conditions." },
-        "ar": { "title": "كود خصم بوتشرز برجر: هدية ترحيب 200 جنيه", "description": "كود بوتشرز برجر WELCOME200: هدية ترحيب بقيمة 200 جنيه على طلبك أونلاين في مصر. انسخ الكود واطّلع على الشروط." }
+        "en": { "title": "Butcher's Burger Promo Codes: 20% Off or 200 EGP Gift", "description": "2 Butcher's Burger promo codes in Egypt: BUTCHER20 for 20% off and WELCOME200 for a 200 EGP welcome gift on your online order. Copy a code and save." },
+        "ar": { "title": "أكواد خصم بوتشرز برجر: خصم 20% أو هدية 200 جنيه", "description": "أكواد خصم بوتشرز برجر في مصر: كود BUTCHER20 لخصم 20%، وكود WELCOME200 لهدية ترحيب بقيمة 200 جنيه على طلبك أونلاين. انسخ الكود ووفّر." }
       }
     },
     {
@@ -268,18 +284,26 @@
       "exclusive": false,
       "featured": false,
       "url": "",
-      "lastVerified": "",
+      "lastVerified": "2026-09-29",
       "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
       "offer": { "en": "15% off when you order on the website", "ar": "خصم 15% عند الطلب من الموقع" },
       "terms": { "en": "15% off when you order directly from the Mini Beirut website.", "ar": "خصم 15% عند الطلب مباشرة من موقع ميني بيروت." },
+      "moreCodes": [
+        {
+          "code": "BEIRUT25",
+          "badge": { "en": ["25%", "off"], "ar": ["25%", "خصم"] },
+          "offer": { "en": "25% off your order", "ar": "خصم 25% على طلبك" },
+          "terms": { "en": "25% off your order from Mini Beirut.", "ar": "خصم 25% على طلبك من ميني بيروت." }
+        }
+      ],
       "where": { "en": "the Mini Beirut website", "ar": "موقع ميني بيروت" },
       "about": {
-        "en": "Mini Beirut serves Lebanese food in Egypt, from mezze to main dishes. Order directly from its website with this code to get 15% off.",
-        "ar": "ميني بيروت يقدّم الأكل اللبناني في مصر، من المزّة إلى الأطباق الرئيسية. اطلب مباشرة من موقعه بهذا الكود واحصل على خصم 15%."
+        "en": "Mini Beirut serves Lebanese food in Egypt, from mezze to main dishes. Foodidu has two codes for it: BEIRUT25 for 25% off, and AUTO15 for 15% off when you order directly from the Mini Beirut website.",
+        "ar": "ميني بيروت يقدّم الأكل اللبناني في مصر، من المزّة إلى الأطباق الرئيسية. عندنا له كودان: كود BEIRUT25 لخصم 25%، وكود AUTO15 لخصم 15% عند الطلب مباشرة من موقع ميني بيروت."
       },
       "seo": {
-        "en": { "title": "Mini Beirut Promo Code: 15% Off Website Orders", "description": "Mini Beirut code AUTO15: 15% off when you order directly from the Mini Beirut website in Egypt. Copy the code and enjoy Lebanese food for less." },
-        "ar": { "title": "كود خصم ميني بيروت: خصم 15% على طلبات الموقع", "description": "كود ميني بيروت AUTO15: خصم 15% عند الطلب مباشرة من موقع ميني بيروت في مصر. انسخ الكود واستمتع بالأكل اللبناني بسعر أقل." }
+        "en": { "title": "Mini Beirut Promo Codes: Up to 25% Off Lebanese Food", "description": "2 Mini Beirut promo codes in Egypt: BEIRUT25 for 25% off and AUTO15 for 15% off orders on the Mini Beirut website. Copy a code and enjoy Lebanese food for less." },
+        "ar": { "title": "أكواد خصم ميني بيروت: حتى 25% على الأكل اللبناني", "description": "أكواد خصم ميني بيروت في مصر: كود BEIRUT25 لخصم 25%، وكود AUTO15 لخصم 15% على الطلب من موقع ميني بيروت. انسخ الكود واستمتع بالأكل اللبناني بسعر أقل." }
       }
     },
     {
@@ -293,7 +317,7 @@
       "exclusive": false,
       "featured": false,
       "url": "",
-      "lastVerified": "",
+      "lastVerified": "2026-09-29",
       "badge": { "en": ["App", "exclusive"], "ar": ["حصرية", "عروض"] },
       "offer": { "en": "Exclusive deals in the My Buffalo app", "ar": "عروض حصرية على تطبيق ماي بافلو" },
       "terms": { "en": "Download the My Buffalo app for app-only deals and offers.", "ar": "حمّل تطبيق ماي بافلو للحصول على عروض وخصومات حصرية للتطبيق." },
