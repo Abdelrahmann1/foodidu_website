@@ -33,10 +33,10 @@ const LOGOS = {
   "my-buffalo":      { src: "mybuffalo.svg",        pad: .04, bg: "#fff" },
   "butchers-burger": { src: "butcher'sburger.svg",  pad: 0,   bg: "#fff" },
   "willys-kitchen":  { src: "willys-kitchen.svg",   pad: .1,  bg: "#fff", from: "/__tools/logo-src/" },
-  "bazooka":         { src: "bazooka-ad.jpg",       pad: 0,   bg: "#2a2624", from: "/__tools/logo-src/", crop: [395, 920, 240, 240] },
-  "talabat-mart":    { src: "talabat-mart-ad.jpg",  pad: .07, bg: "auto", from: "/__tools/logo-src/", crop: [278, 20, 392, 86] },
-  "waffarha":        { text: "Waffarha", color: "#3A280D", bg: "#fff" },
-  "iherb":           { text: "iHerb", color: "#3F7A12", bg: "#fff" }
+  "bazooka":         { src: "bazooka.png",          pad: .08, bg: "#111", from: "/__tools/logo-src/" },
+  "talabat-mart":    { src: "talabat-mart.svg",     pad: .08, bg: "#fff", from: "/__tools/logo-src/" },
+  "waffarha":        { src: "waffarha.svg",         pad: .1,  bg: "#fff", from: "/__tools/logo-src/" },
+  "iherb":           { src: "iherb.svg",            pad: .16, bg: "#458500", from: "/__tools/logo-src/" }
 };
 const log = (m) => { document.getElementById("log").textContent += m + "\n"; };
 const load = (src) => new Promise((res, rej) => { const i = new Image(); i.crossOrigin = "anonymous"; i.onload = () => res(i); i.onerror = () => rej(new Error("load " + src)); i.src = src; });
@@ -58,7 +58,7 @@ function rr(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r);
 
 async function logos() {
   for (const [key, o] of Object.entries(LOGOS)) {
-    const S = 192, c = canvas(S, S), x = c.getContext("2d");
+    const S = 384, c = canvas(S, S), x = c.getContext("2d");   // 384px: sharp on 3x phone screens
     if (o.text) {   // no official logo file: the brand name as a clean text tile
       x.fillStyle = o.bg || "#fff"; x.fillRect(0, 0, S, S);
       let size = 52; x.font = `700 ${size}px 'Readex Pro'`;
@@ -79,7 +79,7 @@ async function logos() {
     x.fillStyle = bg; x.fillRect(0, 0, S, S);
     const p = S * o.pad;
     fit(x, img, p, p, S - 2 * p, S - 2 * p, o.pad === 0);
-    await save(`static/img/brands/${key}.webp`, c, "image/webp", .9);
+    await save(`static/img/brands/${key}.webp`, c, "image/webp", .95);
   }
 }
 
