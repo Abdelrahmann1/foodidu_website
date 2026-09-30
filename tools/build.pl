@@ -317,6 +317,7 @@ my %ICON = (
   menubook => '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5Z"/><path d="M4 19a2 2 0 0 1 2-2h13v4H6a2 2 0 0 1-2-2ZM9 7h6M9 11h6"/>',
   bolt     => '<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>',
   calendar => '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="m9.5 15 2 2 3.5-3.5"/>',
+  pizza    => '<path d="M12 3 4.5 19.5c4.8 2 10.2 2 15 0Z"/><path d="M6.8 14.5c3.4 1.3 7 1.3 10.4 0"/><circle cx="12" cy="10.5" r="1.2"/><circle cx="10" cy="15.6" r=".9"/><circle cx="14.2" cy="15.6" r=".9"/>',
   facebook => '<path fill="currentColor" stroke="none" d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v7h4v-7h3l.5-4h-3.5V9c0-.6.4-1 1-1Z"/>',
   instagram=> '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>',
   tiktok   => '<path fill="currentColor" stroke="none" d="M16.5 3c.3 2.3 1.8 3.9 4 4.1v3.3c-1.5 0-2.9-.4-4-1.2v6.3A5.5 5.5 0 1 1 11 10v3.4a2.2 2.2 0 1 0 2 2.2V3h3.5Z"/>',
@@ -586,20 +587,23 @@ sub dday_card {
   my $href = $b ? brand_url($b, $l) : ($d->{url} // '');
   my $logo = $b ? logo_img($b, $l, 44)
     : $d->{logo} ? qq{<img src="/img/brands/$d->{logo}" alt="} . Te($l, 'logo_alt', name => $name) . qq{" width="44" height="44" loading="lazy" decoding="async">}
-    : icon('fork');
+    : icon($d->{icon} // 'fork');
+  my $region = $b ? $b->{region} : $d->{region};
   my $nameh = $href ? qq{<a href="$href">} . esc($name) . '</a>' : esc($name);
   my @days = @{ $d->{days} };
   qq{<article class="dday" data-days="@days">}
   . '<div class="dday-cal" aria-hidden="true"><span>' . T($l, 'dd_every') . '</span><b>' . join(' · ', map { $DAYC{$l}{$_} } @days) . '</b></div>'
   . '<div class="dday-body"><div class="dday-brand"><span class="logo-tile">' . $logo . '</span><div>'
-  . qq{<h3 class="dday-name">$nameh</h3><span class="ticket-meta">} . esc(dd_days($d, $l)) . ($b ? ' · ' . T($l, $b->{region}) : '') . '</span></div>'
+  . qq{<h3 class="dday-name">$nameh</h3><span class="ticket-meta">} . esc(dd_days($d, $l)) . ($region ? ' · ' . T($l, $region) : '') . '</span></div>'
   . '<span class="today-tag" hidden>' . T($l, 'dd_today') . '</span></div>'
   . '<p class="dday-title">' . esc($d->{title}{$l}) . '</p>'
   . '<p class="dday-text">' . esc($d->{details}{$l}) . '</p>'
   . '<p class="dday-src">' . icon('external') . '<span>' . T($l, 'dd_source') . ': <a href="' . esc($d->{source}) . '" rel="nofollow noopener" target="_blank">' . esc($d->{sourceLabel}{$l}) . '</a></span></p>'
   . '</div></article>';
 }
-sub dday_list { my ($l, @ds) = @_; '<ul class="dday-list">' . join('', map { '<li>' . dday_card($_, $l) . '</li>' } @ds) . '</ul>' }
+my %DAYI = map { ($DAYS[$_] => $_) } 0 .. $#DAYS;
+sub by_weekday { sort { $DAYI{ $a->{days}[0] } <=> $DAYI{ $b->{days}[0] } } @_ }   # Saturday first; JS moves today's deal to the top
+sub dday_list { my ($l, @ds) = @_; '<ul class="dday-list">' . join('', map { '<li>' . dday_card($_, $l) . '</li>' } by_weekday(@ds)) . '</ul>' }
 sub dd_qa { my ($l, @ds) = @_; map { [Te($l, 'dd_q', brand => dd_name($_, $l), day => dd_days($_, $l)), esc($_->{details}{$l}) . ' ' . T($l, 'dd_note')] } @ds }
 
 # ------------------------------------------------------------------ pages
@@ -639,16 +643,16 @@ for my $l (@LANGS) {
 </div>
 </section>
 <div class="scallop" aria-hidden="true"></div>
-<section class="wrap section-tight" aria-labelledby="cats-title">
-<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_cat_eyebrow') ]}</p><h2 class="h2" id="cats-title">@{[ T($l, 'h_cat_title') ]}</h2></div></div>
-<div class="cats">$cats</div>
-</section>
 <section class="wrap section-tight" aria-labelledby="feat-title">
 <div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_feat_eyebrow') ]}</p><h2 class="h2" id="feat-title">@{[ T($l, 'h_feat_title') ]}</h2><p class="section-sub">@{[ T($l, 'h_feat_sub') ]}</p></div>
 <a class="btn btn-ink" href="$codes">@{[ T($l, 'h_see_all', n => $NCODES) ]} @{[ icon('arrow', 'flip') ]}</a></div>
 <ul class="ticket-list">$featured</ul>
 </section>
 @{[ @DDEALS ? qq{<section class="wrap section-tight" aria-labelledby="dd-title"><div class="section-head"><div><p class="eyebrow">} . T($l, 'dd_eyebrow') . qq{</p><h2 class="h2" id="dd-title">} . T($l, 'dd_title') . '</h2><p class="section-sub">' . T($l, 'dd_sub') . qq{</p></div><a class="btn btn-ink" href="} . path_for($l, '/day-deals/') . '">' . T($l, 'dd_all') . ' ' . icon('arrow', 'flip') . '</a></div>' . dday_list($l, @DDEALS) . '</section>' : '' ]}
+<section class="wrap section-tight" aria-labelledby="cats-title">
+<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_cat_eyebrow') ]}</p><h2 class="h2" id="cats-title">@{[ T($l, 'h_cat_title') ]}</h2></div></div>
+<div class="cats">$cats</div>
+</section>
 <section class="wrap section-tight" aria-labelledby="how-title">
 <div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_how_eyebrow') ]}</p><h2 class="h2" id="how-title">@{[ T($l, 'h_how_title') ]}</h2></div></div>
 <ol class="steps">

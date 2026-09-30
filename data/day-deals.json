@@ -13,6 +13,21 @@
       "source": "https://www.facebook.com/KFCegypt/videos/50-off-this-tuesday/4075630192655026/",
       "sourceLabel": { "en": "KFC Egypt on Facebook", "ar": "صفحة كنتاكي مصر على فيسبوك" },
       "lastChecked": "2026-09-29"
+    },
+    {
+      "id": "dominos-monday",
+      "name": { "en": "Domino's Pizza", "ar": "دومينوز بيتزا" },
+      "icon": "pizza",
+      "region": "eg",
+      "days": ["mon"],
+      "title": { "en": "2 pizzas for the price of 1", "ar": "2 بيتزا بسعر واحدة" },
+      "details": {
+        "en": "Domino's Egypt \"Monday Madness\": order 2 pizzas and pay for 1, from the Domino's website, the Domino's app or 19223. From its latest official post (June 2025).",
+        "ar": "عرض «مادنيس الإتنين» من دومينوز مصر: اطلب 2 بيتزا وادفع ثمن واحدة، من موقع دومينوز أو التطبيق أو رقم 19223. حسب آخر إعلان رسمي (يونيو 2025)."
+      },
+      "source": "https://www.instagram.com/p/DK9WbU6sJIz/",
+      "sourceLabel": { "en": "Domino's Egypt on Instagram (June 2025)", "ar": "حساب دومينوز مصر على إنستجرام (يونيو 2025)" },
+      "lastChecked": "2026-09-30"
     }
   ]
 }
