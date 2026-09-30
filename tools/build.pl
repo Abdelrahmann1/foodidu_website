@@ -33,9 +33,10 @@ my $LOGO = '/img/foodidu-logo.svg';   # the "welcome to Foodidu" brand logo, 767
 
 sub slurp { my ($f, $raw) = @_; open my $fh, ($raw ? '<:raw' : '<:encoding(UTF-8)'), $f or die "read $f: $!"; local $/; my $s = <$fh>; close $fh; $s }
 sub spit  { my ($f, $s, $raw) = @_; make_path(dirname($f)); open my $fh, ($raw ? '>:raw' : '>:encoding(UTF-8)'), $f or die "write $f: $!"; print $fh $s; close $fh }
-sub mdate {                             # last commit date of a file (stable across checkouts), else mtime
+sub mdate {                             # last commit date of a file (stable across checkouts); if it has uncommitted edits, its mtime
   my $f = shift;
-  my $d = `git -C "$ROOT" log -1 --format=%cs -- "$f" 2>/dev/null`; chomp $d;
+  my $dirty = `git -C "$ROOT" status --porcelain -- "$f" 2>/dev/null`;
+  my $d = $dirty ? '' : `git -C "$ROOT" log -1 --format=%cs -- "$f" 2>/dev/null`; chomp $d;
   return $d =~ /^\d{4}-\d\d-\d\d$/ ? $d : strftime('%Y-%m-%d', gmtime((stat $f)[9]));
 }
 
