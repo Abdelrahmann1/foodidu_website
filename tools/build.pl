@@ -37,7 +37,7 @@ sub mdate {                             # last commit date of a file (stable acr
   my $f = shift;
   my $dirty = `git -C "$ROOT" status --porcelain -- "$f" 2>/dev/null`;
   my $d = $dirty ? '' : `git -C "$ROOT" log -1 --format=%cs -- "$f" 2>/dev/null`; chomp $d;
-  return $d =~ /^\d{4}-\d\d-\d\d$/ ? $d : strftime('%Y-%m-%d', gmtime((stat $f)[9]));
+  return $d =~ /^\d{4}-\d\d-\d\d$/ ? $d : strftime('%Y-%m-%d', localtime((stat $f)[9]));   # local date, like git %cs
 }
 
 my $DATA   = JSON::PP->new->utf8->decode(slurp("$ROOT/data/brands.json", 1));
