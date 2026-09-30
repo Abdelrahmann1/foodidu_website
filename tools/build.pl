@@ -62,6 +62,9 @@ my %DAYN = (
 my $RO_FILE = "$ROOT/data/restaurant-offers.json";
 my @RESTS = -f $RO_FILE ? @{ JSON::PP->new->utf8->decode(slurp($RO_FILE, 1))->{restaurants} // [] } : ();
 my $RO_DATE = -f $RO_FILE ? mdate($RO_FILE) : $DATA_DATE;
+my $FT_FILE = "$ROOT/data/featured.json";
+my $FEAT = -f $FT_FILE ? JSON::PP->new->utf8->decode(slurp($FT_FILE, 1)) : {};
+my $TODAY = strftime('%Y-%m-%d', localtime $NOW);
 my %DAYC = (   # calendar block: "Every Tuesday" / "كل ثلاثاء" (Arabic without the article)
   en => $DAYN{en},
   ar => { sat => 'سبت', sun => 'أحد', mon => 'اثنين', tue => 'ثلاثاء', wed => 'أربعاء', thu => 'خميس', fri => 'جمعة' },
@@ -130,6 +133,9 @@ my %S = (
   ro_q3 => 'How do I order {name} offers?', ro_a3 => 'From the Offers section of the {name} menu online, or by calling {phone}.',
   ro_q4 => 'Do the prices change?', ro_a4 => 'These prices are from the official {name} menu on {date} and can change, so check the menu before you order.',
   ro_src => 'Prices from the official {name} menu. They can change.', ro_valid => 'Offers valid until {date}',
+  ft_label => 'Featured offer', ft_sponsored => 'Sponsored', ft_until => 'until {date}',
+  ft_rest_title => '{name} offers: save up to {p}%', ft_rest_text => '{n} on the menu from {min} EGP', ft_rest_cta => 'See the offers',
+  ft_code_title => '{name} promo code', ft_code_cta => 'Get the code',
   band_title => 'Own a restaurant or food brand?', band_text => 'Put your promo code in front of people who are about to order. Apply in two minutes and our team will get in touch.', band_btn => 'Partner with Foodidu',
   faq_eyebrow => 'FAQ', faq_title => 'Questions, answered',
   # codes page
@@ -172,6 +178,7 @@ my %S = (
   p_q1 => 'What kind of businesses can apply?', p_a1 => 'Restaurants, cafés, cloud kitchens, food trucks, bakeries and other food businesses.',
   p_q2 => 'Do I need a website?', p_a2 => 'No. Your phone number and location are enough to apply. Add your website or social page if you have one.',
   p_q3 => 'Can I change my offer later?', p_a3 => "Yes. Tell us when your offer changes and we'll update your code and page.",
+  p_q4 => 'Can my restaurant appear at the top of the home page?', p_a4 => 'Yes. The “Featured offer” spot right under the home page header shows one partner at a time. Mention it in your application and we will send you the details.',
   # legal
   pr_seo => 'Foodidu Privacy Policy: How We Use Your Data',
   pr_title => 'Privacy Policy', pr_desc => 'How Foodidu collects, uses and protects your information, which services we use, and the choices you have about cookies and your data.',
@@ -245,6 +252,9 @@ my %S = (
   ro_q3 => 'كيف أطلب عروض {name}؟', ro_a3 => 'من قسم العروض في منيو {name} أونلاين، أو بالاتصال على {phone}.',
   ro_q4 => 'هل تتغير الأسعار؟', ro_a4 => 'هذه الأسعار من منيو {name} الرسمي بتاريخ {date} وقد تتغير، فراجع المنيو قبل الطلب.',
   ro_src => 'الأسعار من منيو {name} الرسمي وقد تتغير.', ro_valid => 'العروض سارية حتى {date}',
+  ft_label => 'عرض مميز', ft_sponsored => 'إعلان', ft_until => 'حتى {date}',
+  ft_rest_title => 'عروض {name}: وفّر حتى <bdi>{p}%</bdi>', ft_rest_text => '{n} من المنيو تبدأ من {min} جنيه', ft_rest_cta => 'شوف العروض',
+  ft_code_title => 'كود خصم {name}', ft_code_cta => 'خد الكود',
   band_title => 'عندك مطعم أو براند أكل؟', band_text => 'اعرض كود الخصم الخاص بك أمام أشخاص على وشك الطلب. قدّم في دقيقتين وسيتواصل معك فريقنا.', band_btn => 'انضم لشركاء Foodidu',
   faq_eyebrow => 'أسئلة شائعة', faq_title => 'عندك سؤال؟',
   c_title => 'كل أكواد الخصم: مطاعم وبقالة وتسوق أونلاين',
@@ -284,6 +294,7 @@ my %S = (
   p_q1 => 'ما أنواع الأنشطة التي يمكنها التقديم؟', p_a1 => 'المطاعم والكافيهات والمطابخ السحابية وعربات الطعام والمخابز وأي نشاط طعام آخر.',
   p_q2 => 'هل أحتاج إلى موقع إلكتروني؟', p_a2 => 'لا. رقم الهاتف والموقع كافيان للتقديم، وأضف موقعك أو صفحة السوشيال إن وُجدت.',
   p_q3 => 'هل يمكنني تغيير العرض لاحقاً؟', p_a3 => 'نعم، أخبرنا عند تغيير عرضك وسنحدّث الكود والصفحة.',
+  p_q4 => 'هل يمكن أن يظهر مطعمي أعلى الصفحة الرئيسية؟', p_a4 => 'نعم. مساحة «عرض مميز» أسفل واجهة الصفحة الرئيسية مباشرة تعرض شريكاً واحداً في كل مرة. اذكر ذلك في طلبك وسنرسل لك التفاصيل.',
   pr_seo => 'سياسة الخصوصية في Foodidu: كيف نستخدم بياناتك',
   pr_title => 'سياسة الخصوصية', pr_desc => 'تعرّف على كيفية جمع Foodidu لمعلوماتك واستخدامها وحمايتها، والخدمات التي نستخدمها، وخياراتك بشأن ملفات تعريف الارتباط وبياناتك.',
   te_seo => 'الشروط والأحكام لاستخدام موقع Foodidu',
@@ -692,6 +703,32 @@ sub rest_block {   # home: restaurant header + its 3 biggest savings
   . qq{<a class="btn btn-line rest-all" href="$url">} . T($l, 'ro_all', name => $name) . ' ' . icon('arrow', 'flip') . '</a></div>'
   . '<ul class="moffer-list">' . join('', map { '<li>' . moffer_card($_, $l, 'h4') . '</li>' } @top) . '</ul></div>';
 }
+# Featured-partner banner under the home hero (data/featured.json). Gone after "until"; site.js also hides it
+# on that date when the site was not rebuilt.
+sub featured_html {
+  my $l = shift;
+  my $key = $FEAT->{partner} // '';
+  return '' unless $FEAT->{active} && $key && !($FEAT->{until} && $FEAT->{until} lt $TODAY);
+  my ($r) = grep { $_->{key} eq $key } @RESTS;
+  my $b = $BYKEY{$key};
+  die "data/featured.json: unknown partner '$key'\n" unless $r || $b;
+  my $name = ($r // $b)->{name}{$l};
+  my ($title, $text, $cta, $url, $logo) = $r
+    ? (Te($l, 'ft_rest_title', name => $name, p => rest_max_save($r)), T($l, 'ft_rest_text', n => noffers($l, scalar @{ $r->{offers} }), min => fmt_n(rest_min($r))),
+       T($l, 'ft_rest_cta'), rest_url($r, $l), rest_logo($r, $l, 64))
+    : (Te($l, 'ft_code_title', name => $name), esc(offers_text($b, $l)), T($l, 'ft_code_cta'), brand_url($b, $l), logo_img($b, $l, 64));
+  my %own = map { my $v = $FEAT->{$_}; ($_ => ref $v ? $v->{$l} : $v) } grep { $FEAT->{$_} } qw(title text cta url);
+  ($title, $text, $cta) = map { defined $own{$_->[0]} ? esc($own{$_->[0]}) : $_->[1] } [title => $title], [text => $text], [cta => $cta];
+  $url = $own{url} if $own{url};
+  $text .= ' · ' . T($l, 'ft_until', date => fmt_date($l, $FEAT->{until})) if $FEAT->{until};
+  my $tag = T($l, $FEAT->{sponsored} ? 'ft_sponsored' : 'ft_label');
+  my $rel = $url =~ m{^https?://} ? ($FEAT->{sponsored} ? ' rel="sponsored noopener"' : ' rel="noopener"') . ' target="_blank"' : '';
+  my $until = $FEAT->{until} ? qq{ data-until="$FEAT->{until}"} : '';
+  return qq{<aside class="wrap feat-slot" aria-label="$tag"$until><a class="feat" href="} . esc($url) . qq{"$rel>}
+    . '<span class="logo-tile">' . ($logo =~ s/ loading="lazy"//r) . qq{</span><span class="feat-body"><span class="feat-tag">$tag</span>}
+    . qq{<span class="feat-title">$title</span><span class="feat-text">$text</span></span>}
+    . qq{<span class="feat-cta">$cta } . icon('arrow', 'flip') . '</span></a></aside>';
+}
 sub dd_qa { my ($l, @ds) = @_; map { [Te($l, 'dd_q', brand => dd_name($_, $l), day => dd_when($_, $l)), esc($_->{details}{$l}) . ' ' . T($l, 'dd_note')] } @ds }
 
 # ------------------------------------------------------------------ pages
@@ -731,6 +768,7 @@ for my $l (@LANGS) {
 </div>
 </section>
 <div class="scallop" aria-hidden="true"></div>
+@{[ featured_html($l) ]}
 <section class="wrap section-tight" aria-labelledby="feat-title">
 <div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_feat_eyebrow') ]}</p><h2 class="h2" id="feat-title">@{[ T($l, 'h_feat_title') ]}</h2><p class="section-sub">@{[ T($l, 'h_feat_sub') ]}</p></div>
 <a class="btn btn-ink" href="$codes">@{[ T($l, 'h_see_all', n => $NCODES) ]} @{[ icon('arrow', 'flip') ]}</a></div>
@@ -1010,7 +1048,7 @@ HTML
 
   # ---------- partners
   {
-    my @qa = map { [T($l, "p_q$_"), T($l, "p_a$_")] } 1 .. 3;
+    my @qa = map { [T($l, "p_q$_"), T($l, "p_a$_")] } 1 .. 4;
     my $req = ' <span class="req" aria-hidden="true">*</span>';
     my $opts = join '', map { qq{<option value="$_->[0]">} . T($l, $_->[1]) . '</option>' } (['restaurant', 'f_restaurant'], ['cafe', 'f_cafe'], ['cloud-kitchen', 'f_cloud'], ['food-truck', 'f_truck'], ['bakery', 'f_bakery'], ['other', 'f_other']);
     my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'p_h1'), path_for($l, '/partners/')]];

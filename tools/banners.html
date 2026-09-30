@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Foodidu banner generator</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Readex+Pro:wght@400;500;700&display=block">
+<style>
+  body { font: 14px system-ui, sans-serif; margin: 16px; background: #eee; }
+  fieldset { margin: 0 0 12px; border: 1px solid #ccc; background: #fff; }
+  fieldset label { display: inline-block; margin: 2px 14px 2px 0; }
+  #log { white-space: pre-wrap; font: 12px monospace; max-height: 180px; overflow: auto; }
+  #out { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; align-items: flex-start; }
+  #out img { max-width: 260px; max-height: 380px; border: 1px solid #ccc; background: #fff; }
+</style>
+</head>
+<body>
+<h1>Foodidu banner generator</h1>
+<p>Open via <code>perl tools/serve.pl</code> at <code>/__tools/banners.html</code>. Draws banners from <code>data/*.json</code> and the logos in
+<code>static/img/brands/</code>, and saves them into <code>banners/</code> (kept out of git and never deployed).</p>
+<fieldset><legend>Partner banners “Now on Foodidu” (post 1080×1080 + story 1080×1920) for</legend><div id="partners"></div></fieldset>
+<fieldset><legend>Foodidu ads: codes shown on the tickets (pick 2)</legend><div id="adbrands"></div></fieldset>
+<fieldset><legend>Make</legend>
+<label><input type="checkbox" id="do-partners" checked> Partner banners</label>
+<label><input type="checkbox" id="do-meta" checked> Meta / TikTok ads</label>
+<label><input type="checkbox" id="do-google" checked> Google Display ads</label>
+<label><input type="checkbox" id="lang-ar" checked> Arabic</label>
+<label><input type="checkbox" id="lang-en" checked> English</label>
+<button id="go">Generate</button>
+</fieldset>
+<div id="log"></div>
+<div id="out"></div>
+<script src="art.js"></script>
+<script>
+const D = {};
+const isAr = (l) => l === "ar";
+const DEG = Math.PI / 180;
+const META = [["feed", 1080, 1080], ["portrait", 1080, 1350], ["story", 1080, 1920], ["link", 1200, 628]];   // Facebook, Instagram, TikTok (story = reels/TikTok)
+const GOOGLE = [[300, 250], [336, 280], [728, 90], [970, 250], [300, 600], [160, 600], [320, 100], [320, 50]];
+const GOOGLE_MAX = 150 * 1024;   // Google Ads rejects uploaded image ads over 150 KB
+
+// ---------- text ----------
+function font(x, size, w = "d") { x.font = w === "d" ? `${size}px Lalezar` : `${w} ${size}px 'Readex Pro'`; }
+function dir(x, text) { x.direction = /[؀-ۿ]/.test(text) ? "rtl" : "ltr"; }
+function tw(x, text, size, w = "d") { font(x, size, w); dir(x, text); return x.measureText(text).width; }
+// Largest size <= max at which the text fits maxW.
+function fitSize(x, text, max, maxW, w = "d", min = 6) { let s = max; while (tw(x, text, s, w) > maxW && s > min) s = Math.max(min, s * .95); return s; }
+// Draw text by its edge in the language's reading direction: "start" = right edge in Arabic.
+function say(x, l, text, ax, base, size, w, color, align = "start") {
+  font(x, size, w); dir(x, text); x.fillStyle = color;
+  if (x.direction === "rtl") text = text.replace(/\d+(?:[.,]\d+)?%/g, "⁦$&⁩");   // "15%", not "%15", after Arabic words
+  const width = x.measureText(text).width, rtl = isAr(l);
+  const left = align === "center" ? ax - width / 2 : (align === "start") !== rtl ? ax : ax - width;
+  x.textAlign = "left"; x.fillText(text, left, base); return { left, width };
+}
+function lines(x, text, size, w, maxW) { font(x, size, w); dir(x, text); return wrap(x, text, maxW); }
+// Pieces laid out one after another in reading order from ax: [{text, size, w, color, gap, strike}]
+function runs(x, l, items, ax, base) {
+  const rtl = isAr(l); let pos = 0;
+  for (const it of items) {
+    const width = tw(x, it.text, it.size, it.w), left = rtl ? ax - pos - width : ax + pos;
+    x.fillStyle = it.color; x.textAlign = "left"; x.fillText(it.text, left, base);
+    if (it.strike) x.fillRect(left - 2, base - it.size * .34, width + 4, Math.max(1.5, it.size * .08));
+    pos += width + (it.gap || 0);
+  }
+  return pos;
+}
+// The site's hero highlight (.display em): brown pill, yellow Lalezar, tilted 2 degrees.
+function pill(x, l, text, size) { const m = (tw(x, text, size), x.measureText(text)); return { w: m.width + size * .6, asc: m.actualBoundingBoxAscent, desc: m.actualBoundingBoxDescent }; }
+function badge(x, l, text, ax, base, size, align = "start") {
+  const rtl = isAr(l), p = pill(x, l, text, size), padT = size * .14, padB = size * .2;
+  const left = align === "center" ? ax - p.w / 2 : (align === "start") !== rtl ? ax : ax - p.w;
+  const top = base - p.asc - padT, h = p.asc + p.desc + padT + padB;
+  x.save(); x.translate(left + p.w / 2, top + h / 2); x.rotate((rtl ? 2 : -2) * DEG);
+  x.fillStyle = INK; rr(x, -p.w / 2, -h / 2, p.w, h, size * .24); x.fill();
+  font(x, size); dir(x, text); x.fillStyle = SUN; x.textAlign = "center"; x.fillText(text, 0, base - (top + h / 2));
+  x.restore();
+  return { left, top, w: p.w, h, bottom: top + h };
+}
+// Two-line headline: a plain line, then the badge line. Returns the bottom y.
+function headline(x, l, [a, b], ax, top, size, maxW, align = "start") {
+  while ((tw(x, a, size) > maxW || pill(x, l, b, size).w > maxW) && size > 8) size *= .95;
+  const m = (tw(x, a, size), x.measureText(a));
+  const base1 = top + m.actualBoundingBoxAscent;
+  say(x, l, a, ax, base1, size, "d", INK, align);
+  const box = badge(x, l, b, ax, base1 + size * (isAr(l) ? 1.34 : 1.2), size, align);
+  return box.bottom + size * .06;
+}
+// Same, on one line (strip banners). Returns the total width.
+function headline1(x, l, [a, b], ax, base, size, draw = true) {
+  const gap = size * .28, wa = tw(x, a.replace(/,$/, ""), size), wb = pill(x, l, b, size).w;
+  if (draw) { say(x, l, a.replace(/,$/, ""), ax, base, size, "d", INK); badge(x, l, b, isAr(l) ? ax - wa - gap : ax + wa + gap, base, size); }
+  return wa + gap + wb;
+}
+
+// ---------- shapes ----------
+function ground(x, W, H, alpha = .9) {
+  x.fillStyle = SUN; x.fillRect(0, 0, W, H);
+  const pw = Math.max(110, Math.min(W, H) * .3), ph = pw * 812 / 375;
+  x.globalAlpha = alpha; for (let py = -ph * .12; py < H; py += ph) for (let px = 0; px < W; px += pw) x.drawImage(D.pattern, px, py, pw, ph); x.globalAlpha = 1;
+}
+function face(x, left, top, w) { x.drawImage(D.face, left, top, w, w * 304 / 767); return w * 304 / 767; }
+// Brand logo tile with a white frame and a soft shadow.
+function tile(x, logo, left, top, S) {
+  const f = S * .045;
+  x.save(); x.shadowColor = "rgba(84,58,20,.3)"; x.shadowBlur = S * .16; x.shadowOffsetY = S * .06;
+  x.fillStyle = "#fff"; rr(x, left - f, top - f, S + 2 * f, S + 2 * f, S * .25); x.fill(); x.restore();
+  x.save(); rr(x, left, top, S, S, S * .21); x.clip(); x.drawImage(logo, left, top, S, S); x.restore();
+}
+// A promo-code ticket (440×330 at scale 1) centred on (cx, cy).
+function ticket(x, b, l, cx, cy, s, rot) {
+  x.save(); x.translate(cx, cy); x.scale(s, s);
+  ticketArt(x, { ...b, cat: D.cats[b.category][l] }, l, D.logos[b.key], -220, -165, 440, rot * DEG);
+  x.restore();
+}
+// Brown call-to-action button with an arrow. Returns its box.
+function cta(x, l, text, ax, top, size, align = "start") {
+  const rtl = isAr(l), h = size * 2.3, aw = size * .7, gap = size * .5, pad = size * 1.1;
+  const w = tw(x, text, size, "700") + gap + aw + pad * 2;
+  const left = align === "center" ? ax - w / 2 : (align === "start") !== rtl ? ax : ax - w;
+  x.save(); x.shadowColor = "rgba(84,58,20,.3)"; x.shadowBlur = size * .6; x.shadowOffsetY = size * .25;
+  x.fillStyle = INK; rr(x, left, top, w, h, h / 2); x.fill(); x.restore();
+  const base = top + h / 2 + size * .36;
+  say(x, l, text, rtl ? left + w - pad : left + pad, base, size, "700", SUN);
+  // arrow pointing in the reading direction
+  const ay = top + h / 2, ax0 = rtl ? left + pad : left + w - pad, d = rtl ? 1 : -1;
+  x.strokeStyle = SUN; x.lineWidth = Math.max(1.6, size * .13); x.lineCap = x.lineJoin = "round";
+  x.beginPath(); x.moveTo(ax0 + d * aw, ay); x.lineTo(ax0, ay); x.moveTo(ax0 + d * aw * .5, ay - aw * .45); x.lineTo(ax0, ay); x.lineTo(ax0 + d * aw * .5, ay + aw * .45); x.stroke();
+  return { left, top, w, h, bottom: top + h };
+}
+// Round green sticker with the real number of codes on the site.
+function sticker(x, l, cx, cy, r) {
+  x.save(); x.translate(cx, cy); x.rotate((isAr(l) ? -8 : 8) * DEG);
+  x.shadowColor = "rgba(84,58,20,.3)"; x.shadowBlur = r * .3; x.shadowOffsetY = r * .1;
+  x.fillStyle = "#7EB143"; x.beginPath(); x.arc(0, 0, r, 0, Math.PI * 2); x.fill(); x.shadowColor = "transparent";
+  x.strokeStyle = "rgba(255,255,255,.75)"; x.lineWidth = r * .04; x.setLineDash([r * .09, r * .07]); x.beginPath(); x.arc(0, 0, r * .86, 0, Math.PI * 2); x.stroke(); x.setLineDash([]);
+  const n = String(D.ncodes), sub = isAr(l) ? "كود خصم" : "promo codes";
+  say(x, l, n, 0, r * .18, r * .7, "d", "#fff", "center");
+  say(x, l, sub, 0, r * .5, fitSize(x, sub, r * .24, r * 1.1, "700"), "700", "#fff", "center");
+  x.restore();
+}
+// Brown bottom band with the scalloped edge the site uses, holding a label and the page address.
+function band(x, l, W, H, top, s, label, url) {
+  x.fillStyle = INK; x.fillRect(0, top, W, H - top);
+  const r = 16 * s; x.fillStyle = SUN;
+  for (let cx = r; cx < W + 2 * r; cx += 2 * r) { x.beginPath(); x.arc(cx, top, r, 0, Math.PI); x.fill(); }
+  const mid = top + r + (H - top - r) / 2;
+  say(x, l, label, W / 2, mid - 10 * s, 28 * s, "400", CREAM, "center");
+  const size = fitSize(x, url, 44 * s, W - 120 * s, "700");
+  say(x, l, url, W / 2, mid + 44 * s, size, "700", SUN, "center");
+}
+
+// ---------- restaurant offer card ----------
+const pct = (o) => Math.round((1 - o.price / o.was) * 100);
+const pc = (n, l) => isAr(l) ? `⁦${n}%⁩` : `${n}%`;   // keep "50%" in that order inside Arabic text (like <bdi> on the site)
+const oname = (o, l) => typeof o.name === "string" ? o.name : o.name[l];
+function saveTag(x, l, text, ax, top, size) {
+  const w = tw(x, text, size, "700") + size * 1.1, h = size * 1.75, rtl = isAr(l), left = rtl ? ax - w : ax;
+  x.fillStyle = LEAF; rr(x, left, top, w, h, h / 2); x.fill();
+  say(x, l, text, left + w / 2, top + h / 2 + size * .36, size, "700", "#fff", "center");
+  return h;
+}
+function priceLine(x, l, o, ax, base, s) {
+  const rtl = isAr(l);
+  return runs(x, l, [
+    { text: String(o.price), size: 84 * s, w: "d", color: INK, gap: 10 * s },
+    { text: rtl ? "جنيه" : "EGP", size: 28 * s, w: "700", color: INK, gap: 18 * s },
+    { text: String(o.was), size: 28 * s, w: "500", color: INK2, strike: true }
+  ], ax, base);
+}
+// column = tall card (post), otherwise a wide row (story)
+function offerCard(x, l, o, left, top, w, h, s, column) {
+  const rtl = isAr(l), pad = 26 * s;
+  x.save(); x.shadowColor = "rgba(84,58,20,.28)"; x.shadowBlur = 34 * s; x.shadowOffsetY = 14 * s;
+  x.fillStyle = "#fff"; rr(x, left, top, w, h, 30 * s); x.fill(); x.restore();
+  const sx = rtl ? left + w - pad : left + pad;
+  const save = isAr(l) ? `وفّر ${pc(pct(o), l)}` : `Save ${pct(o)}%`;
+  const textW = column ? w - 2 * pad : w * .56 - pad;
+  let y = top + pad;
+  y += saveTag(x, l, save, sx, y, 22 * s) + 42 * s;
+  say(x, l, oname(o, l), sx, y, fitSize(x, oname(o, l), 34 * s, textW, "700"), "700", INK);
+  y += 38 * s;
+  let ls = lines(x, o.items[l].replace(/ \+ /g, " + "), 22 * s, "400", textW);
+  const maxL = column || h >= 200 * s ? 2 : 1;   // short rows only have room for one line
+  if (ls.length > maxL) { ls = ls.slice(0, maxL); ls[maxL - 1] = ls[maxL - 1].replace(/\s*\S+$/, "") + "…"; }
+  for (const t of ls) { say(x, l, t, sx, y, 22 * s, "400", INK2); y += 31 * s; }
+  if (column) priceLine(x, l, o, sx, top + h - pad - 4 * s, s);
+  else {   // price on the far side of the row
+    const pw = (x.save(), x.globalAlpha = 0, priceLine(x, l, o, 0, 0, s)); x.restore();
+    priceLine(x, l, o, rtl ? left + pad + pw : left + w - pad - pw, top + h / 2 + 30 * s, s);
+  }
+}
+
+// ---------- partner banners (#4) ----------
+function partnerCopy(p, l) {
+  const rtl = isAr(l);
+  if (p.offers) {
+    const n = p.offers.length, min = Math.min(...p.offers.map((o) => o.price)), max = Math.max(...p.offers.map(pct));
+    const until = p.validUntil ? new Date(p.validUntil + "T12:00:00").toLocaleDateString(rtl ? "ar-EG-u-nu-latn" : "en-GB", { day: "numeric", month: "long", year: "numeric" }) : "";
+    return {
+      head: rtl ? [`عروض ${p.name.ar}`, "متاحة على Foodidu"] : [`${p.name.en} offers`, "now on Foodidu"],
+      sub: rtl ? `${n <= 10 ? n + " عروض" : n + " عرضاً"} تبدأ من ${min} جنيه · وفّر حتى ${pc(max, l)}` : `${n} offers from ${min} EGP · save up to ${max}%`,
+      note: until ? (rtl ? `العروض سارية حتى ${until}` : `Offers valid until ${until}`) : "",
+      label: rtl ? "شوف كل العروض على" : "See all the offers at"
+    };
+  }
+  const many = !!p.moreCodes;
+  return {
+    head: rtl ? [`${many ? "أكواد" : "كود"} خصم ${p.name.ar}`, `${many ? "متاحة" : "متاح"} على Foodidu`] : [`${p.name.en} promo ${many ? "codes" : "code"}`, "now on Foodidu"],
+    sub: [p.offer[l], ...(p.moreCodes || []).map((c) => c.offer[l])].join(" · "),
+    note: "",
+    label: rtl ? `انسخ ${many ? "الأكواد" : "الكود"} من` : `Copy the ${many ? "codes" : "code"} at`
+  };
+}
+function lockup(x, l, logo, cx, top, S) {
+  const fw = S * 1.5, fh = fw * 304 / 767, gap = S * .2, xs = S * .34;
+  const xw = tw(x, "×", xs, "700"), total = S + gap + xw + gap + fw, rtl = isAr(l);
+  const left = cx - total / 2;
+  const tileX = rtl ? left + total - S : left, faceX = rtl ? left : left + total - fw;
+  tile(x, logo, tileX, top, S);
+  say(x, "en", "×", rtl ? left + fw + gap : left + S + gap, top + S / 2 + xs * .36, xs, "700", INK);
+  face(x, faceX, top + (S - fh) / 2, fw);
+}
+function partnerTickets(p) { return [p, ...(p.moreCodes || []).map((c) => ({ ...p, code: c.code, badge: c.badge }))]; }
+function topOffers(p, n) { return [...p.offers].sort((a, b) => pct(b) - pct(a) || a.price - b.price).slice(0, n); }
+
+async function partnerPost(p, l) {
+  const W = 1080, H = 1080, c = canvas(W, H), x = c.getContext("2d"), cp = partnerCopy(p, l);
+  ground(x, W, H);
+  lockup(x, l, D.logos[p.key], W / 2, 60, 168);
+  let y = headline(x, l, cp.head, W / 2, 280, 92, W - 140, "center");
+  y += 50; say(x, l, cp.sub, W / 2, y, fitSize(x, cp.sub, 32, W - 140, "500"), "500", INK, "center");
+  if (cp.note) { y += 40; say(x, l, cp.note, W / 2, y, 24, "400", INK2, "center"); }
+  const bandTop = 952, zoneTop = y + 30, zoneH = bandTop - 26 - zoneTop;
+  if (p.offers) {
+    const os = topOffers(p, 3), gap = 22, w = (W - 128 - gap * 2) / 3;
+    os.forEach((o, i) => offerCard(x, l, o, isAr(l) ? W - 64 - w - i * (w + gap) : 64 + i * (w + gap), zoneTop, w, zoneH, .9, true));
+  } else {
+    const ts = partnerTickets(p);
+    if (ts.length === 1) ticket(x, ts[0], l, W / 2, zoneTop + zoneH / 2, Math.min(1.12, zoneH / 360), isAr(l) ? 3 : -3);
+    else ts.slice(0, 2).forEach((b, i) => ticket(x, b, l, W / 2 + (i ? 1 : -1) * (isAr(l) ? -222 : 222), zoneTop + zoneH / 2 + (i ? 16 : -8), .92, (i ? 4 : -4) * (isAr(l) ? -1 : 1)));
+  }
+  band(x, l, W, H, bandTop, 1, cp.label, `foodidu.com${isAr(l) ? "/ar" : ""}/${p.slug}`);
+  await save(`banners/partners/${p.key}/${p.key}-post-${l}.png`, c);
+}
+async function partnerStory(p, l) {
+  const W = 1080, H = 1920, c = canvas(W, H), x = c.getContext("2d"), cp = partnerCopy(p, l);
+  ground(x, W, H);
+  lockup(x, l, D.logos[p.key], W / 2, 250, 230);   // Instagram/TikTok cover the top ~250 px and bottom ~340 px
+  let y = headline(x, l, cp.head, W / 2, 560, 118, W - 140, "center");
+  y += 64; for (const t of lines(x, cp.sub, 38, "500", W - 180).slice(0, 2)) { say(x, l, t, W / 2, y, 38, "500", INK, "center"); y += 52; }
+  if (cp.note) { say(x, l, cp.note, W / 2, y, 30, "400", INK2, "center"); y += 50; }
+  const bandTop = 1580, zoneTop = y + 10, zoneBot = bandTop - 40;
+  if (p.offers) {
+    const n = Math.max(1, Math.min(4, Math.floor((zoneBot - zoneTop + 22) / (160 + 22))));
+    const h = Math.min(210, (zoneBot - zoneTop - 22 * (n - 1)) / n);
+    topOffers(p, n).forEach((o, i) => offerCard(x, l, o, 64, zoneTop + i * (h + 22), W - 128, h, 1, false));
+  } else {
+    const ts = partnerTickets(p).slice(0, 2), zh = zoneBot - zoneTop;
+    if (ts.length === 1) ticket(x, ts[0], l, W / 2, zoneTop + zh / 2, Math.min(1.8, zh / 380), isAr(l) ? 3 : -3);
+    else {   // two codes side by side, the first one on the reading side
+      const s = Math.min(1, (W - 100) / 900, zh / 400), e = isAr(l) ? -1 : 1;
+      ts.forEach((b, i) => ticket(x, b, l, W / 2 + (i ? 1 : -1) * e * 232 * s, zoneTop + zh / 2 + (i ? 22 : -22) * s, s, (i ? 4 : -4) * e));
+    }
+  }
+  band(x, l, W, H, bandTop, 1.2, cp.label, `foodidu.com${isAr(l) ? "/ar" : ""}/${p.slug}`);
+  await save(`banners/partners/${p.key}/${p.key}-story-${l}.png`, c);
+}
+
+// ---------- Foodidu ads (#5) ----------
+function adCopy(l) {
+  return isAr(l)
+    ? { head: ["كل أكلة", "بسعر أحلى"], sub: "أكواد خصم وعروض مطاعم وبقالة وتسوق في مصر والخليج.", cta: "شوف الأكواد", free: "مجاني وبدون تسجيل" }
+    : { head: ["Every bite,", "a better price"], sub: "Promo codes and restaurant deals in Egypt & the GCC.", cta: "Get the codes", free: "Free, no sign-up" };
+}
+// Two tickets: the second peeks out behind the first, so its logo and name stay visible.
+// Box at s = 1: (440 + 2dx) × (330 + 2dy).
+function pair(x, l, cx, cy, s, dx = 77, dy = 70) {   // dy <= 75 keeps the back ticket's discount fully covered
+  const e = isAr(l) ? -1 : 1;
+  ticket(x, D.adTickets[1], l, cx + e * dx * s, cy - dy * s, s, e * 5);
+  ticket(x, D.adTickets[0], l, cx - e * dx * s, cy + dy * s, s, -e * 2);
+}
+function adSquare(x, l, W, H) {   // 1080², 1080×1350, 300×250, 336×280
+  const u = Math.min(W, H) / 1080, rtl = isAr(l), cp = adCopy(l), e = rtl ? -1 : 1;
+  if (W < 500) {   // Google medium rectangles: copy + button on the start side, one ticket on the end side
+    const m = 14, sx = rtl ? W - m : m, ex = rtl ? m : W - m, colW = W * .52;
+    const fh = face(x, rtl ? W - m - W * .3 : m, m, W * .3);
+    headline(x, l, cp.head, sx, m + fh + H * .07, H * .15, colW);
+    const cs = Math.max(12, H * .05); cta(x, l, cp.cta, sx, H - m - cs * 2.3, cs);
+    const s = Math.min((W - colW - 2 * m) / 450, (H - 2 * m) / 400);
+    ticket(x, D.adTickets[0], l, ex - e * 225 * s, H * .56, s, -e * 4);
+    sticker(x, l, ex - e * W * .075, m + W * .075, W * .075);
+    return;
+  }
+  const m = 64 * u, sx = rtl ? W - m : m, ex = rtl ? m : W - m, cs = 38 * u, ch = cs * 2.3;
+  const fh = face(x, rtl ? W - m - 250 * u : m, m, 250 * u);
+  sticker(x, l, ex - e * 100 * u, m + 96 * u, 100 * u);
+  const hb = headline(x, l, cp.head, sx, m + fh + 60 * u, 150 * u, W - 2 * m);
+  let y = hb + 60 * u;
+  if (H / W > 1.15) {   // portrait: tickets centred between the copy and the button
+    for (const t of lines(x, cp.sub, 40 * u, "500", W * .62)) { say(x, l, t, sx, y, 40 * u, "500", INK); y += 54 * u; }
+    const ctaTop = H - m - ch, zt = y, zb = ctaTop - 40 * u;
+    pair(x, l, W / 2, (zt + zb) / 2, Math.min((zb - zt) / 500, (W - 2 * m) / 610));
+    const b = cta(x, l, cp.cta, sx, ctaTop, cs);
+    say(x, l, "foodidu.com", rtl ? b.left - 28 * u : b.left + b.w + 28 * u, b.top + b.h / 2 + 12 * u, 34 * u, "700", INK);
+    return;
+  }
+  const colW = W * .4;   // start column: text + button; end column: tickets
+  for (const t of lines(x, cp.sub, 38 * u, "500", colW)) { say(x, l, t, sx, y, 38 * u, "500", INK); y += 52 * u; }
+  const b = cta(x, l, cp.cta, sx, Math.max(y + 10 * u, H - m - ch - 76 * u), cs);
+  say(x, l, "foodidu.com", sx + e * 8 * u, b.bottom + 60 * u, 34 * u, "700", INK);
+  const zt = hb + 16 * u, zb = H - m, s = Math.min((zb - zt) / 500, (W - colW - 2 * m - 30 * u) / 610);
+  pair(x, l, ex - e * 305 * s, (zt + zb) / 2, s);
+}
+function adTall(x, l, W, H, story) {   // 1080×1920 (stories, reels, TikTok), 300×600, 160×600
+  const rtl = isAr(l), cp = adCopy(l), e = rtl ? -1 : 1;
+  if (story) {   // keep text out of the top 250 px and bottom 330 px the apps cover
+    const top = 250, bottom = H - 330;
+    face(x, (W - 280) / 2, top, 280);
+    let y = headline(x, l, cp.head, W / 2, top + 111 + 56, 136, W - 160, "center") + 64;
+    for (const t of lines(x, cp.sub, 42, "500", W - 220)) { say(x, l, t, W / 2, y, 42, "500", INK, "center"); y += 56; }
+    const cs = 44, ch = cs * 2.3, ctaTop = bottom - ch - 40, zt = y, zb = ctaTop - 50;
+    const s = Math.min((zb - zt) / 500, (W - 160) / 610);
+    pair(x, l, W / 2, (zt + zb) / 2, s);
+    sticker(x, l, W / 2 - e * 305 * s, zt + 60, 84);
+    cta(x, l, cp.cta, W / 2, ctaTop, cs, "center");
+    say(x, l, `foodidu.com · ${cp.free}`, W / 2, ctaTop + ch + 58, 34, "700", INK, "center");
+    return;
+  }
+  // Google skyscrapers
+  const m = Math.max(10, W * .07), top = H * .04, fw = W * .5;
+  const fh = face(x, (W - fw) / 2, top, fw);
+  let y = headline(x, l, cp.head, W / 2, top + fh + H * .025, W * .15, W - 2 * m, "center");
+  if (W >= 280) { y += W * .09; const ss = W * .056; for (const t of lines(x, cp.sub, ss, "500", W - 2 * m)) { say(x, l, t, W / 2, y, ss, "500", INK, "center"); y += ss * 1.4; } }
+  const cs = Math.max(12, W * .066), ch = cs * 2.3, ctaTop = H - top - ch - cs * 1.7;
+  const zt = y + 8, zb = ctaTop - 14, s = Math.min((zb - zt) / 390, (W - 2 * m) / 470);
+  const th = 360 * s, two = zb - zt >= 2 * th + 24, r = W * .26;
+  const room = zb - zt - (two ? 2 * th : th), n = two ? 2 : 1, gap = room / (n + 1 + (room > 2 * r + 60 ? 1 : 0));
+  let cy = zt + gap;
+  for (let i = 0; i < n; i++) { ticket(x, D.adTickets[i], l, W / 2, cy + th / 2, s, (i ? 1 : -1) * e * 4); cy += th + gap; }
+  if (room > 2 * r + 60) sticker(x, l, W / 2, cy + r - gap * .5, r);
+  cta(x, l, cp.cta, W / 2, ctaTop, cs, "center");
+  say(x, l, "foodidu.com", W / 2, ctaTop + ch + cs * 1.3, cs * .85, "700", INK, "center");
+}
+function adWide(x, l, W, H) {   // 1200×628 (Facebook link ads, Google responsive landscape)
+  const u = H / 628, m = 60 * u, rtl = isAr(l), cp = adCopy(l), e = rtl ? -1 : 1, sx = rtl ? W - m : m, ex = rtl ? m : W - m, colW = W * .5;
+  const fh = face(x, rtl ? W - m - 210 * u : m, m, 210 * u);
+  let y = headline(x, l, cp.head, sx, m + fh + 44 * u, 104 * u, colW);
+  y += 50 * u; for (const t of lines(x, cp.sub, 30 * u, "500", colW * .95)) { say(x, l, t, sx, y, 30 * u, "500", INK); y += 42 * u; }
+  const b = cta(x, l, cp.cta, sx, H - m - 30 * 2.3 * u, 30 * u);
+  say(x, l, "foodidu.com", rtl ? b.left - 24 * u : b.left + b.w + 24 * u, b.top + b.h / 2 + 10 * u, 28 * u, "700", INK);
+  const zw = W - colW - 2 * m - 30 * u, s = Math.min((H - 2 * m + 20 * u) / 470, zw / 560);
+  const cx = ex - e * 270 * s;
+  pair(x, l, cx, H / 2, s, 60);
+  sticker(x, l, cx - e * 250 * s, H / 2 - 190 * s, 64 * u);   // slapped on the corner of the tickets
+}
+function adStrip(x, l, W, H) {   // 970×250, 728×90, 320×100, 320×50
+  const rtl = isAr(l), cp = adCopy(l), e = rtl ? -1 : 1, m = Math.max(8, H * .12);
+  if (H >= 200) {   // billboard: headline | ticket | logo + button
+    const u = H / 250, hs = 60 * u, sx = rtl ? W - 2 * m : 2 * m;
+    headline(x, l, cp.head, sx, (H - 2.75 * hs) / 2, hs, W * .34);
+    ticket(x, D.adTickets[0], l, W / 2 + e * 20 * u, H / 2, .6 * u, -e * 3);
+    const fw = 170 * u, fh = fw * 304 / 767, cs = 22 * u, ch = cs * 2.3, top = (H - (fh + 18 * u + ch + 40 * u)) / 2;
+    const fx = rtl ? 2 * m : W - 2 * m - fw;
+    face(x, fx, top, fw);
+    const b = cta(x, l, cp.cta, fx + fw / 2, top + fh + 18 * u, cs, "center");
+    say(x, l, "foodidu.com", fx + fw / 2, b.bottom + 32 * u, 18 * u, "700", INK, "center");
+    return;
+  }
+  // one row: logo | headline | button, shrunk together until it fits
+  for (let k = 1; k > .3; k *= .96) {
+    const fw = H * (H < 70 ? 1.45 : 1.7) * k, hs = H * (H < 70 ? .4 : .42) * k, cs = Math.max(10, H * (H < 70 ? .2 : .18) * k);
+    const hw = headline1(x, l, cp.head, 0, 0, hs, false), cw = tw(x, cp.cta, cs, "700") + cs * 3.3;
+    const gap = H * .22 * k, total = fw + gap + hw + gap + cw;
+    if (total > W - 2 * m && k > .31) continue;
+    let pos = (W - total) / 2;
+    const at = () => rtl ? W - pos : pos;   // start edge of the next item
+    const fh = fw * 304 / 767;
+    face(x, rtl ? W - pos - fw : pos, (H - fh) / 2, fw); pos += fw + gap;
+    headline1(x, l, cp.head, at(), H / 2 + hs * .34, hs); pos += hw + gap;
+    cta(x, l, cp.cta, at(), (H - cs * 2.3) / 2, cs);
+    return;
+  }
+}
+async function ad(W, H, l, path, google) {
+  const c = canvas(W, H), x = c.getContext("2d"), r = W / H;
+  ground(x, W, H, W / H >= 3 ? .55 : .9);
+  if (r >= 2.5) adStrip(x, l, W, H);
+  else if (r >= 1.5) adWide(x, l, W, H);
+  else if (r >= .7) adSquare(x, l, W, H);
+  else adTall(x, l, W, H, W >= 1000);
+  if (!google) return save(`${path}.png`, c);
+  // Google: JPEG under 150 KB with a 1px frame (image ads need a visible edge)
+  x.strokeStyle = "rgba(84,58,20,.35)"; x.lineWidth = 1; x.strokeRect(.5, .5, W - 1, H - 1);
+  for (let q = .95; ; q -= .05) { const b = await blob(c, "image/jpeg", q); if (b.size <= GOOGLE_MAX || q < .55) return save(`${path}.jpg`, c, "image/jpeg", q); }
+}
+
+// ---------- UI ----------
+async function init() {
+  await document.fonts.load("92px Lalezar"); await document.fonts.load("92px Lalezar", "كود خصم");
+  for (const w of ["400", "500", "700"]) { await document.fonts.load(`${w} 30px 'Readex Pro'`); await document.fonts.load(`${w} 30px 'Readex Pro'`, "كود خصم"); }
+  const data = await (await fetch("/__data/brands.json")).json();
+  const rests = (await (await fetch("/__data/restaurant-offers.json")).json()).restaurants || [];
+  D.cats = data.categories; D.brands = data.brands; D.rests = rests;
+  D.ncodes = data.brands.reduce((n, b) => n + 1 + (b.moreCodes || []).length, 0);
+  D.face = await load("/__static/img/foodidu-logo.svg"); D.pattern = await load("/__static/img/pattern.svg");
+  D.logos = {};
+  for (const b of [...data.brands, ...rests]) D.logos[b.key] = await load(`/__static/img/brands/${b.logo}`);
+  const box = (id, list, on) => { document.getElementById(id).innerHTML = list.map((b) => `<label><input type="checkbox" value="${b.key}"${on(b) ? " checked" : ""}> ${b.name.en}</label>`).join(""); };
+  box("partners", [...rests, ...data.brands], (b) => !!b.offers || b.exclusive || !!b.moreCodes);
+  box("adbrands", data.brands, (b) => b.key === "pizza-hut" || b.key === "rabbit");
+  log(`ready: ${data.brands.length} brands, ${rests.length} restaurants, ${D.ncodes} codes`);
+}
+const picked = (id) => [...document.querySelectorAll(`#${id} input:checked`)].map((i) => i.value);
+document.getElementById("go").onclick = async () => {
+  try {
+    const langs = ["ar", "en"].filter((l) => document.getElementById("lang-" + l).checked);
+    const byKey = Object.fromEntries([...D.brands, ...D.rests].map((b) => [b.key, b]));
+    const ak = picked("adbrands");
+    D.adTickets = (ak.length >= 2 ? ak : ["pizza-hut", "rabbit"]).slice(0, 2).map((k) => byKey[k]);
+    for (const l of langs) {
+      if (document.getElementById("do-partners").checked) for (const k of picked("partners")) { await partnerPost(byKey[k], l); await partnerStory(byKey[k], l); }
+      if (document.getElementById("do-meta").checked) for (const [n, W, H] of META) await ad(W, H, l, `banners/ads/meta/${n}-${W}x${H}-${l}`);
+      if (document.getElementById("do-google").checked) for (const [W, H] of GOOGLE) await ad(W, H, l, `banners/ads/google/${W}x${H}-${l}`, true);
+    }
+    log("DONE");
+  } catch (e) { log("ERROR " + e.message + "\n" + e.stack); }
+};
+init().catch((e) => log("ERROR " + e.message));
+</script>
+</body>
+</html>

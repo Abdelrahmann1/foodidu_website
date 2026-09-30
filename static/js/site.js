@@ -108,6 +108,15 @@
     });
   }
 
+  /* ---------- featured partner slot: gone once its end date has passed (Cairo time), even before a rebuild ---------- */
+  var slots = document.querySelectorAll("[data-until]");
+  if (slots.length) {
+    var ymd = "";
+    try { ymd = new Intl.DateTimeFormat("en-CA", { timeZone: "Africa/Cairo", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date()); }
+    catch (e) { ymd = new Date().toISOString().slice(0, 10); }
+    slots.forEach(function (el) { if (ymd > el.getAttribute("data-until")) el.parentNode.removeChild(el); });
+  }
+
   /* ---------- filters (chips) + query ---------- */
   var list = document.querySelector("[data-filterable]");
   if (list) {

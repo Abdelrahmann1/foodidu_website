@@ -13,6 +13,8 @@ Static, pre-rendered site for [foodidu.com](https://foodidu.com): promo codes fo
 | `tools/seo-audit.pl` | Checks every built page for SEO problems. |
 | `tools/serve.pl` | Local preview server that behaves like Firebase Hosting. |
 | `tools/assets.html` | Browser tool that renders brand logos, app icons and social-share (Open Graph) images. |
+| `tools/banners.html` | Browser tool that renders partner banners and ad creatives into `banners/` (not in git, not deployed). |
+| `tools/art.js` | Canvas helpers (tickets, colours, saving) shared by the two browser tools. |
 | `public/` | Build output. This is what Firebase deploys. Don't edit by hand. |
 | `legacy/` | Snapshot of the old live site, kept for reference only. Not deployed. |
 
@@ -37,6 +39,22 @@ firebase deploy --only hosting
 ### Add a day deal (an offer that repeats on a weekday)
 
 Add an entry to `data/day-deals.json`: `days` (`sat sun mon tue wed thu fri`), `brand` (a key from `brands.json`, or `name`/`logo` for a brand without a page), `title`, `details`, the official `source` link and `lastChecked`. The deal shows on the home page, on `/day-deals/` (grouped by day, with FAQ) and on the brand's page, and is highlighted automatically on its day (Cairo time). Only add deals you can link to an official source.
+
+### Featured partner slot (can be sold)
+
+`data/featured.json` puts one partner in a banner right under the home-page hero (English and Arabic). Set `partner` to a restaurant key from `restaurant-offers.json` or a brand key from `brands.json`; wording, logo and link are filled in from that partner, or write your own `title` / `text` / `cta` (`{ "en": …, "ar": … }`) and `url`. Set `"sponsored": true` when the partner pays: the label becomes **Sponsored / إعلان** and outside links get `rel="sponsored"`, as Google requires for paid links. The banner disappears after `until` (Cairo time) even if nobody rebuilds; set `"active": false` to remove it sooner.
+
+### Banners for social media and ads
+
+Run `perl tools/serve.pl`, open `http://localhost:5000/__tools/banners.html`, tick what you need and click **Generate**. Everything is drawn from the data files, so after changing a code or an offer just generate again.
+
+| Folder | Sizes | Use |
+|---|---|---|
+| `banners/partners/<key>/` | post 1080×1080, story 1080×1920 | "Now on Foodidu" banners to send to a partner to repost; each points to its Foodidu page. |
+| `banners/ads/meta/` | feed 1080×1080, portrait 1080×1350, story 1080×1920, link 1200×628 | Facebook and Instagram ads. The story size is also the TikTok size. |
+| `banners/ads/google/` | 300×250, 336×280, 728×90, 970×250, 300×600, 160×600, 320×100, 320×50 | Google Display image ads: JPEG under Google's 150 KB limit. |
+
+Story layouts keep text out of the top 250 px and bottom 330 px that Instagram and TikTok cover. The ad tickets show two real codes, picked in the tool (Pizza Hut and Rabbit by default). Before paying to promote another company's logo, prefer partners who agreed to it: ad platforms can reject ads that use a trademark without permission.
 
 ## SEO already in place
 

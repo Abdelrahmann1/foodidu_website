@@ -1,0 +1,7 @@
+{
+  "_help": "The featured-partner banner right under the home-page hero: one partner at a time, a slot you can sell. 'partner' is a restaurant key from restaurant-offers.json or a brand key from brands.json; the wording, logo and link come from that partner. To write your own wording add \"title\", \"text\" and/or \"cta\" as { \"en\": \"...\", \"ar\": \"...\" }, and \"url\" to link somewhere else. Set \"sponsored\" to true when the partner pays for the slot: it is then labelled Sponsored / إعلان (required for paid placements) and outside links get rel=\"sponsored\". The banner hides itself after \"until\" (YYYY-MM-DD, Cairo time), even without a rebuild. Set \"active\" to false to remove it. Then run: perl tools/build.pl",
+  "active": true,
+  "sponsored": false,
+  "partner": "bazooka",
+  "until": "2026-10-30"
+}

@@ -604,6 +604,41 @@ a.store:hover { background: #000; transform: translateY(-2px); }
   .dday-title { font-size: 1.3rem; }
 }
 
+/* featured partner slot under the home hero (data/featured.json) */
+.feat-slot { margin-top: clamp(20px, 3vw, 30px); }
+.feat {
+  display: flex; align-items: center; gap: 14px 18px; padding: 14px; padding-inline-start: 16px;
+  background: var(--ink); color: var(--sun-3); border-radius: var(--r-lg); text-decoration: none;
+  box-shadow: var(--shadow-2); position: relative; isolation: isolate; overflow: hidden;
+}
+.feat::after {   /* faint ticket perforation along the start edge */
+  content: ""; position: absolute; inset-block: 10px; inset-inline-start: 90px; z-index: -1;
+  border-inline-start: 2px dashed rgba(255, 209, 92, .22);
+}
+.feat .logo-tile { width: 60px; height: 60px; border-radius: 16px; box-shadow: 0 0 0 3px var(--sun); }
+.feat-body { display: grid; justify-items: start; gap: 3px; min-width: 0; flex: 1; padding-inline-start: 10px; }
+.feat-tag {
+  padding: 4px 10px; border-radius: 999px; background: var(--sun); color: var(--ink);
+  font-size: .72rem; font-weight: 700; line-height: 1.2; letter-spacing: .05em; text-transform: uppercase;
+}
+[dir="rtl"] .feat-tag { font-size: .78rem; letter-spacing: 0; }
+.feat-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.25rem, 2.3vw, 1.55rem); line-height: 1.2; color: var(--sun); }
+[dir="rtl"] .feat-title { line-height: 1.5; }
+.feat-text { font-size: .94rem; line-height: 1.45; }
+.feat-cta {
+  display: inline-flex; align-items: center; gap: .5em; flex: none; min-height: 46px; padding: .6em 1.25em;
+  border-radius: 999px; background: var(--sun); color: var(--ink); font-weight: 700; white-space: nowrap;
+  box-shadow: 0 4px 0 #D9A92E; transition: background-color .18s, transform .18s var(--ease);
+}
+.feat:hover .feat-cta { background: var(--sun-2); transform: translateY(-1px); }
+.feat:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+@media (max-width: 640px) {
+  .feat { flex-wrap: wrap; padding: 14px; }
+  .feat::after { display: none; }
+  .feat-body { flex-basis: calc(100% - 80px); padding-inline-start: 0; }
+  .feat-cta { width: 100%; justify-content: center; }
+}
+
 /* restaurant menu offers: price-tag cards */
 .rest-block + .rest-block { margin-top: 30px; }
 .rest-head { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 14px; margin-bottom: 16px; }

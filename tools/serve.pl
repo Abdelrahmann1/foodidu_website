@@ -2,7 +2,7 @@
 #   perl tools/serve.pl [port]      -> http://localhost:5000/
 # Serves public/ (dir index + 404.html, like Firebase). Dev-only extras, never deployed:
 #   /__tools/*  -> tools/     /__legacy/* -> legacy/     /__static/* -> static/
-#   POST /__save?path=static/...  writes the request body to that file (used by tools/assets.html)
+#   POST /__save?path=static/... or banners/...  writes the request body to that file (used by tools/assets.html)
 use strict; use warnings;
 use HTTP::Daemon; use HTTP::Response;
 use File::Basename qw(dirname); use File::Path qw(make_path); use Cwd qw(abs_path);
@@ -33,7 +33,7 @@ while (my $c = $d->accept) {
   if ($r->method eq 'POST' && $path eq '/__save') {
     my ($rel) = ($r->uri->query // '') =~ /(?:^|&)path=([^&]+)/;
     $rel =~ s/%([0-9A-Fa-f]{2})/chr hex $1/ge if defined $rel;
-    if (defined $rel && $rel =~ m{^static/[\w\-./]+$} && $rel !~ /\.\./) {
+    if (defined $rel && $rel =~ m{^(?:static|banners)/[\w\-./]+$} && $rel !~ /\.\./) {
       make_path(dirname("$root/$rel"));
       open my $fh, '>:raw', "$root/$rel" or die $!; print $fh $r->content; close $fh;
       $res = HTTP::Response->new(200, 'OK', ['Content-Type'=>'text/plain'], "saved $rel " . length($r->content) . " bytes");
@@ -42,7 +42,7 @@ while (my $c = $d->accept) {
     $res = HTTP::Response->new(400, 'Bad', ['Content-Type'=>'text/plain'], 'bad path');
   } else {
     my $base = "$root/public"; my $p = $path;
-    if ($p =~ s{^/__(tools|legacy|static|data)/}{/}) { $base = "$root/$1" }
+    if ($p =~ s{^/__(tools|legacy|static|data|banners)/}{/}) { $base = "$root/$1" }
     if (-f "$base$p") { $res = file_res("$base$p") }
     elsif (-d "$base$p" && $p !~ m{/$}) { $res = HTTP::Response->new(301, 'Moved', ['Location' => "$path/"]) }
     elsif (-f "$base$p/index.html" || -f "${base}${p}index.html") { $res = file_res(-f "$base$p/index.html" ? "$base$p/index.html" : "${base}${p}index.html") }
