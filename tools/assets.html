@@ -31,7 +31,12 @@ const LOGOS = {
   "mini-beirut":     { src: "MiniBeirut.svg",       pad: .10, bg: "#fff" },
   "just-smash":      { src: "just_smash.svg",       pad: 0,   bg: "#fff" },
   "my-buffalo":      { src: "mybuffalo.svg",        pad: .04, bg: "#fff" },
-  "butchers-burger": { src: "butcher'sburger.svg",  pad: 0,   bg: "#fff" }
+  "butchers-burger": { src: "butcher'sburger.svg",  pad: 0,   bg: "#fff" },
+  "willys-kitchen":  { src: "willys-kitchen.svg",   pad: .1,  bg: "#fff", from: "/__tools/logo-src/" },
+  "bazooka":         { src: "bazooka-ad.jpg",       pad: 0,   bg: "#2a2624", from: "/__tools/logo-src/", crop: [395, 920, 240, 240] },
+  "talabat-mart":    { src: "talabat-mart-ad.jpg",  pad: .07, bg: "auto", from: "/__tools/logo-src/", crop: [278, 20, 392, 86] },
+  "waffarha":        { text: "Waffarha", color: "#3A280D", bg: "#fff" },
+  "iherb":           { text: "iHerb", color: "#3F7A12", bg: "#fff" }
 };
 const log = (m) => { document.getElementById("log").textContent += m + "\n"; };
 const load = (src) => new Promise((res, rej) => { const i = new Image(); i.crossOrigin = "anonymous"; i.onload = () => res(i); i.onerror = () => rej(new Error("load " + src)); i.src = src; });
@@ -53,9 +58,25 @@ function rr(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r);
 
 async function logos() {
   for (const [key, o] of Object.entries(LOGOS)) {
-    const img = await load("/__legacy/images/" + encodeURIComponent(o.src));
     const S = 192, c = canvas(S, S), x = c.getContext("2d");
-    x.fillStyle = o.bg; x.fillRect(0, 0, S, S);
+    if (o.text) {   // no official logo file: the brand name as a clean text tile
+      x.fillStyle = o.bg || "#fff"; x.fillRect(0, 0, S, S);
+      let size = 52; x.font = `700 ${size}px 'Readex Pro'`;
+      while (x.measureText(o.text).width > S * .8 && size > 20) { size -= 2; x.font = `700 ${size}px 'Readex Pro'`; }
+      x.fillStyle = o.color || INK; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(o.text, S / 2, S / 2 + 2);
+      x.fillStyle = o.color || INK; x.globalAlpha = .9; x.fillRect(S * .3, S / 2 + size * .62, S * .4, 5); x.globalAlpha = 1;
+      await save(`static/img/brands/${key}.webp`, c, "image/webp", .92);
+      continue;
+    }
+    let img = await load((o.from || "/__legacy/images/") + encodeURIComponent(o.src));
+    let bg = o.bg;
+    if (o.crop) {   // cut the logo out of a bigger picture (e.g. an ad the owner sent)
+      const [sx, sy, sw, sh] = o.crop, cc = canvas(sw, sh), cx = cc.getContext("2d");
+      cx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+      if (bg === "auto") { const d = cx.getImageData(2, 2, 1, 1).data; bg = `rgb(${d[0]},${d[1]},${d[2]})`; }
+      img = cc;
+    }
+    x.fillStyle = bg; x.fillRect(0, 0, S, S);
     const p = S * o.pad;
     fit(x, img, p, p, S - 2 * p, S - 2 * p, o.pad === 0);
     await save(`static/img/brands/${key}.webp`, c, "image/webp", .9);
@@ -109,8 +130,13 @@ function ticketArt(ctx, b, lang, logo, x, y, w, rot) {
   const bx = rtl ? w - 30 : 30;
   if (rtl) { ctx.font = "44px Lalezar"; ctx.fillStyle = LEAF; ctx.fillText(small, bx, 228); const sw = ctx.measureText(small).width; ctx.font = "96px Lalezar"; ctx.fillStyle = INK; ctx.fillText(big, bx - sw - 14, 228); }
   else { ctx.fillText(big, bx, 228); const bw = ctx.measureText(big).width; ctx.font = "44px Lalezar"; ctx.fillStyle = LEAF; ctx.fillText(small, bx + bw + 14, 228); }
-  // code box
   const cy = h - stub + 18, ch = 60;
+  if (b.tag) {   // restaurant offers: a solid "save up to" pill instead of a code box
+    ctx.fillStyle = INK; rr(ctx, 26, cy, w - 52, ch, 14); ctx.fill();
+    ctx.textAlign = "center"; ctx.direction = rtl ? "rtl" : "ltr"; ctx.font = "700 28px 'Readex Pro'"; ctx.fillStyle = SUN;
+    ctx.fillText(b.tag, w / 2, cy + 40); ctx.restore(); return;
+  }
+  // code box
   ctx.setLineDash([9, 6]); ctx.strokeStyle = INK; ctx.lineWidth = 3; ctx.fillStyle = "#fff";
   rr(ctx, 26, cy, w - 52, ch, 14); ctx.fill(); ctx.stroke(); ctx.setLineDash([]);
   ctx.fillStyle = INK; rr(ctx, w - 26 - 150, cy, 150, ch, [0, 14, 14, 0]); ctx.fill();
@@ -122,6 +148,8 @@ function ticketArt(ctx, b, lang, logo, x, y, w, rot) {
 async function og(pattern, face, data) {
   const logos = {};
   for (const b of data.brands) logos[b.key] = await load(`/__static/img/brands/${b.logo}`);
+  const rests = (await (await fetch("/__data/restaurant-offers.json")).json()).restaurants || [];
+  for (const r of rests) logos[r.key] = await load(`/__static/img/brands/${r.logo}`);
   const CAT = data.categories;
   const copy = {
     en: {
@@ -144,6 +172,16 @@ async function og(pattern, face, data) {
     for (const k of ["home", "codes", "partners"]) jobs.push({ lang, file: `${k}-${lang}`, text: copy[lang][k], brands: ["pizza-hut", "kfc"] });
     jobs.push({ lang, file: `day-deals-${lang}`, text: copy[lang]["day-deals"], brands: ["kfc"] });
     for (const b of data.brands) jobs.push({ lang, file: `${b.key}-${lang}`, text: copy[lang].brand(b), items: [b, ...(b.moreCodes || []).map((x) => ({ ...b, code: x.code, badge: x.badge }))] });
+    for (const r of rests) {
+      const min = Math.min(...r.offers.map((o) => o.price));
+      const save = Math.max(...r.offers.map((o) => Math.round((1 - o.price / o.was) * 100)));
+      const n = r.offers.length;
+      const text = lang === "ar"
+        ? [`عروض ${r.name.ar}`, `${n <= 10 ? n + " عروض" : n + " عرضاً"} تبدأ من ${min} جنيه، ووفّر حتى ${save}% من سعر المنيو.`]
+        : [`${r.name.en} offers`, `${n} offers from ${min} EGP, saving up to ${save}% on the menu price.`];
+      const badge = { en: [String(min), "EGP"], ar: [`${min} جنيه`, "من"] };
+      jobs.push({ lang, file: `${r.key}-${lang}`, text, items: [{ ...r, badge, tag: lang === "ar" ? `وفّر حتى ${save}%` : `Save up to ${save}%` }] });
+    }
   }
   const byKey = Object.fromEntries(data.brands.map((b) => [b.key, b]));
   for (const j of jobs) {

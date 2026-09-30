@@ -98,6 +98,8 @@
     catch (e) { today = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][new Date().getDay()]; }
     ddCards.forEach(function (card) {
       if ((" " + card.getAttribute("data-days") + " ").indexOf(" " + today + " ") === -1) return;
+      var dayGroup = card.closest(".group[id]");   // on the day-deals page, only today's group lights up
+      if (dayGroup && dayGroup.id !== today) return;
       card.classList.add("is-today");
       var tag = card.querySelector(".today-tag");
       if (tag) tag.hidden = false;
@@ -122,7 +124,8 @@
       var shown = 0;
       items.forEach(function (it) {
         var ok = (state.cat === "all" || it.getAttribute("data-cat") === state.cat) &&
-                 (state.region === "all" || it.getAttribute("data-region") === state.region) &&
+                 (state.region === "all" || /(^| )all( |$)/.test(it.getAttribute("data-region")) ||
+                  (" " + it.getAttribute("data-region") + " ").indexOf(" " + state.region + " ") !== -1) &&
                  (!state.q || (it.getAttribute("data-search") || "").indexOf(state.q) !== -1);
         it.hidden = !ok;
         if (ok) shown++;

@@ -50,10 +50,18 @@ my $DD_FILE = "$ROOT/data/day-deals.json";
 my @DDEALS = -f $DD_FILE ? @{ JSON::PP->new->utf8->decode(slurp($DD_FILE, 1))->{deals} // [] } : ();
 my $DD_DATE = -f $DD_FILE ? mdate($DD_FILE) : $DATA_DATE;
 my @DAYS = qw(sat sun mon tue wed thu fri);   # Egyptian week starts on Saturday
+my %DAYI = map { ($DAYS[$_] => $_) } 0 .. $#DAYS;
+my %DSHORT = (
+  en => { sat => 'Sat', sun => 'Sun', mon => 'Mon', tue => 'Tue', wed => 'Wed', thu => 'Thu', fri => 'Fri' },
+  ar => { sat => 'سبت', sun => 'أحد', mon => 'اثنين', tue => 'ثلاثاء', wed => 'أربعاء', thu => 'خميس', fri => 'جمعة' },
+);
 my %DAYN = (
   en => { sat => 'Saturday', sun => 'Sunday', mon => 'Monday', tue => 'Tuesday', wed => 'Wednesday', thu => 'Thursday', fri => 'Friday' },
   ar => { sat => 'السبت', sun => 'الأحد', mon => 'الاثنين', tue => 'الثلاثاء', wed => 'الأربعاء', thu => 'الخميس', fri => 'الجمعة' },
 );
+my $RO_FILE = "$ROOT/data/restaurant-offers.json";
+my @RESTS = -f $RO_FILE ? @{ JSON::PP->new->utf8->decode(slurp($RO_FILE, 1))->{restaurants} // [] } : ();
+my $RO_DATE = -f $RO_FILE ? mdate($RO_FILE) : $DATA_DATE;
 my %DAYC = (   # calendar block: "Every Tuesday" / "كل ثلاثاء" (Arabic without the article)
   en => $DAYN{en},
   ar => { sat => 'سبت', sun => 'أحد', mon => 'اثنين', tue => 'ثلاثاء', wed => 'أربعاء', thu => 'خميس', fri => 'جمعة' },
@@ -111,6 +119,17 @@ my %S = (
   dd_day_h2 => '{day} deals', dd_q => 'What is the {brand} {day} offer?', dd_brand_h2 => '{brand} {day} offer',
   dd_know => 'Know a weekly deal we missed?', dd_know_p => "Send it to us on Facebook or Instagram and we'll add it after checking the brand's official page.",
   dd_empty => 'No day deals yet. Check back soon.',
+  ro_eyebrow => 'Restaurant offers', ro_title => 'Menu deals from restaurants', ro_sub => "Meals and combos at special prices, straight from each restaurant's official menu.",
+  ro_all => 'All {name} offers', ro_save => 'Save {p}%', ro_was => 'instead of {was}', egp => 'EGP', ro_from => 'from {min} EGP',
+  ro_h1 => '{name} offers', ro_lede => '{count} from {min} EGP, saving up to {max}% on the menu price.',
+  ro_checked => 'Prices checked by Foodidu on {date}', ro_order => 'Order from {name}', ro_call => 'Call {phone}',
+  ro_how => 'How to order {name} offers', ro_s1 => "Open {name}'s menu", ro_s1p => 'On the website, go to the Offers section.',
+  ro_s2 => 'Pick your offer', ro_s2p => 'Add the offer you want to your cart.', ro_s3 => 'Order or call', ro_s3p => 'Check out online or call {phone} to order.',
+  ro_q1 => 'What are the {name} offers?', ro_a1 => '{name} currently lists {count} on its menu: {list}.',
+  ro_q2 => 'What is the cheapest {name} offer?', ro_a2 => '{offer} for {price} EGP: {items}.',
+  ro_q3 => 'How do I order {name} offers?', ro_a3 => 'From the Offers section of the {name} menu online, or by calling {phone}.',
+  ro_q4 => 'Do the prices change?', ro_a4 => 'These prices are from the official {name} menu on {date} and can change, so check the menu before you order.',
+  ro_src => 'Prices from the official {name} menu. They can change.', ro_valid => 'Offers valid until {date}',
   band_title => 'Own a restaurant or food brand?', band_text => 'Put your promo code in front of people who are about to order. Apply in two minutes and our team will get in touch.', band_btn => 'Partner with Foodidu',
   faq_eyebrow => 'FAQ', faq_title => 'Questions, answered',
   # codes page
@@ -209,12 +228,23 @@ my %S = (
   dd_sub => 'بعض العلامات التجارية تقدّم عرضاً خاصاً في يوم ثابت من الأسبوع. هنا تعرف العرض وموعده.',
   dd_all => 'كل عروض الأيام', dd_every => 'كل', dd_today => 'اليوم!', dd_source => 'المصدر',
   dd_note => 'قد تتغير الأسعار، فتأكد من تطبيق العلامة التجارية قبل الطلب.',
-  dd_page_title => 'عروض الأيام: عرض {brand} يوم {day} وأكثر', dd_page_title0 => 'عروض الأيام في مصر',
-  dd_page_desc => 'عروض مطاعم تتكرر في نفس اليوم كل أسبوع، مثل عرض {brand} يوم {day}. اعرف عروض كل يوم ومصدر كل عرض.',
+  dd_page_title => 'عروض الأيام: عرض {brand} {day} وأكثر', dd_page_title0 => 'عروض الأيام في مصر',
+  dd_page_desc => 'عروض مطاعم تتكرر في نفس اليوم كل أسبوع، مثل عرض {brand} {day}. اعرف عروض كل يوم ومصدر كل عرض.',
   dd_h1 => 'عروض الأيام', dd_lede => 'عروض تتكرر في نفس اليوم كل أسبوع. نضيف كل عرض من الصفحة الرسمية للعلامة التجارية ونضع رابط المصدر.',
-  dd_day_h2 => 'عروض يوم {day}', dd_q => 'ما هو عرض {brand} يوم {day}؟', dd_brand_h2 => 'عرض {brand} يوم {day}',
+  dd_day_h2 => 'عروض يوم {day}', dd_q => 'ما هو عرض {brand} {day}؟', dd_brand_h2 => 'عرض {brand} {day}',
   dd_know => 'تعرف عرضاً أسبوعياً غير موجود هنا؟', dd_know_p => 'ابعته لنا على فيسبوك أو إنستجرام وسنضيفه بعد التأكد من الصفحة الرسمية للعلامة التجارية.',
   dd_empty => 'لا توجد عروض أيام حالياً، تابعنا قريباً.',
+  ro_eyebrow => 'عروض المطاعم', ro_title => 'عروض من منيو المطاعم', ro_sub => 'وجبات وكومبو بأسعار خاصة، من المنيو الرسمي لكل مطعم.',
+  ro_all => 'كل عروض {name}', ro_save => 'وفّر <bdi>{p}%</bdi>', ro_was => 'بدل {was}', egp => 'جنيه', ro_from => 'تبدأ من {min} جنيه',
+  ro_h1 => 'عروض {name}', ro_lede => '{count} تبدأ من {min} جنيه، ووفّر حتى {max}% من سعر المنيو.',
+  ro_checked => 'الأسعار من المنيو الرسمي، تحقّق منها فريق Foodidu في {date}', ro_order => 'اطلب من {name}', ro_call => 'اتصل {phone}',
+  ro_how => 'طريقة طلب عروض {name}', ro_s1 => 'افتح منيو {name}', ro_s1p => 'من الموقع، ادخل على قسم العروض.',
+  ro_s2 => 'اختر العرض', ro_s2p => 'أضف العرض الذي تريده إلى السلة.', ro_s3 => 'اطلب أو اتصل', ro_s3p => 'أكمل الطلب أونلاين أو اتصل على {phone}.',
+  ro_q1 => 'ما هي عروض {name}؟', ro_a1 => 'يعرض {name} حالياً {count} في المنيو: {list}.',
+  ro_q2 => 'ما هو أرخص عرض في {name}؟', ro_a2 => '{offer} بـ {price} جنيه: {items}.',
+  ro_q3 => 'كيف أطلب عروض {name}؟', ro_a3 => 'من قسم العروض في منيو {name} أونلاين، أو بالاتصال على {phone}.',
+  ro_q4 => 'هل تتغير الأسعار؟', ro_a4 => 'هذه الأسعار من منيو {name} الرسمي بتاريخ {date} وقد تتغير، فراجع المنيو قبل الطلب.',
+  ro_src => 'الأسعار من منيو {name} الرسمي وقد تتغير.', ro_valid => 'العروض سارية حتى {date}',
   band_title => 'عندك مطعم أو براند أكل؟', band_text => 'اعرض كود الخصم الخاص بك أمام أشخاص على وشك الطلب. قدّم في دقيقتين وسيتواصل معك فريقنا.', band_btn => 'انضم لشركاء Foodidu',
   faq_eyebrow => 'أسئلة شائعة', faq_title => 'عندك سؤال؟',
   c_title => 'كل أكواد الخصم: مطاعم وبقالة وتسوق أونلاين',
@@ -357,7 +387,13 @@ sub deal_html {
   return $l eq 'ar' ? qq{<p class="deal"><span>$small</span><b>$big</b></p>} : qq{<p class="deal"><b>$big</b><span>$small</span></p>};
 }
 sub brand_url { my ($b, $l) = @_; path_for($l, "/$b->{slug}/") }
-sub meta_line { my ($b, $l) = @_; esc($CATN{$b->{category}}{$l}) . ' · ' . T($l, $b->{region}) }
+sub regions { my $r = shift; ref $r eq 'ARRAY' ? @$r : ($r // ()) }   # "eg", "gcc", "all" or a list
+sub region_label {
+  my ($x, $l) = @_;
+  return esc($x->{regionLabel}{$l}) if $x->{regionLabel};
+  join($l eq 'ar' ? ' و' : ' & ', map { $_ eq 'all' ? T($l, 'all_regions') : T($l, $_) } regions($x->{region}));
+}
+sub meta_line { my ($b, $l) = @_; esc($CATN{$b->{category}}{$l}) . ' · ' . region_label($b, $l) }
 sub logo_img  { my ($b, $l, $size, $eager) = @_; qq{<img src="} . logo_src($b) . qq{" alt="} . Te($l, 'logo_alt', name => $b->{name}{$l}) . qq{" width="$size" height="$size"} . ($eager ? ' fetchpriority="high"' : ' loading="lazy"') . qq{ decoding="async">} }
 
 sub ticket {
@@ -377,7 +413,7 @@ sub ticket {
 sub ticket_li {
   my ($b, $l, %o) = @_;
   my $search = lc join ' ', $b->{name}{en}, $b->{name}{ar}, $b->{code}, $b->{key};
-  qq{<li data-cat="$b->{category}" data-region="$b->{region}" data-search="} . esc($search) . qq{">} . ticket($b, $l, %o) . '</li>';
+  qq{<li data-cat="$b->{category}" data-region="@{[ join ' ', regions($b->{region}) ]}" data-search="} . esc($search) . qq{">} . ticket($b, $l, %o) . '</li>';
 }
 sub faq_html {
   my (@qa) = @_;
@@ -536,6 +572,7 @@ $a{body}
 <nav aria-label="Foodidu"><h2>Foodidu</h2><ul class="foot-links">
 <li><a href="$codes">@{[ T($l, 'foot_all') ]}</a></li>
 @{[ @DDEALS ? '<li><a href="' . path_for($l, '/day-deals/') . '">' . T($l, 'dd_nav') . '</a></li>' : '' ]}
+@{[ join '', map { '<li><a href="' . rest_url($_, $l) . '">' . Te($l, 'ro_h1', name => $_->{name}{$l}) . '</a></li>' } @RESTS ]}
 <li><a href="@{[ path_for($l, '/partners/') ]}">@{[ T($l, 'nav_partner') ]}</a></li>
 <li><a href="@{[ path_for($l, '/privacy-policy/') ]}">@{[ T($l, 'privacy') ]}</a></li>
 <li><a href="@{[ path_for($l, '/terms-and-conditions/') ]}">@{[ T($l, 'terms') ]}</a></li>
@@ -568,7 +605,8 @@ sub offers_of {
 sub offers_text { my ($b, $l) = @_; join ' · ', map { $_->{offer}{$l} } offers_of($b) }
 sub search_index {
   my ($l) = @_;
-  [ map { my $b = $_; { n => $b->{name}{$l}, s => join(' ', $b->{name}{en}, $b->{name}{ar}, map { $_->{code} } offers_of($b)), u => brand_url($b, $l), l => logo_src($b), o => offers_text($b, $l) } } @BRANDS ];
+  [ (map { my $b = $_; { n => $b->{name}{$l}, s => join(' ', $b->{name}{en}, $b->{name}{ar}, map { $_->{code} } offers_of($b)), u => brand_url($b, $l), l => logo_src($b), o => offers_text($b, $l) } } @BRANDS),
+    (map { my $r = $_; { n => $r->{name}{$l}, s => join(' ', $r->{name}{en}, $r->{name}{ar}, $r->{key}), u => rest_url($r, $l), l => "/img/brands/$r->{logo}", o => noffers($l, scalar @{ $r->{offers} }) . ' · ' . T($l, 'ro_from', min => fmt_n(rest_min($r))) } } @RESTS) ];
 }
 my %BYKEY = map { ($_->{key} => $_) } @BRANDS;
 sub count_cat { my $c = shift; my @o = map { offers_of($_) } grep { $_->{category} eq $c } @BRANDS; scalar @o }
@@ -579,33 +617,82 @@ my $ALL_FRESH = !grep { !fresh($_->{lastVerified}) } @BRANDS;
 
 # ---------- day deals (offers that repeat on a fixed weekday)
 sub dd_brand { my $d = shift; $d->{brand} ? $BYKEY{ $d->{brand} } : undef }
-sub dd_name  { my ($d, $l) = @_; my $b = dd_brand($d); $b ? $b->{name}{$l} : $d->{name}{$l} }
-sub dd_days  { my ($d, $l) = @_; join($l eq 'ar' ? ' و' : ' & ', map { $DAYN{$l}{$_} } @{ $d->{days} }) }
+sub dd_rest  { my $d = shift; return undef unless $d->{brand}; (grep { $_->{key} eq $d->{brand} } @RESTS)[0] }
+sub dd_name  { my ($d, $l) = @_; my $x = dd_brand($d) // dd_rest($d) // $d; $x->{name}{$l} }
+sub dd_range {   # 3+ consecutive weekdays, e.g. Sunday to Wednesday
+  my @ix = map { $DAYI{$_} } @{ $_[0]{days} };
+  return 0 if @ix < 3;
+  for (1 .. $#ix) { return 0 unless $ix[$_] == $ix[$_ - 1] + 1 }
+  1;
+}
+sub dd_days {    # plain: "Tuesday" / "Sunday to Wednesday" (card meta line)
+  my ($d, $l) = @_; my @dd = @{ $d->{days} };
+  return $l eq 'ar' ? "من $DAYN{ar}{$dd[0]} إلى $DAYN{ar}{$dd[-1]}" : "$DAYN{en}{$dd[0]} to $DAYN{en}{$dd[-1]}" if dd_range($d);
+  join($l eq 'ar' ? ' و' : ' & ', map { $DAYN{$l}{$_} } @dd);
+}
+sub dd_when {    # in a sentence: "Tuesday" / "Sunday-to-Wednesday"; Arabic adds "يوم" for one day
+  my ($d, $l) = @_; my @dd = @{ $d->{days} };
+  if (dd_range($d)) { return $l eq 'ar' ? "من $DAYN{ar}{$dd[0]} إلى $DAYN{ar}{$dd[-1]}" : "$DAYN{en}{$dd[0]}-to-$DAYN{en}{$dd[-1]}" }
+  return $l eq 'ar' ? "يوم $DAYN{ar}{$dd[0]}" : $DAYN{en}{$dd[0]} if @dd == 1;
+  $l eq 'ar' ? 'أيام ' . join(' و', map { $DAYN{ar}{$_} } @dd) : join(' & ', map { $DAYN{en}{$_} } @dd);
+}
 sub dday_card {
   my ($d, $l) = @_;
   my $b = dd_brand($d);
+  my $r = $b ? undef : dd_rest($d);
   my $name = dd_name($d, $l);
-  my $href = $b ? brand_url($b, $l) : ($d->{url} // '');
-  my $logo = $b ? logo_img($b, $l, 44)
+  my $href = $b ? brand_url($b, $l) : $r ? rest_url($r, $l) : ($d->{url} // '');
+  my $logo = $b ? logo_img($b, $l, 44) : $r ? rest_logo($r, $l, 44)
     : $d->{logo} ? qq{<img src="/img/brands/$d->{logo}" alt="} . Te($l, 'logo_alt', name => $name) . qq{" width="44" height="44" loading="lazy" decoding="async">}
     : icon($d->{icon} // 'fork');
-  my $region = $b ? $b->{region} : $d->{region};
+  my $robj = $b // $r // $d;
   my $nameh = $href ? qq{<a href="$href">} . esc($name) . '</a>' : esc($name);
   my @days = @{ $d->{days} };
+  my $cal = @days == 1 ? $DAYC{$l}{ $days[0] }
+    : dd_range($d) ? "$DSHORT{$l}{$days[0]}–$DSHORT{$l}{$days[-1]}"
+    : join(' · ', map { $DSHORT{$l}{$_} } @days);
   qq{<article class="dday" data-days="@days">}
-  . '<div class="dday-cal" aria-hidden="true"><span>' . T($l, 'dd_every') . '</span><b>' . join(' · ', map { $DAYC{$l}{$_} } @days) . '</b></div>'
+  . '<div class="dday-cal' . (@days > 1 ? ' multi' : '') . '" aria-hidden="true"><span>' . T($l, 'dd_every') . "</span><b>$cal</b></div>"
   . '<div class="dday-body"><div class="dday-brand"><span class="logo-tile">' . $logo . '</span><div>'
-  . qq{<h3 class="dday-name">$nameh</h3><span class="ticket-meta">} . esc(dd_days($d, $l)) . ($region ? ' · ' . T($l, $region) : '') . '</span></div>'
+  . qq{<h3 class="dday-name">$nameh</h3><span class="ticket-meta">} . esc(dd_days($d, $l)) . ($robj->{region} ? ' · ' . region_label($robj, $l) : '') . '</span></div>'
   . '<span class="today-tag" hidden>' . T($l, 'dd_today') . '</span></div>'
   . '<p class="dday-title">' . esc($d->{title}{$l}) . '</p>'
   . '<p class="dday-text">' . esc($d->{details}{$l}) . '</p>'
   . '<p class="dday-src">' . icon('external') . '<span>' . T($l, 'dd_source') . ': <a href="' . esc($d->{source}) . '" rel="nofollow noopener" target="_blank">' . esc($d->{sourceLabel}{$l}) . '</a></span></p>'
   . '</div></article>';
 }
-my %DAYI = map { ($DAYS[$_] => $_) } 0 .. $#DAYS;
 sub by_weekday { sort { $DAYI{ $a->{days}[0] } <=> $DAYI{ $b->{days}[0] } } @_ }   # Saturday first; JS moves today's deal to the top
 sub dday_list { my ($l, @ds) = @_; '<ul class="dday-list">' . join('', map { '<li>' . dday_card($_, $l) . '</li>' } by_weekday(@ds)) . '</ul>' }
-sub dd_qa { my ($l, @ds) = @_; map { [Te($l, 'dd_q', brand => dd_name($_, $l), day => dd_days($_, $l)), esc($_->{details}{$l}) . ' ' . T($l, 'dd_note')] } @ds }
+# ---------- restaurant menu offers (no code; price vs. menu price)
+sub noffers  { my ($l, $n) = @_; return $n == 1 ? '1 offer' : "$n offers" if $l eq 'en'; return $n == 1 ? 'عرض واحد' : $n == 2 ? 'عرضان' : $n <= 10 ? "$n عروض" : "$n عرضاً" }
+sub fmt_n    { my $n = shift; 1 while $n =~ s/^(\d+)(\d{3})/$1,$2/; $n }
+sub save_pct { my $o = shift; $o->{was} ? int((1 - $o->{price} / $o->{was}) * 100 + 0.5) : 0 }
+sub rest_url { my ($r, $l) = @_; path_for($l, "/$r->{slug}/") }
+sub rest_logo { my ($r, $l, $size) = @_; qq{<img src="/img/brands/$r->{logo}" alt="} . Te($l, 'logo_alt', name => $r->{name}{$l}) . qq{" width="$size" height="$size" loading="lazy" decoding="async">} }
+sub rest_min { my $r = shift; (sort { $a <=> $b } map { $_->{price} } @{ $r->{offers} })[0] }
+sub rest_max_save { my $r = shift; (sort { $b <=> $a } map { save_pct($_) } @{ $r->{offers} })[0] }
+sub oname { my ($o, $l) = @_; ref $o->{name} ? $o->{name}{$l} : $o->{name} }   # offer name: plain string or {en, ar}
+sub moffer_card {
+  my ($o, $l, $h) = @_;
+  $h //= 'h3';
+  my $egp = T($l, 'egp');
+  qq{<article class="moffer"><span class="moffer-save">} . T($l, 'ro_save', p => save_pct($o)) . '</span>'
+  . qq{<$h class="moffer-name"><bdi>} . esc(oname($o, $l)) . "</bdi></$h>"
+  . '<p class="moffer-items">' . esc($o->{items}{$l}) . '</p>'
+  . '<p class="moffer-price"><b>' . fmt_n($o->{price}) . "</b> <span>$egp</span> <span class=\"moffer-was\">" . T($l, 'ro_was', was => '<s>' . fmt_n($o->{was}) . " $egp</s>") . '</span></p></article>';
+}
+sub rest_block {   # home: restaurant header + its 3 biggest savings
+  my ($r, $l) = @_;
+  my @os = @{ $r->{offers} };
+  my @top = (sort { save_pct($b) <=> save_pct($a) } @os)[0 .. ($#os < 2 ? $#os : 2)];
+  my $url = rest_url($r, $l);
+  my $name = esc($r->{name}{$l});
+  qq{<div class="rest-block"><div class="rest-head"><span class="logo-tile">} . rest_logo($r, $l, 48) . '</span><div>'
+  . qq{<h3 class="rest-name"><a href="$url">$name</a></h3><span class="ticket-meta">} . noffers($l, scalar @os) . ' · ' . T($l, 'ro_from', min => fmt_n(rest_min($r))) . '</span></div>'
+  . qq{<a class="btn btn-line rest-all" href="$url">} . T($l, 'ro_all', name => $name) . ' ' . icon('arrow', 'flip') . '</a></div>'
+  . '<ul class="moffer-list">' . join('', map { '<li>' . moffer_card($_, $l, 'h4') . '</li>' } @top) . '</ul></div>';
+}
+sub dd_qa { my ($l, @ds) = @_; map { [Te($l, 'dd_q', brand => dd_name($_, $l), day => dd_when($_, $l)), esc($_->{details}{$l}) . ' ' . T($l, 'dd_note')] } @ds }
 
 # ------------------------------------------------------------------ pages
 for my $l (@LANGS) {
@@ -650,6 +737,7 @@ for my $l (@LANGS) {
 <ul class="ticket-list">$featured</ul>
 </section>
 @{[ @DDEALS ? qq{<section class="wrap section-tight" aria-labelledby="dd-title"><div class="section-head"><div><p class="eyebrow">} . T($l, 'dd_eyebrow') . qq{</p><h2 class="h2" id="dd-title">} . T($l, 'dd_title') . '</h2><p class="section-sub">' . T($l, 'dd_sub') . qq{</p></div><a class="btn btn-ink" href="} . path_for($l, '/day-deals/') . '">' . T($l, 'dd_all') . ' ' . icon('arrow', 'flip') . '</a></div>' . dday_list($l, @DDEALS) . '</section>' : '' ]}
+@{[ @RESTS ? qq{<section class="wrap section-tight" aria-labelledby="ro-title"><div class="section-head"><div><p class="eyebrow">} . T($l, 'ro_eyebrow') . qq{</p><h2 class="h2" id="ro-title">} . T($l, 'ro_title') . '</h2><p class="section-sub">' . T($l, 'ro_sub') . '</p></div></div>' . join('', map { rest_block($_, $l) } @RESTS) . '</section>' : '' ]}
 <section class="wrap section-tight" aria-labelledby="cats-title">
 <div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_cat_eyebrow') ]}</p><h2 class="h2" id="cats-title">@{[ T($l, 'h_cat_title') ]}</h2></div></div>
 <div class="cats">$cats</div>
@@ -735,8 +823,8 @@ HTML
       @ds ? qq{<section class="group" id="$day" aria-labelledby="g-$day"><div class="group-head"><span class="ic">} . icon('calendar') . qq{</span><h2 id="g-$day">} . T($l, 'dd_day_h2', day => $DAYN{$l}{$day}) . '</h2></div>' . dday_list($l, @ds) . '</section>' : '';
     } @DAYS;
     my @qa = dd_qa($l, @DDEALS);
-    my $first = $DDEALS[0];
-    my %fv = (brand => dd_name($first, $l), day => dd_days($first, $l));
+    my ($first) = ((grep { $_->{featured} } @DDEALS), $DDEALS[0]);   # the deal named in the page title
+    my %fv = (brand => dd_name($first, $l), day => dd_when($first, $l));
     my $tbase = T($l, 'dd_page_title', %fv);
     my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'dd_h1'), path_for($l, '/day-deals/')]];
     my $social = join '', map { qq{<a class="btn btn-line" href="$_->[2]" rel="noopener" target="_blank">} . icon($_->[0]) . " $_->[1]</a>" } @SOCIAL[0, 1];
@@ -762,6 +850,70 @@ HTML
     layout(lang => $l, key => '/day-deals/', title => (length($tbase) + 10 <= 65 ? "$tbase | Foodidu" : $tbase), desc => T($l, 'dd_page_desc', %fv),
       body => $body, nav => 'daydeals', crumbs => $crumbs, pagetype => 'CollectionPage', og => "/img/og/day-deals-$l.png",
       ld => [ faq_ld(@qa) ], lastmod => $DD_DATE);
+  }
+
+  # ---------- restaurant offer pages
+  for my $r (@RESTS) {
+    my $name = $r->{name}{$l};
+    my $en = esc($name);
+    my $url = rest_url($r, $l);
+    my @os = @{ $r->{offers} };
+    my $min = fmt_n(rest_min($r));
+    my $cheap = (sort { $a->{price} <=> $b->{price} } @os)[0];
+    my $is_fresh = fresh($r->{lastChecked});
+    my $tbase = $r->{seo}{$l}{title} . ($is_fresh ? ' (' . month_year($l, $r->{lastChecked}) . ')' : '');
+    my $checked = $r->{lastChecked} ? '<p class="checked">' . icon('shield') . T($l, 'ro_checked', date => fmt_date($l, $r->{lastChecked})) . '</p>' : '';
+    $checked .= '<p class="checked">' . icon('calendar') . T($l, 'ro_valid', date => fmt_date($l, $r->{validUntil})) . '</p>' if $r->{validUntil};
+    my $menu = esc($r->{menu}{$l} // $r->{website});
+    my $actions = qq{<div class="coupon-actions"><a class="btn btn-leaf" href="$menu" rel="nofollow noopener" target="_blank">} . T($l, 'ro_order', name => $en) . ' ' . icon('external') . '</a>'
+      . ($r->{phone} ? qq{<a class="btn btn-line" href="tel:$r->{phone}">} . icon('phone') . ' ' . T($l, 'ro_call', phone => "<bdi>$r->{phone}</bdi>") . '</a>' : '') . '</div>';
+    my $list = join($l eq 'ar' ? '، ' : ', ', map { esc(oname($_, $l)) . ' (' . fmt_n($_->{price}) . ' ' . T($l, 'egp') . ')' } @os);
+    my @qa = (
+      [Te($l, 'ro_q1', name => $name), T($l, 'ro_a1', name => $en, count => noffers($l, scalar @os), list => $list)],
+      [Te($l, 'ro_q2', name => $name), T($l, 'ro_a2', offer => esc(oname($cheap, $l)), price => fmt_n($cheap->{price}), items => esc($cheap->{items}{$l}))],
+      [Te($l, 'ro_q3', name => $name), T($l, 'ro_a3', name => $en, phone => $r->{phone} // '')],
+      [T($l, 'ro_q4'), T($l, 'ro_a4', name => $en, date => fmt_date($l, $r->{lastChecked} // $RO_DATE))],
+    );
+    my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'ro_h1', name => $name), $url]];
+    my $cards = join '', map { '<li>' . moffer_card($_, $l, 'h3') . '</li>' } @os;
+    my $i = 0;
+    my $body = <<"HTML";
+<section class="page-hero">
+<div class="wrap">
+@{[ crumbs_html($l, $crumbs) ]}
+<div class="brand-id"><span class="logo-tile">@{[ rest_logo($r, $l, 88) ]}</span><div class="pill-row"><span class="pill">@{[ icon($CATICON{$r->{category}} // 'fork') ]}@{[ esc($CATN{$r->{category}}{$l}) ]}</span><span class="pill">@{[ icon('pin') ]}@{[ region_label($r, $l) ]}</span></div></div>
+<h1>@{[ Te($l, 'ro_h1', name => $name) ]}</h1>
+<p class="lede">@{[ T($l, 'ro_lede', count => noffers($l, scalar @os), min => $min, max => rest_max_save($r)) ]}</p>
+$checked
+$actions
+</div>
+</section>
+<div class="scallop" aria-hidden="true"></div>
+<section class="wrap section-tight" aria-labelledby="ro-list-title">
+<h2 class="sr-only" id="ro-list-title">@{[ Te($l, 'ro_all', name => $name) ]}</h2>
+<ul class="moffer-list all">$cards</ul>
+<p class="note">@{[ Te($l, 'ro_src', name => $name) ]}</p>
+</section>
+<div class="wrap brand-body ro-body">
+<article class="prose">
+<section aria-labelledby="how-title"><h2 id="how-title">@{[ Te($l, 'ro_how', name => $name) ]}</h2>
+<ol class="how">
+<li><div><b>@{[ Te($l, 'ro_s1', name => $name) ]}</b><span>@{[ T($l, 'ro_s1p') ]}</span></div></li>
+<li><div><b>@{[ T($l, 'ro_s2') ]}</b><span>@{[ T($l, 'ro_s2p') ]}</span></div></li>
+<li><div><b>@{[ T($l, 'ro_s3') ]}</b><span>@{[ T($l, 'ro_s3p', phone => qq{<bdi>$r->{phone}</bdi>}) ]}</span></div></li>
+</ol></section>
+<section aria-labelledby="about-title"><h2 id="about-title">@{[ Te($l, 'b_about', name => $name) ]}</h2><p>@{[ esc($r->{about}{$l}) ]}</p></section>
+<section aria-labelledby="faq-title"><h2 id="faq-title">@{[ T($l, 'faq_title') ]}</h2>@{[ faq_html(@qa) ]}</section>
+</article>
+</div>
+@{[ band($l) ]}
+HTML
+    layout(lang => $l, key => "/$r->{slug}/", title => (length($tbase) + 10 <= 65 ? "$tbase | Foodidu" : $tbase), desc => $r->{seo}{$l}{description},
+      body => $body, crumbs => $crumbs, og => "/img/og/$r->{key}-$l.png",
+      about => { '@type' => 'Restaurant', name => $r->{name}{en}, alternateName => $r->{name}{ar}, url => $r->{website}, ($r->{phone} ? (telephone => $r->{phone}) : ()), servesCuisine => $r->{cuisine} // [] },
+      ld => [ faq_ld(@qa), { '@type' => 'ItemList', name => T($l, 'ro_h1', name => $name), numberOfItems => scalar @os,
+        itemListElement => [ map { { '@type' => 'ListItem', position => ++$i, item => { '@type' => 'Offer', name => oname($_, $l), description => $_->{items}{$l}, price => $_->{price}, priceCurrency => 'EGP', ($r->{validUntil} ? (priceValidUntil => $r->{validUntil}) : ()), url => $r->{menu}{$l} // $r->{website} } } } @os ] } ],
+      lastmod => (sort grep { $_ } $r->{lastChecked}, $RO_DATE)[-1]);
   }
 
   # ---------- brand pages
@@ -794,7 +946,7 @@ HTML
     );
     my @bdd = grep { ($_->{brand} // '') eq $b->{key} } @DDEALS;
     push @qa, dd_qa($l, @bdd);
-    my $bdd = @bdd ? qq{<section aria-labelledby="bdd-title"><h2 id="bdd-title">} . Te($l, 'dd_brand_h2', brand => $name, day => dd_days($bdd[0], $l)) . '</h2>'
+    my $bdd = @bdd ? qq{<section aria-labelledby="bdd-title"><h2 id="bdd-title">} . Te($l, 'dd_brand_h2', brand => $name, day => dd_when($bdd[0], $l)) . '</h2>'
       . dday_list($l, @bdd) . '<p class="dd-more"><a href="' . path_for($l, '/day-deals/') . '">' . T($l, 'dd_all') . ' ' . icon('arrow', 'flip') . '</a></p></section>' : '';
     my $coupons = join '', map {
       qq{<div class="coupon-card"><div class="ticket"><div class="ticket-main">} . deal_html($_, $l)
@@ -815,7 +967,7 @@ HTML
 @{[ crumbs_html($l, $crumbs) ]}
 <div class="brand-grid">
 <div class="brand-intro">
-<div class="brand-id"><span class="logo-tile">@{[ logo_img($b, $l, 88, 1) ]}</span><div class="pill-row"><span class="pill">@{[ icon($CATICON{$b->{category}}) ]}@{[ esc($CATN{$b->{category}}{$l}) ]}</span><span class="pill">@{[ icon('pin') ]}@{[ T($l, $b->{region}) ]}</span>$flag</div></div>
+<div class="brand-id"><span class="logo-tile">@{[ logo_img($b, $l, 88, 1) ]}</span><div class="pill-row"><span class="pill">@{[ icon($CATICON{$b->{category}}) ]}@{[ esc($CATN{$b->{category}}{$l}) ]}</span><span class="pill">@{[ icon('pin') ]}@{[ region_label($b, $l) ]}</span>$flag</div></div>
 <h1>@{[ Te($l, $multi ? 'b_h1_multi' : 'b_h1', name => $name) ]}</h1>
 <p class="lede">$lede</p>
 $checked

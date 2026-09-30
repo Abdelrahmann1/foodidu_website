@@ -2,8 +2,22 @@
   "_help": "Offers that repeat on a fixed weekday. days: sat sun mon tue wed thu fri. brand: a key from brands.json (links to its page and logo), or give name/logo for a brand without a page. Always keep a source link to the brand's official page and set lastChecked (YYYY-MM-DD). Then run: perl tools/build.pl",
   "deals": [
     {
+      "id": "bazooka-sun-wed",
+      "brand": "bazooka",
+      "days": ["sun", "mon", "tue", "wed"],
+      "title": { "en": "6 fried chicken pieces + 2 coleslaw + 2 bread for 260 EGP", "ar": "6 قطع فرايد تشيكن + 2 كول سلو + 2 عيش بـ 260 جنيه" },
+      "details": {
+        "en": "Bazooka's Sunday-to-Wednesday offer: 6 pieces of fried chicken (no wings), 2 coleslaws and 2 breads for 260 EGP.",
+        "ar": "عرض بازوكا من الأحد للأربعاء: 6 قطع فرايد تشيكن بدون أجنحة + 2 كول سلو + 2 عيش بـ 260 جنيه."
+      },
+      "source": "https://bazookaegy.com/en/resturant/bazooka/offers/offer-sunday-to-wednesday-6-pieces",
+      "sourceLabel": { "en": "Bazooka's official website", "ar": "موقع بازوكا الرسمي" },
+      "lastChecked": "2026-09-30"
+    },
+    {
       "id": "kfc-tuesday",
       "brand": "kfc",
+      "featured": true,
       "days": ["tue"],
       "title": { "en": "6 crispy chicken pieces for 219 EGP", "ar": "6 قطع دجاج كرسبي بـ 219 جنيه" },
       "details": {

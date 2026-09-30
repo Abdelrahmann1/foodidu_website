@@ -566,6 +566,8 @@ a.store:hover { background: #000; transform: translateY(-2px); }
 .dday-cal b { display: block; font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; line-height: 1.2; padding: 12px 4px 14px; color: var(--ink-deep); }
 [dir="rtl"] .dday-cal b { font-size: 1.5rem; line-height: 1.5; padding: 8px 4px 10px; }
 .dday.is-today .dday-cal span { background: var(--leaf-deep); color: #fff; }
+.dday-cal.multi b { font-size: 1.05rem; padding: 12px 4px 14px; }
+[dir="rtl"] .dday-cal.multi b { font-size: 1.1rem; padding: 8px 4px 10px; }
 .dday-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
 .dday-brand { display: flex; align-items: center; gap: 12px; }
 .dday-brand .logo-tile { width: 44px; height: 44px; border-radius: 12px; }
@@ -600,6 +602,40 @@ a.store:hover { background: #000; transform: translateY(-2px); }
   [dir="rtl"] .dday-cal b { font-size: 1.15rem; padding: 4px 2px 6px; }
   .dday-brand .logo-tile { width: 38px; height: 38px; }
   .dday-title { font-size: 1.3rem; }
+}
+
+/* restaurant menu offers: price-tag cards */
+.rest-block + .rest-block { margin-top: 30px; }
+.rest-head { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 14px; margin-bottom: 16px; }
+.rest-head .logo-tile { width: 56px; height: 56px; border-radius: 16px; }
+.rest-name { font-family: var(--font-display); font-weight: 400; font-size: 1.6rem; line-height: 1.2; }
+[dir="rtl"] .rest-name { line-height: 1.5; }
+.rest-name a { text-decoration: none; }
+.rest-name a:hover { text-decoration: underline; }
+.rest-all { margin-inline-start: auto; min-height: 44px; padding: .5em 1.1em; font-size: .95rem; }
+.moffer-list { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.moffer-list.all { grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); }
+.moffer {
+  position: relative; height: 100%; display: flex; flex-direction: column; gap: 6px;
+  padding: 20px; background: var(--paper); border: 2px solid var(--line); border-radius: var(--r);
+  transition: border-color .2s, transform .2s var(--ease);
+}
+.moffer:hover { border-color: var(--ink); transform: translateY(-3px); }
+.moffer-save { align-self: flex-start; font-size: .8rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--leaf-soft); color: #2F5310; border: 1px solid #CFE3B3; }
+.moffer-name { font-family: var(--font-display); font-weight: 400; font-size: 1.45rem; line-height: 1.25; color: var(--ink); margin-top: 4px; }
+.moffer-items { color: var(--ink-2); font-size: .93rem; line-height: 1.5; }
+.moffer-price { margin-top: auto; padding-top: 12px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; border-top: 2px dashed var(--line); }
+.moffer-price b { font-family: var(--font-display); font-weight: 400; font-size: 2.1rem; line-height: 1; color: var(--ink); }
+.moffer-price > span:first-of-type { font-weight: 700; color: var(--ink); }
+.moffer-was { color: var(--ink-2); font-size: .88rem; }
+.moffer-was s { text-decoration-thickness: 1.5px; }
+.ro-body { grid-template-columns: minmax(0, 1fr); }
+.ro-body .prose { max-width: 820px; }
+@media (max-width: 760px) {
+  .moffer-list:not(.all) { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin-inline: calc(-1 * var(--gutter)); padding: 4px var(--gutter) 12px; scroll-padding-inline: var(--gutter); scrollbar-width: none; }
+  .moffer-list:not(.all)::-webkit-scrollbar { display: none; }
+  .moffer-list:not(.all) > li { flex: 0 0 min(78%, 260px); scroll-snap-align: start; }
+  .rest-all { margin-inline-start: 0; width: 100%; }
 }
 
 /* FAQ */

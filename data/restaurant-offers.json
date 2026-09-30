@@ -1,0 +1,78 @@
+{
+  "_help": "Restaurant menu offers (no code needed). Each restaurant gets its own page at /{slug}/ and a block in the home 'Restaurant offers' section. Prices in EGP, copied from the restaurant's official menu; update lastChecked (YYYY-MM-DD) whenever you re-check them. Then run: perl tools/build.pl",
+  "restaurants": [
+    {
+      "key": "willys-kitchen",
+      "slug": "Willys-Kitchen-Offers",
+      "name": { "en": "Willy's Kitchen", "ar": "ويليز كيتشن" },
+      "logo": "willys-kitchen.webp",
+      "category": "restaurants",
+      "region": "eg",
+      "menu": { "en": "https://willys-kitchen.com/en/menu", "ar": "https://willys-kitchen.com/ar/menu" },
+      "website": "https://willys-kitchen.com/",
+      "phone": "19256",
+      "cuisine": ["Burgers", "Fried chicken"],
+      "lastChecked": "2026-09-30",
+      "about": {
+        "en": "Willy's Kitchen is a restaurant in Egypt serving beef burgers on brioche buns, fried-chicken sandwiches and nachos. Order online from its website or call 19256.",
+        "ar": "ويليز كيتشن مطعم في مصر يقدّم برجر اللحم بخبز البريوش وساندويتشات الفراخ المقلية والناتشوز. اطلب أونلاين من موقعه أو اتصل على 19256."
+      },
+      "seo": {
+        "en": { "title": "Willy's Kitchen Offers: Burger Deals from 189 EGP", "description": "Willy's Kitchen offers in Egypt: 5 burger deals from 189 EGP, saving up to 48%, like Max 200G for 199 EGP instead of 319. Prices from the official menu." },
+        "ar": { "title": "عروض ويليز كيتشن: وجبات برجر تبدأ من 189 جنيه", "description": "عروض ويليز كيتشن في مصر: 5 عروض برجر تبدأ من 189 جنيه ووفّر حتى 48%، مثل Max 200G بـ 199 جنيه بدل 319. الأسعار من المنيو الرسمي." }
+      },
+      "offers": [
+        { "name": "Real Tasty Offer", "items": { "en": "Real Tasty sandwich + fries + cola", "ar": "ساندويتش Real Tasty + بطاطس + كولا" }, "price": 189, "was": 259 },
+        { "name": "Max 200G", "items": { "en": "200g sandwich + fries + cola", "ar": "ساندويتش 200 جرام + بطاطس + كولا" }, "price": 199, "was": 319 },
+        { "name": "Double Double", "items": { "en": "2 sandwiches (140g) + 2 fries + 2 colas", "ar": "2 ساندويتش 140 جرام + 2 بطاطس + 2 كولا" }, "price": 339, "was": 558 },
+        { "name": "Triple Flash", "items": { "en": "3 sandwiches (140g) + 3 fries or colas", "ar": "3 ساندويتش 140 جرام + 3 بطاطس أو كولا" }, "price": 393, "was": 762 },
+        { "name": "The 4X Bucket", "items": { "en": "4 sandwiches (140g) + 4 fries + 4 colas + a chips bucket with a cup of cheese", "ar": "4 ساندويتش 140 جرام + 4 بطاطس + 4 كولا + باكت شيبس مع كوب جبنة" }, "price": 797, "was": 1385 }
+      ]
+    },
+    {
+      "key": "bazooka",
+      "slug": "Bazooka-Offers",
+      "name": { "en": "Bazooka", "ar": "بازوكا" },
+      "logo": "bazooka.webp",
+      "category": "restaurants",
+      "region": "eg",
+      "menu": { "en": "https://bazookaegy.com/en/resturant/bazooka", "ar": "https://bazookaegy.com/ar/resturant/bazooka" },
+      "website": "https://bazookaegy.com/",
+      "phone": "16455",
+      "cuisine": ["Fried chicken", "Burgers"],
+      "lastChecked": "2026-09-30",
+      "validUntil": "2026-10-30",
+      "about": {
+        "en": "Bazooka is an Egyptian fried-chicken restaurant serving crispy chicken pieces, chicken and beef sandwiches, wraps and combo meals. Order from its website or call 16455.",
+        "ar": "بازوكا مطعم فرايد تشيكن مصري يقدّم قطع الدجاج المقرمشة وساندويتشات التشيكن والبيف والراب ووجبات الكومبو. اطلب من موقعه أو اتصل على 16455."
+      },
+      "seo": {
+        "en": { "title": "Bazooka Offers: Fried Chicken Deals up to 50% Off", "description": "Bazooka offers in Egypt: 21 fried chicken and combo deals, up to 50% off, like 7 pieces for 300 EGP instead of 600. Prices from the official menu." },
+        "ar": { "title": "عروض بازوكا: وجبات فرايد تشيكن بخصم حتى 50%", "description": "عروض بازوكا في مصر: 21 عرض فرايد تشيكن وكومبو بخصم حتى 50%، مثل 7 قطع بـ 300 جنيه بدل 600. الأسعار من المنيو الرسمي." }
+      },
+      "offers": [
+        { "name": { "en": "7 Pieces at Half Price", "ar": "7 قطع بنص السعر" }, "items": { "en": "7 fried chicken pieces (no wings) + 2 breads", "ar": "7 قطع فرايد تشيكن بدون أجنحة + 2 عيش" }, "price": 300, "was": 600 },
+        { "name": { "en": "Big Crunchy", "ar": "كبير القرمشة" }, "items": { "en": "10 fried chicken pieces + 3 breads", "ar": "10 قطع فرايد تشيكن + 3 عيش" }, "price": 420, "was": 840 },
+        { "name": { "en": "Big Happiness", "ar": "كبير السعادة" }, "items": { "en": "5 fried chicken pieces + bread", "ar": "5 قطع فرايد + عيش" }, "price": 230, "was": 460 },
+        { "name": { "en": "Big Summer", "ar": "كبير الصيف" }, "items": { "en": "4 sandwiches of your choice", "ar": "4 ساندويتشات من اختيارك" }, "price": 400, "was": 800 },
+        { "name": { "en": "Happiness Wrap", "ar": "راب السعادة" }, "items": { "en": "4 wraps (2 chicken + 1 burger + 1 msahab)", "ar": "4 ساندويتشات راب (2 تشيكن + 1 برجر + 1 مسحب)" }, "price": 300, "was": 600 },
+        { "name": { "en": "Hormone Elsaada (2 pieces)", "ar": "هرمون السعادة (قطعتين)" }, "items": { "en": "2 chicken pieces + rice + medium coleslaw + bread", "ar": "قطعتين دجاج + أرز + كول سلو وسط + عيش" }, "price": 150, "was": 250 },
+        { "name": { "en": "Fire Supreme Combo", "ar": "فاير سوبريم كومبو" }, "items": { "en": "Zinger super supreme sandwich + fries + drink", "ar": "ساندويتش زنجر سوبر سوبريم + فرايز + مشروب" }, "price": 155, "was": 258 },
+        { "name": { "en": "Single Combo", "ar": "كومبو سنجل" }, "items": { "en": "Beef or chicken single sandwich + fries + drink", "ar": "ساندويتش بيف أو تشيكن سنجل + فرايز + مشروب" }, "price": 160, "was": 267 },
+        { "name": { "en": "BoomBox Single", "ar": "بوم بوكس سنجل" }, "items": { "en": "1 chicken piece + chicken or beef burger + medium coleslaw + drink + rice", "ar": "قطعة دجاج + ساندويتش برجر تشيكن أو بيف + كول سلو وسط + مشروب + أرز" }, "price": 165, "was": 275 },
+        { "name": { "en": "Crunch Flash", "ar": "فلاش القرمشة" }, "items": { "en": "3 chicken pieces + bread + coleslaw", "ar": "3 قطع + عيش + كول سلو" }, "price": 180, "was": 300 },
+        { "name": { "en": "Flash ElSaytara", "ar": "فلاش السيطرة" }, "items": { "en": "3 chicken pieces + rice + medium coleslaw + bread", "ar": "3 قطع دجاج + أرز + كول سلو وسط + عيش" }, "price": 199, "was": 332 },
+        { "name": { "en": "Share Combo Single", "ar": "شير كومبو سنجل" }, "items": { "en": "Chicken or beef sandwich + chicken or beef burger + medium fries + drink", "ar": "ساندويتش تشيكن أو بيف + ساندويتش برجر تشيكن أو بيف + فرايز وسط + مشروب" }, "price": 200, "was": 333 },
+        { "name": { "en": "Super Crunchy Combo", "ar": "كومبو سوبر كرانشي" }, "items": { "en": "Sandwich + fries + drink", "ar": "ساندويتش + فرايز + مشروب" }, "price": 210, "was": 350 },
+        { "name": { "en": "Flash Secret", "ar": "فلاش سكريت" }, "items": { "en": "4 chicken pieces + bread", "ar": "4 قطع + عيش" }, "price": 220, "was": 367 },
+        { "name": { "en": "Combo Double", "ar": "كومبو دبل" }, "items": { "en": "Double chicken or beef sandwich + medium fries + drink", "ar": "ساندويتش دبل تشيكن أو بيف + فرايز وسط + مشروب" }, "price": 230, "was": 383 },
+        { "name": { "en": "Happiness Flash Box", "ar": "بوكس فلاش السعادة" }, "items": { "en": "2 single chicken or burger sandwiches + 2 fries, feeds two", "ar": "2 ساندويتش سنجل تشيكن أو برجر + 2 فرايز، يشبع فردين" }, "price": 270, "was": 450 },
+        { "name": { "en": "Molook Elsaada 1 (4 pieces)", "ar": "ملوك السعادة 1 (4 قطع)" }, "items": { "en": "4 chicken pieces + rice + medium coleslaw + bread + drink", "ar": "4 قطع دجاج + أرز + كول سلو وسط + عيش + مشروب" }, "price": 275, "was": 458 },
+        { "name": { "en": "Flash Mix", "ar": "فلاش ميكس" }, "items": { "en": "3 fried chicken pieces + single or wrap sandwich + coleslaw + fries", "ar": "3 قطع فرايد تشيكن + ساندويتش سنجل أو راب + كول سلو + فرايز" }, "price": 299, "was": 499 },
+        { "name": { "en": "Duetto 2 (6 pieces)", "ar": "دويتو 2 (6 قطع)" }, "items": { "en": "6 chicken pieces + 2 breads + 2 coleslaw", "ar": "6 قطع دجاج + 2 عيش + 2 كول سلو" }, "price": 330, "was": 550 },
+        { "name": { "en": "Double Crunch", "ar": "دبل القرمشة" }, "items": { "en": "6 broast pieces + 2 coleslaw + 2 breads + 2 medium basmati rice", "ar": "6 قطع بروست + 2 كول سلو + 2 عيش + 2 أرز بسمتي وسط" }, "price": 380, "was": 633 },
+        { "name": { "en": "Lamet El Sohab (9 pieces)", "ar": "لمة الصحاب (9 قطع)" }, "items": { "en": "9 chicken pieces + 3 medium coleslaw + 3 breads", "ar": "9 قطع دجاج + 3 كول سلو وسط + 3 عيش" }, "price": 520, "was": 876 }
+      ]
+    }
+  ]
+}
