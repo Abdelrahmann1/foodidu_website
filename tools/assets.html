@@ -36,7 +36,9 @@ const LOGOS = {
   "bazooka":         { src: "bazooka.png",          pad: .08, bg: "#111", from: "/__tools/logo-src/" },
   "talabat-mart":    { src: "talabat-mart.svg",     pad: .08, bg: "#fff", from: "/__tools/logo-src/" },
   "waffarha":        { src: "waffarha.svg",         pad: .1,  bg: "#fff", from: "/__tools/logo-src/" },
-  "iherb":           { src: "iherb.svg",            pad: .16, bg: "#458500", from: "/__tools/logo-src/" }
+  "iherb":           { src: "iherb.svg",            pad: .16, bg: "#458500", from: "/__tools/logo-src/" },
+  "lil-kitchen":     { src: "lil-kitchen.jpg",      pad: 0,   bg: "#000", from: "/__tools/logo-src/" },
+  "farooja":         { src: "farooja.jpg",          pad: 0,   bg: "#fff", from: "/__tools/logo-src/", hq: true }   // only 150 px: upscale smoothly
 };
 
 async function logos() {
@@ -60,6 +62,7 @@ async function logos() {
       img = cc;
     }
     x.fillStyle = bg; x.fillRect(0, 0, S, S);
+    if (o.hq) x.imageSmoothingQuality = "high";
     const p = S * o.pad;
     fit(x, img, p, p, S - 2 * p, S - 2 * p, o.pad === 0);
     await save(`static/img/brands/${key}.webp`, c, "image/webp", .95);

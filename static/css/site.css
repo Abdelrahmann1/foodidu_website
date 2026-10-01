@@ -246,23 +246,27 @@ ul, ol { margin: 0; padding: 0; }
 .hero-facts .icon { color: var(--leaf-deep); width: 1.15em; height: 1.15em; }
 .hero-facts b { font-family: var(--font-display); font-weight: 400; font-size: 1.25rem; line-height: 1; }
 
-/* hero ticket stack */
-.stack { position: relative; min-height: 440px; }
-.stack .mini { position: absolute; width: min(330px, 86%); }
-.stack .mini:nth-child(1) { inset-inline-start: 0; top: 0; --rot: -7deg; z-index: 1; }
-.stack .mini:nth-child(2) { inset-inline-end: 0; top: 118px; --rot: 5deg; z-index: 2; }
-.stack .mini:nth-child(3) { inset-inline-start: 6%; top: 250px; --rot: -2deg; z-index: 3; }
+/* hero ticket stack: five tickets zigzagging from side to side; the end-side ones sit on top so every discount stays visible */
+.stack { position: relative; min-height: 630px; }
+.stack .mini { position: absolute; width: min(290px, 62%); }
+.stack .mini:nth-child(1) { inset-inline-start: 0; top: 0; --rot: -6deg; z-index: 1; }
+.stack .mini:nth-child(2) { inset-inline-end: 0; top: 90px; --rot: 5deg; z-index: 3; }
+.stack .mini:nth-child(3) { inset-inline-start: 0; top: 182px; --rot: -3deg; z-index: 2; }
+.stack .mini:nth-child(4) { inset-inline-end: 0; top: 272px; --rot: 4deg; z-index: 5; }
+.stack .mini:nth-child(5) { inset-inline-start: 0; top: 362px; --rot: -2deg; z-index: 4; }
 [dir="rtl"] .stack .mini { --flip: -1; }
 .stack .mini { transform: rotate(calc(var(--rot) * var(--flip, 1))); animation: deal .7s var(--ease) both; }
-.stack .mini:nth-child(2) { animation-delay: .12s; }
-.stack .mini:nth-child(3) { animation-delay: .24s; }
-.stack .mini:hover { z-index: 5; transform: rotate(0) translateY(-6px) scale(1.02); transition: transform .3s var(--ease); }
+.stack .mini:nth-child(2) { animation-delay: .1s; }
+.stack .mini:nth-child(3) { animation-delay: .2s; }
+.stack .mini:nth-child(4) { animation-delay: .3s; }
+.stack .mini:nth-child(5) { animation-delay: .4s; }
+.stack .mini:hover { z-index: 6; transform: rotate(0) translateY(-6px) scale(1.02); transition: transform .3s var(--ease); }
 @keyframes deal { from { opacity: 0; transform: translateY(40px) rotate(0deg) scale(.94); } }
 @keyframes pop { from { opacity: 0; transform: scale(.4) rotate(-30deg); } }
 .hero-art { position: relative; }
 .stack-label { display: none; }
 .sticker {
-  position: absolute; inset-inline-end: 0; bottom: -6px; z-index: 6; width: 150px; height: auto;
+  position: absolute; inset-inline-end: 0; bottom: -6px; z-index: 7; width: 150px; height: auto;
   transform: rotate(8deg); filter: drop-shadow(0 6px 0 rgba(84, 58, 20, .25));
   animation: pop .6s .5s var(--ease) both; pointer-events: none;
 }
@@ -386,6 +390,7 @@ ul, ol { margin: 0; padding: 0; }
 .mini .ticket { --stub: 70px; }
 .mini .ticket-main { padding: 18px 20px 14px; gap: 8px; }
 .mini .deal b { font-size: 3.4rem; }
+.mini .deal.long b { font-size: 2.6rem; }
 .mini .ticket-stub { padding: 0 16px; }
 .mini .code-btn { flex: 1; }
 .mini .code-btn .code { flex: 1; justify-content: center; }
@@ -640,14 +645,6 @@ a.store:hover { background: #000; transform: translateY(-2px); }
 }
 
 /* restaurant menu offers: price-tag cards */
-.rest-block + .rest-block { margin-top: 30px; }
-.rest-head { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 14px; margin-bottom: 16px; }
-.rest-head .logo-tile { width: 56px; height: 56px; border-radius: 16px; }
-.rest-name { font-family: var(--font-display); font-weight: 400; font-size: 1.6rem; line-height: 1.2; }
-[dir="rtl"] .rest-name { line-height: 1.5; }
-.rest-name a { text-decoration: none; }
-.rest-name a:hover { text-decoration: underline; }
-.rest-all { margin-inline-start: auto; min-height: 44px; padding: .5em 1.1em; font-size: .95rem; }
 .moffer-list { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .moffer-list.all { grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); }
 .moffer {
@@ -666,12 +663,6 @@ a.store:hover { background: #000; transform: translateY(-2px); }
 .moffer-was s { text-decoration-thickness: 1.5px; }
 .ro-body { grid-template-columns: minmax(0, 1fr); }
 .ro-body .prose { max-width: 820px; }
-@media (max-width: 760px) {
-  .moffer-list:not(.all) { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin-inline: calc(-1 * var(--gutter)); padding: 4px var(--gutter) 12px; scroll-padding-inline: var(--gutter); scrollbar-width: none; }
-  .moffer-list:not(.all)::-webkit-scrollbar { display: none; }
-  .moffer-list:not(.all) > li { flex: 0 0 min(78%, 260px); scroll-snap-align: start; }
-  .rest-all { margin-inline-start: 0; width: 100%; }
-}
 
 /* FAQ */
 .faq { display: grid; gap: 12px; }

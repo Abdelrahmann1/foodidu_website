@@ -29,6 +29,34 @@
       "lastChecked": "2026-09-29"
     },
     {
+      "id": "kfc-thursday",
+      "brand": "kfc",
+      "days": ["thu"],
+      "title": { "en": "7 chicken pieces for 249 EGP", "ar": "7 قطع دجاج بـ 249 جنيه" },
+      "details": {
+        "en": "KFC Egypt's Thursday offer: 40% off, 7 chicken pieces for 249 EGP instead of 420 EGP. Only through the call center: call 19019.",
+        "ar": "عرض كنتاكي مصر يوم الخميس: خصم 40%، 7 قطع دجاج بـ 249 جنيه بدلاً من 420 جنيه. متاح من خلال الكول سنتر فقط على 19019."
+      },
+      "source": "https://www.instagram.com/kfcegypt_/",
+      "sourceLabel": { "en": "KFC Egypt on Instagram", "ar": "حساب كنتاكي مصر على إنستجرام" },
+      "lastChecked": "2026-10-01"
+    },
+    {
+      "id": "labash-mon-tue",
+      "name": { "en": "Labash", "ar": "لبش" },
+      "icon": "fork",
+      "region": "eg",
+      "days": ["mon", "tue"],
+      "title": { "en": "All-you-can-eat fried chicken for 249 EGP", "ar": "فرايد تشيكن وحبشتكنات لحد ما تشبع بـ 249 جنيه" },
+      "details": {
+        "en": "Labash's Monday and Tuesday offer: eat as much fried chicken and sides as you like for 249 EGP per person, all day. The price does not include tax.",
+        "ar": "عرض لبش يوم الاتنين والتلات: كُل فرايد تشيكن وحبشتكنات لحد ما تشبع بـ 249 جنيه للفرد طول اليوم. السعر غير شامل الضريبة."
+      },
+      "source": "https://www.instagram.com/labash.eg/",
+      "sourceLabel": { "en": "Labash on Instagram", "ar": "حساب لبش على إنستجرام" },
+      "lastChecked": "2026-10-01"
+    },
+    {
       "id": "dominos-monday",
       "name": { "en": "Domino's Pizza", "ar": "دومينوز بيتزا" },
       "icon": "pizza",

@@ -122,7 +122,6 @@ my %S = (
   dd_day_h2 => '{day} deals', dd_q => 'What is the {brand} {day} offer?', dd_brand_h2 => '{brand} {day} offer',
   dd_know => 'Know a weekly deal we missed?', dd_know_p => "Send it to us on Facebook or Instagram and we'll add it after checking the brand's official page.",
   dd_empty => 'No day deals yet. Check back soon.',
-  ro_eyebrow => 'Restaurant offers', ro_title => 'Menu deals from restaurants', ro_sub => "Meals and combos at special prices, straight from each restaurant's official menu.",
   ro_all => 'All {name} offers', ro_save => 'Save {p}%', ro_was => 'instead of {was}', egp => 'EGP', ro_from => 'from {min} EGP',
   ro_h1 => '{name} offers', ro_lede => '{count} from {min} EGP, saving up to {max}% on the menu price.',
   ro_checked => 'Prices checked by Foodidu on {date}', ro_order => 'Order from {name}', ro_call => 'Call {phone}',
@@ -241,7 +240,6 @@ my %S = (
   dd_day_h2 => 'عروض يوم {day}', dd_q => 'ما هو عرض {brand} {day}؟', dd_brand_h2 => 'عرض {brand} {day}',
   dd_know => 'تعرف عرضاً أسبوعياً غير موجود هنا؟', dd_know_p => 'ابعته لنا على فيسبوك أو إنستجرام وسنضيفه بعد التأكد من الصفحة الرسمية للعلامة التجارية.',
   dd_empty => 'لا توجد عروض أيام حالياً، تابعنا قريباً.',
-  ro_eyebrow => 'عروض المطاعم', ro_title => 'عروض من منيو المطاعم', ro_sub => 'وجبات وكومبو بأسعار خاصة، من المنيو الرسمي لكل مطعم.',
   ro_all => 'كل عروض {name}', ro_save => 'وفّر <bdi>{p}%</bdi>', ro_was => 'بدل {was}', egp => 'جنيه', ro_from => 'تبدأ من {min} جنيه',
   ro_h1 => 'عروض {name}', ro_lede => '{count} تبدأ من {min} جنيه، ووفّر حتى {max}% من سعر المنيو.',
   ro_checked => 'الأسعار من المنيو الرسمي، تحقّق منها فريق Foodidu في {date}', ro_order => 'اطلب من {name}', ro_call => 'اتصل {phone}',
@@ -395,7 +393,8 @@ sub code_btn {
 sub deal_html {
   my ($b, $l) = @_;
   my ($big, $small) = map { esc($_) } @{ $b->{badge}{$l} };
-  return $l eq 'ar' ? qq{<p class="deal"><span>$small</span><b>$big</b></p>} : qq{<p class="deal"><b>$big</b><span>$small</span></p>};
+  my $cls = length($b->{badge}{$l}[0]) > 6 ? "deal long" : "deal";   # "100 جنيه" needs a smaller size on narrow cards
+  return $l eq 'ar' ? qq{<p class="$cls"><span>$small</span><b>$big</b></p>} : qq{<p class="$cls"><b>$big</b><span>$small</span></p>};
 }
 sub brand_url { my ($b, $l) = @_; path_for($l, "/$b->{slug}/") }
 sub regions { my $r = shift; ref $r eq 'ARRAY' ? @$r : ($r // ()) }   # "eg", "gcc", "all" or a list
@@ -692,17 +691,6 @@ sub moffer_card {
   . '<p class="moffer-items">' . esc($o->{items}{$l}) . '</p>'
   . '<p class="moffer-price"><b>' . fmt_n($o->{price}) . "</b> <span>$egp</span> <span class=\"moffer-was\">" . T($l, 'ro_was', was => '<s>' . fmt_n($o->{was}) . " $egp</s>") . '</span></p></article>';
 }
-sub rest_block {   # home: restaurant header + its 3 biggest savings
-  my ($r, $l) = @_;
-  my @os = @{ $r->{offers} };
-  my @top = (sort { save_pct($b) <=> save_pct($a) } @os)[0 .. ($#os < 2 ? $#os : 2)];
-  my $url = rest_url($r, $l);
-  my $name = esc($r->{name}{$l});
-  qq{<div class="rest-block"><div class="rest-head"><span class="logo-tile">} . rest_logo($r, $l, 48) . '</span><div>'
-  . qq{<h3 class="rest-name"><a href="$url">$name</a></h3><span class="ticket-meta">} . noffers($l, scalar @os) . ' · ' . T($l, 'ro_from', min => fmt_n(rest_min($r))) . '</span></div>'
-  . qq{<a class="btn btn-line rest-all" href="$url">} . T($l, 'ro_all', name => $name) . ' ' . icon('arrow', 'flip') . '</a></div>'
-  . '<ul class="moffer-list">' . join('', map { '<li>' . moffer_card($_, $l, 'h4') . '</li>' } @top) . '</ul></div>';
-}
 # Featured-partner banner under the home hero (data/featured.json). Gone after "until"; site.js also hides it
 # on that date when the site was not rebuilt.
 sub featured_html {
@@ -738,7 +726,7 @@ for my $l (@LANGS) {
 
   # ---------- home
   {
-    my @stack = map { $BYKEY{$_} } qw(pizza-hut rabbit kfc);
+    my @stack = map { $BYKEY{$_} } qw(noon rabbit waffarha iherb talabat-mart);
     my $stack = join '', map { qq{<div class="mini"><div class="mini-wrap">} . ticket($_, $l, mini => 1, eager => 1) . '</div></div>' } @stack;
     my $cats = join '', map {
       my $c = $_;
@@ -775,7 +763,6 @@ for my $l (@LANGS) {
 <ul class="ticket-list">$featured</ul>
 </section>
 @{[ @DDEALS ? qq{<section class="wrap section-tight" aria-labelledby="dd-title"><div class="section-head"><div><p class="eyebrow">} . T($l, 'dd_eyebrow') . qq{</p><h2 class="h2" id="dd-title">} . T($l, 'dd_title') . '</h2><p class="section-sub">' . T($l, 'dd_sub') . qq{</p></div><a class="btn btn-ink" href="} . path_for($l, '/day-deals/') . '">' . T($l, 'dd_all') . ' ' . icon('arrow', 'flip') . '</a></div>' . dday_list($l, @DDEALS) . '</section>' : '' ]}
-@{[ @RESTS ? qq{<section class="wrap section-tight" aria-labelledby="ro-title"><div class="section-head"><div><p class="eyebrow">} . T($l, 'ro_eyebrow') . qq{</p><h2 class="h2" id="ro-title">} . T($l, 'ro_title') . '</h2><p class="section-sub">' . T($l, 'ro_sub') . '</p></div></div>' . join('', map { rest_block($_, $l) } @RESTS) . '</section>' : '' ]}
 <section class="wrap section-tight" aria-labelledby="cats-title">
 <div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_cat_eyebrow') ]}</p><h2 class="h2" id="cats-title">@{[ T($l, 'h_cat_title') ]}</h2></div></div>
 <div class="cats">$cats</div>

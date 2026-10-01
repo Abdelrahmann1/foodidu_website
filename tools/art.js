@@ -45,10 +45,13 @@ function ticketArt(ctx, b, lang, logo, x, y, w, rot) {
   ctx.fillText(b.name[lang], tx, 72);
   ctx.font = "400 24px 'Readex Pro'"; ctx.fillStyle = INK2; ctx.fillText(b.cat, tx, 106);
   const [big, small] = b.badge[lang];
-  ctx.font = "96px Lalezar"; ctx.fillStyle = INK;
+  ctx.fillStyle = INK;
   const bx = rtl ? w - 30 : 30;
-  if (rtl) { ctx.font = "44px Lalezar"; ctx.fillStyle = LEAF; ctx.fillText(small, bx, 228); const sw = ctx.measureText(small).width; ctx.font = "96px Lalezar"; ctx.fillStyle = INK; ctx.fillText(big, bx - sw - 14, 228); }
-  else { ctx.fillText(big, bx, 228); const bw = ctx.measureText(big).width; ctx.font = "44px Lalezar"; ctx.fillStyle = LEAF; ctx.fillText(small, bx + bw + 14, 228); }
+  let bs = 96;   // long badges ("100 جنيه") shrink so big + small stay inside the ticket
+  for (;;) { ctx.font = `${bs * 44 / 96}px Lalezar`; const sw = ctx.measureText(small).width; ctx.font = `${bs}px Lalezar`; if (ctx.measureText(big).width + 14 + sw <= w - 60 || bs <= 56) break; bs -= 2; }
+  const ss = `${bs * 44 / 96}px Lalezar`, bf = `${bs}px Lalezar`;
+  if (rtl) { ctx.font = ss; ctx.fillStyle = LEAF; ctx.fillText(small, bx, 228); const sw = ctx.measureText(small).width; ctx.font = bf; ctx.fillStyle = INK; ctx.fillText(big, bx - sw - 14, 228); }
+  else { ctx.font = bf; ctx.fillText(big, bx, 228); const bw = ctx.measureText(big).width; ctx.font = ss; ctx.fillStyle = LEAF; ctx.fillText(small, bx + bw + 14, 228); }
   const cy = h - stub + 18, ch = 60;
   if (b.tag) {   // restaurant offers: a solid "save up to" pill instead of a code box
     ctx.fillStyle = INK; rr(ctx, 26, cy, w - 52, ch, 14); ctx.fill();

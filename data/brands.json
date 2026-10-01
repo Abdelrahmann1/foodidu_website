@@ -406,6 +406,56 @@
         "en": { "title": "iHerb Code FDDU: 5% Off in Saudi Arabia & Worldwide", "description": "iHerb promo code FDDU: 5% off eligible vitamins, supplements and natural beauty products, in Saudi Arabia and every country iHerb ships to. Copy the code." },
         "ar": { "title": "كود خصم آي هيرب FDDU: خصم 5% في السعودية وكل الدول", "description": "كود خصم آي هيرب FDDU: خصم 5% على الفيتامينات والمكملات ومنتجات التجميل الطبيعية المشمولة، في السعودية وكل الدول. انسخ الكود واستخدمه عند الدفع." }
       }
+    },
+    {
+      "key": "lil-kitchen",
+      "slug": "Lil-Kitchen-PromoCode",
+      "name": { "en": "Lil Kitchen", "ar": "ليل كيتشن" },
+      "logo": "lil-kitchen.webp",
+      "code": "OG10",
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "https://online.lilkitchen.shop/",
+      "lastVerified": "2026-10-01",
+      "badge": { "en": ["10%", "off"], "ar": ["10%", "خصم"] },
+      "offer": { "en": "10% off any order", "ar": "خصم 10% على أي أوردر" },
+      "terms": { "en": "10% off any order from Lil Kitchen.", "ar": "خصم 10% على أي أوردر من ليل كيتشن." },
+      "where": { "en": "the Lil Kitchen ordering website", "ar": "موقع ليل كيتشن للطلب أونلاين" },
+      "about": {
+        "en": "Lil Kitchen is a restaurant in Cairo serving sandwiches and grills. Its code OG10 gives you 10% off any order.",
+        "ar": "ليل كيتشن مطعم في القاهرة يقدّم الساندويتشات والمشويات. الكود OG10 يمنحك خصم 10% على أي أوردر."
+      },
+      "seo": {
+        "en": { "title": "Lil Kitchen Promo Code OG10: 10% Off Any Order", "description": "Lil Kitchen promo code OG10: 10% off any order from Lil Kitchen in Egypt. Copy the code and see how to use it step by step." },
+        "ar": { "title": "كود خصم ليل كيتشن OG10: خصم 10% على أي أوردر", "description": "كود خصم ليل كيتشن OG10: خصم 10% على أي أوردر من ليل كيتشن في مصر. انسخ الكود واعرف طريقة استخدامه خطوة بخطوة." }
+      }
+    },
+    {
+      "key": "farooja",
+      "slug": "Farooja-PromoCode",
+      "name": { "en": "Farooja", "ar": "فروجة" },
+      "logo": "farooja.webp",
+      "code": "FAROOJA100",
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "https://online.farooja.com/",
+      "lastVerified": "2026-10-01",
+      "badge": { "en": ["100", "EGP off"], "ar": ["100 جنيه", "خصم"] },
+      "offer": { "en": "100 EGP off your first online order", "ar": "خصم 100 جنيه على أول أوردر أونلاين" },
+      "terms": { "en": "100 EGP off your first online order. From your second order on, you get 10% cashback on every order.", "ar": "خصم 100 جنيه على أول أوردر أونلاين، ومن تاني أوردر ليك كاش باك 10% على كل طلب." },
+      "where": { "en": "the Farooja ordering website", "ar": "موقع فروجة للطلب أونلاين" },
+      "about": {
+        "en": "Farooja is a fried chicken restaurant in Egypt. Order delivery, pick up from New Cairo or Al Wahat Road, or use car pickup. Code FAROOJA100 takes 100 EGP off your first online order, and from your second order on you get 10% cashback.",
+        "ar": "فروجة مطعم فراخ مقلية في مصر. تقدر تطلب دليفري، أو تستلم من التجمع أو طريق الواحات، أو تستلم وأنت في عربيتك. الكود FAROOJA100 يمنحك خصم 100 جنيه على أول أوردر أونلاين، ومن تاني أوردر ليك كاش باك 10% على كل طلب."
+      },
+      "seo": {
+        "en": { "title": "Farooja Promo Code: 100 EGP Off Your First Order", "description": "Farooja promo code FAROOJA100: 100 EGP off your first online order in Egypt, then 10% cashback from your second order. Copy the code and order." },
+        "ar": { "title": "كود خصم فروجة: خصم 100 جنيه على أول أوردر", "description": "كود خصم فروجة FAROOJA100: خصم 100 جنيه على أول أوردر أونلاين في مصر، ومن تاني أوردر كاش باك 10% على كل طلب. انسخ الكود واطلب." }
+      }
     }
   ]
 }
