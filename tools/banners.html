@@ -18,7 +18,7 @@
 <p>Open via <code>perl tools/serve.pl</code> at <code>/__tools/banners.html</code>. Draws banners from <code>data/*.json</code> and the logos in
 <code>static/img/brands/</code>, and saves them into <code>banners/</code> (kept out of git and never deployed).</p>
 <fieldset><legend>Partner banners “Now on Foodidu” (post 1080×1080 + story 1080×1920) for</legend><div id="partners"></div></fieldset>
-<fieldset><legend>Foodidu ads: codes shown on the tickets (pick 2)</legend><div id="adbrands"></div></fieldset>
+<fieldset><legend>Foodidu ads: exclusive-partner codes shown on the tickets (pick 2)</legend><div id="adbrands"></div></fieldset>
 <fieldset><legend>Make</legend>
 <label><input type="checkbox" id="do-partners" checked> Partner banners</label>
 <label><input type="checkbox" id="do-meta" checked> Meta / TikTok ads</label>
@@ -407,7 +407,7 @@ async function init() {
   for (const b of [...data.brands, ...rests]) D.logos[b.key] = await load(`/__static/img/brands/${b.logo}`);
   const box = (id, list, on) => { document.getElementById(id).innerHTML = list.map((b) => `<label><input type="checkbox" value="${b.key}"${on(b) ? " checked" : ""}> ${b.name.en}</label>`).join(""); };
   box("partners", [...rests, ...data.brands], (b) => !!b.offers || b.exclusive || !!b.moreCodes);
-  box("adbrands", data.brands, (b) => b.key === "pizza-hut" || b.key === "rabbit");
+  box("adbrands", data.brands.filter((b) => b.exclusive), (b) => b.key === "rabbit" || b.key === "noon");   // ads only show partners with an exclusive code
   log(`ready: ${data.brands.length} brands, ${rests.length} restaurants, ${D.ncodes} codes`);
 }
 const picked = (id) => [...document.querySelectorAll(`#${id} input:checked`)].map((i) => i.value);
@@ -416,7 +416,7 @@ document.getElementById("go").onclick = async () => {
     const langs = ["ar", "en"].filter((l) => document.getElementById("lang-" + l).checked);
     const byKey = Object.fromEntries([...D.brands, ...D.rests].map((b) => [b.key, b]));
     const ak = picked("adbrands");
-    D.adTickets = (ak.length >= 2 ? ak : ["pizza-hut", "rabbit"]).slice(0, 2).map((k) => byKey[k]);
+    D.adTickets = (ak.length >= 2 ? ak : ["rabbit", "noon"]).slice(0, 2).map((k) => byKey[k]);
     for (const l of langs) {
       if (document.getElementById("do-partners").checked) for (const k of picked("partners")) { await partnerPost(byKey[k], l); await partnerStory(byKey[k], l); }
       if (document.getElementById("do-meta").checked) for (const [n, W, H] of META) await ad(W, H, l, `banners/ads/meta/${n}-${W}x${H}-${l}`);

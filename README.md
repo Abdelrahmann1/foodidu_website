@@ -54,7 +54,7 @@ Run `perl tools/serve.pl`, open `http://localhost:5000/__tools/banners.html`, ti
 | `banners/ads/meta/` | feed 1080×1080, portrait 1080×1350, story 1080×1920, link 1200×628 | Facebook and Instagram ads. The story size is also the TikTok size. |
 | `banners/ads/google/` | 300×250, 336×280, 728×90, 970×250, 300×600, 160×600, 320×100, 320×50 | Google Display image ads: JPEG under Google's 150 KB limit. |
 
-Story layouts keep text out of the top 250 px and bottom 330 px that Instagram and TikTok cover. The ad tickets show two real codes, picked in the tool (Pizza Hut and Rabbit by default). Before paying to promote another company's logo, prefer partners who agreed to it: ad platforms can reject ads that use a trademark without permission.
+Story layouts keep text out of the top 250 px and bottom 330 px that Instagram and TikTok cover. The ad tickets only offer partners with an exclusive code (`"exclusive": true` in `brands.json`), Rabbit and noon by default, because ad platforms can reject ads that show another company's logo without permission.
 
 ## SEO already in place
 
