@@ -94,7 +94,7 @@ my %S = (
   h_fact_region => 'Egypt & GCC', h_fact_free => 'Free, no sign-up', h_top => 'Top codes', h_swipe => 'Swipe',
   h_cat_eyebrow => 'Browse by category', h_cat_title => 'What are you ordering?',
   h_feat_eyebrow => 'Featured codes', h_feat_title => 'Our top codes', h_feat_sub => 'Tap a code to copy it, then paste it at checkout.', h_see_all => 'See all {n} codes',
-  h_brands_eyebrow => 'Brands', h_brands_title => 'Every brand on Foodidu',
+  h_brands_eyebrow => 'Brands', h_brands_title => 'Every brand on Foodidu', h_brands_sub => 'Tap a brand to see its codes and how to use them.',
   h_how_eyebrow => 'How it works', h_how_title => 'Saving takes three taps',
   h_s1 => 'Find your brand', h_s1p => 'Search or browse restaurants, grocery apps and online stores.',
   h_s2 => 'Copy the code', h_s2p => 'One tap copies it. The conditions are right there, so there are no surprises.',
@@ -144,7 +144,7 @@ my %S = (
   c_group_restaurants => 'Restaurant promo codes', c_group_groceries => 'Grocery promo codes', c_group_shopping => 'Online shopping promo codes',
   c_empty => 'No codes match this filter.', c_filters => 'Filter codes',
   # brand page
-  b_h1 => '{name} promo code', b_checked => 'Checked by Foodidu on {date}', b_go => 'Go to {name}',
+  b_h1 => '{name} promo code', b_f_region => 'Works in', b_f_where => 'Use it on', b_f_checked => 'Checked by Foodidu', b_f_cost => 'On Foodidu', b_go => 'Go to {name}',
   b_how => 'How to use your {name} code', b_st1 => 'Copy the code', b_st1p => 'Tap “Copy code” to copy {code}.',
   b_st2 => 'Open {where}', b_st2p => 'Add what you want to your cart as usual.',
   b_st3 => 'Paste it at checkout', b_st3p => 'Paste the code in the promo code or voucher field. The discount applies when your order meets the conditions.',
@@ -212,7 +212,7 @@ my %S = (
   h_fact_region => 'مصر والخليج', h_fact_free => 'مجاني وبدون تسجيل', h_top => 'أقوى الأكواد', h_swipe => 'اسحب',
   h_cat_eyebrow => 'تصفّح حسب الفئة', h_cat_title => 'ماذا ستطلب اليوم؟',
   h_feat_eyebrow => 'أكواد مختارة', h_feat_title => 'أقوى الأكواد عندنا', h_feat_sub => 'اضغط على الكود لنسخه، ثم الصقه عند الدفع.', h_see_all => 'عرض كل الأكواد ({n})',
-  h_brands_eyebrow => 'العلامات التجارية', h_brands_title => 'كل العلامات على Foodidu',
+  h_brands_eyebrow => 'العلامات التجارية', h_brands_title => 'كل العلامات على Foodidu', h_brands_sub => 'اضغط على أي علامة لتشوف أكوادها وطريقة استخدامها.',
   h_how_eyebrow => 'كيف يعمل', h_how_title => 'التوفير في ثلاث خطوات',
   h_s1 => 'اختر العلامة', h_s1p => 'ابحث أو تصفّح المطاعم وتطبيقات البقالة والمتاجر أونلاين.',
   h_s2 => 'انسخ الكود', h_s2p => 'ضغطة واحدة تنسخه، والشروط أمامك حتى لا تتفاجأ.',
@@ -260,7 +260,7 @@ my %S = (
   c_h1 => 'كل أكواد الخصم', c_lede => 'كل أكواد Foodidu في مكان واحد: {n} بين المطاعم وتطبيقات البقالة والتسوق أونلاين في مصر والخليج.',
   c_group_restaurants => 'أكواد خصم المطاعم', c_group_groceries => 'أكواد خصم البقالة والسوبر ماركت', c_group_shopping => 'أكواد خصم التسوق أونلاين',
   c_empty => 'لا توجد أكواد تطابق هذا الاختيار.', c_filters => 'تصفية الأكواد',
-  b_h1 => 'كود خصم {name}', b_checked => 'تحقّق منه فريق Foodidu في {date}', b_go => 'اذهب إلى {name}',
+  b_h1 => 'كود خصم {name}', b_f_region => 'متاح في', b_f_where => 'استخدمه على', b_f_checked => 'تحقّق منه Foodidu', b_f_cost => 'على Foodidu', b_go => 'اذهب إلى {name}',
   b_how => 'طريقة استخدام كود {name}', b_st1 => 'انسخ الكود', b_st1p => 'اضغط على «انسخ الكود» لنسخ {code}.',
   b_st2 => 'افتح {where}', b_st2p => 'وأضف ما تريده إلى السلة كالمعتاد.',
   b_st3 => 'الصقه عند الدفع', b_st3p => 'الصق الكود في خانة كود الخصم أو القسيمة، وسيُطبَّق الخصم إذا كان طلبك مطابقاً للشروط.',
@@ -394,9 +394,23 @@ sub deal_html {
   my ($b, $l) = @_;
   my ($big, $small) = map { esc($_) } @{ $b->{badge}{$l} };
   my $cls = length($b->{badge}{$l}[0]) > 6 ? "deal long" : "deal";   # "100 جنيه" needs a smaller size on narrow cards
-  return $l eq 'ar' ? qq{<p class="$cls"><span>$small</span><b>$big</b></p>} : qq{<p class="$cls"><b>$big</b><span>$small</span></p>};
+  return $l eq 'ar' ? qq{<p class="$cls"><span>$small</span><b dir="auto">$big</b></p>} : qq{<p class="$cls"><b dir="auto">$big</b><span>$small</span></p>};
 }
 sub brand_url { my ($b, $l) = @_; path_for($l, "/$b->{slug}/") }
+# Home "Every brand on Foodidu": a small coupon-style card per brand linking to its page.
+sub brand_card {
+  my ($b, $l) = @_;
+  my $n = scalar(my @o = offers_of($b));
+  my ($big, $small) = map { esc($_) } @{ $b->{badge}{$l} };
+  my $long = length($b->{badge}{$l}[0]) > 6 ? ' long' : '';
+  my $deal = $l eq 'ar' ? qq{<span>$small</span><b dir="auto">$big</b>} : qq{<b dir="auto">$big</b><span>$small</span>};
+  my $meta = join ' · ', esc($CATN{ $b->{category} }{$l}), region_label($b, $l), ($n > 1 ? ncodes($l, $n) : ());
+  my $flag = $b->{exclusive} ? '<span class="bcard-flag">' . icon('gift') . T($l, 'exclusive') . '</span>' : '';
+  return '<li><a class="bcard" href="' . brand_url($b, $l) . '"><span class="bcard-top"><span class="logo-tile">' . logo_img($b, $l, 56) . "</span>$flag</span>"
+    . '<span class="bcard-name">' . esc($b->{name}{$l}) . qq{</span><span class="bcard-meta">$meta</span>}
+    . '<span class="bcard-offer">' . esc(offers_text($b, $l)) . '</span>'
+    . qq{<span class="bcard-foot"><span class="bcard-deal$long">$deal</span>} . icon('arrow', 'flip go') . '</span></a></li>';
+}
 sub regions { my $r = shift; ref $r eq 'ARRAY' ? @$r : ($r // ()) }   # "eg", "gcc", "all" or a list
 sub region_label {
   my ($x, $l) = @_;
@@ -733,7 +747,7 @@ for my $l (@LANGS) {
       qq{<a class="cat" href="$codes#$c"><span class="ic">} . icon($CATICON{$c}) . '</span><span><b>' . esc($CATN{$c}{$l}) . '</b><small>' . ncodes($l, count_cat($c)) . '</small></span>' . icon('arrow', 'go flip') . '</a>'
     } @CATS;
     my $featured = join '', map { ticket_li($_, $l) } grep { $_->{featured} } @BRANDS;
-    my $logos = join '', map { qq{<li><a href="} . brand_url($_, $l) . qq{"><span class="logo-tile">} . logo_img($_, $l, 42) . '</span><span><b>' . esc($_->{name}{$l}) . '</b><small>' . esc(offers_text($_, $l)) . '</small></span></a></li>' } @BRANDS;
+    my $logos = join '', map { brand_card($_, $l) } @BRANDS;
     my @facts = ([layers => nbrands($l, $n) =~ s/^(\d+)/<b>$1<\/b>/r], [pin => T($l, 'h_fact_region')]);
     push @facts, [shield => T($l, 'h_fact_checked', date => month_year($l, $VERIFIED[0]))] if $ALL_FRESH && @VERIFIED;
     push @facts, [gift => T($l, 'h_fact_free')];
@@ -776,8 +790,9 @@ for my $l (@LANGS) {
 </ol>
 </section>
 <section class="wrap section-tight" aria-labelledby="brands-title">
-<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_brands_eyebrow') ]}</p><h2 class="h2" id="brands-title">@{[ T($l, 'h_brands_title') ]}</h2></div></div>
-<ul class="side-list brand-wall">$logos</ul>
+<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_brands_eyebrow') ]}</p><h2 class="h2" id="brands-title">@{[ T($l, 'h_brands_title') ]}</h2><p class="section-sub">@{[ T($l, 'h_brands_sub') ]}</p></div>
+<a class="btn btn-ink" href="$codes">@{[ T($l, 'h_see_all', n => $NCODES) ]} @{[ icon('arrow', 'flip') ]}</a></div>
+<ul class="brand-cards">$logos</ul>
 </section>
 @{[ app_section($l) ]}
 <section class="wrap section-tight" aria-labelledby="why-title">
@@ -957,7 +972,11 @@ HTML
     my $is_fresh = fresh($b->{lastVerified});
     my $tbase = $b->{seo}{$l}{title} . ($is_fresh ? ' (' . month_year($l, $b->{lastVerified}) . ')' : '');
     my $title = length($tbase) + 10 <= 65 ? "$tbase | Foodidu" : $tbase;   # keep the month visible in Google; drop the suffix if too long
-    my $checked = $is_fresh ? '<p class="checked">' . icon('shield') . T($l, 'b_checked', date => fmt_date($l, $b->{lastVerified})) . '</p>' : '';
+    my $verified = $is_fresh ? '<span class="bp-check" role="img" aria-label="' . T($l, 'b_f_checked') . '" title="' . T($l, 'b_f_checked') . '">' . icon('check') . '</span>' : '';
+    my @facts = ([pin => T($l, 'b_f_region'), region_label($b, $l)], [store => T($l, 'b_f_where'), $where]);
+    push @facts, [shield => T($l, 'b_f_checked'), fmt_date($l, $b->{lastVerified})] if $is_fresh;
+    push @facts, [gift => T($l, 'b_f_cost'), T($l, 'h_fact_free')];
+    my $facts = join '', map { '<li>' . icon($_->[0]) . "<span><small>$_->[1]</small><b>$_->[2]</b></span></li>" } @facts;
     my $go = $b->{url} ? qq{<a class="btn btn-leaf" href="} . esc($b->{url}) . qq{" rel="nofollow sponsored noopener" target="_blank">} . ($b->{urlLabel} ? esc($b->{urlLabel}{$l}) : Te($l, 'b_go', name => $name)) . ' ' . icon('external') . '</a>' : '';
     my $lede = $multi ? ncodes($l, scalar @offers) . ': ' . join($l eq 'ar' ? '، أو ' : ', or ', map { esc($_->{offer}{$l}) } @offers) : $offer;
     my $a1 = $multi
@@ -985,22 +1004,22 @@ HTML
     my $related = join '', map { ticket_li($_, $l) } @related;
     my $sidecats = join '', map { qq{<li><a href="} . path_for($l, '/promo-codes/') . qq{#$_"><span class="logo-tile">} . icon($CATICON{$_}) . '</span><span><b>' . esc($CATN{$_}{$l}) . '</b><small>' . ncodes($l, count_cat($_)) . '</small></span></a></li>' } @CATS;
     my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'c_h1'), path_for($l, '/promo-codes/')], [$name, $url]];
-    my $flag = $b->{exclusive} ? '<span class="pill">' . icon('gift') . T($l, 'exclusive') . '</span>' : '';
+    my $flag = $b->{exclusive} ? '<span class="pill pill-leaf">' . icon('gift') . T($l, 'exclusive') . '</span>' : '';
+    my $count = $multi ? '<span class="pill">' . icon('tag') . ncodes($l, scalar @offers) . '</span>' : '';
     my $body = <<"HTML";
-<section class="page-hero">
+<section class="page-hero brand-hero">
 <div class="wrap">
 @{[ crumbs_html($l, $crumbs) ]}
-<div class="brand-grid">
-<div class="brand-intro">
-<div class="brand-id"><span class="logo-tile">@{[ logo_img($b, $l, 88, 1) ]}</span><div class="pill-row"><span class="pill">@{[ icon($CATICON{$b->{category}}) ]}@{[ esc($CATN{$b->{category}}{$l}) ]}</span><span class="pill">@{[ icon('pin') ]}@{[ region_label($b, $l) ]}</span>$flag</div></div>
-<h1>@{[ Te($l, $multi ? 'b_h1_multi' : 'b_h1', name => $name) ]}</h1>
-<p class="lede">$lede</p>
-$checked
-</div>
-<div class="coupons@{[ $multi ? ' multi' : '' ]}">
+<div class="bp">
+<div class="bp-id"><span class="bp-logo"><span class="logo-tile">@{[ logo_img($b, $l, 104, 1) ]}</span>$verified</span>
+<div class="bp-head"><div class="pill-row"><span class="pill">@{[ icon($CATICON{$b->{category}}) ]}@{[ esc($CATN{$b->{category}}{$l}) ]}</span>$flag$count</div>
+<h1>@{[ Te($l, $multi ? 'b_h1_multi' : 'b_h1', name => $name) ]}</h1></div></div>
+<p class="lede bp-lede">$lede</p>
+<div class="coupons bp-coupons@{[ $multi ? ' multi' : '' ]}">
 $coupons
 @{[ $go ? qq{<div class="coupon-actions">$go</div>} : '' ]}
 </div>
+<ul class="bp-facts">$facts</ul>
 </div>
 </div>
 </section>
