@@ -56,6 +56,27 @@ Run `perl tools/serve.pl`, open `http://localhost:5000/__tools/banners.html`, ti
 
 Story layouts keep text out of the top 250 px and bottom 330 px that Instagram and TikTok cover. The ad tickets only offer partners with an exclusive code (`"exclusive": true` in `brands.json`), Rabbit and noon by default, because ad platforms can reject ads that show another company's logo without permission.
 
+## Firebase: analytics, partner reports and the database
+
+**Events for partner reports** (Google Analytics 4, sent only after the visitor accepts analytics cookies). Each event carries `placement` (`home_hero`, `page_top`, `sidebar`, `featured`, `header`, `footer`, `app_section`, `page`):
+
+| Event | Extra parameters | Use it for |
+|---|---|---|
+| `promo_code_copied` | `brand`, `code` | Codes copied per brand: the main number for a partner. |
+| `brand_link_click` | `brand`, `link_domain` | Visits sent to the brand's own site. |
+| `restaurant_order_click`, `restaurant_call_click` | `brand` | Restaurant pages: menu/order clicks and phone calls. |
+| `featured_view`, `featured_click` | `brand`, `sponsored` | Views and clicks of the featured banner (proves what the slot is worth). |
+| `day_deal_source_click` | `deal` | Clicks to a deal's official source. |
+| `app_download_click` | `store` | Google Play button clicks. |
+| `search`, `search_no_results` | `search_term` | What people look for; no-result searches are brands worth signing up. |
+| `vendor_application_submitted` | `saved_to` | Partner applications (`sheet`, `firestore` or both). |
+
+One-time setup in Google Analytics (Admin > Data display > Custom definitions > Create custom dimension, scope Event): add `brand`, `placement`, `code`, `sponsored`, `store`, `deal`, `search_term`. Then mark `promo_code_copied` as a key event (Admin > Events). A partner's monthly number: Explore > Free form, rows `brand`, values `Event count`, filter `Event name = promo_code_copied`.
+
+**Firestore** keeps three collections, written by `static/js/site.js`: `cookieConsent`, `userSessions` and `vendorApplications` (every partner application, also sent to the Google Sheet, so none is lost). `firestore.rules` lets browsers add those records in the exact shape the site sends and never read anything back; read them in Firebase console > Firestore. Deploy rule changes with `firebase deploy --only firestore:rules`.
+
+**App Check** (blocks writes that don't come from foodidu.com): create a reCAPTCHA v3 key for `foodidu.com` and `www.foodidu.com` at google.com/recaptcha/admin, register the web app with it in Firebase console > App Check (paste the secret key there), put the *site* key in `APP_CHECK_SITE_KEY` in `static/js/site.js`, deploy, and after a few days of clean metrics press **Enforce** for Cloud Firestore.
+
 ## SEO already in place
 
 - Pre-rendered HTML for all 34 pages (no JS needed to read content).

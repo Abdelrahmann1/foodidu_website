@@ -1,0 +1,59 @@
+rules_version = '2';
+
+// Foodidu website (static/js/site.js). Browsers may only add the three kinds of records below, in the exact
+// shape the site sends, and can never read anything back: open them in Firebase console > Firestore.
+// Deploy with: firebase deploy --only firestore:rules
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function str(v, max) { return v is string && v.size() <= max; }
+    function smallMap(v) { return v is map && v.size() <= 20; }
+
+    // Cookie consent, one document per visitor, written with set(..., {merge: true}).
+    function consentFields() {
+      return ['visitorId', 'userId', 'essential', 'analytics', 'marketing', 'timestamp', 'deviceInfo', 'location', 'sessionInfo'];
+    }
+    function consentOk(d) {
+      return str(d.userId, 100) && d.essential is bool && d.analytics is bool && d.marketing is bool
+        && d.timestamp == request.time && smallMap(d.deviceInfo) && smallMap(d.location) && smallMap(d.sessionInfo);
+    }
+    match /cookieConsent/{visitorId} {
+      allow create: if request.resource.data.keys().hasOnly(consentFields())
+        && request.resource.data.visitorId == visitorId && str(visitorId, 100) && consentOk(request.resource.data);
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(consentFields())
+        && request.resource.data.visitorId == visitorId && consentOk(request.resource.data);
+      allow read, delete: if false;
+    }
+
+    // One record per consent given (same fields + session id and event type).
+    match /userSessions/{id} {
+      allow create: if request.resource.data.keys().hasOnly(consentFields().concat(['sessionId', 'eventType']))
+        && str(request.resource.data.visitorId, 100) && consentOk(request.resource.data)
+        && str(request.resource.data.sessionId, 60) && str(request.resource.data.eventType, 40);
+      allow read, update, delete: if false;
+    }
+
+    // Partner applications from /partners/ (a second copy next to the Google Sheet).
+    match /vendorApplications/{id} {
+      allow create: if request.resource.data.keys().hasOnly(['businessName', 'contactPerson', 'phone', 'email', 'location',
+            'businessType', 'description', 'website', 'language', 'page', 'createdAt'])
+        && request.resource.data.keys().hasAll(['businessName', 'contactPerson', 'phone', 'email', 'location', 'businessType', 'language', 'createdAt'])
+        && str(request.resource.data.businessName, 200) && request.resource.data.businessName.size() > 0
+        && str(request.resource.data.contactPerson, 200) && request.resource.data.contactPerson.size() > 0
+        && str(request.resource.data.phone, 40) && request.resource.data.phone.size() > 0
+        && str(request.resource.data.email, 200) && request.resource.data.email.matches('.+@.+')
+        && str(request.resource.data.location, 300) && str(request.resource.data.businessType, 60)
+        && (!('description' in request.resource.data) || str(request.resource.data.description, 3000))
+        && (!('website' in request.resource.data) || str(request.resource.data.website, 500))
+        && request.resource.data.language in ['en', 'ar']
+        && (!('page' in request.resource.data) || str(request.resource.data.page, 200))
+        && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if false;
+    }
+
+    // Everything else: no access from browsers (the console and admin tools are not affected).
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

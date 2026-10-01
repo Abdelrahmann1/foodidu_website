@@ -54,6 +54,37 @@
     toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 2600);
   }
 
+  /* ---------- partner-report events ----------
+     Links marked data-track="event" (brand site, restaurant order/call, featured banner, Google Play, deal sources)
+     send that event with their data-brand / data-store / data-deal / data-sponsored and where on the page they sit.
+     data-track-view="event" sends once when at least half of the element has been on screen. */
+  function placement(el) {
+    return el.closest(".site-header") ? "header" : el.closest(".site-footer") ? "footer" : el.closest(".feat-slot") ? "featured"
+      : el.closest(".hero") ? "home_hero" : el.closest(".page-hero") ? "page_top" : el.closest(".side") ? "sidebar"
+      : el.closest(".app-band, .band") ? "app_section" : "page";
+  }
+  function trackParams(el) {
+    var p = { placement: placement(el) };
+    ["brand", "store", "deal", "sponsored"].forEach(function (k) { var v = el.getAttribute("data-" + k); if (v) p[k] = v; });
+    if (el.host && el.host !== location.host) p.link_domain = el.host;
+    return p;
+  }
+  document.addEventListener("click", function (e) {
+    var el = e.target.closest && e.target.closest("[data-track]");
+    if (el) track(el.getAttribute("data-track"), trackParams(el));
+  });
+  var viewed = document.querySelectorAll("[data-track-view]");
+  if (viewed.length && "IntersectionObserver" in window) {
+    var seen = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        seen.unobserve(en.target);
+        track(en.target.getAttribute("data-track-view"), trackParams(en.target));
+      });
+    }, { threshold: 0.5 });
+    viewed.forEach(function (el) { seen.observe(el); });
+  }
+
   /* ---------- copy code ---------- */
   function legacyCopy(text) {
     return new Promise(function (resolve, reject) {
@@ -82,7 +113,7 @@
       if (label) label.textContent = T.copied || "Copied";
       showToast((T.copiedToast || "Code {code} copied").replace("{code}", code));
       setTimeout(function () { btn.classList.remove("copied"); if (label) label.textContent = T.copy || "Copy"; }, 2400);
-      track("promo_code_copied", { brand: btn.getAttribute("data-brand") || "", code: code });
+      track("promo_code_copied", { brand: btn.getAttribute("data-brand") || "", code: code, placement: placement(btn) });
     }, function () {
       var codeEl = btn.querySelector(".code");
       if (codeEl && window.getSelection) { var sel = window.getSelection(); sel.removeAllRanges(); var rg = document.createRange(); rg.selectNodeContents(codeEl); sel.addRange(rg); }
@@ -175,6 +206,7 @@
     var input = form.querySelector("input");
     var box = form.querySelector(".search-results");
     var active = -1;
+    var missTimer, missed = [];
     var norm = function (s) { return (s || "").toLowerCase().replace(/[ً-ْـ]/g, "").replace(/[أإآ]/g, "ا").replace(/ة/g, "ه").replace(/ى/g, "ي"); };
     var render = function () {
       var q = norm(input.value.trim());
@@ -182,10 +214,14 @@
       if (!q) { box.hidden = true; input.setAttribute("aria-expanded", "false"); return; }
       var hits = DATA.brands.filter(function (b) { return norm(b.s).indexOf(q) !== -1; }).slice(0, 6);
       box.innerHTML = "";
+      clearTimeout(missTimer);
       if (!hits.length) {
         var li = document.createElement("li");
         li.className = "r-empty"; li.textContent = T.noResults || "No codes found";
         box.appendChild(li);
+        // brands people look for that we don't have yet = partnership leads (sent once the typing stops)
+        var term = input.value.trim();
+        if (term.length >= 3) missTimer = setTimeout(function () { if (missed.indexOf(term) === -1) { missed.push(term); track("search_no_results", { search_term: term.slice(0, 80) }); } }, 1500);
       }
       hits.forEach(function (b, i) {
         var li = document.createElement("li");
@@ -220,6 +256,7 @@
     });
     document.addEventListener("click", function (e) { if (!form.contains(e.target)) { box.hidden = true; input.setAttribute("aria-expanded", "false"); } });
     form.addEventListener("submit", function (e) {
+      if (input.value.trim()) track("search", { search_term: input.value.trim().slice(0, 80) });
       var q = norm(input.value.trim());
       var exact = DATA.brands.filter(function (b) { return norm(b.s).indexOf(q) !== -1; });
       if (q && exact.length === 1) { e.preventDefault(); location.href = exact[0].u; }
@@ -237,21 +274,28 @@
       var label = btn.textContent;
       btn.disabled = true; btn.textContent = T.sending || "Sending…";
       status.hidden = true;
+      var data = {};
+      new FormData(vform).forEach(function (v, k) { data[k] = String(v).trim(); });
+      data.language = doc.lang;
       var body = new URLSearchParams();
-      new FormData(vform).forEach(function (v, k) { body.append(k, v); });
-      body.append("language", doc.lang);
-      fetch(DATA.formUrl, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() })
-        .then(function (r) { return r.text(); })
-        .then(function () {
+      Object.keys(data).forEach(function (k) { body.append(k, data[k]); });
+      // Two independent copies, so an application is never lost: the Google Sheet (Apps Script) and Firestore.
+      var toSheet = fetch(DATA.formUrl, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() })
+        .then(function (r) { if (!r.ok) throw new Error("sheet " + r.status); });
+      var toDb = withTimeout(loadCore().then(function (db) {
+        return db.collection("vendorApplications").add(Object.assign({}, data, { page: location.pathname, createdAt: window.firebase.firestore.FieldValue.serverTimestamp() }));
+      }), 15000);
+      settle([toSheet, toDb]).then(function (ok) {
+        if (ok[0] || ok[1]) {
           status.className = "form-status ok"; status.textContent = T.formOk || "Thanks!";
-          status.hidden = false; vform.reset();
-          track("vendor_application_submitted", {});
-        })
-        .catch(function () {
+          vform.reset();
+          track("vendor_application_submitted", { saved_to: [ok[0] ? "sheet" : "", ok[1] ? "firestore" : ""].filter(Boolean).join("+") });
+        } else {
           status.className = "form-status err"; status.textContent = T.formErr || "Something went wrong.";
-          status.hidden = false;
-        })
-        .finally(function () { btn.disabled = false; btn.textContent = label; status.focus(); });
+        }
+        status.hidden = false;
+        btn.disabled = false; btn.textContent = label; status.focus();
+      });
     });
   }
 
@@ -262,10 +306,21 @@
     projectId: "foodidu-website",
     storageBucket: "foodidu-website.appspot.com",
     messagingSenderId: "515131692962",
-    appId: "1:515131692962:web:5d81b9e165181ec80bc4fb"
+    appId: "1:515131692962:web:5d81b9e165181ec80bc4fb",
+    measurementId: "G-N5F00HKQQN"
   };
+  // App Check (reCAPTCHA v3) proves database writes come from foodidu.com. Paste the reCAPTCHA v3 *site* key here
+  // once it is registered in Firebase console > App Check; while empty, App Check stays off.
+  var APP_CHECK_SITE_KEY = "";
   var SDK = "https://www.gstatic.com/firebasejs/9.22.0/";
-  var fb = null, fbLoading = null, queue = [];
+  var fb = null, fbLoading = null, coreLoading = null, queue = [];
+
+  function settle(ps) {   // like Promise.allSettled, as true/false per promise
+    return Promise.all(ps.map(function (p) { return p.then(function () { return true; }, function () { return false; }); }));
+  }
+  function withTimeout(p, ms) {
+    return Promise.race([p, new Promise(function (_, reject) { setTimeout(function () { reject(new Error("timeout")); }, ms); })]);
+  }
 
   function loadScript(src) {
     return new Promise(function (resolve, reject) {
@@ -320,13 +375,31 @@
     }).catch(function () { return { type: "none" }; });
   }
 
-  function loadFirebase() {
-    if (fbLoading) return fbLoading;
-    fbLoading = loadScript(SDK + "firebase-app-compat.js")
-      .then(function () { return Promise.all([loadScript(SDK + "firebase-firestore-compat.js"), loadScript(SDK + "firebase-analytics-compat.js")]); })
+  // Firebase app + Firestore (+ App Check): needed by the consent record and the partner form, never loads Analytics.
+  function loadCore() {
+    if (coreLoading) return coreLoading;
+    coreLoading = loadScript(SDK + "firebase-app-compat.js")
+      .then(function () {
+        var more = [loadScript(SDK + "firebase-firestore-compat.js")];
+        if (APP_CHECK_SITE_KEY) more.push(loadScript(SDK + "firebase-app-check-compat.js"));
+        return Promise.all(more);
+      })
       .then(function () {
         window.firebase.initializeApp(FIREBASE);
-        fb = { db: window.firebase.firestore(), analytics: window.firebase.analytics() };
+        if (APP_CHECK_SITE_KEY) window.firebase.appCheck().activate(new window.firebase.appCheck.ReCaptchaV3Provider(APP_CHECK_SITE_KEY), true);
+        return window.firebase.firestore();
+      });
+    coreLoading.catch(function () { coreLoading = null; });   // a failed load (offline) can be retried
+    return coreLoading;
+  }
+
+  // Analytics on top of the core: only after the visitor accepts analytics cookies.
+  function loadFirebase() {
+    if (fbLoading) return fbLoading;
+    fbLoading = loadCore()
+      .then(function (db) { return loadScript(SDK + "firebase-analytics-compat.js").then(function () { return db; }); })
+      .then(function (db) {
+        fb = { db: db, analytics: window.firebase.analytics() };
         fb.analytics.setUserId(userId());
         fb.analytics.logEvent("page_view", { page_path: location.pathname, page_title: document.title, page_language: doc.lang });
         queue.splice(0).forEach(function (q) { track(q[0], q[1]); });

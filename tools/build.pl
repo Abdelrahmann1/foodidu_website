@@ -459,7 +459,7 @@ sub band {
 sub store_buttons {
   my ($l, $cls) = @_;
   $cls = $cls ? " $cls" : '';
-  qq{<div class="stores$cls"><a class="store" href="$PLAY_URL" rel="noopener" target="_blank">} . icon('play')
+  qq{<div class="stores$cls"><a class="store" href="$PLAY_URL" rel="noopener" target="_blank" data-track="app_download_click" data-store="google_play">} . icon('play')
   . '<span><small>' . T($l, 'gp_small') . '</small><b>' . T($l, 'gp_big') . '</b></span></a>'
   . '<span class="store soon" aria-disabled="true">' . icon('phone') . '<span><small>' . T($l, 'as_small') . '</small><b>' . T($l, 'as_big') . '</b></span></span></div>';
 }
@@ -682,7 +682,7 @@ sub dday_card {
   . '<span class="today-tag" hidden>' . T($l, 'dd_today') . '</span></div>'
   . '<p class="dday-title">' . esc($d->{title}{$l}) . '</p>'
   . '<p class="dday-text">' . esc($d->{details}{$l}) . '</p>'
-  . '<p class="dday-src">' . icon('external') . '<span>' . T($l, 'dd_source') . ': <a href="' . esc($d->{source}) . '" rel="nofollow noopener" target="_blank">' . esc($d->{sourceLabel}{$l}) . '</a></span></p>'
+  . '<p class="dday-src">' . icon('external') . '<span>' . T($l, 'dd_source') . ': <a href="' . esc($d->{source}) . '" rel="nofollow noopener" target="_blank" data-track="day_deal_source_click" data-deal="' . esc($d->{id}) . '">' . esc($d->{sourceLabel}{$l}) . '</a></span></p>'
   . '</div></article>';
 }
 sub by_weekday { sort { $DAYI{ $a->{days}[0] } <=> $DAYI{ $b->{days}[0] } } @_ }   # Saturday first; JS moves today's deal to the top
@@ -726,7 +726,8 @@ sub featured_html {
   my $tag = T($l, $FEAT->{sponsored} ? 'ft_sponsored' : 'ft_label');
   my $rel = $url =~ m{^https?://} ? ($FEAT->{sponsored} ? ' rel="sponsored noopener"' : ' rel="noopener"') . ' target="_blank"' : '';
   my $until = $FEAT->{until} ? qq{ data-until="$FEAT->{until}"} : '';
-  return qq{<aside class="wrap feat-slot" aria-label="$tag"$until><a class="feat" href="} . esc($url) . qq{"$rel>}
+  my $trk = qq{ data-brand="$key" data-sponsored="} . ($FEAT->{sponsored} ? 'yes' : 'no') . '"';   # views and clicks for the partner's report
+  return qq{<aside class="wrap feat-slot" aria-label="$tag"$until data-track-view="featured_view"$trk><a class="feat" href="} . esc($url) . qq{"$rel data-track="featured_click"$trk>}
     . '<span class="logo-tile">' . ($logo =~ s/ loading="lazy"//r) . qq{</span><span class="feat-body"><span class="feat-tag">$tag</span>}
     . qq{<span class="feat-title">$title</span><span class="feat-text">$text</span></span>}
     . qq{<span class="feat-cta">$cta } . icon('arrow', 'flip') . '</span></a></aside>';
@@ -905,8 +906,8 @@ HTML
     my $checked = $r->{lastChecked} ? '<p class="checked">' . icon('shield') . T($l, 'ro_checked', date => fmt_date($l, $r->{lastChecked})) . '</p>' : '';
     $checked .= '<p class="checked">' . icon('calendar') . T($l, 'ro_valid', date => fmt_date($l, $r->{validUntil})) . '</p>' if $r->{validUntil};
     my $menu = esc($r->{menu}{$l} // $r->{website});
-    my $actions = qq{<div class="coupon-actions"><a class="btn btn-leaf" href="$menu" rel="nofollow noopener" target="_blank">} . T($l, 'ro_order', name => $en) . ' ' . icon('external') . '</a>'
-      . ($r->{phone} ? qq{<a class="btn btn-line" href="tel:$r->{phone}">} . icon('phone') . ' ' . T($l, 'ro_call', phone => "<bdi>$r->{phone}</bdi>") . '</a>' : '') . '</div>';
+    my $actions = qq{<div class="coupon-actions"><a class="btn btn-leaf" href="$menu" rel="nofollow noopener" target="_blank" data-track="restaurant_order_click" data-brand="$r->{key}">} . T($l, 'ro_order', name => $en) . ' ' . icon('external') . '</a>'
+      . ($r->{phone} ? qq{<a class="btn btn-line" href="tel:$r->{phone}" data-track="restaurant_call_click" data-brand="$r->{key}">} . icon('phone') . ' ' . T($l, 'ro_call', phone => "<bdi>$r->{phone}</bdi>") . '</a>' : '') . '</div>';
     my $list = join($l eq 'ar' ? '، ' : ', ', map { esc(oname($_, $l)) . ' (' . fmt_n($_->{price}) . ' ' . T($l, 'egp') . ')' } @os);
     my @qa = (
       [Te($l, 'ro_q1', name => $name), T($l, 'ro_a1', name => $en, count => noffers($l, scalar @os), list => $list)],
@@ -977,7 +978,7 @@ HTML
     push @facts, [shield => T($l, 'b_f_checked'), fmt_date($l, $b->{lastVerified})] if $is_fresh;
     push @facts, [gift => T($l, 'b_f_cost'), T($l, 'h_fact_free')];
     my $facts = join '', map { '<li>' . icon($_->[0]) . "<span><small>$_->[1]</small><b>$_->[2]</b></span></li>" } @facts;
-    my $go = $b->{url} ? qq{<a class="btn btn-leaf" href="} . esc($b->{url}) . qq{" rel="nofollow sponsored noopener" target="_blank">} . ($b->{urlLabel} ? esc($b->{urlLabel}{$l}) : Te($l, 'b_go', name => $name)) . ' ' . icon('external') . '</a>' : '';
+    my $go = $b->{url} ? qq{<a class="btn btn-leaf" href="} . esc($b->{url}) . qq{" rel="nofollow sponsored noopener" target="_blank" data-track="brand_link_click" data-brand="$b->{key}">} . ($b->{urlLabel} ? esc($b->{urlLabel}{$l}) : Te($l, 'b_go', name => $name)) . ' ' . icon('external') . '</a>' : '';
     my $lede = $multi ? ncodes($l, scalar @offers) . ': ' . join($l eq 'ar' ? '، أو ' : ', or ', map { esc($_->{offer}{$l}) } @offers) : $offer;
     my $a1 = $multi
       ? T($l, 'b_a1_multi', name => $en, list => join($l eq 'ar' ? '، و' : ' and ', map { ($l eq 'ar' ? 'كود ' : '') . $strong->($_) . ' (' . esc($_->{offer}{$l}) . ')' } @offers))
@@ -1090,14 +1091,14 @@ HTML
 <p class="section-sub" style="margin-bottom:24px">@{[ T($l, 'p_form_sub') ]}</p>
 <form id="vendor-application-form" novalidate>
 <div class="form-grid">
-<div class="field"><label for="f-business">@{[ T($l, 'f_business') ]}$req</label><input id="f-business" name="businessName" required autocomplete="organization"></div>
-<div class="field"><label for="f-contact">@{[ T($l, 'f_contact') ]}$req</label><input id="f-contact" name="contactPerson" required autocomplete="name" pattern="^[\\p{L}\\s\\-]+\$" aria-describedby="f-contact-hint"><span class="hint" id="f-contact-hint">@{[ T($l, 'f_contact_hint') ]}</span></div>
-<div class="field"><label for="f-phone">@{[ T($l, 'f_phone') ]}$req</label><input id="f-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel"></div>
-<div class="field"><label for="f-email">@{[ T($l, 'f_email') ]}$req</label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
-<div class="field"><label for="f-location">@{[ T($l, 'f_location') ]}$req</label><input id="f-location" name="location" required placeholder="@{[ T($l, 'f_location_ph') ]}"></div>
+<div class="field"><label for="f-business">@{[ T($l, 'f_business') ]}$req</label><input id="f-business" name="businessName" required maxlength="200" autocomplete="organization"></div>
+<div class="field"><label for="f-contact">@{[ T($l, 'f_contact') ]}$req</label><input id="f-contact" name="contactPerson" required maxlength="200" autocomplete="name" pattern="^[\\p{L}\\s\\-]+\$" aria-describedby="f-contact-hint"><span class="hint" id="f-contact-hint">@{[ T($l, 'f_contact_hint') ]}</span></div>
+<div class="field"><label for="f-phone">@{[ T($l, 'f_phone') ]}$req</label><input id="f-phone" name="phone" type="tel" required maxlength="40" autocomplete="tel" inputmode="tel"></div>
+<div class="field"><label for="f-email">@{[ T($l, 'f_email') ]}$req</label><input id="f-email" name="email" type="email" required maxlength="200" autocomplete="email"></div>
+<div class="field"><label for="f-location">@{[ T($l, 'f_location') ]}$req</label><input id="f-location" name="location" required maxlength="300" placeholder="@{[ T($l, 'f_location_ph') ]}"></div>
 <div class="field"><label for="f-type">@{[ T($l, 'f_type') ]}$req</label><select id="f-type" name="businessType" required><option value="">@{[ T($l, 'f_type_ph') ]}</option>$opts</select></div>
-<div class="field full"><label for="f-desc">@{[ T($l, 'f_desc') ]}</label><textarea id="f-desc" name="description" placeholder="@{[ T($l, 'f_desc_ph') ]}"></textarea></div>
-<div class="field full"><label for="f-web">@{[ T($l, 'f_web') ]}</label><input id="f-web" name="website" inputmode="url" autocomplete="url"></div>
+<div class="field full"><label for="f-desc">@{[ T($l, 'f_desc') ]}</label><textarea id="f-desc" name="description" maxlength="3000" placeholder="@{[ T($l, 'f_desc_ph') ]}"></textarea></div>
+<div class="field full"><label for="f-web">@{[ T($l, 'f_web') ]}</label><input id="f-web" name="website" maxlength="500" inputmode="url" autocomplete="url"></div>
 </div>
 <div class="form-foot"><button class="btn btn-ink" type="submit">@{[ T($l, 'f_submit') ]}</button><small>@{[ T($l, 'f_privacy') ]} <a href="@{[ path_for($l, '/privacy-policy/') ]}">@{[ T($l, 'privacy') ]}</a></small></div>
 <p class="form-status" id="form-status" role="status" tabindex="-1" hidden></p>
