@@ -42,6 +42,8 @@ sub mdate {                             # last commit date of a file (stable acr
 
 my $DATA   = JSON::PP->new->utf8->decode(slurp("$ROOT/data/brands.json", 1));
 my @BRANDS = @{ $DATA->{brands} };
+# "priority": "low" brands go to the end of every list (codes page, home cards, related codes, footer, search)
+@BRANDS = ((grep { ($_->{priority} // '') ne 'low' } @BRANDS), (grep { ($_->{priority} // '') eq 'low' } @BRANDS));
 my %CATN   = %{ $DATA->{categories} };
 my @CATS   = qw(restaurants groceries shopping);
 my %CATICON = (restaurants => 'fork', groceries => 'basket', shopping => 'bag');
@@ -156,7 +158,7 @@ my %S = (
   b_note => 'Offers are set by {name} and can change or end without notice. Brand names and logos belong to their owners.',
   b_side_code => 'Your {name} code', b_side_cats => 'Browse by category', b_related => 'More {cat} codes', b_terms => 'Conditions',
   b_h1_multi => '{name} promo codes', b_side_codes => 'Your {name} codes', b_st1p_multi => 'Tap “Copy code” next to the code you want to use.',
-  b_a1_multi => '{name} codes on Foodidu: {list}.', checked_short => 'Checked {date}', h_fact_checked => 'Checked {date}',
+  b_a1_multi => '{name} codes on Foodidu: {list}.', checked_short => 'Checked {date}', h_fact_checked => 'Checked {date}', h_fact_checked_n => '{n} codes checked {date}',
   cat_def_restaurants => 'restaurant', cat_def_groceries => 'grocery', cat_def_shopping => 'shopping',
   # partners
   p_title => "Partner with Foodidu: Promote Your Restaurant's Offers",
@@ -272,7 +274,7 @@ my %S = (
   b_note => 'العروض تحددها {name} وقد تتغير أو تنتهي دون إشعار. أسماء وشعارات العلامات التجارية مملوكة لأصحابها.',
   b_side_code => 'كود {name}', b_side_cats => 'تصفّح حسب الفئة', b_related => 'المزيد من أكواد {cat}', b_terms => 'الشروط',
   b_h1_multi => 'أكواد خصم {name}', b_side_codes => 'أكواد {name}', b_st1p_multi => 'اضغط «انسخ الكود» بجانب الكود الذي تريد استخدامه.',
-  b_a1_multi => 'أكواد {name} على Foodidu: {list}.', checked_short => 'تم التحقق في {date}', h_fact_checked => 'تم التحقق {date}',
+  b_a1_multi => 'أكواد {name} على Foodidu: {list}.', checked_short => 'تم التحقق في {date}', h_fact_checked => 'تم التحقق {date}', h_fact_checked_n => '{n} كود اتحقق منه في {date}',
   cat_def_restaurants => 'المطاعم', cat_def_groceries => 'البقالة', cat_def_shopping => 'التسوق أونلاين',
   p_title => 'انضم لشركاء Foodidu: اعرض عروض مطعمك',
   p_desc => 'عندك مطعم أو كافيه أو براند أكل في مصر؟ قدّم الآن لعرض كود الخصم الخاص بك على Foodidu والوصول لأشخاص على وشك الطلب.',
@@ -637,7 +639,10 @@ sub count_cat { my $c = shift; my @o = map { offers_of($_) } grep { $_->{categor
 my @ALL_OFFERS = map { offers_of($_) } @BRANDS;
 my $NCODES = scalar @ALL_OFFERS;
 my @VERIFIED = sort grep { $_ } map { $_->{lastVerified} } @BRANDS;
-my $ALL_FRESH = !grep { !fresh($_->{lastVerified}) } @BRANDS;
+# Brands without lastVerified were never checked by us: they never count as checked anywhere on the site.
+my @CHECKED_BRANDS = grep { $_->{lastVerified} } @BRANDS;
+my $ALL_FRESH = !grep { !fresh($_->{lastVerified}) } @CHECKED_BRANDS;
+my $NCHECKED = scalar map { offers_of($_) } @CHECKED_BRANDS;
 
 # ---------- day deals (offers that repeat on a fixed weekday)
 sub dd_brand { my $d = shift; $d->{brand} ? $BYKEY{ $d->{brand} } : undef }
@@ -750,7 +755,7 @@ for my $l (@LANGS) {
     my $featured = join '', map { ticket_li($_, $l) } grep { $_->{featured} } @BRANDS;
     my $logos = join '', map { brand_card($_, $l) } @BRANDS;
     my @facts = ([layers => nbrands($l, $n) =~ s/^(\d+)/<b>$1<\/b>/r], [pin => T($l, 'h_fact_region')]);
-    push @facts, [shield => T($l, 'h_fact_checked', date => month_year($l, $VERIFIED[0]))] if $ALL_FRESH && @VERIFIED;
+    push @facts, [shield => T($l, $NCHECKED < $NCODES ? 'h_fact_checked_n' : 'h_fact_checked', n => $NCHECKED, date => month_year($l, $VERIFIED[0]))] if $ALL_FRESH && @VERIFIED;
     push @facts, [gift => T($l, 'h_fact_free')];
     my $facts = join '', map { '<li>' . icon($_->[0]) . "<span>$_->[1]</span></li>" } @facts;
     my @qa = map { [T($l, "q$_"), T($l, "a$_", partners => path_for($l, '/partners/'))] } 1 .. 5;

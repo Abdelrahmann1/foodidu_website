@@ -456,6 +456,114 @@
         "en": { "title": "Farooja Promo Code: 100 EGP Off Your First Order", "description": "Farooja promo code FAROOJA100: 100 EGP off your first online order in Egypt, then 10% cashback from your second order. Copy the code and order." },
         "ar": { "title": "كود خصم فروجة: خصم 100 جنيه على أول أوردر", "description": "كود خصم فروجة FAROOJA100: خصم 100 جنيه على أول أوردر أونلاين في مصر، ومن تاني أوردر كاش باك 10% على كل طلب. انسخ الكود واطلب." }
       }
+    },
+    {
+      "key": "spinneys",
+      "slug": "Spinneys-PromoCode",
+      "name": { "en": "Spinneys", "ar": "سبينيز" },
+      "logo": "spinneys.webp",
+      "code": "ALCOUPON",
+      "category": "groceries",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "priority": "low",
+      "url": "https://www.spinneys-egypt.com/",
+      "badge": { "en": ["30%", "off"], "ar": ["30%", "خصم"] },
+      "offer": { "en": "30% off (up to 20 EGP) plus an extra 10%", "ar": "خصم 30% بحد أقصى 20 جنيه + خصم إضافي 10%" },
+      "terms": { "en": "30% off up to 20 EGP plus an extra 10% off, on a basket of 200 EGP or more.", "ar": "خصم 30% بحد أقصى 20 جنيه + خصم إضافي 10%، على سلة مشتريات 200 جنيه أو أكثر." },
+      "where": { "en": "the Spinneys app or website", "ar": "تطبيق أو موقع سبينيز" },
+      "moreCodes": [
+        {
+          "code": "ALC",
+          "badge": { "en": ["10%", "off"], "ar": ["10%", "خصم"] },
+          "offer": { "en": "10% off your order", "ar": "خصم 10% على طلبك" },
+          "terms": { "en": "10% off on a basket of 200 EGP or more.", "ar": "خصم 10% على سلة مشتريات 200 جنيه أو أكثر." }
+        }
+      ],
+      "about": {
+        "en": "Spinneys is a supermarket chain in Egypt selling fresh food, meat, cheese, fruit and vegetables and everyday groceries, with online ordering through its app and website.",
+        "ar": "سبينيز سلسلة سوبر ماركت في مصر تبيع الأكل الطازج واللحوم والأجبان والخضار والفاكهة والبقالة اليومية، مع إمكانية الطلب أونلاين من التطبيق والموقع."
+      },
+      "seo": {
+        "en": { "title": "Spinneys Egypt Promo Codes: 30% Off + Extra 10%", "description": "Spinneys Egypt promo codes: ALCOUPON for 30% off (up to 20 EGP) plus an extra 10%, and ALC for 10% off baskets of 200 EGP or more." },
+        "ar": { "title": "أكواد خصم سبينيز مصر: خصم 30% + 10% إضافي", "description": "أكواد خصم سبينيز مصر: كود ALCOUPON لخصم 30% بحد أقصى 20 جنيه + 10% إضافي، وكود ALC لخصم 10% على سلة 200 جنيه أو أكثر." }
+      }
+    },
+    {
+      "key": "zumra",
+      "slug": "Zumra-PromoCode",
+      "name": { "en": "Zumra Food", "ar": "زمرة فود" },
+      "logo": "zumra.webp",
+      "code": "ZU128",
+      "category": "groceries",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "priority": "low",
+      "url": "https://www.zumrafood.com/en",
+      "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
+      "offer": { "en": "15% off all products", "ar": "خصم 15% على كل المنتجات" },
+      "terms": { "en": "15% off all products on the Zumra Food website, for new and existing customers, with no minimum order. It works on top of Zumra's own sales of up to 40%.", "ar": "خصم 15% على كل المنتجات في موقع زمرة فود، للعملاء الجدد والحاليين، ومن غير حد أدنى للطلب. ويتجمع مع تخفيضات زمرة اللي بتوصل لـ40%." },
+      "where": { "en": "the Zumra Food website", "ar": "موقع زمرة فود" },
+      "about": {
+        "en": "Zumra Food brings Asian ingredients, sauces and spices to Egypt and supplies hotels and restaurants as well as home cooks through its online store.",
+        "ar": "زمرة فود بتوفّر مكونات وصوصات وتوابل المطبخ الآسيوي في مصر، وبتورّد للفنادق والمطاعم وكمان للبيوت من خلال متجرها الأونلاين."
+      },
+      "seo": {
+        "en": { "title": "Zumra Food Promo Code: 15% Off All Products", "description": "Zumra Food promo code ZU128: 15% off all products on the Zumra Food website in Egypt, with no minimum order, on top of sales of up to 40%." },
+        "ar": { "title": "كود خصم زمرة فود: خصم 15% على كل المنتجات", "description": "كود خصم زمرة فود ZU128: خصم 15% على كل المنتجات من موقع زمرة فود في مصر، من غير حد أدنى، فوق تخفيضات توصل لـ40%." }
+      }
+    },
+    {
+      "key": "buffalo-burger",
+      "slug": "Buffalo-Burger-PromoCode",
+      "name": { "en": "Buffalo Burger", "ar": "بافلو برجر" },
+      "logo": "buffalo-burger.webp",
+      "code": "50BUFFALO2AA",
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "priority": "low",
+      "url": "https://buffaloburger.com/",
+      "badge": { "en": ["50 EGP", "off"], "ar": ["50 جنيه", "خصم"] },
+      "offer": { "en": "50 EGP off orders of 200 EGP or more", "ar": "خصم 50 جنيه على طلب 200 جنيه أو أكثر" },
+      "terms": { "en": "50 EGP off online orders of 200 EGP or more, for new and returning customers.", "ar": "خصم 50 جنيه على الطلب الأونلاين بقيمة 200 جنيه أو أكثر، للعملاء الجدد والحاليين." },
+      "where": { "en": "the Buffalo Burger website", "ar": "موقع بافلو برجر" },
+      "about": {
+        "en": "Buffalo Burger is an Egyptian burger chain with dozens of branches, known for its beef and chicken burgers and combo meals, with online ordering from its website.",
+        "ar": "بافلو برجر سلسلة برجر مصرية ليها فروع كتير، معروفة ببرجر اللحمة والفراخ والوجبات الكومبو، وتقدر تطلب أونلاين من موقعها."
+      },
+      "seo": {
+        "en": { "title": "Buffalo Burger Promo Code: 50 EGP Off Your Order", "description": "Buffalo Burger promo code 50BUFFALO2AA: 50 EGP off online orders of 200 EGP or more in Egypt. Copy the code and see how to use it." },
+        "ar": { "title": "كود خصم بافلو برجر: خصم 50 جنيه على طلبك", "description": "كود خصم بافلو برجر 50BUFFALO2AA: خصم 50 جنيه على الطلب الأونلاين بقيمة 200 جنيه أو أكثر في مصر. انسخ الكود واعرف طريقة استخدامه." }
+      }
+    },
+    {
+      "key": "coffee-and-cream",
+      "slug": "Coffee-and-Cream-PromoCode",
+      "name": { "en": "Coffee and Cream", "ar": "كوفي آند كريم" },
+      "logo": "coffee-and-cream.webp",
+      "code": "MM41",
+      "category": "groceries",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "priority": "low",
+      "url": "https://coffeeandcream.app/",
+      "badge": { "en": ["Free", "delivery"], "ar": ["مجاناً", "توصيل"] },
+      "offer": { "en": "Free delivery on all products", "ar": "توصيل مجاني على كل المنتجات" },
+      "terms": { "en": "Free delivery on all products, for new and existing customers, with no minimum order.", "ar": "توصيل مجاني على كل المنتجات، للعملاء الجدد والحاليين، ومن غير حد أدنى للطلب." },
+      "where": { "en": "the Coffee and Cream app or website", "ar": "تطبيق أو موقع كوفي آند كريم" },
+      "about": {
+        "en": "Coffee and Cream is an online store in Egypt for coffee, capsules, tea and coffee-making tools, delivering through its app and website.",
+        "ar": "كوفي آند كريم متجر أونلاين في مصر للقهوة والكبسولات والشاي وأدوات تحضير القهوة، وبيوصّل من خلال التطبيق والموقع."
+      },
+      "seo": {
+        "en": { "title": "Coffee and Cream Promo Code: Free Delivery in Egypt", "description": "Coffee and Cream promo code MM41: free delivery on all products from the Coffee and Cream app or website in Egypt, with no minimum order." },
+        "ar": { "title": "كود خصم كوفي آند كريم: توصيل مجاني في مصر", "description": "كود خصم كوفي آند كريم MM41: توصيل مجاني على كل المنتجات من تطبيق أو موقع كوفي آند كريم في مصر، من غير حد أدنى للطلب." }
+      }
     }
   ]
 }
