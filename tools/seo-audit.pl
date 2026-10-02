@@ -33,7 +33,7 @@ sub resolves {
 }
 
 my @files;
-File::Find::find({ no_chdir => 1, wanted => sub { push @files, $_ if /\.html$/ && !m{/google[0-9a-f]+\.html$} } }, $PUB);   # skip Search Console verification files
+File::Find::find({ no_chdir => 1, wanted => sub { push @files, $_ if /\.html$/ && !m{/google[0-9a-f]+\.html$} && !m{/dashboard/} } }, $PUB);   # skip Search Console verification files and the internal dashboard
 @files = sort @files;
 
 for my $f (@files) {

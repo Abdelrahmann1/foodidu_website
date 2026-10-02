@@ -246,20 +246,16 @@ ul, ol { margin: 0; padding: 0; }
 .hero-facts .icon { color: var(--leaf-deep); width: 1.15em; height: 1.15em; }
 .hero-facts b { font-family: var(--font-display); font-weight: 400; font-size: 1.25rem; line-height: 1; }
 
-/* hero ticket stack: five tickets zigzagging from side to side; the end-side ones sit on top so every discount stays visible */
-.stack { position: relative; min-height: 630px; }
-.stack .mini { position: absolute; width: min(290px, 62%); }
+/* hero ticket stack: three tickets fanned from side to side */
+.stack { position: relative; min-height: 500px; }
+.stack .mini { position: absolute; width: min(320px, 72%); }
 .stack .mini:nth-child(1) { inset-inline-start: 0; top: 0; --rot: -6deg; z-index: 1; }
-.stack .mini:nth-child(2) { inset-inline-end: 0; top: 90px; --rot: 5deg; z-index: 3; }
-.stack .mini:nth-child(3) { inset-inline-start: 0; top: 182px; --rot: -3deg; z-index: 2; }
-.stack .mini:nth-child(4) { inset-inline-end: 0; top: 272px; --rot: 4deg; z-index: 5; }
-.stack .mini:nth-child(5) { inset-inline-start: 0; top: 362px; --rot: -2deg; z-index: 4; }
+.stack .mini:nth-child(2) { inset-inline-end: 0; top: 112px; --rot: 5deg; z-index: 2; }
+.stack .mini:nth-child(3) { inset-inline-start: 6%; top: 232px; --rot: -2deg; z-index: 3; }
 [dir="rtl"] .stack .mini { --flip: -1; }
 .stack .mini { transform: rotate(calc(var(--rot) * var(--flip, 1))); animation: deal .7s var(--ease) both; }
-.stack .mini:nth-child(2) { animation-delay: .1s; }
-.stack .mini:nth-child(3) { animation-delay: .2s; }
-.stack .mini:nth-child(4) { animation-delay: .3s; }
-.stack .mini:nth-child(5) { animation-delay: .4s; }
+.stack .mini:nth-child(2) { animation-delay: .12s; }
+.stack .mini:nth-child(3) { animation-delay: .24s; }
 .stack .mini:hover { z-index: 6; transform: rotate(0) translateY(-6px) scale(1.02); transition: transform .3s var(--ease); }
 @keyframes deal { from { opacity: 0; transform: translateY(40px) rotate(0deg) scale(.94); } }
 @keyframes pop { from { opacity: 0; transform: scale(.4) rotate(-30deg); } }

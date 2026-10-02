@@ -377,7 +377,7 @@ File::Find::find({ no_chdir => 1, wanted => sub {
   $rel =~ s{\\}{/}g;
   my $bytes = slurp($_, 1);
   my $dest = $rel;
-  if ($rel =~ m{^(css/site|js/site)\.(css|js)$}) { $dest = "$1." . substr(md5_hex($bytes), 0, 10) . ".$2"; }
+  if ($rel =~ m{^(css/(?:site|dashboard)|js/(?:site|dashboard))\.(css|js)$}) { $dest = "$1." . substr(md5_hex($bytes), 0, 10) . ".$2"; }
   $ASSET{"/$rel"} = "/$dest";
   spit("$OUT/$dest", $bytes, 1);
 }}, "$ROOT/static");
@@ -746,7 +746,7 @@ for my $l (@LANGS) {
 
   # ---------- home
   {
-    my @stack = map { $BYKEY{$_} } qw(noon rabbit waffarha iherb talabat-mart);
+    my @stack = map { $BYKEY{$_} } qw(noon rabbit waffarha);
     my $stack = join '', map { qq{<div class="mini"><div class="mini-wrap">} . ticket($_, $l, mini => 1, eager => 1) . '</div></div>' } @stack;
     my $cats = join '', map {
       my $c = $_;
@@ -1174,4 +1174,78 @@ HTML
     spit("$OUT/$f->[0]", slurp($src, 1), 1) if -f $src;
   }
   printf "Built %d pages (%d indexable) into public/\n", scalar(@PAGES) + 1, scalar @PAGES;
+}
+
+# ------------------------------------------------------------------ /dashboard/ (internal: noindex, not in the sitemap)
+# Everything the site holds, with health checks; live Google Analytics, Search Console and partner applications load
+# in static/js/dashboard.js only after the owner signs in with Google.
+{
+  my $T = JSON::PP::true; my $F = JSON::PP::false;
+  my ($appcheck) = slurp("$ROOT/static/js/site.js") =~ /APP_CHECK_SITE_KEY = "([^"]*)"/;
+  my ($measurement) = slurp("$ROOT/static/js/site.js") =~ /measurementId: "([^"]+)"/;
+  my @codes = map { my $b = $_; map { +{
+      brand => $b->{name}{ar}, brandEn => $b->{name}{en}, key => $b->{key}, code => $_->{code}, offer => $_->{offer}{ar},
+      category => $CATN{ $b->{category} }{ar}, region => strip_tags(region_label($b, 'ar')),
+      exclusive => ($_->{exclusive} ? $T : $F), low => (($b->{priority} // '') eq 'low' ? $T : $F),
+      checked => $b->{lastVerified}, page => brand_url($b, 'ar'), pageEn => brand_url($b, 'en') } } offers_of($b) } @BRANDS;
+  my @rests = map { +{ key => $_->{key}, name => $_->{name}{ar}, offers => scalar(@{ $_->{offers} }), min => rest_min($_), save => rest_max_save($_),
+      until => $_->{validUntil}, checked => $_->{lastChecked}, page => rest_url($_, 'ar'), menu => $_->{menu}{ar} // $_->{website} } } @RESTS;
+  my @deals = map { my $d = $_; my $b = dd_brand($d) // dd_rest($d); +{ name => ($b ? $b->{name}{ar} : $d->{name}{ar}), title => $d->{title}{ar},
+      days => [ map { $DAYN{ar}{$_} } @{ $d->{days} } ], checked => $d->{lastChecked}, source => $d->{source} } } @DDEALS;
+  my $fk = $FEAT->{partner} // '';
+  my ($fr) = grep { $_->{key} eq $fk } @RESTS;
+  my $fp = $fr // $BYKEY{$fk};
+  my %data = (
+    built => strftime('%Y-%m-%d %H:%M', localtime $NOW), site => $SITE, pages => scalar(@PAGES),
+    codes => \@codes, restaurants => \@rests, deals => \@deals,
+    featured => ($fp ? { active => ($FEAT->{active} ? $T : $F), partner => $fp->{name}{ar}, until => $FEAT->{until}, sponsored => ($FEAT->{sponsored} ? $T : $F),
+      page => ($fr ? rest_url($fr, 'ar') : brand_url($fp, 'ar')) } : undef),
+    appCheck => ($appcheck ? $T : $F), ga => { measurementId => $measurement }, gsc => { site => "$SITE/" }, play => $PLAY_URL,
+  );
+  my $json = JSON::PP->new->canonical->encode(\%data); $json =~ s{</}{<\/}g;
+  my ($css, $dcss, $djs) = (asset('/css/site.css'), asset('/css/dashboard.css'), asset('/js/dashboard.js'));
+  spit("$OUT/dashboard/index.html", <<"HTML");
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>لوحة تحكم Foodidu</title>
+<meta name="description" content="لوحة التحكم الداخلية لفريق Foodidu: المحتوى والإحصائيات وطلبات الشراكة.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#FFD15C">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&amp;family=Readex+Pro:wght\@300..700&amp;display=swap">
+<link rel="stylesheet" href="$css">
+<link rel="stylesheet" href="$dcss">
+<script src="$djs" defer></script>
+</head>
+<body class="dash-body">
+<header class="dash-top">
+<div class="dash-wrap dash-top-in">
+<a class="dash-brand" href="/ar/"><img src="$LOGO" width="120" height="48" alt="Foodidu"><span>لوحة التحكم</span></a>
+<div class="dash-auth" id="dash-auth"></div>
+</div>
+<nav class="dash-tabs dash-wrap" aria-label="أقسام لوحة التحكم">
+<a href="#overview">نظرة عامة</a><a href="#content">المحتوى</a><a href="#visitors">الزوار</a><a href="#google">جوجل</a><a href="#applications">طلبات الشراكة</a><a href="#tools">الأدوات</a>
+</nav>
+</header>
+<main id="main" class="dash dash-wrap">
+<noscript><p class="dash-note">لوحة التحكم محتاجة JavaScript.</p></noscript>
+<section id="overview" class="dash-sec" aria-labelledby="h-overview"></section>
+<section id="content" class="dash-sec" aria-labelledby="h-content"></section>
+<div class="dash-range" id="dash-range"></div>
+<section id="visitors" class="dash-sec" aria-labelledby="h-visitors"></section>
+<section id="google" class="dash-sec" aria-labelledby="h-google"></section>
+<section id="applications" class="dash-sec" aria-labelledby="h-applications"></section>
+<section id="tools" class="dash-sec" aria-labelledby="h-tools"></section>
+<p class="dash-foot">آخر تحديث لبيانات المحتوى: <bdi>$data{built}</bdi> · الصفحة دي مش ظاهرة في جوجل.</p>
+</main>
+<script type="application/json" id="dash-data">$json</script>
+</body>
+</html>
+HTML
+  print "Built /dashboard/ (noindex)\n";
 }

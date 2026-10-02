@@ -7,6 +7,11 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function str(v, max) { return v is string && v.size() <= max; }
+    // Who may read partner applications on foodidu.com/dashboard/ (Google sign-in). Add more emails to the list.
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email_verified == true
+        && request.auth.token.email in ['abdelrhmannkhaledd1@gmail.com'];
+    }
     function smallMap(v) { return v is map && v.size() <= 20; }
 
     // Cookie consent, one document per visitor, written with set(..., {merge: true}).
@@ -48,7 +53,8 @@ service cloud.firestore {
         && request.resource.data.language in ['en', 'ar']
         && (!('page' in request.resource.data) || str(request.resource.data.page, 200))
         && request.resource.data.createdAt == request.time;
-      allow read, update, delete: if false;
+      allow read: if isAdmin();   // the dashboard's "Partner applications" section
+      allow update, delete: if false;
     }
 
     // Everything else: no access from browsers (the console and admin tools are not affected).

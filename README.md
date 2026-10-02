@@ -77,6 +77,20 @@ One-time setup in Google Analytics (Admin > Data display > Custom definitions > 
 
 **App Check** (blocks writes that don't come from foodidu.com): create a reCAPTCHA v3 key for `foodidu.com` and `www.foodidu.com` at google.com/recaptcha/admin, register the web app with it in Firebase console > App Check (paste the secret key there), put the *site* key in `APP_CHECK_SITE_KEY` in `static/js/site.js`, deploy, and after a few days of clean metrics press **Enforce** for Cloud Firestore.
 
+## Dashboard: foodidu.com/dashboard/
+
+An internal page (noindex, not in the sitemap) built by `tools/build.pl` with `static/js/dashboard.js` and `static/css/dashboard.css`.
+
+- **Overview and Content** come from the data files at build time: every code with its last check (warns after 30 days, flags 45+), restaurant offers and when they end, day deals, the featured slot, and setup warnings. Anyone with the link can see this part; it is the same information the site already shows.
+- **Visitors** (Google Analytics 4), **Google** (Search Console) and **Partner applications** (Firestore) load only after signing in with Google. GA and Search Console data are protected by Google's own permissions; applications can be read only by the emails in `isAdmin()` in `firestore.rules`.
+
+One-time setup:
+1. Firebase console > Authentication > Get started > Sign-in method > Google > Enable. Then Settings > Authorized domains > Add domain: `foodidu.com`.
+2. Enable these APIs for the `foodidu-website` Google Cloud project: Google Analytics Data API, Google Analytics Admin API, Google Search Console API.
+3. In Google Analytics, register the custom dimensions listed in the section above, so the per-brand report and searches appear.
+
+Google's sign-in token lasts an hour; after that the dashboard shows "Reconnect Google".
+
 ## SEO already in place
 
 - Pre-rendered HTML for all 34 pages (no JS needed to read content).
