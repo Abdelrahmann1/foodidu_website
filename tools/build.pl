@@ -1196,7 +1196,7 @@ HTML
   my ($fr) = grep { $_->{key} eq $fk } @RESTS;
   my $fp = $fr // $BYKEY{$fk};
   my %data = (
-    built => strftime('%Y-%m-%d %H:%M', localtime $NOW), site => $SITE, pages => scalar(@PAGES),
+    built => (sort { $b cmp $a } $DATA_DATE, $RO_DATE, $DD_DATE, mdate($FT_FILE))[0],   # date of the newest data file: stable between builds site => $SITE, pages => scalar(@PAGES),
     codes => \@codes, restaurants => \@rests, deals => \@deals,
     featured => ($fp ? { active => ($FEAT->{active} ? $T : $F), partner => $fp->{name}{ar}, until => $FEAT->{until}, sponsored => ($FEAT->{sponsored} ? $T : $F),
       page => ($fr ? rest_url($fr, 'ar') : brand_url($fp, 'ar')) } : undef),
