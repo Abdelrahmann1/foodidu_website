@@ -1,0 +1,42 @@
+# Builds the static site with Perl and deploys it to Firebase Hosting on every push to main,
+# including edits saved from foodidu.com/dashboard/ (إدارة المحتوى). Needs the FIREBASE_SERVICE_ACCOUNT secret (see README).
+name: Build and deploy
+on:
+  push:
+    branches: [main]
+    paths: ["data/**", "static/**", "content/**", "tools/build.pl", "tools/seo-audit.pl", "firebase.json", ".github/workflows/deploy.yml"]
+  workflow_dispatch:
+concurrency:
+  group: deploy-live
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      TZ: Africa/Cairo
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # page dates in the sitemap come from git history
+      - name: Build
+        run: perl tools/build.pl
+      - name: SEO audit (a failure stops the deploy)
+        run: perl tools/seo-audit.pl
+      - name: Check the deploy key
+        env:
+          KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          if [ -z "$KEY" ]; then
+            echo "::error::The FIREBASE_SERVICE_ACCOUNT secret is missing: GitHub repo > Settings > Secrets and variables > Actions. See README > Dashboard."
+            exit 1
+          fi
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: foodidu-website
+          channelId: live

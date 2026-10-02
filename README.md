@@ -34,7 +34,7 @@ firebase deploy --only hosting
 1. Edit the brand in `data/brands.json` (`code`, `badge`, `offer`, `terms`, `seo` for both `en` and `ar`).
 2. When you personally re-check a code, set `"lastVerified": "YYYY-MM-DD"`. For 45 days the page title shows the month (for example "(Sep 2026)") and the page shows "Checked by Foodidu on …". Titles with a current month get more clicks in Google.
 3. A new brand needs a unique `key` and `slug` (the URL, e.g. `KFC-PromoCode`), a logo in `static/img/brands/`, and share images. Run `perl tools/serve.pl`, open `http://localhost:5000/__tools/assets.html`, add the logo to the `LOGOS` list and click **Generate all**.
-4. Build, audit, preview, deploy.
+4. Build, audit, preview, deploy. (Or do all of this from foodidu.com/dashboard/ > إدارة المحتوى, see below.)
 
 ### Add a day deal (an offer that repeats on a weekday)
 
@@ -90,6 +90,18 @@ One-time setup:
 3. In Google Analytics, register the custom dimensions listed in the section above, so the per-brand report and searches appear.
 
 Google's sign-in token lasts an hour; after that the dashboard shows "Reconnect Google".
+
+### Manage content (إدارة المحتوى)
+
+Add, edit and delete codes (with extra codes), restaurant offers, day deals, the featured slot and the 3 home code cards from the dashboard, no code editor needed. `static/js/admin.js` reads `data/*.json` and `firebase.json` from GitHub, checks every field (required English and Arabic text, unique key and URL, Google title and description lengths, no duplicate titles), draws the logo tile and the share images in the browser with `static/js/art.js`, and saves all changes as one commit on `main`. The **Build and deploy** GitHub Action (`.github/workflows/deploy.yml`) then builds, runs the SEO audit and deploys; the dashboard shows when it is live (about 2 minutes). If the audit fails, nothing is deployed.
+
+- A page's `key` and URL never change after it is added (Google rankings). Deleting a brand or restaurant adds 301 redirects for its old URLs to the codes page; something still used by a day deal, the featured slot or the home cards cannot be deleted until that is changed.
+- Uploaded logos get a new file name each time (`kfc-1a2b3c.webp`), because browsers keep `/img/` files for 30 days.
+- The data files are written in one format (short objects on one line). Local edits are fine; **run `git pull` before editing locally**, because the dashboard commits to `main` too.
+
+One-time setup:
+1. **Deploy key for GitHub:** Firebase console > Project settings > Service accounts > Generate new private key (a JSON file). In GitHub: the repo > Settings > Secrets and variables > Actions > New repository secret, name `FIREBASE_SERVICE_ACCOUNT`, paste the whole JSON. Then delete the downloaded file.
+2. **GitHub token for the dashboard (per browser):** github.com/settings/personal-access-tokens/new, Repository access: only `foodidu_website`, Permissions: Contents = Read and write, Actions = Read-only. Paste it in the dashboard under إدارة المحتوى. It stays in that browser only; **Disconnect GitHub** removes it.
 
 ## SEO already in place
 

@@ -188,7 +188,7 @@
     const f = D.featured;
     const fLeft = f && f.until ? days(T0, f.until) : null;
     sec.replaceChildren(
-      head("content", "المحتوى", "كل الأكواد والعروض اللي على الموقع. التعديل بيكون من ملفات data/ في المشروع."),
+      head("content", "المحتوى", "كل الأكواد والعروض اللي على الموقع. للتعديل روح لقسم إدارة المحتوى تحت."),
       el("h3", { class: "dash-sub", text: `الأكواد (${D.codes.length})` }),
       table([
         { label: "البراند", get: (c) => el("a", { href: c.page, target: "_blank", rel: "noopener", text: c.brand }) },
@@ -300,6 +300,22 @@
     }
     if (e && e.status === 403) return el("p", { class: "dash-note", text: `الحساب ده مالوش صلاحية على ${what === "gsc" ? "Search Console" : "Google Analytics"} بتاع Foodidu. سجّل دخول بالحساب صاحب الموقع.` });
     return el("p", { class: "dash-note", text: "حصلت مشكلة: " + m });
+  }
+
+  /* ---------- 2b. manage content: static/js/admin.js (+ art.js for images), loaded on demand ---------- */
+  const script = (src) => new Promise((res, rej) => { const s = el("script", { src }); s.onload = res; s.onerror = () => rej(new Error(src)); document.head.append(s); });
+  let admin = null;
+  function openManage() {
+    const box = $("#manage-app");
+    box.replaceChildren(el("p", { class: "dash-note", text: "بيحمّل..." }));
+    if (!admin) admin = script(D.assets.art).then(() => script(D.assets.admin));
+    admin.then(() => window.FoodiduAdmin.mount(box, D.repo)).catch(() => { admin = null; box.replaceChildren(el("p", { class: "dash-note", text: "ما قدرناش نحمّل أداة التعديل. اتأكد من النت وجرّب تاني." }), el("button", { class: "dash-btn", type: "button", onclick: openManage, text: "جرّب تاني" })); });
+  }
+  function renderManage() {
+    $("#manage").replaceChildren(
+      head("manage", "إدارة المحتوى", "زوّد وعدّل وامسح الأكواد والعروض من هنا. التعديلات بتتحفظ على GitHub والموقع بيتنشر لوحده في حوالي دقيقتين."),
+      el("div", { id: "manage-app" }, el("button", { class: "dash-btn", type: "button", onclick: openManage, text: "ابدأ التعديل" })));
+    if (store.get("fd_gh_token")) openManage();
   }
 
   /* ---------- 3. visitors: Google Analytics 4 ---------- */
@@ -546,7 +562,7 @@
     loadVisitors().catch((e) => { $("#visitors").classList.remove("dash-loading"); $("#visitors").replaceChildren(head("visitors", "الزوار", ""), apiProblem(e, "ga")); });
     loadGoogle().catch((e) => { $("#google").classList.remove("dash-loading"); $("#google").replaceChildren(head("google", "جوجل", ""), apiProblem(e, "gsc")); });
   }
-  renderOverview(); renderContent(); renderRange(); renderTools(); renderAuth(); renderGates();
+  renderOverview(); renderContent(); renderManage(); renderRange(); renderTools(); renderAuth(); renderGates();
   loadFb().then((f) => f.auth().onAuthStateChanged((u) => {
     user = u; renderAuth(); renderTools();
     if (u) { loadApplications(); loadLive(); } else renderGates();

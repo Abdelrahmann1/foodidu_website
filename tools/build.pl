@@ -66,6 +66,8 @@ my @RESTS = -f $RO_FILE ? @{ JSON::PP->new->utf8->decode(slurp($RO_FILE, 1))->{r
 my $RO_DATE = -f $RO_FILE ? mdate($RO_FILE) : $DATA_DATE;
 my $FT_FILE = "$ROOT/data/featured.json";
 my $FEAT = -f $FT_FILE ? JSON::PP->new->utf8->decode(slurp($FT_FILE, 1)) : {};
+my $HOME_FILE = "$ROOT/data/home.json";
+my $HOME = -f $HOME_FILE ? JSON::PP->new->utf8->decode(slurp($HOME_FILE, 1)) : {};
 my $TODAY = strftime('%Y-%m-%d', localtime $NOW);
 my %DAYC = (   # calendar block: "Every Tuesday" / "كل ثلاثاء" (Arabic without the article)
   en => $DAYN{en},
@@ -377,7 +379,7 @@ File::Find::find({ no_chdir => 1, wanted => sub {
   $rel =~ s{\\}{/}g;
   my $bytes = slurp($_, 1);
   my $dest = $rel;
-  if ($rel =~ m{^(css/(?:site|dashboard)|js/(?:site|dashboard))\.(css|js)$}) { $dest = "$1." . substr(md5_hex($bytes), 0, 10) . ".$2"; }
+  if ($rel =~ m{^((?:css|js)/[a-z-]+)\.(css|js)$}) { $dest = "$1." . substr(md5_hex($bytes), 0, 10) . ".$2"; }
   $ASSET{"/$rel"} = "/$dest";
   spit("$OUT/$dest", $bytes, 1);
 }}, "$ROOT/static");
@@ -746,7 +748,8 @@ for my $l (@LANGS) {
 
   # ---------- home
   {
-    my @stack = map { $BYKEY{$_} } qw(noon rabbit waffarha);
+    my @stack = grep { $_ } map { $BYKEY{$_} } @{ $HOME->{heroCodes} || [qw(noon rabbit waffarha)] };   # data/home.json
+    @stack = @stack[0 .. 2] if @stack > 3;
     my $stack = join '', map { qq{<div class="mini"><div class="mini-wrap">} . ticket($_, $l, mini => 1, eager => 1) . '</div></div>' } @stack;
     my $cats = join '', map {
       my $c = $_;
@@ -1202,8 +1205,9 @@ HTML
     featured => ($fp ? { active => ($FEAT->{active} ? $T : $F), partner => $fp->{name}{ar}, until => $FEAT->{until}, sponsored => ($FEAT->{sponsored} ? $T : $F),
       page => ($fr ? rest_url($fr, 'ar') : brand_url($fp, 'ar')) } : undef),
     appCheck => ($appcheck ? $T : $F), ga => { measurementId => $measurement }, gsc => { site => "$SITE/" }, play => $PLAY_URL,
+    assets => { admin => asset('/js/admin.js'), art => asset('/js/art.js') }, repo => 'Abdelrahmann1/foodidu_website',
   );
-  my $json = JSON::PP->new->canonical->encode(\%data); $json =~ s{</}{<\/}g;
+  my $json = JSON::PP->new->canonical->encode(\%data); $json =~ s{</}{<\\/}g;
   my ($css, $dcss, $djs) = (asset('/css/site.css'), asset('/css/dashboard.css'), asset('/js/dashboard.js'));
   spit("$OUT/dashboard/index.html", <<"HTML");
 <!doctype html>
@@ -1230,13 +1234,14 @@ HTML
 <div class="dash-auth" id="dash-auth"></div>
 </div>
 <nav class="dash-tabs dash-wrap" aria-label="أقسام لوحة التحكم">
-<a href="#overview">نظرة عامة</a><a href="#content">المحتوى</a><a href="#visitors">الزوار</a><a href="#google">جوجل</a><a href="#applications">طلبات الشراكة</a><a href="#tools">الأدوات</a>
+<a href="#overview">نظرة عامة</a><a href="#content">المحتوى</a><a href="#manage">إدارة المحتوى</a><a href="#visitors">الزوار</a><a href="#google">جوجل</a><a href="#applications">طلبات الشراكة</a><a href="#tools">الأدوات</a>
 </nav>
 </header>
 <main id="main" class="dash dash-wrap">
 <noscript><p class="dash-note">لوحة التحكم محتاجة JavaScript.</p></noscript>
 <section id="overview" class="dash-sec" aria-labelledby="h-overview"></section>
 <section id="content" class="dash-sec" aria-labelledby="h-content"></section>
+<section id="manage" class="dash-sec" aria-labelledby="h-manage"></section>
 <div class="dash-range" id="dash-range"></div>
 <section id="visitors" class="dash-sec" aria-labelledby="h-visitors"></section>
 <section id="google" class="dash-sec" aria-labelledby="h-google"></section>

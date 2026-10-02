@@ -17,7 +17,7 @@
 <button id="go">Generate all</button> <label><input type="checkbox" id="only-og"> only OG images</label>
 <div id="log"></div>
 <div id="out"></div>
-<script src="art.js"></script>
+<script src="/__static/js/art.js"></script>
 <script>
 // source logo in legacy/images, padding ratio, background. pad 0 = the logo already is a full tile.
 const LOGOS = {
@@ -97,72 +97,10 @@ async function og(pattern, face, data) {
   const rests = (await (await fetch("/__data/restaurant-offers.json")).json()).restaurants || [];
   for (const r of rests) logos[r.key] = await load(`/__static/img/brands/${r.logo}`);
   const CAT = data.categories;
-  const copy = {
-    en: {
-      home: ["Every bite, a better price.", "Promo codes for KFC, Pizza Hut, Rabbit, noon and more in Egypt & the GCC."],
-      codes: ["All promo codes in one place", "Restaurants, grocery apps and online shopping in Egypt & the GCC."],
-      partners: ["Partner with Foodidu", "Put your restaurant's promo code in front of people about to order."],
-      "day-deals": ["Weekly day deals", "Offers that come back every week, like the KFC Tuesday offer."],
-      brand: (b) => [b.moreCodes ? `${b.name.en} promo codes` : `${b.name.en} promo code`, [b.offer.en, ...(b.moreCodes || []).map((x) => x.offer.en)].join(" · ")]
-    },
-    ar: {
-      home: ["كل أكلة… بسعر أحلى.", "أكواد خصم كنتاكي وبيتزا هت ورابيت ونون وغيرها في مصر والخليج."],
-      codes: ["كل أكواد الخصم في مكان واحد", "مطاعم وتطبيقات بقالة وتسوق أونلاين في مصر والخليج."],
-      partners: ["انضم لشركاء Foodidu", "اعرض كود خصم مطعمك أمام أشخاص على وشك الطلب."],
-      "day-deals": ["عروض الأيام", "عروض تتكرر كل أسبوع، مثل عرض كنتاكي يوم الثلاثاء."],
-      brand: (b) => [b.moreCodes ? `أكواد خصم ${b.name.ar}` : `كود خصم ${b.name.ar}`, [b.offer.ar, ...(b.moreCodes || []).map((x) => x.offer.ar)].join(" · ")]
-    }
-  };
-  const jobs = [];
-  for (const lang of ["en", "ar"]) {
-    for (const k of ["home", "codes", "partners"]) jobs.push({ lang, file: `${k}-${lang}`, text: copy[lang][k], brands: ["pizza-hut", "kfc"] });
-    jobs.push({ lang, file: `day-deals-${lang}`, text: copy[lang]["day-deals"], brands: ["kfc"] });
-    for (const b of data.brands) jobs.push({ lang, file: `${b.key}-${lang}`, text: copy[lang].brand(b), items: [b, ...(b.moreCodes || []).map((x) => ({ ...b, code: x.code, badge: x.badge }))] });
-    for (const r of rests) {
-      const min = Math.min(...r.offers.map((o) => o.price));
-      const save = Math.max(...r.offers.map((o) => Math.round((1 - o.price / o.was) * 100)));
-      const n = r.offers.length;
-      const text = lang === "ar"
-        ? [`عروض ${r.name.ar}`, `${n <= 10 ? n + " عروض" : n + " عرضاً"} تبدأ من ${min} جنيه، ووفّر حتى ${save}% من سعر المنيو.`]
-        : [`${r.name.en} offers`, `${n} offers from ${min} EGP, saving up to ${save}% on the menu price.`];
-      const badge = { en: [String(min), "EGP"], ar: [`${min} جنيه`, "من"] };
-      jobs.push({ lang, file: `${r.key}-${lang}`, text, items: [{ ...r, badge, tag: lang === "ar" ? `وفّر حتى ${save}%` : `Save up to ${save}%` }] });
-    }
-  }
-  const byKey = Object.fromEntries(data.brands.map((b) => [b.key, b]));
-  for (const j of jobs) {
-    const W = 1200, H = 630, c = canvas(W, H), x = c.getContext("2d");
-    const rtl = j.lang === "ar";
-    x.fillStyle = SUN; x.fillRect(0, 0, W, H);
-    x.globalAlpha = .9; for (let py = 0; py < H; py += 406) for (let px = 0; px < W; px += 187) x.drawImage(pattern, px, py - 60, 187, 406); x.globalAlpha = 1;
-    // scallop bottom strip
-    x.fillStyle = CREAM; x.fillRect(0, H - 22, W, 22);
-    x.fillStyle = SUN; for (let sx = 12; sx < W + 24; sx += 24) { x.beginPath(); x.arc(sx, H - 22, 11, 0, Math.PI); x.fill(); }
-    // text column
-    const colW = 600, colX = rtl ? W - 64 : 64;
-    x.direction = rtl ? "rtl" : "ltr"; x.textAlign = rtl ? "right" : "left";
-    const lw = 200, lh0 = lw * 304 / 767, fx = rtl ? W - 64 - lw : 64;
-    x.drawImage(face, fx, 36, lw, lh0);
-    x.fillStyle = INK;
-    let size = 92; x.font = `${size}px Lalezar`;
-    let lines = wrap(x, j.text[0], colW);
-    while (lines.length > 3 && size > 60) { size -= 6; x.font = `${size}px Lalezar`; lines = wrap(x, j.text[0], colW); }
-    const lh = rtl ? size * 1.28 : size * 1.02;
-    let y = 150 + size;
-    for (const ln of lines) { x.fillText(ln, colX, y); y += lh; }
-    x.font = "400 30px 'Readex Pro'"; x.fillStyle = INK2;
-    y += 6; for (const ln of wrap(x, j.text[1], colW).slice(0, 3)) { x.fillText(ln, colX, y); y += 44; }
-    // tickets
-    const tw = 440, tx = rtl ? 70 : W - 70 - tw;
-    const list = j.items || j.brands.map((k) => byKey[k]);   // a brand with 2 codes shows 2 tickets
-    if (list.length === 2) {
-      ticketArt(x, { ...list[0], cat: CAT[list[0].category][j.lang] }, j.lang, logos[list[0].key], tx - (rtl ? -30 : 30), 70, tw, rtl ? .07 : -.07);
-      ticketArt(x, { ...list[1], cat: CAT[list[1].category][j.lang] }, j.lang, logos[list[1].key], tx + (rtl ? -20 : 20), 205, tw, rtl ? -.04 : .04);
-    } else {
-      ticketArt(x, { ...list[0], cat: CAT[list[0].category][j.lang] }, j.lang, logos[list[0].key], tx, 140, tw, rtl ? .05 : -.05);
-    }
-    await save(`static/img/og/${j.file}.png`, c, "image/png");
-  }
+  const jobs = sectionJobs(data.brands);   // all in art.js, shared with the dashboard
+  for (const b of data.brands) jobs.push(...ogJobs(b, "brand"));
+  for (const r of rests) jobs.push(...ogJobs(r, "restaurant"));
+  for (const j of jobs) await save(`static/img/og/${j.file}.png`, drawOg(j, pattern, face, logos, CAT), "image/png");
 }
 
 document.getElementById("go").onclick = async () => {

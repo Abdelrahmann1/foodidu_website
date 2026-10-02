@@ -1,0 +1,4 @@
+{
+  "_help": "Home page settings. heroCodes: the 3 brand keys (from brands.json) shown as code cards at the top of the home page. Edit them in foodidu.com/dashboard/ (إدارة المحتوى) or here, then run: perl tools/build.pl",
+  "heroCodes": ["noon", "rabbit", "waffarha"]
+}
