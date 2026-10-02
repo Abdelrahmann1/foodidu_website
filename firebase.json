@@ -1,7 +1,5 @@
 {
-  "firestore": {
-    "rules": "firestore.rules"
-  },
+  "firestore": { "rules": "firestore.rules" },
   "hosting": {
     "public": "public",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
@@ -33,7 +31,9 @@
       },
       {
         "source": "**/*.html",
-        "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        ]
       },
       {
         "source": "/dashboard/**",
@@ -44,15 +44,21 @@
       },
       {
         "source": "/@(css|js)/**",
-        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        ]
       },
       {
         "source": "/img/**",
-        "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000" }]
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=2592000" }
+        ]
       },
       {
         "source": "/@(sitemap.xml|robots.txt|site.webmanifest)",
-        "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=3600" }
+        ]
       }
     ]
   }
