@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "foodidu",
-      "runtimeExecutable": "perl",
+      "runtimeExecutable": "C:\\Program Files\\Git\\usr\\bin\\perl.exe",
       "runtimeArgs": ["tools/serve.pl", "5000"],
       "port": 5000
     }

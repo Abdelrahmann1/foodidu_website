@@ -1,12 +1,13 @@
 # Local preview server that behaves like Firebase Hosting for this site.
 #   perl tools/serve.pl [port]      -> http://localhost:5000/
 # Serves public/ (dir index + 404.html, like Firebase). Dev-only extras, never deployed:
-#   /__tools/*  -> tools/     /__legacy/* -> legacy/     /__static/* -> static/
+#   /__tools/*  -> tools/     /__legacy/* -> legacy/     /__static/* -> static/     /__data/* -> data/
 #   POST /__save?path=static/... or banners/...  writes the request body to that file (used by tools/assets.html)
 use strict; use warnings;
 use HTTP::Daemon; use HTTP::Response;
 use File::Basename qw(dirname); use File::Path qw(make_path); use Cwd qw(abs_path);
 
+$SIG{PIPE} = 'IGNORE';   # a browser that drops a connection mid-response must not kill the server
 my $port = shift // 5000;
 my $root = abs_path(dirname(abs_path(__FILE__)) . '/..');
 my %mime = (html=>'text/html; charset=utf-8', css=>'text/css; charset=utf-8', js=>'text/javascript; charset=utf-8',
@@ -26,6 +27,7 @@ sub file_res {
 }
 
 while (my $c = $d->accept) {
+  $c->timeout(3);   # browsers open spare connections that never send a request: don't wait on them forever
   my $r = $c->get_request or do { $c->close; next };
   my $path = $r->uri->path;
   $path =~ s/%([0-9A-Fa-f]{2})/chr hex $1/ge;
