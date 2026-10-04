@@ -70,6 +70,21 @@
       "source": "https://www.instagram.com/p/DK9WbU6sJIz/",
       "sourceLabel": { "en": "Domino's Egypt on Instagram (June 2025)", "ar": "حساب دومينوز مصر على إنستجرام (يونيو 2025)" },
       "lastChecked": "2026-09-30"
+    },
+    {
+      "id": "roma-pizza-sunday",
+      "name": { "en": "Roma Pizza", "ar": "روما بيتزا" },
+      "icon": "pizza",
+      "region": "eg",
+      "days": ["sun"],
+      "title": { "en": "Medium pizza + V-Cola for 185 EGP", "ar": "بيتزا وسط + في كولا بـ 185 جنيه" },
+      "details": {
+        "en": "Roma Pizza's \"Roma Sunday\" offer: any medium pizza you choose plus a V-Cola for 185 EGP instead of 320 EGP, every Sunday, from the Roma Pizza website, the app, the hotline 15667 or any branch.",
+        "ar": "عرض «روما صنداي» من روما بيتزا: بيتزا وسط من اختيارك + في كولا بـ 185 جنيه بدل 320 جنيه، كل يوم أحد، من موقع روما بيتزا أو الأبلكيشن أو الخط الساخن 15667 أو أي فرع."
+      },
+      "source": "https://order.roma2go.com/ar/product/sunday-offer",
+      "sourceLabel": { "en": "Roma Pizza's Sunday offer page", "ar": "صفحة عرض الأحد على موقع روما بيتزا" },
+      "lastChecked": "2026-10-04"
     }
   ]
 }
