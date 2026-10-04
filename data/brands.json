@@ -195,31 +195,42 @@
       "slug": "BreadFast-PromoCode",
       "name": { "en": "Breadfast", "ar": "بريدفاست" },
       "logo": "breadfast.webp",
-      "code": "BFFOOD",
+      "code": "ENJOY25",
       "category": "groceries",
       "region": "eg",
       "exclusive": false,
       "featured": false,
       "url": "",
-      "badge": { "en": ["Free", "delivery x3"], "ar": ["3 طلبات", "توصيل مجاني"] },
-      "offer": { "en": "Free delivery on your first 3 Breadfast Food restaurant orders", "ar": "توصيل مجاني على أول 3 طلبات من مطاعم بريدفاست فود" },
+      "badge": { "en": ["20%", "cashback"], "ar": ["20%", "كاش باك"] },
+      "offer": { "en": "20% cashback on your first order of 600 EGP or more, up to 150 EGP", "ar": "كاش باك 20% على أول طلب بقيمة 600 جنيه أو أكثر، بحد أقصى 150 جنيه" },
       "terms": {
-        "en": "New customers only, on orders from the restaurants section (Breadfast Food) in the Breadfast app. Valid for 3 orders.",
-        "ar": "للعملاء الجدد فقط، على الطلبات من قسم المطاعم (Breadfast Food) في تطبيق بريدفاست. صالح لـ 3 طلبات."
+        "en": "First order only. Spend 600 EGP or more and get 20% back as cashback, up to 150 EGP. Breadfast's terms apply.",
+        "ar": "على أول طلب فقط. اطلب بقيمة 600 جنيه أو أكثر واسترد 20% كاش باك بحد أقصى 150 جنيه. تطبق شروط بريدفاست."
       },
       "where": { "en": "the Breadfast app", "ar": "تطبيق بريدفاست" },
+      "moreCodes": [
+        {
+          "code": "BFFOOD",
+          "badge": { "en": ["Free", "delivery x3"], "ar": ["3 طلبات", "توصيل مجاني"] },
+          "offer": { "en": "Free delivery on your first 3 Breadfast Food restaurant orders", "ar": "توصيل مجاني على أول 3 طلبات من مطاعم بريدفاست فود" },
+          "terms": {
+            "en": "New customers only, on orders from the restaurants section (Breadfast Food) in the Breadfast app. Valid for 3 orders.",
+            "ar": "للعملاء الجدد فقط، على الطلبات من قسم المطاعم (Breadfast Food) في تطبيق بريدفاست. صالح لـ 3 طلبات."
+          }
+        }
+      ],
       "about": {
-        "en": "Breadfast is an Egyptian app that delivers groceries, fresh bakery and everyday essentials to your door, and restaurant meals through its Breadfast Food section. New customers can use BFFOOD for free delivery on their first 3 restaurant orders.",
-        "ar": "بريدفاست تطبيق مصري يوصّل البقالة والمخبوزات الطازجة واحتياجات البيت حتى باب منزلك، ويوصّل وجبات المطاعم من قسم Breadfast Food. يمكن للعملاء الجدد استخدام كود BFFOOD للحصول على توصيل مجاني على أول 3 طلبات من المطاعم."
+        "en": "Breadfast is an Egyptian app that delivers groceries, fresh bakery and everyday essentials to your door, and restaurant meals through its Breadfast Food section. New customers can use ENJOY25 for 20% cashback (up to 150 EGP) on a first order of 600 EGP or more, or BFFOOD for free delivery on their first 3 restaurant orders.",
+        "ar": "بريدفاست تطبيق مصري يوصّل البقالة والمخبوزات الطازجة واحتياجات البيت حتى باب منزلك، ويوصّل وجبات المطاعم من قسم Breadfast Food. يمكن للعملاء الجدد استخدام كود ENJOY25 لكاش باك 20% (بحد أقصى 150 جنيه) على أول طلب بقيمة 600 جنيه أو أكثر، أو كود BFFOOD لتوصيل مجاني على أول 3 طلبات من المطاعم."
       },
       "seo": {
         "en": {
-          "title": "Breadfast Promo Code Egypt: Free Delivery on 3 Orders",
-          "description": "Breadfast promo code BFFOOD: free delivery on your first 3 orders from Breadfast Food restaurants in the Breadfast app, for new customers in Egypt."
+          "title": "Breadfast Promo Codes Egypt: 150 EGP Cashback + Free Delivery",
+          "description": "Breadfast promo codes: ENJOY25 for 20% cashback (up to 150 EGP) on a first order of 600 EGP+, and BFFOOD for free delivery on your first 3 restaurant orders."
         },
         "ar": {
-          "title": "كود خصم بريدفاست (برومو كود): توصيل مجاني لـ 3 طلبات",
-          "description": "كود خصم بريدفاست BFFOOD: توصيل مجاني على أول 3 طلبات من مطاعم بريدفاست فود في تطبيق بريدفاست، للعملاء الجدد في مصر."
+          "title": "أكواد خصم بريدفاست: كاش باك 150 جنيه وتوصيل مجاني",
+          "description": "أكواد خصم بريدفاست: كود ENJOY25 لكاش باك 20% بحد أقصى 150 جنيه على أول طلب 600 جنيه أو أكثر، وكود BFFOOD لتوصيل مجاني على أول 3 طلبات مطاعم."
         }
       }
     },
