@@ -320,13 +320,13 @@
 
   /* ---------- 3. visitors: Google Analytics 4 ---------- */
   async function gaProperty() {
-    const cached = store.get("fd_ga_property");
+    const key = "fd_ga_property_" + D.ga.measurementId, cached = store.get(key);
     if (cached) return cached;
     const s = await api("https://analyticsadmin.googleapis.com/v1beta/accountSummaries?pageSize=200");
     const props = (s.accountSummaries || []).flatMap((a) => (a.propertySummaries || []).map((p) => p.property));
     for (const p of props) {
       const ds = await api(`https://analyticsadmin.googleapis.com/v1beta/${p}/dataStreams`);
-      if ((ds.dataStreams || []).some((d) => d.webStreamData && d.webStreamData.measurementId === D.ga.measurementId)) { store.set("fd_ga_property", p); return p; }
+      if ((ds.dataStreams || []).some((d) => d.webStreamData && d.webStreamData.measurementId === D.ga.measurementId)) { store.set(key, p); return p; }
     }
     const e = new Error("no-property"); e.status = 404; throw e;
   }

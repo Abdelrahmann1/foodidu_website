@@ -299,21 +299,23 @@
     });
   }
 
-  /* ---------- analytics: Clarity always (deferred), Firebase only after consent ---------- */
+  /* ---------- analytics: Clarity always (deferred), Google Analytics only after consent ---------- */
   var FIREBASE = {
     apiKey: "AIzaSyCvKDqPjERac1yh0O4BcARsuag6hNN9_1A",
     authDomain: "foodidu-website.firebaseapp.com",
     projectId: "foodidu-website",
     storageBucket: "foodidu-website.appspot.com",
     messagingSenderId: "515131692962",
-    appId: "1:515131692962:web:5d81b9e165181ec80bc4fb",
-    measurementId: "G-N5F00HKQQN"
+    appId: "1:515131692962:web:5d81b9e165181ec80bc4fb"
   };
+  // Google Analytics 4 web stream "Foodidu" in the owner's own Analytics account, loaded with gtag.js. (The property
+  // linked to this Firebase project is in an account the owner cannot reach, so the Firebase Analytics SDK is not used.)
+  var GA_ID = "G-L576K4KB23";
   // App Check (reCAPTCHA v3) proves database writes come from foodidu.com. Paste the reCAPTCHA v3 *site* key here
   // once it is registered in Firebase console > App Check; while empty, App Check stays off.
   var APP_CHECK_SITE_KEY = "";
   var SDK = "https://www.gstatic.com/firebasejs/9.22.0/";
-  var fb = null, fbLoading = null, coreLoading = null, queue = [];
+  var gaOn = false, coreLoading = null, queue = [];
 
   function settle(ps) {   // like Promise.allSettled, as true/false per promise
     return Promise.all(ps.map(function (p) { return p.then(function () { return true; }, function () { return false; }); }));
@@ -375,7 +377,7 @@
     }).catch(function () { return { type: "none" }; });
   }
 
-  // Firebase app + Firestore (+ App Check): needed by the consent record and the partner form, never loads Analytics.
+  // Firebase app + Firestore (+ App Check): needed by the consent record and the partner form only.
   function loadCore() {
     if (coreLoading) return coreLoading;
     coreLoading = loadScript(SDK + "firebase-app-compat.js")
@@ -393,20 +395,16 @@
     return coreLoading;
   }
 
-  // Analytics on top of the core: only after the visitor accepts analytics cookies.
-  function loadFirebase() {
-    if (fbLoading) return fbLoading;
-    fbLoading = loadCore()
-      .then(function (db) { return loadScript(SDK + "firebase-analytics-compat.js").then(function () { return db; }); })
-      .then(function (db) {
-        fb = { db: db, analytics: window.firebase.analytics() };
-        fb.analytics.setUserId(userId());
-        fb.analytics.logEvent("page_view", { page_path: location.pathname, page_title: document.title, page_language: doc.lang });
-        queue.splice(0).forEach(function (q) { track(q[0], q[1]); });
-        return fb;
-      })
-      .catch(function () { fb = null; });
-    return fbLoading;
+  // Google Analytics: only after the visitor accepts analytics cookies. The config call also sends this page's page_view.
+  function loadAnalytics() {
+    if (gaOn) return;
+    gaOn = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    window.gtag("config", GA_ID, { user_id: userId(), page_language: doc.lang });
+    loadScript("https://www.googletagmanager.com/gtag/js?id=" + GA_ID).catch(function () {});
+    queue.splice(0).forEach(function (q) { track(q[0], q[1]); });
   }
 
   function consent() { try { return JSON.parse(LS.get("cookieConsent") || "null"); } catch (e) { return null; } }
@@ -418,15 +416,15 @@
     if (window.clarity) { try { window.clarity("event", name); } catch (e) {} }
     var c = consent();
     if (!c || !c.analytics) return;
-    if (!fb) { queue.push([name, params]); return; }
-    try { fb.analytics.logEvent(name, params); } catch (e) {}
+    if (!gaOn) { queue.push([name, params]); return; }
+    try { window.gtag("event", name, params); } catch (e) {}
   }
 
   function saveConsent(c) {
     LS.set("cookieConsent", JSON.stringify(c));
     if (!c.analytics) return;
-    loadFirebase().then(function (f) {
-      if (!f) return;
+    loadAnalytics();
+    loadCore().then(function (db) {
       return ipLocation().then(function (loc) {
         var rec = {
           visitorId: visitorId(), userId: userId(),
@@ -435,8 +433,8 @@
           deviceInfo: deviceInfo(), location: loc,
           sessionInfo: { referrer: document.referrer || "direct", path: location.pathname, url: location.href, title: document.title, language: doc.lang }
         };
-        return f.db.collection("cookieConsent").doc(rec.visitorId).set(rec, { merge: true }).then(function () {
-          return f.db.collection("userSessions").add(Object.assign({}, rec, { sessionId: "session_" + Date.now(), eventType: "consent_given" }));
+        return db.collection("cookieConsent").doc(rec.visitorId).set(rec, { merge: true }).then(function () {
+          return db.collection("userSessions").add(Object.assign({}, rec, { sessionId: "session_" + Date.now(), eventType: "consent_given" }));
         });
       });
     }).catch(function () {});
@@ -463,7 +461,7 @@
       loadClarity();
       var c = consent();
       if (!c) setTimeout(showBanner, 1200);
-      else if (c.analytics) loadFirebase();
+      else if (c.analytics) loadAnalytics();
     });
   });
 })();

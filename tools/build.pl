@@ -1185,7 +1185,7 @@ HTML
 {
   my $T = JSON::PP::true; my $F = JSON::PP::false;
   my ($appcheck) = slurp("$ROOT/static/js/site.js") =~ /APP_CHECK_SITE_KEY = "([^"]*)"/;
-  my ($measurement) = slurp("$ROOT/static/js/site.js") =~ /measurementId: "([^"]+)"/;
+  my ($measurement) = slurp("$ROOT/static/js/site.js") =~ /GA_ID = "([^"]+)"/;
   my @codes = map { my $b = $_; map { +{
       brand => $b->{name}{ar}, brandEn => $b->{name}{en}, key => $b->{key}, code => $_->{code}, offer => $_->{offer}{ar},
       category => $CATN{ $b->{category} }{ar}, region => strip_tags(region_label($b, 'ar')),
