@@ -638,7 +638,9 @@ HTML
 # A brand's codes: the main one first, then any "moreCodes" (each rendered as its own ticket).
 sub offers_of {
   my $b = shift;
-  return ($b, map { +{ %$b, code => $_->{code}, badge => $_->{badge}, offer => $_->{offer}, terms => $_->{terms}, exclusive => ($_->{exclusive} // 0), extra => 1 } } @{ $b->{moreCodes} // [] });
+  # an extra code has its own lastVerified when it was checked on another day ("" = not checked yet); otherwise the brand's
+  return ($b, map { +{ %$b, code => $_->{code}, badge => $_->{badge}, offer => $_->{offer}, terms => $_->{terms}, exclusive => ($_->{exclusive} // 0), extra => 1,
+    lastVerified => (exists $_->{lastVerified} ? $_->{lastVerified} : $b->{lastVerified}) } } @{ $b->{moreCodes} // [] });
 }
 sub offers_text { my ($b, $l) = @_; join ' · ', map { $_->{offer}{$l} } offers_of($b) }
 sub search_index {
@@ -654,7 +656,7 @@ my @VERIFIED = sort grep { $_ } map { $_->{lastVerified} } @BRANDS;
 # Brands without lastVerified were never checked by us: they never count as checked anywhere on the site.
 my @CHECKED_BRANDS = grep { $_->{lastVerified} } @BRANDS;
 my $ALL_FRESH = !grep { !fresh($_->{lastVerified}) } @CHECKED_BRANDS;
-my $NCHECKED = scalar map { offers_of($_) } @CHECKED_BRANDS;
+my $NCHECKED = scalar grep { $_->{lastVerified} } map { offers_of($_) } @CHECKED_BRANDS;
 
 # ---------- day deals (offers that repeat on a fixed weekday)
 sub dd_brand { my $d = shift; $d->{brand} ? $BYKEY{ $d->{brand} } : undef }
@@ -1226,7 +1228,7 @@ HTML
       brand => $b->{name}{ar}, brandEn => $b->{name}{en}, key => $b->{key}, code => $_->{code}, offer => $_->{offer}{ar},
       category => $CATN{ $b->{category} }{ar}, region => strip_tags(region_label($b, 'ar')),
       exclusive => ($_->{exclusive} ? $T : $F), low => (($b->{priority} // '') eq 'low' ? $T : $F),
-      checked => $b->{lastVerified}, page => brand_url($b, 'ar'), pageEn => brand_url($b, 'en') } } offers_of($b) } @BRANDS;
+      checked => $_->{lastVerified}, page => brand_url($b, 'ar'), pageEn => brand_url($b, 'en') } } offers_of($b) } @BRANDS;
   my @rests = map { +{ key => $_->{key}, name => $_->{name}{ar}, offers => scalar(@{ $_->{offers} }), min => rest_min($_), save => rest_max_save($_),
       until => $_->{validUntil}, checked => $_->{lastChecked}, page => rest_url($_, 'ar'), menu => $_->{menu}{ar} // $_->{website} } } @RESTS;
   my @deals = map { my $d = $_; my $b = dd_brand($d) // dd_rest($d); +{ name => ($b ? $b->{name}{ar} : $d->{name}{ar}), title => $d->{title}{ar},

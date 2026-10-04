@@ -359,7 +359,7 @@ window.FoodiduAdmin = (() => {
       lastVerified: date("آخر مرة جربنا فيها الكود بنفسنا", { today: true, hint: "لو فاضي، الكود بيظهر من غير \"اتحقق منه\"." }),
       badge: badge("الخصم على التذكرة"), offer: bi("العرض في سطر", { req: true, hint: "زي: خصم 30% على أول طلب بحد أقصى 150 جنيه" }),
       terms: bi("الشروط", { req: true, area: true }), where: bi("بيتستخدم فين", { req: true, hint: "زي: تطبيق رابيت" }),
-      moreCodes: list("أكواد تانية لنفس البراند (اختياري)", () => group({ code: text("الكود", { req: true, dir: "ltr", pattern: /^\S+$/, patternMsg: "من غير مسافات" }), badge: badge("الخصم على التذكرة"), offer: bi("العرض في سطر", { req: true }), terms: bi("الشروط", { req: true, area: true }), exclusive: check("حصري") }), { item: "كود", add: "كود تاني" }),
+      moreCodes: list("أكواد تانية لنفس البراند (اختياري)", () => group({ code: text("الكود", { req: true, dir: "ltr", pattern: /^\S+$/, patternMsg: "من غير مسافات" }), badge: badge("الخصم على التذكرة"), offer: bi("العرض في سطر", { req: true }), terms: bi("الشروط", { req: true, area: true }), exclusive: check("حصري"), lastVerified: date("آخر مرة جربنا الكود ده بنفسنا", { today: true, hint: "لو فاضي، الكود ده بيظهر من غير \"اتحقق منه\"." }) }), { item: "كود", add: "كود تاني" }),
       about: bi("عن البراند", { req: true, area: true, hint: "جملتين عن البراند والكود. بيظهر في صفحة البراند." }), seo: seo()
     };
     idFields(isNew, "-PromoCode", f);
@@ -470,10 +470,11 @@ window.FoodiduAdmin = (() => {
   function brandEditor(key) {
     const b = key && findBrand(key), isNew = !b, f = brandForm(isNew), logoF = logoField(b);
     const cur = b ? clone(b) : { category: "restaurants", region: "eg", badge: { en: ["", "off"], ar: ["", "خصم"] } };
-    for (const [k, x] of Object.entries(f)) x.set(k === "priority" ? cur.priority || "" : cur[k]);
+    const shown = { ...cur, moreCodes: (cur.moreCodes || []).map((m) => ({ ...m, lastVerified: "lastVerified" in m ? m.lastVerified : cur.lastVerified || "" })) };
+    for (const [k, x] of Object.entries(f)) x.set(k === "priority" ? cur.priority || "" : shown[k]);
     return editor(isNew ? "كود جديد" : `تعديل ${b.name.ar}`, f, async () => {
       const v = collect(f);
-      v.moreCodes = v.moreCodes.map((m) => { if (!m.exclusive) delete m.exclusive; return m; });
+      v.moreCodes = v.moreCodes.map((m) => { if (!m.exclusive) delete m.exclusive; if ((m.lastVerified || "") === (v.lastVerified || "")) delete m.lastVerified; return m; });
       clean(v);
       const errs = uniqueErrors(v, b); if (errs.length) throw new Error(errs.join(" "));
       const next = Object.assign(isNew ? {} : clone(b), v);
@@ -575,7 +576,7 @@ window.FoodiduAdmin = (() => {
       tableOf([["البراند", (b) => b.name.ar], ["الكود", (b) => el("code", { text: [b.code, ...(b.moreCodes || []).map((m) => m.code)].join(" · ") })], ["العرض", (b) => b.offer.ar],
         ["آخر تجربة", (b) => b.lastVerified || "ما اتجربش", "adm-date"], ["الترتيب", (b) => (b.priority === "low" ? "في الآخر" : "عادي")]],
       S.data.brands.brands, (b) => [btn("تعديل", open(() => brandEditor(b.key)), "ghost sm"),
-        b.lastVerified !== today() ? btn("جربته النهارده", () => { b.lastVerified = today(); change("brands", `Checked ${b.name.en} today`); render(); }, "ghost sm") : null,
+        b.lastVerified !== today() || (b.moreCodes || []).some((m) => "lastVerified" in m) ? btn(b.moreCodes && b.moreCodes.length ? "جربت أكوادها النهارده" : "جربته النهارده", () => { b.lastVerified = today(); (b.moreCodes || []).forEach((m) => { delete m.lastVerified; }); change("brands", `Checked ${b.name.en} today`); render(); }, "ghost sm") : null,
         btn("حذف", () => removeEntity("brand", b), "ghost sm danger")]));
     else if (S.tab === "rests") body = el("div", null, el("p", { class: "adm-add" }, btn("+ مطعم جديد", open(() => restEditor(null)))),
       tableOf([["المطعم", (r) => r.name.ar], ["العروض", (r) => r.offers.length], ["سارية لحد", (r) => r.validUntil, "adm-date"], ["آخر مراجعة", (r) => r.lastChecked, "adm-date"]],
