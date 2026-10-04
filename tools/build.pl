@@ -126,6 +126,8 @@ my %S = (
   dd_day_h2 => '{day} deals', dd_q => 'What is the {brand} {day} offer?', dd_brand_h2 => '{brand} {day} offer',
   dd_know => 'Know a weekly deal we missed?', dd_know_p => "Send it to us on Facebook or Instagram and we'll add it after checking the brand's official page.",
   dd_empty => 'No day deals yet. Check back soon.',
+  ro_card_save => 'Save up to', ro_more => 'More restaurant offers and codes', b_all_cat => 'All {cat} codes',
+  c_rest_title => 'Restaurant menu offers (no code needed)', c_rest_sub => 'Deals from official restaurant menus, with the menu price for comparison.',
   ro_all => 'All {name} offers', ro_save => 'Save {p}%', ro_was => 'instead of {was}', egp => 'EGP', ro_from => 'from {min} EGP',
   ro_h1 => '{name} offers', ro_lede => '{count} from {min} EGP, saving up to {max}% on the menu price.',
   ro_checked => 'Prices checked by Foodidu on {date}', ro_order => 'Order from {name}', ro_call => 'Call {phone}',
@@ -244,6 +246,8 @@ my %S = (
   dd_day_h2 => 'عروض يوم {day}', dd_q => 'ما هو عرض {brand} {day}؟', dd_brand_h2 => 'عرض {brand} {day}',
   dd_know => 'تعرف عرضاً أسبوعياً غير موجود هنا؟', dd_know_p => 'ابعته لنا على فيسبوك أو إنستجرام وسنضيفه بعد التأكد من الصفحة الرسمية للعلامة التجارية.',
   dd_empty => 'لا توجد عروض أيام حالياً، تابعنا قريباً.',
+  ro_card_save => 'وفّر حتى', ro_more => 'عروض وأكواد مطاعم أخرى', b_all_cat => 'كل أكواد {cat}',
+  c_rest_title => 'عروض منيو المطاعم (بدون كود)', c_rest_sub => 'عروض من المنيو الرسمي للمطاعم، مع سعرها في المنيو للمقارنة.',
   ro_all => 'كل عروض {name}', ro_save => 'وفّر <bdi>{p}%</bdi>', ro_was => 'بدل {was}', egp => 'جنيه', ro_from => 'تبدأ من {min} جنيه',
   ro_h1 => 'عروض {name}', ro_lede => '{count} تبدأ من {min} جنيه، ووفّر حتى {max}% من سعر المنيو.',
   ro_checked => 'الأسعار من المنيو الرسمي، تحقّق منها فريق Foodidu في {date}', ro_order => 'اطلب من {name}', ro_call => 'اتصل {phone}',
@@ -384,7 +388,14 @@ File::Find::find({ no_chdir => 1, wanted => sub {
   spit("$OUT/$dest", $bytes, 1);
 }}, "$ROOT/static");
 sub asset { $ASSET{$_[0]} // $_[0] }
-sub logo_src { "/img/brands/$_[0]{logo}" }
+# Logo tiles are 384 px; a 192 px copy (name-192.webp, made by tools/assets.html and the dashboard) covers the small tiles.
+sub small_logo { my $f = shift; (my $s = $f) =~ s/\.(\w+)$/-192.$1/; -f "$ROOT/static/img/brands/$s" ? $s : undef }
+sub logo_src { my $f = $_[0]{logo}; '/img/brands/' . (small_logo($f) // $f) }   # small copy: search results, 44-64 px tiles
+sub logo_attrs {   # src + srcset for a logo shown at $size CSS px
+  my ($f, $size) = @_;
+  my $s = small_logo($f) or return qq{src="/img/brands/$f"};
+  qq{src="/img/brands/$s" srcset="/img/brands/$s 192w, /img/brands/$f 384w" sizes="${size}px"};
+}
 
 # ------------------------------------------------------------------ components
 sub code_btn {
@@ -422,7 +433,7 @@ sub region_label {
   join($l eq 'ar' ? ' و' : ' & ', map { $_ eq 'all' ? T($l, 'all_regions') : T($l, $_) } regions($x->{region}));
 }
 sub meta_line { my ($b, $l) = @_; esc($CATN{$b->{category}}{$l}) . ' · ' . region_label($b, $l) }
-sub logo_img  { my ($b, $l, $size, $eager) = @_; qq{<img src="} . logo_src($b) . qq{" alt="} . Te($l, 'logo_alt', name => $b->{name}{$l}) . qq{" width="$size" height="$size"} . ($eager ? ' fetchpriority="high"' : ' loading="lazy"') . qq{ decoding="async">} }
+sub logo_img  { my ($b, $l, $size, $eager) = @_; qq{<img } . logo_attrs($b->{logo}, $size) . qq{ alt="} . Te($l, 'logo_alt', name => $b->{name}{$l}) . qq{" width="$size" height="$size"} . ($eager ? ' fetchpriority="high"' : ' loading="lazy"') . qq{ decoding="async">} }
 
 sub ticket {
   my ($b, $l, %o) = @_;
@@ -571,9 +582,8 @@ $alt_links
 <link rel="icon" href="/img/icon-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&amp;family=Readex+Pro:wght\@300..700&amp;display=swap">
+<link rel="preload" href="/fonts/readex-pro-@{[ $l eq 'ar' ? 'arabic' : 'latin' ]}-v27.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/lalezar-@{[ $l eq 'ar' ? 'arabic' : 'latin' ]}-v16.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="$css">
 <script type="application/ld+json">$ld</script>
 <script src="$js" defer></script>
@@ -634,7 +644,7 @@ sub offers_text { my ($b, $l) = @_; join ' · ', map { $_->{offer}{$l} } offers_
 sub search_index {
   my ($l) = @_;
   [ (map { my $b = $_; { n => $b->{name}{$l}, s => join(' ', $b->{name}{en}, $b->{name}{ar}, map { $_->{code} } offers_of($b)), u => brand_url($b, $l), l => logo_src($b), o => offers_text($b, $l) } } @BRANDS),
-    (map { my $r = $_; { n => $r->{name}{$l}, s => join(' ', $r->{name}{en}, $r->{name}{ar}, $r->{key}), u => rest_url($r, $l), l => "/img/brands/$r->{logo}", o => noffers($l, scalar @{ $r->{offers} }) . ' · ' . T($l, 'ro_from', min => fmt_n(rest_min($r))) } } @RESTS) ];
+    (map { my $r = $_; { n => $r->{name}{$l}, s => join(' ', $r->{name}{en}, $r->{name}{ar}, $r->{key}), u => rest_url($r, $l), l => logo_src($r), o => noffers($l, scalar @{ $r->{offers} }) . ' · ' . T($l, 'ro_from', min => fmt_n(rest_min($r))) } } @RESTS) ];
 }
 my %BYKEY = map { ($_->{key} => $_) } @BRANDS;
 sub count_cat { my $c = shift; my @o = map { offers_of($_) } grep { $_->{category} eq $c } @BRANDS; scalar @o }
@@ -674,7 +684,7 @@ sub dday_card {
   my $name = dd_name($d, $l);
   my $href = $b ? brand_url($b, $l) : $r ? rest_url($r, $l) : ($d->{url} // '');
   my $logo = $b ? logo_img($b, $l, 44) : $r ? rest_logo($r, $l, 44)
-    : $d->{logo} ? qq{<img src="/img/brands/$d->{logo}" alt="} . Te($l, 'logo_alt', name => $name) . qq{" width="44" height="44" loading="lazy" decoding="async">}
+    : $d->{logo} ? qq{<img } . logo_attrs($d->{logo}, 44) . qq{ alt="} . Te($l, 'logo_alt', name => $name) . qq{" width="44" height="44" loading="lazy" decoding="async">}
     : icon($d->{icon} // 'fork');
   my $robj = $b // $r // $d;
   my $nameh = $href ? qq{<a href="$href">} . esc($name) . '</a>' : esc($name);
@@ -699,7 +709,7 @@ sub noffers  { my ($l, $n) = @_; return $n == 1 ? '1 offer' : "$n offers" if $l 
 sub fmt_n    { my $n = shift; 1 while $n =~ s/^(\d+)(\d{3})/$1,$2/; $n }
 sub save_pct { my $o = shift; $o->{was} ? int((1 - $o->{price} / $o->{was}) * 100 + 0.5) : 0 }
 sub rest_url { my ($r, $l) = @_; path_for($l, "/$r->{slug}/") }
-sub rest_logo { my ($r, $l, $size) = @_; qq{<img src="/img/brands/$r->{logo}" alt="} . Te($l, 'logo_alt', name => $r->{name}{$l}) . qq{" width="$size" height="$size" loading="lazy" decoding="async">} }
+sub rest_logo { my ($r, $l, $size) = @_; qq{<img } . logo_attrs($r->{logo}, $size) . qq{ alt="} . Te($l, 'logo_alt', name => $r->{name}{$l}) . qq{" width="$size" height="$size" loading="lazy" decoding="async">} }
 sub rest_min { my $r = shift; (sort { $a <=> $b } map { $_->{price} } @{ $r->{offers} })[0] }
 sub rest_max_save { my $r = shift; (sort { $b <=> $a } map { save_pct($_) } @{ $r->{offers} })[0] }
 sub oname { my ($o, $l) = @_; ref $o->{name} ? $o->{name}{$l} : $o->{name} }   # offer name: plain string or {en, ar}
@@ -711,6 +721,16 @@ sub moffer_card {
   . qq{<$h class="moffer-name"><bdi>} . esc(oname($o, $l)) . "</bdi></$h>"
   . '<p class="moffer-items">' . esc($o->{items}{$l}) . '</p>'
   . '<p class="moffer-price"><b>' . fmt_n($o->{price}) . "</b> <span>$egp</span> <span class=\"moffer-was\">" . T($l, 'ro_was', was => '<s>' . fmt_n($o->{was}) . " $egp</s>") . '</span></p></article>';
+}
+# A restaurant's menu offers as a card in the same grid as the brand cards (home, codes page, other restaurant pages).
+sub rest_card {
+  my ($r, $l) = @_;
+  my $deal = '<span>' . T($l, 'ro_card_save') . '</span><b dir="auto">' . rest_max_save($r) . '%</b>';
+  my $meta = join ' · ', esc($CATN{ $r->{category} }{$l}), region_label($r, $l), noffers($l, scalar @{ $r->{offers} });
+  return '<li><a class="bcard" href="' . rest_url($r, $l) . '"><span class="bcard-top"><span class="logo-tile">' . rest_logo($r, $l, 56) . '</span></span>'
+    . '<span class="bcard-name">' . Te($l, 'ro_h1', name => $r->{name}{$l}) . qq{</span><span class="bcard-meta">$meta</span>}
+    . '<span class="bcard-offer">' . T($l, 'ro_from', min => fmt_n(rest_min($r))) . '</span>'
+    . qq{<span class="bcard-foot"><span class="bcard-deal">$deal</span>} . icon('arrow', 'flip go') . '</span></a></li>';
 }
 # Featured-partner banner under the home hero (data/featured.json). Gone after "until"; site.js also hides it
 # on that date when the site was not rebuilt.
@@ -756,7 +776,8 @@ for my $l (@LANGS) {
       qq{<a class="cat" href="$codes#$c"><span class="ic">} . icon($CATICON{$c}) . '</span><span><b>' . esc($CATN{$c}{$l}) . '</b><small>' . ncodes($l, count_cat($c)) . '</small></span>' . icon('arrow', 'go flip') . '</a>'
     } @CATS;
     my $featured = join '', map { ticket_li($_, $l) } grep { $_->{featured} } @BRANDS;
-    my $logos = join '', map { brand_card($_, $l) } @BRANDS;
+    my $logos = join '', (map { brand_card($_, $l) } grep { ($_->{priority} // '') ne 'low' } @BRANDS), (map { rest_card($_, $l) } @RESTS),
+      (map { brand_card($_, $l) } grep { ($_->{priority} // '') eq 'low' } @BRANDS);
     my @facts = ([layers => nbrands($l, $n) =~ s/^(\d+)/<b>$1<\/b>/r], [pin => T($l, 'h_fact_region')]);
     push @facts, [shield => T($l, $NCHECKED < $NCODES ? 'h_fact_checked_n' : 'h_fact_checked', n => $NCHECKED, date => month_year($l, $VERIFIED[0]))] if $ALL_FRESH && @VERIFIED;
     push @facts, [gift => T($l, 'h_fact_free')];
@@ -854,6 +875,9 @@ HTML
 <div class="filters" role="group" aria-label="@{[ T($l, 'c_filters') ]}">$chips</div>
 <div id="codes" data-filterable>$groups</div>
 <p class="empty" data-empty hidden>@{[ T($l, 'c_empty') ]}</p>
+<section class="ro-hub" id="restaurant-offers" aria-labelledby="g-ro"><div class="group-head"><span class="ic">@{[ icon('fork') ]}</span><h2 id="g-ro">@{[ T($l, 'c_rest_title') ]}</h2></div>
+<p class="section-sub">@{[ T($l, 'c_rest_sub') ]}</p>
+<ul class="brand-cards">@{[ join '', map { rest_card($_, $l) } @RESTS ]}</ul></section>
 </section>
 @{[ band($l) ]}
 HTML
@@ -925,6 +949,8 @@ HTML
     );
     my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'ro_h1', name => $name), $url]];
     my $cards = join '', map { '<li>' . moffer_card($_, $l, 'h3') . '</li>' } @os;
+    my @rcodes = (grep { $_->{category} eq 'restaurants' && ($_->{priority} // '') ne 'low' } @BRANDS)[0 .. 3];
+    my $more = join '', (map { rest_card($_, $l) } grep { $_ ne $r } @RESTS), (map { brand_card($_, $l) } grep { defined } @rcodes);
     my $i = 0;
     my $body = <<"HTML";
 <section class="page-hero">
@@ -955,6 +981,10 @@ $actions
 <section aria-labelledby="faq-title"><h2 id="faq-title">@{[ T($l, 'faq_title') ]}</h2>@{[ faq_html(@qa) ]}</section>
 </article>
 </div>
+<section class="wrap section-tight" aria-labelledby="more-title">
+<div class="section-head"><h2 class="h2" id="more-title">@{[ T($l, 'ro_more') ]}</h2></div>
+<ul class="brand-cards">$more</ul>
+</section>
 @{[ band($l) ]}
 HTML
     layout(lang => $l, key => "/$r->{slug}/", title => (length($tbase) + 10 <= 65 ? "$tbase | Foodidu" : $tbase), desc => $r->{seo}{$l}{description},
@@ -1007,9 +1037,14 @@ HTML
       . '</div><div class="ticket-stub">' . code_btn($_, $l, 1) . '</div></div></div>'
     } @offers;
     my $side_codes = join '', map { code_btn($_, $l, 1) } @offers;
-    my @same = grep { $_->{category} eq $b->{category} && $_ ne $b } @BRANDS;
+    my @cat = grep { $_->{category} eq $b->{category} } @BRANDS;
+    my @top = grep { ($_->{priority} // '') ne 'low' } @cat;   # low-priority codes are never the suggested ones
+    my ($pos) = grep { $top[$_] eq $b } 0 .. $#top;
+    my @same = defined $pos ? map { $top[($pos + $_) % @top] } 1 .. $#top : @top;   # the brands after this one, wrapping round
     my @rest = grep { $_->{category} ne $b->{category} } @BRANDS;
-    my @related = (@same, @rest)[0 .. 2];
+    my @related = grep { defined } (@same, @rest)[0 .. 2];
+    my $catlinks = join '', (map { '<li><a href="' . brand_url($_, $l) . '">' . esc($_->{name}{$l}) . '</a></li>' } grep { $_ ne $b } @cat),
+      ($b->{category} eq 'restaurants' ? map { '<li><a href="' . rest_url($_, $l) . '">' . Te($l, 'ro_h1', name => $_->{name}{$l}) . '</a></li>' } @RESTS : ());
     my $related = join '', map { ticket_li($_, $l) } @related;
     my $sidecats = join '', map { qq{<li><a href="} . path_for($l, '/promo-codes/') . qq{#$_"><span class="logo-tile">} . icon($CATICON{$_}) . '</span><span><b>' . esc($CATN{$_}{$l}) . '</b><small>' . ncodes($l, count_cat($_)) . '</small></span></a></li>' } @CATS;
     my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'c_h1'), path_for($l, '/promo-codes/')], [$name, $url]];
@@ -1054,6 +1089,7 @@ $bdd
 <section class="wrap section-tight" aria-labelledby="rel-title">
 <div class="section-head"><h2 class="h2" id="rel-title">@{[ T($l, 'b_related', cat => T($l, "cat_def_$b->{category}")) ]}</h2></div>
 <ul class="ticket-list">$related</ul>
+<nav class="cat-links" aria-labelledby="cat-links-title"><h3 id="cat-links-title">@{[ T($l, 'b_all_cat', cat => T($l, "cat_def_$b->{category}")) ]}</h3><ul>$catlinks</ul></nav>
 </section>
 HTML
     layout(lang => $l, key => "/$b->{slug}/", title => $title, desc => $b->{seo}{$l}{description}, body => $body, nav => 'codes',
@@ -1220,9 +1256,6 @@ HTML
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#FFD15C">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&amp;family=Readex+Pro:wght\@300..700&amp;display=swap">
 <link rel="stylesheet" href="$css">
 <link rel="stylesheet" href="$dcss">
 <script src="$djs" defer></script>

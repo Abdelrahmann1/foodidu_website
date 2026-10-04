@@ -70,7 +70,8 @@ window.FoodiduAdmin = (() => {
     S.base = ref.object.sha;
     const entries = await Promise.all(Object.entries(FILES).map(async ([k, p]) => [k, JSON.parse(await gh(`/repos/${REPO}/contents/${p}?ref=${S.base}`, { raw: true }))]));
     S.data = Object.fromEntries(entries);
-    S.baseFiles = new Set(entities().flatMap((e) => [`static/img/brands/${e.logo}`, `static/img/og/${e.key}-en.png`, `static/img/og/${e.key}-ar.png`]));
+    const files = async (dir) => (await gh(`/repos/${REPO}/contents/${dir}?ref=${S.base}`)).map((f) => f.path);
+    S.baseFiles = new Set([...(await files("static/img/brands")), ...(await files("static/img/og"))]);
     S.dirty.clear(); S.blobs = {}; S.deletes.clear(); S.changes = []; S.logos = {}; S.view = null; S.loaded = true;
   }
   const b64text = (s) => { const bytes = new TextEncoder().encode(s); let bin = ""; for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(bin); };
@@ -275,6 +276,7 @@ window.FoodiduAdmin = (() => {
     })().catch((e) => { art = null; throw e; });
     return art;
   }
+  const small = (file) => file.replace(/\.(\w+)$/, "-192.$1");   // the 192 px copy next to each 384 px logo
   function dropFile(path) { delete S.blobs[path]; if (S.baseFiles.has(path)) S.deletes.add(path); }
   async function putCanvas(path, c, type, q) { S.blobs[path] = await blobB64(await toBlob(c, type, q)); S.deletes.delete(path); }
   async function renderImages(e, kind, logoF) {
@@ -285,8 +287,10 @@ window.FoodiduAdmin = (() => {
       let h = 5381; for (let i = 0; i < b64.length; i++) h = (h * 33 + b64.charCodeAt(i)) >>> 0;
       const file = `${e.key}-${h.toString(36).slice(0, 6)}.${b.type === "image/webp" ? "webp" : "png"}`, old = e.logo;
       S.blobs[`static/img/brands/${file}`] = b64; S.deletes.delete(`static/img/brands/${file}`);
+      const sm = canvas(192, 192), sx = sm.getContext("2d"); sx.imageSmoothingQuality = "high"; sx.drawImage(tile, 0, 0, 192, 192);   // small tiles use this copy
+      await putCanvas(`static/img/brands/${small(file)}`, sm, b.type, 0.9);
       S.logos[e.key] = tile; e.logo = file;
-      if (old && old !== file && !entities().some((x) => x.key !== e.key && x.logo === old)) dropFile(`static/img/brands/${old}`);
+      if (old && old !== file && !entities().some((x) => x.key !== e.key && x.logo === old)) { dropFile(`static/img/brands/${old}`); dropFile(`static/img/brands/${small(old)}`); }
     }
     const logo = await logoImage(e);
     if (!logo) throw new Error("اللوجو: ارفع صورة.");
@@ -312,6 +316,17 @@ window.FoodiduAdmin = (() => {
       if (others.some((x) => x.seo && x.seo[l] && x.seo[l].description === v.seo[l].description)) e.push(`وصف جوجل (${name}) نفس وصف صفحة تانية.`);
     }
     return e;
+  }
+  // 301s from the lowercase spelling of a URL with capitals (Firebase paths are case-sensitive): to the page, or to the
+  // codes page once the page is deleted
+  function caseRedirects(slug, gone) {
+    const low = slug.toLowerCase(), red = S.data.firebase.hosting.redirects;
+    if (low === slug) return;
+    for (const ar of ["", "/ar"]) for (const end of ["", "/"]) {
+      const source = `${ar}/${low}${end}`, destination = gone ? `${ar}/promo-codes/` : `${ar}/${slug}/`, r = red.find((x) => x.source === source);
+      if (r) r.destination = destination; else red.push({ source, destination, type: 301 });
+    }
+    S.dirty.add("firebase");
   }
   function unredirect(slug) {   // a page that comes back after a delete: drop its 301s, or Firebase would keep redirecting it
     const red = S.data.firebase.hosting.redirects, gone = new Set([`/${slug}`, `/${slug}/`, `/ar/${slug}`, `/ar/${slug}/`]);
@@ -427,8 +442,9 @@ window.FoodiduAdmin = (() => {
     arr.splice(arr.findIndex((x) => x.key === e.key), 1);
     const red = S.data.firebase.hosting.redirects;
     for (const [src, dst] of [[`/${e.slug}`, "/promo-codes/"], [`/${e.slug}/`, "/promo-codes/"], [`/ar/${e.slug}`, "/ar/promo-codes/"], [`/ar/${e.slug}/`, "/ar/promo-codes/"]]) if (!red.some((r) => r.source === src)) red.push({ source: src, destination: dst, type: 301 });
+    caseRedirects(e.slug, true);
     S.dirty.add("firebase");
-    if (e.logo && !entities().some((x) => x.logo === e.logo)) dropFile(`static/img/brands/${e.logo}`);
+    if (e.logo && !entities().some((x) => x.logo === e.logo)) { dropFile(`static/img/brands/${e.logo}`); dropFile(`static/img/brands/${small(e.logo)}`); }
     dropFile(`static/img/og/${e.key}-en.png`); dropFile(`static/img/og/${e.key}-ar.png`);
     delete S.logos[e.key];
     if (wasSection) await renderSections();
@@ -467,7 +483,7 @@ window.FoodiduAdmin = (() => {
       if (!isNew && !logoF.changed() && same(next, b, BRAND_KEYS)) return false;
       await renderImages(next, "brand", logoF);
       const arr = S.data.brands.brands, i = arr.findIndex((x) => x.key === next.key);
-      if (i < 0) { arr.push(ordered(next, BRAND_KEYS)); unredirect(next.slug); } else arr[i] = ordered(next, BRAND_KEYS);
+      if (i < 0) { arr.push(ordered(next, BRAND_KEYS)); unredirect(next.slug); caseRedirects(next.slug); } else arr[i] = ordered(next, BRAND_KEYS);
       if (sectionKeys().has(next.key)) await renderSections();
       change("brands", `${isNew ? "Add" : "Edit"} ${next.name.en} (${[next.code, ...(next.moreCodes || []).map((m) => m.code)].join(", ")})`);
     }, { top: logoF.node, images: true, check: () => (!cur.logo && !logoF.changed() ? ["اللوجو: ارفع صورة"] : []) });
@@ -489,7 +505,7 @@ window.FoodiduAdmin = (() => {
       if (!isNew && !logoF.changed() && same(next, r, REST_KEYS)) return false;
       await renderImages(next, "restaurant", logoF);
       const arr = S.data.rests.restaurants, i = arr.findIndex((x) => x.key === next.key);
-      if (i < 0) { arr.push(ordered(next, REST_KEYS)); unredirect(next.slug); } else arr[i] = ordered(next, REST_KEYS);
+      if (i < 0) { arr.push(ordered(next, REST_KEYS)); unredirect(next.slug); caseRedirects(next.slug); } else arr[i] = ordered(next, REST_KEYS);
       change("rests", `${isNew ? "Add" : "Edit"} ${next.name.en} offers`);
     }, { top: logoF.node, images: true, check: () => (!cur.logo && !logoF.changed() ? ["اللوجو: ارفع صورة"] : []) });
   }

@@ -45,6 +45,13 @@ const LOGOS = {
   "coffee-and-cream": { src: "coffee-and-cream.png", pad: 0,  bg: "#880020", from: "/__tools/logo-src/" }
 };
 
+// a logo tile at 384 px plus the 192 px copy the pages use for small tiles
+async function saveTile(key, c, q) {
+  await save(`static/img/brands/${key}.webp`, c, "image/webp", q);
+  const s = canvas(192, 192), x = s.getContext("2d"); x.imageSmoothingQuality = "high"; x.drawImage(c, 0, 0, 192, 192);
+  await save(`static/img/brands/${key}-192.webp`, s, "image/webp", .9);
+}
+
 async function logos() {
   for (const [key, o] of Object.entries(LOGOS)) {
     const S = 384, c = canvas(S, S), x = c.getContext("2d");   // 384px: sharp on 3x phone screens
@@ -54,7 +61,7 @@ async function logos() {
       while (x.measureText(o.text).width > S * .8 && size > 20) { size -= 2; x.font = `700 ${size}px 'Readex Pro'`; }
       x.fillStyle = o.color || INK; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(o.text, S / 2, S / 2 + 2);
       x.fillStyle = o.color || INK; x.globalAlpha = .9; x.fillRect(S * .3, S / 2 + size * .62, S * .4, 5); x.globalAlpha = 1;
-      await save(`static/img/brands/${key}.webp`, c, "image/webp", .92);
+      await saveTile(key, c, .92);
       continue;
     }
     let img = await load((o.from || "/__legacy/images/") + encodeURIComponent(o.src));
@@ -69,7 +76,7 @@ async function logos() {
     if (o.hq) x.imageSmoothingQuality = "high";
     const p = S * o.pad;
     fit(x, img, p, p, S - 2 * p, S - 2 * p, o.pad === 0);
-    await save(`static/img/brands/${key}.webp`, c, "image/webp", .95);
+    await saveTile(key, c, .95);
   }
 }
 

@@ -128,6 +128,10 @@ if (-f "$PUB/sitemap.xml") {
   for my $p (grep { !$pages{$_}{noindex} } keys %pages) { E($p, 'indexable page missing from sitemap') unless $in{$p} }
   for my $p (keys %in) { E('sitemap', "lists $p which is missing or noindex") if !$pages{$p} || $pages{$p}{noindex} }
 } else { E('sitemap', 'public/sitemap.xml missing') }
+# URLs with capitals need a 301 from their lowercase spelling (Firebase matches paths case-sensitively)
+my $fbj = eval { JSON::PP->new->decode(slurp("$ROOT/firebase.json")) };
+my %redir = map { ($_->{source} => 1) } @{ $fbj ? $fbj->{hosting}{redirects} // [] : [] };
+for my $p (sort grep { /[A-Z]/ && !$pages{$_}{noindex} } keys %pages) { W($p, 'no 301 from ' . lc($p) . ' in firebase.json') unless $redir{ lc $p } }
 if (-f "$PUB/robots.txt") { E('robots.txt', 'no Sitemap line') unless slurp("$PUB/robots.txt") =~ /^Sitemap: \Q$SITE\E\/sitemap\.xml/m }
 else { E('robots.txt', 'missing') }
 for my $f (qw(favicon.ico apple-touch-icon.png site.webmanifest 404.html)) { E($f, 'missing') unless -f "$PUB/$f" }
