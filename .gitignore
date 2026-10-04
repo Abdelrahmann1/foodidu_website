@@ -2,3 +2,5 @@
 banners/
 vendors/
 public/
+.mcp.json
+.claude/settings.local.json
