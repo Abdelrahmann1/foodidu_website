@@ -363,6 +363,18 @@ window.FoodiduAdmin = (() => {
       about: bi("عن البراند", { req: true, area: true, hint: "جملتين عن البراند والكود. بيظهر في صفحة البراند." }), seo: seo()
     };
     idFields(isNew, "-PromoCode", f);
+    // removing the main code: the first extra code takes its place (code, ticket, offer, terms, exclusive, checked date)
+    const drop = btn("شيل الكود ده (والكود التاني يبقى الأساسي)", () => {
+      const extras = f.moreCodes.get();
+      if (!extras.length) { alert("ده الكود الوحيد للبراند. ضيف كود تاني الأول، أو امسح البراند كله من القايمة."); return; }
+      if (!confirm(`تشيل الكود ${f.code.get()}؟ الكود ${extras[0].code} هيبقى الكود الأساسي.`)) return;
+      const [first, ...rest] = extras;
+      f.code.set(first.code); f.badge.set(first.badge); f.offer.set(first.offer); f.terms.set(first.terms);
+      f.exclusive.set(first.exclusive); f.lastVerified.set(first.lastVerified || "");
+      f.moreCodes.set(rest);
+      toast("اتشال. راجع عنوان ووصف جوجل و\"عن البراند\" لو فيهم الكود القديم، وبعدين احفظ.");
+    }, "ghost sm danger");
+    f.code = { ...f.code, node: el("div", { class: "adm-group" }, f.code.node, el("p", null, drop)) };
     return f;
   }
   function restForm(isNew) {
@@ -474,6 +486,13 @@ window.FoodiduAdmin = (() => {
     for (const [k, x] of Object.entries(f)) x.set(k === "priority" ? cur.priority || "" : shown[k]);
     return editor(isNew ? "كود جديد" : `تعديل ${b.name.ar}`, f, async () => {
       const v = collect(f);
+      if (b) {   // a removed code must not stay in the texts Google shows
+        const now = new Set([v.code, ...v.moreCodes.map((m) => m.code)].map((c) => c.toLowerCase()));
+        const gone = [b.code, ...(b.moreCodes || []).map((m) => m.code)].filter((c) => !now.has(c.toLowerCase()));
+        const texts = [["عنوان جوجل", v.seo.en.title + " " + v.seo.ar.title], ["وصف جوجل", v.seo.en.description + " " + v.seo.ar.description], ["عن البراند", v.about.en + " " + v.about.ar]];
+        const stale = gone.flatMap((c) => texts.filter(([, t]) => new RegExp("(^|[^A-Za-z0-9])" + c.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "($|[^A-Za-z0-9])", "i").test(t)).map(([n]) => `${n} لسه فيه الكود ${c} اللي اتشال. عدّله.`));
+        if (stale.length) throw new Error(stale.join(" "));
+      }
       v.moreCodes = v.moreCodes.map((m) => { if (!m.exclusive) delete m.exclusive; if ((m.lastVerified || "") === (v.lastVerified || "")) delete m.lastVerified; return m; });
       clean(v);
       const errs = uniqueErrors(v, b); if (errs.length) throw new Error(errs.join(" "));
