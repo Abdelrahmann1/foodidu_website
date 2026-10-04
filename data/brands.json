@@ -195,41 +195,31 @@
       "slug": "BreadFast-PromoCode",
       "name": { "en": "Breadfast", "ar": "بريدفاست" },
       "logo": "breadfast.webp",
-      "code": "SMR",
+      "code": "BFFOOD",
       "category": "groceries",
       "region": "eg",
       "exclusive": false,
       "featured": false,
       "url": "",
-      "lastVerified": "2026-09-29",
-      "badge": { "en": ["Free", "delivery"], "ar": ["مجاناً", "توصيل"] },
-      "offer": { "en": "Free delivery on your first order above 350 EGP", "ar": "توصيل مجاني على أول طلب فوق 350 جنيه" },
-      "terms": { "en": "Free delivery on your first order above 350 EGP.", "ar": "توصيل مجاني على أول طلب بقيمة أكثر من 350 جنيه." },
+      "badge": { "en": ["Free", "delivery x3"], "ar": ["3 طلبات", "توصيل مجاني"] },
+      "offer": { "en": "Free delivery on your first 3 Breadfast Food restaurant orders", "ar": "توصيل مجاني على أول 3 طلبات من مطاعم بريدفاست فود" },
+      "terms": {
+        "en": "New customers only, on orders from the restaurants section (Breadfast Food) in the Breadfast app. Valid for 3 orders.",
+        "ar": "للعملاء الجدد فقط، على الطلبات من قسم المطاعم (Breadfast Food) في تطبيق بريدفاست. صالح لـ 3 طلبات."
+      },
       "where": { "en": "the Breadfast app", "ar": "تطبيق بريدفاست" },
-      "moreCodes": [
-        {
-          "code": "BFFOOD",
-          "badge": { "en": ["Free", "delivery x3"], "ar": ["3 طلبات", "توصيل مجاني"] },
-          "offer": { "en": "Free delivery on your first 3 Breadfast Food restaurant orders", "ar": "توصيل مجاني على أول 3 طلبات من مطاعم بريدفاست فود" },
-          "terms": {
-            "en": "New customers only, on orders from the restaurants section (Breadfast Food) in the Breadfast app. Valid for 3 orders.",
-            "ar": "للعملاء الجدد فقط، على الطلبات من قسم المطاعم (Breadfast Food) في تطبيق بريدفاست. صالح لـ 3 طلبات."
-          },
-          "lastVerified": ""
-        }
-      ],
       "about": {
-        "en": "Breadfast is an Egyptian app that delivers groceries, fresh bakery and everyday essentials to your door, and restaurant meals through its Breadfast Food section. Use SMR for free delivery on your first order above 350 EGP, or BFFOOD for free delivery on your first 3 restaurant orders.",
-        "ar": "بريدفاست تطبيق مصري يوصّل البقالة والمخبوزات الطازجة واحتياجات البيت حتى باب منزلك، ويوصّل وجبات المطاعم من قسم Breadfast Food. استخدم كود SMR لتوصيل مجاني على أول طلب فوق 350 جنيه، أو كود BFFOOD لتوصيل مجاني على أول 3 طلبات من المطاعم."
+        "en": "Breadfast is an Egyptian app that delivers groceries, fresh bakery and everyday essentials to your door, and restaurant meals through its Breadfast Food section. New customers can use BFFOOD for free delivery on their first 3 restaurant orders.",
+        "ar": "بريدفاست تطبيق مصري يوصّل البقالة والمخبوزات الطازجة واحتياجات البيت حتى باب منزلك، ويوصّل وجبات المطاعم من قسم Breadfast Food. يمكن للعملاء الجدد استخدام كود BFFOOD للحصول على توصيل مجاني على أول 3 طلبات من المطاعم."
       },
       "seo": {
         "en": {
-          "title": "Breadfast Promo Codes Egypt: Free Delivery + Food Code",
-          "description": "Breadfast promo codes: SMR for free delivery on your first order above 350 EGP, and BFFOOD for free delivery on your first 3 Breadfast Food restaurant orders."
+          "title": "Breadfast Promo Code Egypt: Free Delivery on 3 Orders",
+          "description": "Breadfast promo code BFFOOD: free delivery on your first 3 orders from Breadfast Food restaurants in the Breadfast app, for new customers in Egypt."
         },
         "ar": {
-          "title": "أكواد خصم بريدفاست: توصيل مجاني للبقالة والمطاعم",
-          "description": "أكواد خصم بريدفاست: كود SMR لتوصيل مجاني على أول طلب فوق 350 جنيه، وكود BFFOOD لتوصيل مجاني على أول 3 طلبات من مطاعم بريدفاست فود."
+          "title": "كود خصم بريدفاست (برومو كود): توصيل مجاني لـ 3 طلبات",
+          "description": "كود خصم بريدفاست BFFOOD: توصيل مجاني على أول 3 طلبات من مطاعم بريدفاست فود في تطبيق بريدفاست، للعملاء الجدد في مصر."
         }
       }
     },
