@@ -16,6 +16,7 @@
       "region": "eg",
       "exclusive": true,
       "featured": true,
+      "priority": "top",
       "url": "",
       "lastVerified": "2026-09-29",
       "badge": { "en": ["30%", "off"], "ar": ["30%", "خصم"] },
@@ -38,35 +39,6 @@
       }
     },
     {
-      "key": "senem",
-      "slug": "Senem-PromoCode",
-      "name": { "en": "Senem", "ar": "سنيم" },
-      "logo": "senem.webp",
-      "code": "FOODIDU10",
-      "category": "groceries",
-      "region": "eg",
-      "exclusive": true,
-      "featured": true,
-      "url": "https://www.senem-eg.com/discount/FOODIDU10",
-      "urlLabel": { "en": "Open the discount link", "ar": "افتح رابط الخصم" },
-      "lastVerified": "2026-09-29",
-      "badge": { "en": ["10%", "off"], "ar": ["10%", "خصم"] },
-      "offer": { "en": "10% off premium groceries", "ar": "خصم 10% على البقالة المميزة" },
-      "terms": { "en": "10% off your order on Senem. The discount link applies the code for you.", "ar": "خصم 10% على طلبك من سنيم. رابط الخصم يطبّق الكود تلقائياً." },
-      "where": { "en": "the Senem website", "ar": "موقع سنيم" },
-      "about": {
-        "en": "Senem is an online premium grocery store in Egypt. Copy the Foodidu code for 10% off, or open the discount link and the code is applied to your cart automatically.",
-        "ar": "سنيم متجر بقالة مميزة أونلاين في مصر. انسخ كود Foodidu للحصول على خصم 10%، أو افتح رابط الخصم ليتم تطبيق الكود على سلتك تلقائياً."
-      },
-      "seo": {
-        "en": {
-          "title": "Senem Promo Code: 10% Off Premium Groceries in Egypt",
-          "description": "Senem discount code FOODIDU10 gives you 10% off premium groceries in Egypt. Copy the code or use the direct discount link."
-        },
-        "ar": { "title": "كود خصم سنيم: خصم 10% على البقالة المميزة", "description": "كود خصم سنيم FOODIDU10 يمنحك خصم 10% على البقالة المميزة في مصر. انسخ الكود أو استخدم رابط الخصم المباشر." }
-      }
-    },
-    {
       "key": "noon",
       "slug": "Noon-PromoCode",
       "name": { "en": "noon", "ar": "نون" },
@@ -76,6 +48,7 @@
       "region": "gcc",
       "exclusive": true,
       "featured": true,
+      "priority": "top",
       "url": "https://www.noon.com/",
       "lastVerified": "2026-09-29",
       "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
@@ -107,6 +80,7 @@
       "region": "eg",
       "exclusive": true,
       "featured": true,
+      "priority": "top",
       "url": "https://www.noon.com/egypt-en/",
       "lastVerified": "2026-09-29",
       "badge": { "en": ["5–7%", "off"], "ar": ["5–7%", "خصم"] },
@@ -129,33 +103,101 @@
       }
     },
     {
-      "key": "pizza-hut",
-      "slug": "Pizza-Hut-PromoCode",
-      "name": { "en": "Pizza Hut", "ar": "بيتزا هت" },
-      "logo": "pizza-hut.webp",
-      "code": "NEW40",
-      "category": "restaurants",
-      "region": "eg",
+      "key": "iherb",
+      "slug": "iHerb-PromoCode",
+      "name": { "en": "iHerb", "ar": "آي هيرب" },
+      "logo": "iherb.webp",
+      "code": "FDDU",
+      "category": "shopping",
+      "region": "all",
       "exclusive": false,
       "featured": true,
+      "priority": "top",
       "url": "",
-      "lastVerified": "2026-09-29",
-      "badge": { "en": ["40%", "off"], "ar": ["40%", "خصم"] },
-      "offer": { "en": "40% off your first order on the app", "ar": "خصم 40% على أول طلب من التطبيق" },
-      "terms": { "en": "For your first order on the Pizza Hut app.", "ar": "على أول طلب من تطبيق بيتزا هت." },
-      "where": { "en": "the Pizza Hut app", "ar": "تطبيق بيتزا هت" },
+      "lastVerified": "2026-10-01",
+      "badge": { "en": ["5%", "off"], "ar": ["5%", "خصم"] },
+      "offer": { "en": "5% off eligible products, in every country", "ar": "خصم 5% على المنتجات المشمولة في كل الدول" },
+      "terms": { "en": "5% off eligible products on iHerb, in any country iHerb ships to.", "ar": "خصم 5% على المنتجات المشمولة في آي هيرب، في أي دولة يشحن لها." },
+      "where": { "en": "the iHerb app or iherb.com", "ar": "تطبيق آي هيرب أو موقع iherb.com" },
       "about": {
-        "en": "Pizza Hut is the international pizza chain known for its pan pizzas, sides and desserts, with delivery and takeaway across Egypt. This code is for your first order through the Pizza Hut app.",
-        "ar": "بيتزا هت سلسلة البيتزا العالمية المعروفة بالبان بيتزا والمقبلات والحلويات، وتتوفر للتوصيل والاستلام في أنحاء مصر. هذا الكود لأول طلب من تطبيق بيتزا هت."
+        "en": "iHerb is an online store for vitamins, supplements, natural beauty and healthy food that ships to customers around the world, and Saudi Arabia is one of the top countries for this code. Add FDDU at checkout for 5% off eligible products.",
+        "ar": "آي هيرب متجر أونلاين للفيتامينات والمكملات الغذائية ومنتجات التجميل الطبيعية والأكل الصحي، ويشحن للعملاء حول العالم، والسعودية من أكثر الدول استخداماً لهذا الكود. أضف FDDU عند الدفع لتحصل على خصم 5% على المنتجات المشمولة."
       },
       "seo": {
         "en": {
-          "title": "Pizza Hut Promo Code Egypt: 40% Off First App Order",
-          "description": "Pizza Hut promo code NEW40 gives you 40% off your first order on the Pizza Hut app in Egypt. Copy the code and check the conditions before you order."
+          "title": "iHerb Code FDDU: 5% Off in Saudi Arabia & Worldwide",
+          "description": "iHerb promo code FDDU: 5% off eligible vitamins, supplements and natural beauty products, in Saudi Arabia and every country iHerb ships to. Copy the code."
         },
         "ar": {
-          "title": "كود خصم وكوبون بيتزا هت مصر: 40% على أول طلب",
-          "description": "كود خصم بيتزا هت NEW40 يمنحك خصم 40% على أول طلب من تطبيق بيتزا هت في مصر. انسخ الكود واطّلع على الشروط قبل الطلب."
+          "title": "كود خصم آي هيرب FDDU: خصم 5% في السعودية وكل الدول",
+          "description": "كود خصم آي هيرب FDDU: خصم 5% على الفيتامينات والمكملات ومنتجات التجميل الطبيعية المشمولة، في السعودية وكل الدول. انسخ الكود واستخدمه عند الدفع."
+        }
+      }
+    },
+    {
+      "key": "waffarha",
+      "slug": "Waffarha-PromoCode",
+      "name": { "en": "Waffarha", "ar": "وفّرها" },
+      "logo": "waffarha.webp",
+      "code": "AH50",
+      "category": "shopping",
+      "region": ["eg", "gcc"],
+      "regionLabel": { "en": "Egypt & Saudi Arabia", "ar": "مصر والسعودية" },
+      "exclusive": false,
+      "featured": true,
+      "priority": "top",
+      "url": "",
+      "lastVerified": "2026-10-01",
+      "badge": { "en": ["10%", "savings"], "ar": ["10%", "توفير"] },
+      "offer": { "en": "10% cashback in Egypt (up to 25 EGP), 10% off in Saudi Arabia (up to 20 SAR)", "ar": "كاش باك 10% في مصر (حتى 25 جنيه)، وخصم 10% في السعودية (حتى 20 ريال)" },
+      "terms": {
+        "en": "Egypt: 10% cashback, up to 25 EGP. Saudi Arabia: 10% off, up to 20 SAR. One use per user; you can still use other coupons.",
+        "ar": "مصر: كاش باك 10% بحد أقصى 25 جنيه. السعودية: خصم 10% بحد أقصى 20 ريال. استخدام واحد لكل مستخدم، ويمكنك استخدام كوبونات أخرى."
+      },
+      "where": { "en": "the Waffarha app or website", "ar": "تطبيق أو موقع وفّرها" },
+      "about": {
+        "en": "Waffarha is a deals platform in Egypt and Saudi Arabia with discounts on restaurants, entertainment, health and beauty services and more. Code AH50 gives 10% cashback in Egypt (up to 25 EGP) and 10% off in Saudi Arabia (up to 20 SAR).",
+        "ar": "وفّرها منصة عروض في مصر والسعودية فيها خصومات على المطاعم والترفيه وخدمات الصحة والتجميل وغيرها. الكود AH50 يمنحك كاش باك 10% في مصر (حتى 25 جنيه) وخصم 10% في السعودية (حتى 20 ريال)."
+      },
+      "seo": {
+        "en": {
+          "title": "Waffarha Promo Code AH50: 10% in Egypt & Saudi Arabia",
+          "description": "Waffarha code AH50: 10% cashback in Egypt (up to 25 EGP) and 10% off in Saudi Arabia (up to 20 SAR). One use per user. Copy the code and save."
+        },
+        "ar": {
+          "title": "كود خصم وفّرها AH50: توفير 10% في مصر والسعودية",
+          "description": "كود وفّرها AH50: كاش باك 10% في مصر حتى 25 جنيه، وخصم 10% في السعودية حتى 20 ريال. مرة واحدة لكل مستخدم. انسخ الكود ووفّر."
+        }
+      }
+    },
+    {
+      "key": "talabat-mart",
+      "slug": "Talabat-Mart-PromoCode",
+      "name": { "en": "talabat mart", "ar": "طلبات مارت" },
+      "logo": "talabat-mart.webp",
+      "code": "tmart100",
+      "category": "groceries",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "",
+      "lastVerified": "2026-09-30",
+      "badge": { "en": ["100", "EGP off"], "ar": ["100 جنيه", "خصم"] },
+      "offer": { "en": "100 EGP off your first order", "ar": "خصم 100 جنيه على أول أوردر" },
+      "terms": { "en": "100 EGP off your first talabat mart order. Terms and conditions apply.", "ar": "خصم 100 جنيه على أول أوردر من طلبات مارت. تُطبَّق الشروط والأحكام." },
+      "where": { "en": "the talabat app (talabat mart)", "ar": "تطبيق طلبات (طلبات مارت)" },
+      "about": {
+        "en": "talabat mart is talabat's grocery store in Egypt, delivering groceries and everyday essentials through the talabat app. New customers get 100 EGP off their first order with this code.",
+        "ar": "طلبات مارت هو متجر البقالة من طلبات في مصر، يوصّل البقالة واحتياجات البيت اليومية من خلال تطبيق طلبات. العملاء الجدد يحصلون على خصم 100 جنيه على أول أوردر بهذا الكود."
+      },
+      "seo": {
+        "en": {
+          "title": "talabat mart Promo Code: 100 EGP Off First Order",
+          "description": "talabat mart promo code tmart100: 100 EGP off your first grocery order on the talabat app in Egypt. Copy the code and see how to use it."
+        },
+        "ar": {
+          "title": "كود خصم طلبات مارت: خصم 100 جنيه على أول أوردر",
+          "description": "كود خصم طلبات مارت tmart100: خصم 100 جنيه على أول أوردر بقالة من تطبيق طلبات في مصر. انسخ الكود واعرف طريقة استخدامه."
         }
       }
     },
@@ -187,6 +229,37 @@
         "ar": {
           "title": "كود خصم كنتاكي مصر: خصم 25% على أول 3 طلبات",
           "description": "استخدم كود خصم كنتاكي NEW25 واحصل على خصم 25% على أول 3 طلبات في مصر. انسخ الكود واعرف الشروط وطريقة استخدامه عند الدفع."
+        }
+      }
+    },
+    {
+      "key": "pizza-hut",
+      "slug": "Pizza-Hut-PromoCode",
+      "name": { "en": "Pizza Hut", "ar": "بيتزا هت" },
+      "logo": "pizza-hut.webp",
+      "code": "NEW40",
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": true,
+      "url": "",
+      "lastVerified": "2026-09-29",
+      "badge": { "en": ["40%", "off"], "ar": ["40%", "خصم"] },
+      "offer": { "en": "40% off your first order on the app", "ar": "خصم 40% على أول طلب من التطبيق" },
+      "terms": { "en": "For your first order on the Pizza Hut app.", "ar": "على أول طلب من تطبيق بيتزا هت." },
+      "where": { "en": "the Pizza Hut app", "ar": "تطبيق بيتزا هت" },
+      "about": {
+        "en": "Pizza Hut is the international pizza chain known for its pan pizzas, sides and desserts, with delivery and takeaway across Egypt. This code is for your first order through the Pizza Hut app.",
+        "ar": "بيتزا هت سلسلة البيتزا العالمية المعروفة بالبان بيتزا والمقبلات والحلويات، وتتوفر للتوصيل والاستلام في أنحاء مصر. هذا الكود لأول طلب من تطبيق بيتزا هت."
+      },
+      "seo": {
+        "en": {
+          "title": "Pizza Hut Promo Code Egypt: 40% Off First App Order",
+          "description": "Pizza Hut promo code NEW40 gives you 40% off your first order on the Pizza Hut app in Egypt. Copy the code and check the conditions before you order."
+        },
+        "ar": {
+          "title": "كود خصم وكوبون بيتزا هت مصر: 40% على أول طلب",
+          "description": "كود خصم بيتزا هت NEW40 يمنحك خصم 40% على أول طلب من تطبيق بيتزا هت في مصر. انسخ الكود واطّلع على الشروط قبل الطلب."
         }
       }
     },
@@ -266,42 +339,32 @@
       }
     },
     {
-      "key": "just-smash",
-      "slug": "Just-Smash-Burger-PromoCode",
-      "name": { "en": "Just Smash Burger", "ar": "جست سماش برجر" },
-      "logo": "just-smash.webp",
-      "code": "AUTO10",
-      "category": "restaurants",
+      "key": "senem",
+      "slug": "Senem-PromoCode",
+      "name": { "en": "Senem", "ar": "سنيم" },
+      "logo": "senem.webp",
+      "code": "FOODIDU10",
+      "category": "groceries",
       "region": "eg",
-      "exclusive": false,
-      "featured": false,
-      "url": "",
+      "exclusive": true,
+      "featured": true,
+      "url": "https://www.senem-eg.com/discount/FOODIDU10",
+      "urlLabel": { "en": "Open the discount link", "ar": "افتح رابط الخصم" },
       "lastVerified": "2026-09-29",
-      "badge": { "en": ["10%", "cashback"], "ar": ["10%", "كاش باك"] },
-      "offer": { "en": "10% cashback on every order", "ar": "كاش باك 10% على كل طلب" },
-      "terms": { "en": "10% cashback on all orders from the website or app.", "ar": "كاش باك 10% على كل الطلبات من الموقع أو التطبيق." },
-      "moreCodes": [
-        {
-          "code": "SMASH15",
-          "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
-          "offer": { "en": "15% off your order", "ar": "خصم 15% على طلبك" },
-          "terms": { "en": "15% off your order from Just Smash.", "ar": "خصم 15% على طلبك من جست سماش." }
-        }
-      ],
-      "where": { "en": "the Just Smash website or app", "ar": "موقع أو تطبيق جست سماش" },
+      "badge": { "en": ["10%", "off"], "ar": ["10%", "خصم"] },
+      "offer": { "en": "10% off premium groceries", "ar": "خصم 10% على البقالة المميزة" },
+      "terms": { "en": "10% off your order on Senem. The discount link applies the code for you.", "ar": "خصم 10% على طلبك من سنيم. رابط الخصم يطبّق الكود تلقائياً." },
+      "where": { "en": "the Senem website", "ar": "موقع سنيم" },
       "about": {
-        "en": "Just Smash is a smash-burger restaurant in Egypt. Foodidu has two codes for it: AUTO10 for 10% cashback on orders from the website or app, and SMASH15 for 15% off.",
-        "ar": "جست سماش مطعم سماش برجر في مصر. عندنا له كودان: كود AUTO10 لكاش باك 10% على الطلبات من الموقع أو التطبيق، وكود SMASH15 لخصم 15%."
+        "en": "Senem is an online premium grocery store in Egypt. Copy the Foodidu code for 10% off, or open the discount link and the code is applied to your cart automatically.",
+        "ar": "سنيم متجر بقالة مميزة أونلاين في مصر. انسخ كود Foodidu للحصول على خصم 10%، أو افتح رابط الخصم ليتم تطبيق الكود على سلتك تلقائياً."
       },
       "seo": {
         "en": {
-          "title": "Just Smash Burger Promo Codes: 15% Off or 10% Cashback",
-          "description": "2 Just Smash Burger promo codes in Egypt: SMASH15 for 15% off and AUTO10 for 10% cashback on website and app orders. Copy a code and enjoy your burger for less."
+          "title": "Senem Promo Code: 10% Off Premium Groceries in Egypt",
+          "description": "Senem discount code FOODIDU10 gives you 10% off premium groceries in Egypt. Copy the code or use the direct discount link."
         },
-        "ar": {
-          "title": "أكواد خصم جست سماش برجر: خصم 15% أو كاش باك 10%",
-          "description": "أكواد خصم جست سماش برجر في مصر: كود SMASH15 لخصم 15%، وكود AUTO10 لكاش باك 10% على الطلبات من الموقع أو التطبيق. انسخ الكود واستمتع بالبرجر بسعر أقل."
-        }
+        "ar": { "title": "كود خصم سنيم: خصم 10% على البقالة المميزة", "description": "كود خصم سنيم FOODIDU10 يمنحك خصم 10% على البقالة المميزة في مصر. انسخ الكود أو استخدم رابط الخصم المباشر." }
       }
     },
     {
@@ -340,6 +403,45 @@
         "ar": {
           "title": "أكواد خصم بوتشرز برجر: خصم 20% أو هدية 200 جنيه",
           "description": "أكواد خصم بوتشرز برجر في مصر: كود BUTCHER20 لخصم 20%، وكود WELCOME200 لهدية ترحيب بقيمة 200 جنيه على طلبك أونلاين. انسخ الكود ووفّر."
+        }
+      }
+    },
+    {
+      "key": "just-smash",
+      "slug": "Just-Smash-Burger-PromoCode",
+      "name": { "en": "Just Smash Burger", "ar": "جست سماش برجر" },
+      "logo": "just-smash.webp",
+      "code": "AUTO10",
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "",
+      "lastVerified": "2026-09-29",
+      "badge": { "en": ["10%", "cashback"], "ar": ["10%", "كاش باك"] },
+      "offer": { "en": "10% cashback on every order", "ar": "كاش باك 10% على كل طلب" },
+      "terms": { "en": "10% cashback on all orders from the website or app.", "ar": "كاش باك 10% على كل الطلبات من الموقع أو التطبيق." },
+      "moreCodes": [
+        {
+          "code": "SMASH15",
+          "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
+          "offer": { "en": "15% off your order", "ar": "خصم 15% على طلبك" },
+          "terms": { "en": "15% off your order from Just Smash.", "ar": "خصم 15% على طلبك من جست سماش." }
+        }
+      ],
+      "where": { "en": "the Just Smash website or app", "ar": "موقع أو تطبيق جست سماش" },
+      "about": {
+        "en": "Just Smash is a smash-burger restaurant in Egypt. Foodidu has two codes for it: AUTO10 for 10% cashback on orders from the website or app, and SMASH15 for 15% off.",
+        "ar": "جست سماش مطعم سماش برجر في مصر. عندنا له كودان: كود AUTO10 لكاش باك 10% على الطلبات من الموقع أو التطبيق، وكود SMASH15 لخصم 15%."
+      },
+      "seo": {
+        "en": {
+          "title": "Just Smash Burger Promo Codes: 15% Off or 10% Cashback",
+          "description": "2 Just Smash Burger promo codes in Egypt: SMASH15 for 15% off and AUTO10 for 10% cashback on website and app orders. Copy a code and enjoy your burger for less."
+        },
+        "ar": {
+          "title": "أكواد خصم جست سماش برجر: خصم 15% أو كاش باك 10%",
+          "description": "أكواد خصم جست سماش برجر في مصر: كود SMASH15 لخصم 15%، وكود AUTO10 لكاش باك 10% على الطلبات من الموقع أو التطبيق. انسخ الكود واستمتع بالبرجر بسعر أقل."
         }
       }
     },
@@ -410,103 +512,6 @@
         "ar": {
           "title": "كود ماي بافلو: عروض حصرية على التطبيق",
           "description": "كود ماي بافلو APPONLY: حمّل تطبيق ماي بافلو في مصر للحصول على عروض وخصومات حصرية للتطبيق. اعرف طريقة الاستخدام خطوة بخطوة."
-        }
-      }
-    },
-    {
-      "key": "talabat-mart",
-      "slug": "Talabat-Mart-PromoCode",
-      "name": { "en": "talabat mart", "ar": "طلبات مارت" },
-      "logo": "talabat-mart.webp",
-      "code": "tmart100",
-      "category": "groceries",
-      "region": "eg",
-      "exclusive": false,
-      "featured": false,
-      "url": "",
-      "lastVerified": "2026-09-30",
-      "badge": { "en": ["100", "EGP off"], "ar": ["100 جنيه", "خصم"] },
-      "offer": { "en": "100 EGP off your first order", "ar": "خصم 100 جنيه على أول أوردر" },
-      "terms": { "en": "100 EGP off your first talabat mart order. Terms and conditions apply.", "ar": "خصم 100 جنيه على أول أوردر من طلبات مارت. تُطبَّق الشروط والأحكام." },
-      "where": { "en": "the talabat app (talabat mart)", "ar": "تطبيق طلبات (طلبات مارت)" },
-      "about": {
-        "en": "talabat mart is talabat's grocery store in Egypt, delivering groceries and everyday essentials through the talabat app. New customers get 100 EGP off their first order with this code.",
-        "ar": "طلبات مارت هو متجر البقالة من طلبات في مصر، يوصّل البقالة واحتياجات البيت اليومية من خلال تطبيق طلبات. العملاء الجدد يحصلون على خصم 100 جنيه على أول أوردر بهذا الكود."
-      },
-      "seo": {
-        "en": {
-          "title": "talabat mart Promo Code: 100 EGP Off First Order",
-          "description": "talabat mart promo code tmart100: 100 EGP off your first grocery order on the talabat app in Egypt. Copy the code and see how to use it."
-        },
-        "ar": {
-          "title": "كود خصم طلبات مارت: خصم 100 جنيه على أول أوردر",
-          "description": "كود خصم طلبات مارت tmart100: خصم 100 جنيه على أول أوردر بقالة من تطبيق طلبات في مصر. انسخ الكود واعرف طريقة استخدامه."
-        }
-      }
-    },
-    {
-      "key": "waffarha",
-      "slug": "Waffarha-PromoCode",
-      "name": { "en": "Waffarha", "ar": "وفّرها" },
-      "logo": "waffarha.webp",
-      "code": "AH50",
-      "category": "shopping",
-      "region": ["eg", "gcc"],
-      "regionLabel": { "en": "Egypt & Saudi Arabia", "ar": "مصر والسعودية" },
-      "exclusive": false,
-      "featured": false,
-      "url": "",
-      "lastVerified": "2026-10-01",
-      "badge": { "en": ["10%", "savings"], "ar": ["10%", "توفير"] },
-      "offer": { "en": "10% cashback in Egypt (up to 25 EGP), 10% off in Saudi Arabia (up to 20 SAR)", "ar": "كاش باك 10% في مصر (حتى 25 جنيه)، وخصم 10% في السعودية (حتى 20 ريال)" },
-      "terms": {
-        "en": "Egypt: 10% cashback, up to 25 EGP. Saudi Arabia: 10% off, up to 20 SAR. One use per user; you can still use other coupons.",
-        "ar": "مصر: كاش باك 10% بحد أقصى 25 جنيه. السعودية: خصم 10% بحد أقصى 20 ريال. استخدام واحد لكل مستخدم، ويمكنك استخدام كوبونات أخرى."
-      },
-      "where": { "en": "the Waffarha app or website", "ar": "تطبيق أو موقع وفّرها" },
-      "about": {
-        "en": "Waffarha is a deals platform in Egypt and Saudi Arabia with discounts on restaurants, entertainment, health and beauty services and more. Code AH50 gives 10% cashback in Egypt (up to 25 EGP) and 10% off in Saudi Arabia (up to 20 SAR).",
-        "ar": "وفّرها منصة عروض في مصر والسعودية فيها خصومات على المطاعم والترفيه وخدمات الصحة والتجميل وغيرها. الكود AH50 يمنحك كاش باك 10% في مصر (حتى 25 جنيه) وخصم 10% في السعودية (حتى 20 ريال)."
-      },
-      "seo": {
-        "en": {
-          "title": "Waffarha Promo Code AH50: 10% in Egypt & Saudi Arabia",
-          "description": "Waffarha code AH50: 10% cashback in Egypt (up to 25 EGP) and 10% off in Saudi Arabia (up to 20 SAR). One use per user. Copy the code and save."
-        },
-        "ar": {
-          "title": "كود خصم وفّرها AH50: توفير 10% في مصر والسعودية",
-          "description": "كود وفّرها AH50: كاش باك 10% في مصر حتى 25 جنيه، وخصم 10% في السعودية حتى 20 ريال. مرة واحدة لكل مستخدم. انسخ الكود ووفّر."
-        }
-      }
-    },
-    {
-      "key": "iherb",
-      "slug": "iHerb-PromoCode",
-      "name": { "en": "iHerb", "ar": "آي هيرب" },
-      "logo": "iherb.webp",
-      "code": "FDDU",
-      "category": "shopping",
-      "region": "all",
-      "exclusive": false,
-      "featured": false,
-      "url": "",
-      "lastVerified": "2026-10-01",
-      "badge": { "en": ["5%", "off"], "ar": ["5%", "خصم"] },
-      "offer": { "en": "5% off eligible products, in every country", "ar": "خصم 5% على المنتجات المشمولة في كل الدول" },
-      "terms": { "en": "5% off eligible products on iHerb, in any country iHerb ships to.", "ar": "خصم 5% على المنتجات المشمولة في آي هيرب، في أي دولة يشحن لها." },
-      "where": { "en": "the iHerb app or iherb.com", "ar": "تطبيق آي هيرب أو موقع iherb.com" },
-      "about": {
-        "en": "iHerb is an online store for vitamins, supplements, natural beauty and healthy food that ships to customers around the world, and Saudi Arabia is one of the top countries for this code. Add FDDU at checkout for 5% off eligible products.",
-        "ar": "آي هيرب متجر أونلاين للفيتامينات والمكملات الغذائية ومنتجات التجميل الطبيعية والأكل الصحي، ويشحن للعملاء حول العالم، والسعودية من أكثر الدول استخداماً لهذا الكود. أضف FDDU عند الدفع لتحصل على خصم 5% على المنتجات المشمولة."
-      },
-      "seo": {
-        "en": {
-          "title": "iHerb Code FDDU: 5% Off in Saudi Arabia & Worldwide",
-          "description": "iHerb promo code FDDU: 5% off eligible vitamins, supplements and natural beauty products, in Saudi Arabia and every country iHerb ships to. Copy the code."
-        },
-        "ar": {
-          "title": "كود خصم آي هيرب FDDU: خصم 5% في السعودية وكل الدول",
-          "description": "كود خصم آي هيرب FDDU: خصم 5% على الفيتامينات والمكملات ومنتجات التجميل الطبيعية المشمولة، في السعودية وكل الدول. انسخ الكود واستخدمه عند الدفع."
         }
       }
     },
