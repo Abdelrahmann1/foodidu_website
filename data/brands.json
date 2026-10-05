@@ -653,29 +653,40 @@
       "slug": "Buffalo-Burger-PromoCode",
       "name": { "en": "Buffalo Burger", "ar": "بافلو برجر" },
       "logo": "buffalo-burger.webp",
-      "code": "50BUFFALO2AA",
+      "code": "DELIVERY10",
       "category": "restaurants",
       "region": "eg",
       "exclusive": false,
       "featured": false,
       "priority": "low",
       "url": "https://buffaloburger.com/",
-      "badge": { "en": ["50 EGP", "off"], "ar": ["50 جنيه", "خصم"] },
-      "offer": { "en": "50 EGP off orders of 200 EGP or more", "ar": "خصم 50 جنيه على طلب 200 جنيه أو أكثر" },
-      "terms": { "en": "50 EGP off online orders of 200 EGP or more, for new and returning customers.", "ar": "خصم 50 جنيه على الطلب الأونلاين بقيمة 200 جنيه أو أكثر، للعملاء الجدد والحاليين." },
-      "where": { "en": "the Buffalo Burger website", "ar": "موقع بافلو برجر" },
+      "badge": { "en": ["10 EGP", "delivery"], "ar": ["10 جنيه", "توصيل بـ"] },
+      "offer": { "en": "Delivery for 10 EGP on app and website orders of 250 EGP or more", "ar": "توصيل بـ 10 جنيه بس على طلبات الأبلكيشن والموقع من 250 جنيه" },
+      "terms": {
+        "en": "Only for orders from the Buffalo Burger app or website, with a minimum order of 250 EGP. Enter the code at checkout.",
+        "ar": "لطلبات أبلكيشن بافلو برجر والموقع فقط، بحد أدنى 250 جنيه للطلب. اكتب الكود عند الدفع."
+      },
+      "where": { "en": "the Buffalo Burger app or website", "ar": "أبلكيشن أو موقع بافلو برجر" },
+      "moreCodes": [
+        {
+          "code": "50BUFFALO2AA",
+          "badge": { "en": ["50 EGP", "off"], "ar": ["50 جنيه", "خصم"] },
+          "offer": { "en": "50 EGP off orders of 200 EGP or more", "ar": "خصم 50 جنيه على طلب 200 جنيه أو أكثر" },
+          "terms": { "en": "50 EGP off online orders of 200 EGP or more, for new and returning customers.", "ar": "خصم 50 جنيه على الطلب الأونلاين بقيمة 200 جنيه أو أكثر، للعملاء الجدد والحاليين." }
+        }
+      ],
       "about": {
-        "en": "Buffalo Burger is an Egyptian burger chain with dozens of branches, known for its beef and chicken burgers and combo meals, with online ordering from its website.",
-        "ar": "بافلو برجر سلسلة برجر مصرية ليها فروع كتير، معروفة ببرجر اللحمة والفراخ والوجبات الكومبو، وتقدر تطلب أونلاين من موقعها."
+        "en": "Buffalo Burger is an Egyptian burger chain with dozens of branches, known for its beef and chicken burgers and combo meals. Use DELIVERY10 for delivery at 10 EGP on app and website orders of 250 EGP or more, or 50BUFFALO2AA for 50 EGP off orders of 200 EGP or more.",
+        "ar": "بافلو برجر سلسلة برجر مصرية ليها فروع كتير، معروفة ببرجر اللحمة والفراخ والوجبات الكومبو. استخدم كود DELIVERY10 لتوصيل بـ 10 جنيه على طلبات الأبلكيشن والموقع من 250 جنيه، أو كود 50BUFFALO2AA لخصم 50 جنيه على طلب 200 جنيه أو أكثر."
       },
       "seo": {
         "en": {
-          "title": "Buffalo Burger Promo Code: 50 EGP Off Your Order",
-          "description": "Buffalo Burger promo code 50BUFFALO2AA: 50 EGP off online orders of 200 EGP or more in Egypt. Copy the code and see how to use it."
+          "title": "Buffalo Burger Promo Codes: 10 EGP Delivery + 50 EGP Off",
+          "description": "Buffalo Burger promo codes: DELIVERY10 for 10 EGP delivery on app and website orders of 250 EGP+, and 50BUFFALO2AA for 50 EGP off orders of 200 EGP or more."
         },
         "ar": {
-          "title": "كود خصم بافلو برجر: خصم 50 جنيه على طلبك",
-          "description": "كود خصم بافلو برجر 50BUFFALO2AA: خصم 50 جنيه على الطلب الأونلاين بقيمة 200 جنيه أو أكثر في مصر. انسخ الكود واعرف طريقة استخدامه."
+          "title": "أكواد خصم بافلو برجر: توصيل بـ 10 جنيه وخصم 50 جنيه",
+          "description": "أكواد خصم بافلو برجر: كود DELIVERY10 لتوصيل بـ 10 جنيه على طلبات الأبلكيشن والموقع من 250 جنيه، وكود 50BUFFALO2AA لخصم 50 جنيه على طلب 200 جنيه أو أكثر."
         }
       }
     },
