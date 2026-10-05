@@ -71,7 +71,8 @@ function ticketArt(ctx, b, lang, logo, x, y, w, rot) {
 // ---------- Open Graph share images (1200x630): tools/assets.html and the dashboard draw them the same way ----------
 function brandOgCopy(b, lang) {
   const many = !!(b.moreCodes && b.moreCodes.length);
-  const title = lang === "ar" ? `${many ? "أكواد خصم" : "كود خصم"} ${b.name.ar}` : `${b.name.en} promo ${many ? "codes" : "code"}`;
+  const title = b.noCode ? (lang === "ar" ? `عرض خصم ${b.name.ar}` : `${b.name.en} discount`)
+    : lang === "ar" ? `${many ? "أكواد خصم" : "كود خصم"} ${b.name.ar}` : `${b.name.en} promo ${many ? "codes" : "code"}`;
   return [title, [b.offer[lang], ...(b.moreCodes || []).map((x) => x.offer[lang])].join(" · ")];
 }
 // One job per language for a brand (its codes as tickets) or a restaurant (a "save up to" ticket).
@@ -87,6 +88,7 @@ function ogJobs(e, kind) {
       const badge = { en: [String(min), "EGP"], ar: [`${min} جنيه`, "من"] };
       return { lang, file: `${e.key}-${lang}`, text, items: [{ ...e, badge, tag: lang === "ar" ? `وفّر حتى ${save}%` : `Save up to ${save}%` }] };
     }
+    if (e.noCode) return { lang, file: `${e.key}-${lang}`, text: brandOgCopy(e, lang), items: [{ ...e, tag: lang === "ar" ? "بدون كود · اطلب أونلاين" : "No code needed · order online" }] };
     return { lang, file: `${e.key}-${lang}`, text: brandOgCopy(e, lang), items: [e, ...(e.moreCodes || []).map((x) => ({ ...e, code: x.code, badge: x.badge }))] };
   });
 }

@@ -372,6 +372,8 @@ ul, ol { margin: 0; padding: 0; }
   transition: border-color .2s, transform .15s;
 }
 .code-btn:hover { transform: translateY(-1px); }
+.code-btn.nocode { text-decoration: none; }
+.code-btn.nocode .code { font-family: var(--font-body); font-weight: 700; letter-spacing: 0; }
 .code-btn .code {
   display: inline-flex; align-items: center; padding: 0 12px; min-width: 0;
   font: 700 1rem/1 var(--font-code); letter-spacing: .06em; color: var(--ink);

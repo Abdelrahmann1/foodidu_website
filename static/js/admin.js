@@ -11,7 +11,7 @@ window.FoodiduAdmin = (() => {
   const ICONS = [["fork", "مطاعم"], ["pizza", "بيتزا"], ["basket", "بقالة"], ["bag", "تسوق"], ["gift", "هدية"], ["tag", "خصم"]];
   const RESERVED = ["ar", "en", "promo-codes", "partners", "day-deals", "privacy-policy", "terms-and-conditions", "dashboard", "img", "css", "js", "pages", "components", "404"];
   // key order in the JSON files, so a saved entry looks like the ones written by hand
-  const BRAND_KEYS = ["key", "slug", "name", "logo", "code", "category", "region", "regionLabel", "exclusive", "featured", "priority", "url", "urlLabel", "lastVerified", "badge", "offer", "terms", "where", "moreCodes", "about", "seo"];
+  const BRAND_KEYS = ["key", "slug", "name", "logo", "code", "noCode", "category", "region", "regionLabel", "exclusive", "featured", "priority", "url", "urlLabel", "lastVerified", "badge", "offer", "terms", "where", "moreCodes", "about", "seo"];
   const REST_KEYS = ["key", "slug", "name", "logo", "category", "region", "menu", "website", "phone", "cuisine", "lastChecked", "validUntil", "about", "seo", "offers"];
   const DEAL_KEYS = ["id", "brand", "name", "logo", "icon", "region", "url", "featured", "days", "title", "details", "source", "sourceLabel", "lastChecked"];
   let REPO = "", root = null, token = null;
@@ -350,7 +350,8 @@ window.FoodiduAdmin = (() => {
     const f = {
       key: keyField(isNew), slug: slugField(isNew, "KFC-PromoCode"),
       name: bi("اسم البراند", { req: true }),
-      code: text("الكود", { req: true, dir: "ltr", pattern: /^\S+$/, patternMsg: "من غير مسافات" }),
+      code: text("الكود", { dir: "ltr", pattern: /^\S+$/, patternMsg: "من غير مسافات", hint: "فاضي لو الخصم من غير كود." }),
+      noCode: check("خصم من غير كود", "الخصم بيتطبق لوحده من موقع أو تطبيق البراند. التذكرة هتفتح لينك البراند بدل ما تنسخ كود، فلازم تكتب اللينك."),
       category: select("النوع", Object.entries(S.data.brands.categories).map(([k, v]) => [k, v.ar])), region: regions(),
       regionLabel: bi("اسم المنطقة بطريقتك (اختياري)", { hint: "لو عايز يظهر مثلاً \"مصر والسعودية\" بدل اختيار المنطقة." }),
       exclusive: check("كود حصري لـ Foodidu", "بيظهر عليه \"حصري\"."), featured: check("في \"أقوى الأكواد\"", "بيظهر في قسم أقوى الأكواد في الصفحة الرئيسية."),
@@ -494,9 +495,12 @@ window.FoodiduAdmin = (() => {
         if (stale.length) throw new Error(stale.join(" "));
       }
       v.moreCodes = v.moreCodes.map((m) => { if (!m.exclusive) delete m.exclusive; if ((m.lastVerified || "") === (v.lastVerified || "")) delete m.lastVerified; return m; });
+      const noCode = v.noCode;
       clean(v);
+      delete v.noCode;
       const errs = uniqueErrors(v, b); if (errs.length) throw new Error(errs.join(" "));
       const next = Object.assign(isNew ? {} : clone(b), v);
+      if (noCode) { next.noCode = true; next.code = ""; } else delete next.noCode;
       for (const k of ["moreCodes", "regionLabel", "urlLabel", "priority", "lastVerified"]) if (!(k in v)) delete next[k];
       next.url = v.url || "";
       next.logo = cur.logo || "";
@@ -506,7 +510,12 @@ window.FoodiduAdmin = (() => {
       if (i < 0) { arr.push(ordered(next, BRAND_KEYS)); unredirect(next.slug); caseRedirects(next.slug); } else arr[i] = ordered(next, BRAND_KEYS);
       if (sectionKeys().has(next.key)) await renderSections();
       change("brands", `${isNew ? "Add" : "Edit"} ${next.name.en} (${[next.code, ...(next.moreCodes || []).map((m) => m.code)].join(", ")})`);
-    }, { top: logoF.node, images: true, check: () => (!cur.logo && !logoF.changed() ? ["اللوجو: ارفع صورة"] : []) });
+    }, { top: logoF.node, images: true, check: () => [
+      ...(!cur.logo && !logoF.changed() ? ["اللوجو: ارفع صورة"] : []),
+      ...(!f.noCode.get() && !f.code.get() ? ["الكود: مطلوب (أو علّم \"خصم من غير كود\")"] : []),
+      ...(f.noCode.get() && !f.url.get() ? ["لينك موقع أو تطبيق البراند: مطلوب للخصم من غير كود"] : []),
+      ...(f.noCode.get() && f.moreCodes.get().length ? ["الخصم من غير كود ما ينفعش يكون معاه أكواد تانية"] : []),
+    ] });
   }
   function restEditor(key) {
     const r = key && S.data.rests.restaurants.find((x) => x.key === key), isNew = !r, f = restForm(isNew), logoF = logoField(r);
@@ -603,7 +612,7 @@ window.FoodiduAdmin = (() => {
     let body;
     if (S.view) body = S.view();
     else if (S.tab === "brands") body = el("div", null, el("p", { class: "adm-add" }, btn("+ كود جديد", open(() => brandEditor(null)))),
-      tableOf([["البراند", (b) => b.name.ar], ["الكود", (b) => el("code", { text: [b.code, ...(b.moreCodes || []).map((m) => m.code)].join(" · ") })], ["العرض", (b) => b.offer.ar],
+      tableOf([["البراند", (b) => b.name.ar], ["الكود", (b) => (b.noCode ? "بدون كود" : el("code", { text: [b.code, ...(b.moreCodes || []).map((m) => m.code)].join(" · ") }))], ["العرض", (b) => b.offer.ar],
         ["آخر تجربة", (b) => b.lastVerified || "ما اتجربش", "adm-date"], ["الترتيب", (b) => ({ top: "أولوية أولى", low: "في الآخر" })[b.priority] || "عادي"]],
       siteOrder(), (b) => [btn("↑", () => move(b, -1), "ghost sm"), btn("↓", () => move(b, 1), "ghost sm"), btn("تعديل", open(() => brandEditor(b.key)), "ghost sm"),
         b.lastVerified !== today() || (b.moreCodes || []).some((m) => "lastVerified" in m) ? btn(b.moreCodes && b.moreCodes.length ? "جربت أكوادها النهارده" : "جربته النهارده", () => { b.lastVerified = today(); (b.moreCodes || []).forEach((m) => { delete m.lastVerified; }); change("brands", `Checked ${b.name.en} today`); render(); }, "ghost sm") : null,

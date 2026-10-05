@@ -151,6 +151,12 @@ my %S = (
   c_group_restaurants => 'Restaurant promo codes', c_group_groceries => 'Grocery promo codes', c_group_shopping => 'Online shopping promo codes',
   c_empty => 'No codes match this filter.', c_filters => 'Filter codes',
   # brand page
+  nocode => 'No code needed', nocode_go => 'Order', nocode_aria => '{name}: no code needed, order from {where}',
+  b_h1_nocode => '{name} discount', b_how_nocode => 'How to get the {name} discount', b_faq_nocode => '{name} discount: FAQ', b_side_nocode => 'Your {name} discount',
+  b_nst1 => 'Open {where}', b_nst1p => 'Use the button on this page or open it yourself.', b_nst2 => 'Order as usual', b_nst2p => 'Add what you want to your cart.',
+  b_nst3 => 'The discount applies by itself', b_nst3p => 'No code needed: the discount shows at checkout when your order meets the conditions.',
+  b_nq1 => 'Do I need a {name} promo code?', b_na1 => 'No. {offer}: the discount applies by itself on {where}.',
+  b_nq3 => 'Are there any conditions?', b_nq4 => "Why don't I see the {name} discount?", b_na4 => 'Check that your order meets the conditions and that you are ordering on {where}. Offers are set by {name} and can change or end at any time.',
   b_h1 => '{name} promo code', b_f_region => 'Works in', b_f_where => 'Use it on', b_f_checked => 'Checked by Foodidu', b_f_cost => 'On Foodidu', b_go => 'Go to {name}',
   b_how => 'How to use your {name} code', b_st1 => 'Copy the code', b_st1p => 'Tap “Copy code” to copy {code}.',
   b_st2 => 'Open {where}', b_st2p => 'Add what you want to your cart as usual.',
@@ -269,6 +275,12 @@ my %S = (
   c_h1 => 'كل أكواد الخصم', c_lede => 'كل أكواد Foodidu في مكان واحد: {n} بين المطاعم وتطبيقات البقالة والتسوق أونلاين في مصر والخليج.',
   c_group_restaurants => 'أكواد خصم المطاعم', c_group_groceries => 'أكواد خصم البقالة والسوبر ماركت', c_group_shopping => 'أكواد خصم التسوق أونلاين',
   c_empty => 'لا توجد أكواد تطابق هذا الاختيار.', c_filters => 'تصفية الأكواد',
+  nocode => 'بدون كود', nocode_go => 'اطلب', nocode_aria => '{name}: بدون كود، اطلب من {where}',
+  b_h1_nocode => 'عرض خصم {name}', b_how_nocode => 'طريقة الحصول على خصم {name}', b_faq_nocode => 'أسئلة عن خصم {name}', b_side_nocode => 'خصم {name}',
+  b_nst1 => 'افتح {where}', b_nst1p => 'من الزر في هذه الصفحة أو بنفسك.', b_nst2 => 'اطلب كالمعتاد', b_nst2p => 'أضف ما تريده إلى السلة.',
+  b_nst3 => 'الخصم يُطبَّق تلقائياً', b_nst3p => 'لا تحتاج إلى كود: يظهر الخصم عند الدفع إذا كان طلبك مطابقاً للشروط.',
+  b_nq1 => 'هل أحتاج كود خصم {name}؟', b_na1 => 'لا. {offer}، والخصم يُطبَّق تلقائياً على {where}.',
+  b_nq3 => 'هل للعرض شروط؟', b_nq4 => 'لماذا لا يظهر خصم {name}؟', b_na4 => 'تأكد أن طلبك يطابق الشروط وأنك تطلب من {where}. العروض تحددها {name} وقد تتغير أو تنتهي في أي وقت.',
   b_h1 => 'كود خصم {name}', b_f_region => 'متاح في', b_f_where => 'استخدمه على', b_f_checked => 'تحقّق منه Foodidu', b_f_cost => 'على Foodidu', b_go => 'اذهب إلى {name}',
   b_how => 'طريقة استخدام كود {name}', b_st1 => 'انسخ الكود', b_st1p => 'اضغط على «انسخ الكود» لنسخ {code}.',
   b_st2 => 'افتح {where}', b_st2p => 'وأضف ما تريده إلى السلة كالمعتاد.',
@@ -401,6 +413,8 @@ sub logo_attrs {   # src + srcset for a logo shown at $size CSS px
 # ------------------------------------------------------------------ components
 sub code_btn {
   my ($b, $l, $lg) = @_;
+  return qq{<a class="code-btn nocode} . ($lg ? ' lg' : '') . qq{" href="} . esc($b->{url}) . qq{" rel="nofollow sponsored noopener" target="_blank" data-track="brand_link_click" data-brand="$b->{key}" aria-label="}
+    . Te($l, 'nocode_aria', name => $b->{name}{$l}, where => $b->{where}{$l}) . '"><span class="code">' . T($l, 'nocode') . '</span><span class="act">' . icon('external') . '<span class="act-label">' . T($l, 'nocode_go') . '</span></span></a>' if $b->{noCode};
   my $code = esc($b->{code});
   qq{<button type="button" class="code-btn} . ($lg ? ' lg' : '') . qq{" data-code="$code" data-brand="$b->{key}" aria-label="} . Te($l, 'copy_aria', code => $b->{code}) . qq{">}
   . qq{<span class="code" dir="ltr">$code</span>}
@@ -1024,7 +1038,12 @@ HTML
     my $a1 = $multi
       ? T($l, 'b_a1_multi', name => $en, list => join($l eq 'ar' ? '، و' : ' and ', map { ($l eq 'ar' ? 'كود ' : '') . $strong->($_) . ' (' . esc($_->{offer}{$l}) . ')' } @offers))
       : T($l, 'b_a1', name => $en, code => qq{<strong dir="ltr">$code</strong>}, offer => $offer);
-    my @qa = (
+    my $nc = $b->{noCode};   # a discount without a code
+    my @qa = $nc ? (
+      [Te($l, 'b_nq1', name => $name), T($l, 'b_na1', offer => $offer, where => $where)],
+      [T($l, 'b_nq3'), $terms],
+      [Te($l, 'b_nq4', name => $name), T($l, 'b_na4', name => $en, where => $where)],
+    ) : (
       [Te($l, 'b_q1', name => $name), $a1],
       [Te($l, 'b_q2', name => $name), T($l, 'b_a2', code => $codes_or, where => $where)],
       [T($l, 'b_q3'), $multi ? join(' ', map { $strong->($_) . ': ' . esc($_->{terms}{$l}) } @offers) : $terms],
@@ -1060,7 +1079,7 @@ HTML
 <div class="bp">
 <div class="bp-id"><span class="bp-logo"><span class="logo-tile">@{[ logo_img($b, $l, 104, 1) ]}</span>$verified</span>
 <div class="bp-head"><div class="pill-row"><span class="pill">@{[ icon($CATICON{$b->{category}}) ]}@{[ esc($CATN{$b->{category}}{$l}) ]}</span>$flag$count</div>
-<h1>@{[ Te($l, $multi ? 'b_h1_multi' : 'b_h1', name => $name) ]}</h1></div></div>
+<h1>@{[ Te($l, $nc ? 'b_h1_nocode' : $multi ? 'b_h1_multi' : 'b_h1', name => $name) ]}</h1></div></div>
 <p class="lede bp-lede">$lede</p>
 <div class="coupons bp-coupons@{[ $multi ? ' multi' : '' ]}">
 $coupons
@@ -1073,19 +1092,21 @@ $coupons
 <div class="scallop" aria-hidden="true"></div>
 <div class="wrap brand-body">
 <article class="prose">
-<section aria-labelledby="how-title"><h2 id="how-title">@{[ Te($l, 'b_how', name => $name) ]}</h2>
+<section aria-labelledby="how-title"><h2 id="how-title">@{[ Te($l, $nc ? 'b_how_nocode' : 'b_how', name => $name) ]}</h2>
 <ol class="how">
+@{[ $nc ? join('', map { '<li><div><b>' . T($l, "b_nst$_", where => $where) . '</b><span>' . T($l, "b_nst${_}p") . '</span></div></li>' } 1 .. 3) : <<"STEPS" ]}
 <li><div><b>@{[ T($l, 'b_st1') ]}</b><span>@{[ $multi ? T($l, 'b_st1p_multi') : T($l, 'b_st1p', code => qq{<strong dir="ltr">$code</strong>}) ]}</span></div></li>
 <li><div><b>@{[ T($l, 'b_st2', where => $where) ]}</b><span>@{[ T($l, 'b_st2p') ]}</span></div></li>
 <li><div><b>@{[ T($l, 'b_st3') ]}</b><span>@{[ T($l, 'b_st3p') ]}</span></div></li>
+STEPS
 </ol></section>
 <section aria-labelledby="about-title"><h2 id="about-title">@{[ Te($l, 'b_about', name => $name) ]}</h2><p>@{[ esc($b->{about}{$l}) ]}</p></section>
 $bdd
-<section aria-labelledby="faq-title"><h2 id="faq-title">@{[ Te($l, 'b_faq', name => $name) ]}</h2>@{[ faq_html(@qa) ]}
+<section aria-labelledby="faq-title"><h2 id="faq-title">@{[ Te($l, $nc ? 'b_faq_nocode' : 'b_faq', name => $name) ]}</h2>@{[ faq_html(@qa) ]}
 <p class="note">@{[ Te($l, 'b_note', name => $name) ]}</p></section>
 </article>
 <aside class="side">
-<div class="side-card side-codes"><h2>@{[ Te($l, $multi ? 'b_side_codes' : 'b_side_code', name => $name) ]}</h2>$side_codes</div>
+<div class="side-card side-codes"><h2>@{[ Te($l, $nc ? 'b_side_nocode' : $multi ? 'b_side_codes' : 'b_side_code', name => $name) ]}</h2>$side_codes</div>
 <div class="side-card"><h2>@{[ T($l, 'b_side_cats') ]}</h2><ul class="side-list">$sidecats</ul></div>
 </aside>
 </div>
@@ -1226,7 +1247,7 @@ HTML
   my ($appcheck) = slurp("$ROOT/static/js/site.js") =~ /APP_CHECK_SITE_KEY = "([^"]*)"/;
   my ($measurement) = slurp("$ROOT/static/js/site.js") =~ /GA_ID = "([^"]+)"/;
   my @codes = map { my $b = $_; map { +{
-      brand => $b->{name}{ar}, brandEn => $b->{name}{en}, key => $b->{key}, code => $_->{code}, offer => $_->{offer}{ar},
+      brand => $b->{name}{ar}, brandEn => $b->{name}{en}, key => $b->{key}, code => ($b->{noCode} ? 'بدون كود' : $_->{code}), offer => $_->{offer}{ar},
       category => $CATN{ $b->{category} }{ar}, region => strip_tags(region_label($b, 'ar')),
       exclusive => ($_->{exclusive} ? $T : $F), low => (($b->{priority} // '') eq 'low' ? $T : $F),
       checked => $_->{lastVerified}, page => brand_url($b, 'ar'), pageEn => brand_url($b, 'en') } } offers_of($b) } @BRANDS;
