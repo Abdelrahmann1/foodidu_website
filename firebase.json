@@ -108,7 +108,15 @@
       { "source": "/bazooka-offers", "destination": "/Bazooka-Offers/", "type": 301 },
       { "source": "/bazooka-offers/", "destination": "/Bazooka-Offers/", "type": 301 },
       { "source": "/ar/bazooka-offers", "destination": "/ar/Bazooka-Offers/", "type": 301 },
-      { "source": "/ar/bazooka-offers/", "destination": "/ar/Bazooka-Offers/", "type": 301 }
+      { "source": "/ar/bazooka-offers/", "destination": "/ar/Bazooka-Offers/", "type": 301 },
+      { "source": "/zad-market-promocode", "destination": "/Zad-Market-PromoCode/", "type": 301 },
+      { "source": "/zad-market-promocode/", "destination": "/Zad-Market-PromoCode/", "type": 301 },
+      { "source": "/ar/zad-market-promocode", "destination": "/ar/Zad-Market-PromoCode/", "type": 301 },
+      { "source": "/ar/zad-market-promocode/", "destination": "/ar/Zad-Market-PromoCode/", "type": 301 },
+      { "source": "/instashop-promocode", "destination": "/Instashop-PromoCode/", "type": 301 },
+      { "source": "/instashop-promocode/", "destination": "/Instashop-PromoCode/", "type": 301 },
+      { "source": "/ar/instashop-promocode", "destination": "/ar/Instashop-PromoCode/", "type": 301 },
+      { "source": "/ar/instashop-promocode/", "destination": "/ar/Instashop-PromoCode/", "type": 301 }
     ],
     "headers": [
       {

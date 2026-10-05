@@ -308,6 +308,36 @@
       }
     },
     {
+      "key": "instashop",
+      "slug": "Instashop-PromoCode",
+      "name": { "en": "InstaShop", "ar": "إنستاشوب" },
+      "logo": "instashop.webp",
+      "code": "AHLAN100",
+      "category": "groceries",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "https://instashop.com/",
+      "badge": { "en": ["100 EGP", "off"], "ar": ["100 جنيه", "خصم"] },
+      "offer": { "en": "100 EGP off your first order", "ar": "خصم 100 جنيه على أول أوردر" },
+      "terms": { "en": "For your first order on InstaShop in Egypt. InstaShop's terms apply.", "ar": "على أول أوردر من إنستاشوب في مصر. تطبق شروط وأحكام إنستاشوب." },
+      "where": { "en": "the InstaShop app", "ar": "تطبيق إنستاشوب" },
+      "about": {
+        "en": "InstaShop is a delivery app for groceries and everyday essentials from supermarkets and stores near you. New customers in Egypt can use AHLAN100 for 100 EGP off their first order.",
+        "ar": "إنستاشوب تطبيق توصيل للبقالة واحتياجات البيت من السوبر ماركت والمتاجر القريبة منك. يمكن للعملاء الجدد في مصر استخدام كود AHLAN100 لخصم 100 جنيه على أول طلب."
+      },
+      "seo": {
+        "en": {
+          "title": "InstaShop Promo Code Egypt: 100 EGP Off First Order",
+          "description": "InstaShop promo code AHLAN100: 100 EGP off your first grocery order on the InstaShop app in Egypt. Copy the code and check the terms before you order."
+        },
+        "ar": {
+          "title": "كود خصم إنستاشوب: خصم 100 جنيه على أول أوردر",
+          "description": "كود خصم إنستاشوب AHLAN100: خصم 100 جنيه على أول طلب بقالة من تطبيق إنستاشوب في مصر. انسخ الكود واطّلع على الشروط قبل الطلب."
+        }
+      }
+    },
+    {
       "key": "abu-auf",
       "slug": "Abu-Auf-PromoCode",
       "name": { "en": "Abu Auf", "ar": "أبو عوف" },
@@ -577,6 +607,40 @@
         "ar": {
           "title": "كود خصم فروجة: خصم 100 جنيه على أول أوردر",
           "description": "كود خصم فروجة FAROOJA100: خصم 100 جنيه على أول أوردر أونلاين في مصر، ومن تاني أوردر كاش باك 10% على كل طلب. انسخ الكود واطلب."
+        }
+      }
+    },
+    {
+      "key": "zad-market",
+      "slug": "Zad-Market-PromoCode",
+      "name": { "en": "Zad Market", "ar": "زاد ماركت" },
+      "logo": "zad-market.webp",
+      "code": "FIRST100",
+      "category": "groceries",
+      "region": "eg",
+      "regionLabel": { "en": "Alexandria, Egypt", "ar": "الإسكندرية، مصر" },
+      "exclusive": false,
+      "featured": false,
+      "url": "https://zadegy.com/",
+      "badge": { "en": ["100 EGP", "off"], "ar": ["100 جنيه", "خصم"] },
+      "offer": { "en": "100 EGP off your first order of 500 EGP or more", "ar": "خصم 100 جنيه على أول أوردر 500 جنيه أو أكثر" },
+      "terms": {
+        "en": "First order only, on orders of 500 EGP or more in the Zad app. One use per customer; offers last while stocks last.",
+        "ar": "على أول أوردر فقط، بقيمة 500 جنيه أو أكثر من تطبيق زاد. الكود يُستخدم مرة واحدة لكل عميل، والعروض سارية حتى نفاد الكمية."
+      },
+      "where": { "en": "the Zad app", "ar": "تطبيق زاد" },
+      "about": {
+        "en": "Zad is a grocery delivery app in Alexandria with more than 5,000 products, from fresh fruit and vegetables, cheese and deli to meat, poultry, seafood and pantry goods. New customers can use FIRST100 for 100 EGP off a first order of 500 EGP or more.",
+        "ar": "زاد تطبيق توصيل بقالة في الإسكندرية فيه أكثر من 5000 منتج، من الخضار والفاكهة الطازجة والأجبان إلى اللحوم والدواجن والمأكولات البحرية والبقالة الجافة. يمكن للعملاء الجدد استخدام كود FIRST100 لخصم 100 جنيه على أول أوردر بقيمة 500 جنيه أو أكثر."
+      },
+      "seo": {
+        "en": {
+          "title": "Zad Market Promo Code: 100 EGP Off Your First Order",
+          "description": "Zad Market promo code FIRST100: 100 EGP off your first order of 500 EGP or more in the Zad grocery app in Alexandria. One use per customer."
+        },
+        "ar": {
+          "title": "كود خصم زاد ماركت: خصم 100 جنيه على أول أوردر",
+          "description": "كود خصم زاد ماركت FIRST100: خصم 100 جنيه على أول أوردر بقيمة 500 جنيه أو أكثر من تطبيق زاد للبقالة في الإسكندرية. مرة واحدة لكل عميل."
         }
       }
     },
