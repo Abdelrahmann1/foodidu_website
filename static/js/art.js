@@ -88,7 +88,7 @@ function ogJobs(e, kind) {
       const badge = { en: [String(min), "EGP"], ar: [`${min} جنيه`, "من"] };
       return { lang, file: `${e.key}-${lang}`, text, items: [{ ...e, badge, tag: lang === "ar" ? `وفّر حتى ${save}%` : `Save up to ${save}%` }] };
     }
-    if (e.noCode) return { lang, file: `${e.key}-${lang}`, text: brandOgCopy(e, lang), items: [{ ...e, tag: lang === "ar" ? "بدون كود · اطلب أونلاين" : "No code needed · order online" }] };
+    if (e.noCode) return { lang, file: `${e.key}-${lang}`, text: brandOgCopy(e, lang), items: [{ ...e, tag: lang === "ar" ? "بدون كود" : "No code needed" }] };
     return { lang, file: `${e.key}-${lang}`, text: brandOgCopy(e, lang), items: [e, ...(e.moreCodes || []).map((x) => ({ ...e, code: x.code, badge: x.badge }))] };
   });
 }

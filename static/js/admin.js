@@ -11,7 +11,7 @@ window.FoodiduAdmin = (() => {
   const ICONS = [["fork", "مطاعم"], ["pizza", "بيتزا"], ["basket", "بقالة"], ["bag", "تسوق"], ["gift", "هدية"], ["tag", "خصم"]];
   const RESERVED = ["ar", "en", "promo-codes", "partners", "day-deals", "privacy-policy", "terms-and-conditions", "dashboard", "img", "css", "js", "pages", "components", "404"];
   // key order in the JSON files, so a saved entry looks like the ones written by hand
-  const BRAND_KEYS = ["key", "slug", "name", "logo", "code", "noCode", "category", "region", "regionLabel", "exclusive", "featured", "priority", "url", "urlLabel", "lastVerified", "badge", "offer", "terms", "where", "moreCodes", "about", "seo"];
+  const BRAND_KEYS = ["key", "slug", "name", "logo", "code", "noCode", "category", "region", "regionLabel", "exclusive", "featured", "priority", "url", "urlLabel", "lastVerified", "badge", "offer", "terms", "where", "steps", "moreCodes", "about", "seo"];
   const REST_KEYS = ["key", "slug", "name", "logo", "category", "region", "menu", "website", "phone", "cuisine", "lastChecked", "validUntil", "about", "seo", "offers"];
   const DEAL_KEYS = ["id", "brand", "name", "logo", "icon", "region", "url", "featured", "days", "title", "details", "source", "sourceLabel", "lastChecked"];
   let REPO = "", root = null, token = null;

@@ -124,7 +124,11 @@
       { "source": "/lavania-promocode", "destination": "/Lavania-PromoCode/", "type": 301 },
       { "source": "/lavania-promocode/", "destination": "/Lavania-PromoCode/", "type": 301 },
       { "source": "/ar/lavania-promocode", "destination": "/ar/Lavania-PromoCode/", "type": 301 },
-      { "source": "/ar/lavania-promocode/", "destination": "/ar/Lavania-PromoCode/", "type": 301 }
+      { "source": "/ar/lavania-promocode/", "destination": "/ar/Lavania-PromoCode/", "type": 301 },
+      { "source": "/tbs-promocode", "destination": "/TBS-PromoCode/", "type": 301 },
+      { "source": "/tbs-promocode/", "destination": "/TBS-PromoCode/", "type": 301 },
+      { "source": "/ar/tbs-promocode", "destination": "/ar/TBS-PromoCode/", "type": 301 },
+      { "source": "/ar/tbs-promocode/", "destination": "/ar/TBS-PromoCode/", "type": 301 }
     ],
     "headers": [
       {

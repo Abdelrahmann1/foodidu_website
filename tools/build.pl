@@ -155,7 +155,7 @@ my %S = (
   b_h1_nocode => '{name} discount', b_how_nocode => 'How to get the {name} discount', b_faq_nocode => '{name} discount: FAQ', b_side_nocode => 'Your {name} discount',
   b_nst1 => 'Open {where}', b_nst1p => 'Use the button on this page or open it yourself.', b_nst2 => 'Order as usual', b_nst2p => 'Add what you want to your cart.',
   b_nst3 => 'The discount applies by itself', b_nst3p => 'No code needed: the discount shows at checkout when your order meets the conditions.',
-  b_nq1 => 'Do I need a {name} promo code?', b_na1 => 'No. {offer}: the discount applies by itself on {where}.',
+  b_nq1 => 'Do I need a {name} promo code?', b_na1 => 'No. {offer}: the discount applies by itself on {where}.', b_na1s => 'No. {offer}. {terms}',
   b_nq3 => 'Are there any conditions?', b_nq4 => "Why don't I see the {name} discount?", b_na4 => 'Check that your order meets the conditions and that you are ordering on {where}. Offers are set by {name} and can change or end at any time.',
   b_h1 => '{name} promo code', b_f_region => 'Works in', b_f_where => 'Use it on', b_f_checked => 'Checked by Foodidu', b_f_cost => 'On Foodidu', b_go => 'Go to {name}',
   b_how => 'How to use your {name} code', b_st1 => 'Copy the code', b_st1p => 'Tap “Copy code” to copy {code}.',
@@ -279,7 +279,7 @@ my %S = (
   b_h1_nocode => 'عرض خصم {name}', b_how_nocode => 'طريقة الحصول على خصم {name}', b_faq_nocode => 'أسئلة عن خصم {name}', b_side_nocode => 'خصم {name}',
   b_nst1 => 'افتح {where}', b_nst1p => 'من الزر في هذه الصفحة أو بنفسك.', b_nst2 => 'اطلب كالمعتاد', b_nst2p => 'أضف ما تريده إلى السلة.',
   b_nst3 => 'الخصم يُطبَّق تلقائياً', b_nst3p => 'لا تحتاج إلى كود: يظهر الخصم عند الدفع إذا كان طلبك مطابقاً للشروط.',
-  b_nq1 => 'هل أحتاج كود خصم {name}؟', b_na1 => 'لا. {offer}، والخصم يُطبَّق تلقائياً على {where}.',
+  b_nq1 => 'هل أحتاج كود خصم {name}؟', b_na1 => 'لا. {offer}، والخصم يُطبَّق تلقائياً على {where}.', b_na1s => 'لا. {offer}. {terms}',
   b_nq3 => 'هل للعرض شروط؟', b_nq4 => 'لماذا لا يظهر خصم {name}؟', b_na4 => 'تأكد أن طلبك يطابق الشروط وأنك تطلب من {where}. العروض تحددها {name} وقد تتغير أو تنتهي في أي وقت.',
   b_h1 => 'كود خصم {name}', b_f_region => 'متاح في', b_f_where => 'استخدمه على', b_f_checked => 'تحقّق منه Foodidu', b_f_cost => 'على Foodidu', b_go => 'اذهب إلى {name}',
   b_how => 'طريقة استخدام كود {name}', b_st1 => 'انسخ الكود', b_st1p => 'اضغط على «انسخ الكود» لنسخ {code}.',
@@ -1040,7 +1040,7 @@ HTML
       : T($l, 'b_a1', name => $en, code => qq{<strong dir="ltr">$code</strong>}, offer => $offer);
     my $nc = $b->{noCode};   # a discount without a code
     my @qa = $nc ? (
-      [Te($l, 'b_nq1', name => $name), T($l, 'b_na1', offer => $offer, where => $where)],
+      [Te($l, 'b_nq1', name => $name), $b->{steps} ? T($l, 'b_na1s', offer => $offer, terms => $terms) : T($l, 'b_na1', offer => $offer, where => $where)],
       [T($l, 'b_nq3'), $terms],
       [Te($l, 'b_nq4', name => $name), T($l, 'b_na4', name => $en, where => $where)],
     ) : (
@@ -1094,7 +1094,8 @@ $coupons
 <article class="prose">
 <section aria-labelledby="how-title"><h2 id="how-title">@{[ Te($l, $nc ? 'b_how_nocode' : 'b_how', name => $name) ]}</h2>
 <ol class="how">
-@{[ $nc ? join('', map { '<li><div><b>' . T($l, "b_nst$_", where => $where) . '</b><span>' . T($l, "b_nst${_}p") . '</span></div></li>' } 1 .. 3) : <<"STEPS" ]}
+@{[ $nc && $b->{steps} ? join('', map { '<li><div><b>' . esc($_->[0]) . '</b><span>' . esc($_->[1]) . '</span></div></li>' } @{ $b->{steps}{$l} })
+  : $nc ? join('', map { '<li><div><b>' . T($l, "b_nst$_", where => $where) . '</b><span>' . T($l, "b_nst${_}p") . '</span></div></li>' } 1 .. 3) : <<"STEPS" ]}
 <li><div><b>@{[ T($l, 'b_st1') ]}</b><span>@{[ $multi ? T($l, 'b_st1p_multi') : T($l, 'b_st1p', code => qq{<strong dir="ltr">$code</strong>}) ]}</span></div></li>
 <li><div><b>@{[ T($l, 'b_st2', where => $where) ]}</b><span>@{[ T($l, 'b_st2p') ]}</span></div></li>
 <li><div><b>@{[ T($l, 'b_st3') ]}</b><span>@{[ T($l, 'b_st3p') ]}</span></div></li>

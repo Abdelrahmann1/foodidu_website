@@ -678,6 +678,50 @@
       }
     },
     {
+      "key": "tbs",
+      "slug": "TBS-PromoCode",
+      "name": { "en": "TBS", "ar": "تي بي إس" },
+      "logo": "tbs.webp",
+      "code": "",
+      "noCode": true,
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "https://apps.apple.com/eg/app/the-tbs-club/id6742162739",
+      "urlLabel": { "en": "Get the TBS app", "ar": "حمّل تطبيق TBS" },
+      "badge": { "en": ["150 EGP", "coffee pair"], "ar": ["150 جنيه", "كومبو قهوة"] },
+      "offer": { "en": "Coffee with a donut or a croissant for 150 EGP through the TBS app", "ar": "قهوتك مع دونات أو كرواسون بـ 150 جنيه من خلال تطبيق TBS" },
+      "terms": { "en": "Download the TBS app and redeem the offer in-store at your nearest TBS branch. TBS's terms apply.", "ar": "حمّل تطبيق TBS واستبدل العرض داخل أقرب فرع لـ TBS. تطبق شروط TBS." },
+      "where": { "en": "the TBS app", "ar": "تطبيق TBS" },
+      "steps": {
+        "en": [
+          ["Download the TBS app", "Get the TBS app and sign in."],
+          ["Choose your pair", "Coffee with a donut, or coffee with a croissant, for 150 EGP."],
+          ["Redeem it at the branch", "Redeem the offer from the app at your nearest TBS branch."]
+        ],
+        "ar": [
+          ["حمّل تطبيق TBS", "نزّل تطبيق TBS وسجّل الدخول."],
+          ["اختر الكومبو", "قهوة مع دونات أو قهوة مع كرواسون بـ 150 جنيه."],
+          ["استبدله في الفرع", "استبدل العرض من التطبيق في أقرب فرع لـ TBS."]
+        ]
+      },
+      "about": {
+        "en": "TBS (The Bakery Shop) is an Egyptian bakery and coffee chain founded in 2008, with branches across Cairo from Zamalek and Maadi to New Cairo and 6th of October, known for its croissants, pastries, sandwiches and coffee. With the TBS app you get coffee with a donut or a croissant for 150 EGP at the branch.",
+        "ar": "تي بي إس (ذا بيكري شوب) سلسلة مخبوزات وقهوة مصرية تأسست عام 2008، ولها فروع في القاهرة من الزمالك والمعادي إلى القاهرة الجديدة و6 أكتوبر، ومعروفة بالكرواسون والمعجنات والساندويتشات والقهوة. من خلال تطبيق TBS تحصل على قهوة مع دونات أو كرواسون بـ 150 جنيه في الفرع."
+      },
+      "seo": {
+        "en": {
+          "title": "TBS Offer: Coffee + Donut or Croissant for 150 EGP",
+          "description": "TBS The Bakery Shop offer: your coffee with a donut or a croissant for 150 EGP. Download the TBS app and redeem it at your nearest branch, no code needed."
+        },
+        "ar": {
+          "title": "عرض TBS: قهوة مع دونات أو كرواسون بـ 150 جنيه",
+          "description": "عرض تي بي إس ذا بيكري شوب: قهوتك مع دونات أو كرواسون بـ 150 جنيه. حمّل تطبيق TBS واستبدل العرض في أقرب فرع، بدون كود خصم."
+        }
+      }
+    },
+    {
       "key": "zad-market",
       "slug": "Zad-Market-PromoCode",
       "name": { "en": "Zad Market", "ar": "زاد ماركت" },
