@@ -42,8 +42,9 @@ sub mdate {                             # last commit date of a file (stable acr
 
 my $DATA   = JSON::PP->new->utf8->decode(slurp("$ROOT/data/brands.json", 1));
 my @BRANDS = @{ $DATA->{brands} };
-# "priority": "low" brands go to the end of every list (codes page, home cards, related codes, footer, search)
-@BRANDS = ((grep { ($_->{priority} // '') ne 'low' } @BRANDS), (grep { ($_->{priority} // '') eq 'low' } @BRANDS));
+# Brand order everywhere (codes page, home cards, related codes, footer, search): "priority": "top" first (the codes that
+# earn money), then the rest, then "low" (codes that are not from partners); inside each group, the order of brands.json.
+@BRANDS = map { my $p = $_; grep { ($_->{priority} // '') eq $p } @BRANDS } ('top', '', 'low');
 my %CATN   = %{ $DATA->{categories} };
 my @CATS   = qw(restaurants groceries shopping);
 my %CATICON = (restaurants => 'fork', groceries => 'basket', shopping => 'bag');

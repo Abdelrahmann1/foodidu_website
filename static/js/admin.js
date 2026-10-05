@@ -354,7 +354,7 @@ window.FoodiduAdmin = (() => {
       category: select("النوع", Object.entries(S.data.brands.categories).map(([k, v]) => [k, v.ar])), region: regions(),
       regionLabel: bi("اسم المنطقة بطريقتك (اختياري)", { hint: "لو عايز يظهر مثلاً \"مصر والسعودية\" بدل اختيار المنطقة." }),
       exclusive: check("كود حصري لـ Foodidu", "بيظهر عليه \"حصري\"."), featured: check("في \"أقوى الأكواد\"", "بيظهر في قسم أقوى الأكواد في الصفحة الرئيسية."),
-      priority: select("مكانه في القوايم", [["", "عادي"], ["low", "في الآخر (كود مش من شركائنا)"]]),
+      priority: select("مكانه في القوايم", [["top", "أولوية أولى (كود بيكسبني)"], ["", "عادي"], ["low", "في الآخر (كود مش من شركائنا)"]], { hint: "جوه كل مجموعة، رتّب بالأسهم في قايمة الأكواد." }),
       url: text("لينك موقع أو تطبيق البراند (اختياري)", { dir: "ltr", type: "url" }), urlLabel: bi("نص زرار اللينك (اختياري)", { hint: "لو فاضي: \"اذهب إلى\" + اسم البراند." }),
       lastVerified: date("آخر مرة جربنا فيها الكود بنفسنا", { today: true, hint: "لو فاضي، الكود بيظهر من غير \"اتحقق منه\"." }),
       badge: badge("الخصم على التذكرة"), offer: bi("العرض في سطر", { req: true, hint: "زي: خصم 30% على أول طلب بحد أقصى 150 جنيه" }),
@@ -583,6 +583,17 @@ window.FoodiduAdmin = (() => {
     }, { inline: true });
   }
 
+  // brands as the site lists them: priority "top", then normal, then "low", each in brands.json order
+  const siteOrder = () => ["top", "", "low"].flatMap((p) => S.data.brands.brands.filter((b) => (b.priority || "") === p));
+  function move(b, step) {   // swap with the next brand of the same priority group in brands.json
+    const arr = S.data.brands.brands, same = arr.filter((x) => (x.priority || "") === (b.priority || ""));
+    const other = same[same.indexOf(b) + step];
+    if (!other) return;
+    const i = arr.indexOf(b), j = arr.indexOf(other);
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+    change("brands", `Move ${b.name.en} ${step < 0 ? "up" : "down"}`);
+    render();
+  }
   const open = (fn) => () => { S.view = fn; render(); root.scrollIntoView({ behavior: "smooth", block: "start" }); };
   function render() {
     if (!root) return;
@@ -593,8 +604,8 @@ window.FoodiduAdmin = (() => {
     if (S.view) body = S.view();
     else if (S.tab === "brands") body = el("div", null, el("p", { class: "adm-add" }, btn("+ كود جديد", open(() => brandEditor(null)))),
       tableOf([["البراند", (b) => b.name.ar], ["الكود", (b) => el("code", { text: [b.code, ...(b.moreCodes || []).map((m) => m.code)].join(" · ") })], ["العرض", (b) => b.offer.ar],
-        ["آخر تجربة", (b) => b.lastVerified || "ما اتجربش", "adm-date"], ["الترتيب", (b) => (b.priority === "low" ? "في الآخر" : "عادي")]],
-      S.data.brands.brands, (b) => [btn("تعديل", open(() => brandEditor(b.key)), "ghost sm"),
+        ["آخر تجربة", (b) => b.lastVerified || "ما اتجربش", "adm-date"], ["الترتيب", (b) => ({ top: "أولوية أولى", low: "في الآخر" })[b.priority] || "عادي"]],
+      siteOrder(), (b) => [btn("↑", () => move(b, -1), "ghost sm"), btn("↓", () => move(b, 1), "ghost sm"), btn("تعديل", open(() => brandEditor(b.key)), "ghost sm"),
         b.lastVerified !== today() || (b.moreCodes || []).some((m) => "lastVerified" in m) ? btn(b.moreCodes && b.moreCodes.length ? "جربت أكوادها النهارده" : "جربته النهارده", () => { b.lastVerified = today(); (b.moreCodes || []).forEach((m) => { delete m.lastVerified; }); change("brands", `Checked ${b.name.en} today`); render(); }, "ghost sm") : null,
         btn("حذف", () => removeEntity("brand", b), "ghost sm danger")]));
     else if (S.tab === "rests") body = el("div", null, el("p", { class: "adm-add" }, btn("+ مطعم جديد", open(() => restEditor(null)))),
