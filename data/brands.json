@@ -611,6 +611,73 @@
       }
     },
     {
+      "key": "pizza-king",
+      "slug": "Pizza-King-PromoCode",
+      "name": { "en": "Pizza King", "ar": "بيتزا كينج" },
+      "logo": "pizza-king.webp",
+      "code": "",
+      "noCode": true,
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "https://pizzaking-eg.com/",
+      "urlLabel": { "en": "Order from Pizza King", "ar": "اطلب من بيتزا كينج" },
+      "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
+      "offer": { "en": "15% off when you order from the website or app", "ar": "خصم 15% عند الطلب من الموقع أو التطبيق" },
+      "terms": {
+        "en": "15% off orders placed on the Pizza King website or app. It applies by itself, no code needed. Pizza King's terms apply.",
+        "ar": "خصم 15% على الطلبات من موقع أو تطبيق بيتزا كينج، ويُطبَّق تلقائياً بدون كود. تطبق شروط وأحكام بيتزا كينج."
+      },
+      "where": { "en": "the Pizza King website or app", "ar": "موقع أو تطبيق بيتزا كينج" },
+      "about": {
+        "en": "Pizza King is a pizza chain in Egypt with delivery and online ordering on its website and app. Orders placed online get 15% off by themselves, with no promo code needed.",
+        "ar": "بيتزا كينج سلسلة بيتزا في مصر تقدّم التوصيل والطلب أونلاين من موقعها وتطبيقها. الطلبات من الموقع أو التطبيق تحصل على خصم 15% تلقائياً، بدون كود خصم."
+      },
+      "seo": {
+        "en": {
+          "title": "Pizza King Egypt: 15% Off Online Orders, No Code Needed",
+          "description": "Pizza King Egypt offer: 15% off orders from the Pizza King website or app. The discount applies by itself, no promo code needed."
+        },
+        "ar": { "title": "خصم بيتزا كينج: 15% على الطلب أونلاين بدون كود", "description": "عرض بيتزا كينج مصر: خصم 15% على الطلبات من موقع أو تطبيق بيتزا كينج. الخصم يُطبَّق تلقائياً بدون كود خصم." }
+      }
+    },
+    {
+      "key": "lavania",
+      "slug": "Lavania-PromoCode",
+      "name": { "en": "Lavania", "ar": "لافانيا" },
+      "logo": "lavania.webp",
+      "code": "",
+      "noCode": true,
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "https://lavaniagroup.com/",
+      "urlLabel": { "en": "Order from Lavania", "ar": "اطلب من لافانيا" },
+      "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
+      "offer": { "en": "15% off and free delivery on your first website order", "ar": "خصم 15% وتوصيل مجاني على أول طلب من الموقع" },
+      "terms": {
+        "en": "First order on the Lavania website only. The discount applies by itself after you sign up, no code needed.",
+        "ar": "على أول طلب من موقع لافانيا فقط. الخصم يُطبَّق تلقائياً بعد التسجيل، بدون كود."
+      },
+      "where": { "en": "the Lavania website", "ar": "موقع لافانيا" },
+      "about": {
+        "en": "Lavania is a Lebanese and Italian restaurant in Egypt with Lavania boxes, desserts and gelato. New customers get 15% off and free delivery on their first website order, applied by itself after signing up.",
+        "ar": "لافانيا مطعم لبناني وإيطالي في مصر يقدّم بوكسات لافانيا والحلويات والجيلاتو. العملاء الجدد يحصلون على خصم 15% وتوصيل مجاني على أول طلب من الموقع، ويُطبَّق تلقائياً بعد التسجيل."
+      },
+      "seo": {
+        "en": {
+          "title": "Lavania Offer: 15% Off + Free Delivery on First Order",
+          "description": "Lavania offer in Egypt: 15% off and free delivery on your first order from the Lavania website. Applied by itself after you sign up, no code needed."
+        },
+        "ar": {
+          "title": "خصم لافانيا: 15% وتوصيل مجاني على أول طلب",
+          "description": "عرض لافانيا في مصر: خصم 15% وتوصيل مجاني على أول طلب من موقع لافانيا. يُطبَّق تلقائياً بعد التسجيل بدون كود خصم."
+        }
+      }
+    },
+    {
       "key": "zad-market",
       "slug": "Zad-Market-PromoCode",
       "name": { "en": "Zad Market", "ar": "زاد ماركت" },

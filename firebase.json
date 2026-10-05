@@ -116,7 +116,15 @@
       { "source": "/instashop-promocode", "destination": "/Instashop-PromoCode/", "type": 301 },
       { "source": "/instashop-promocode/", "destination": "/Instashop-PromoCode/", "type": 301 },
       { "source": "/ar/instashop-promocode", "destination": "/ar/Instashop-PromoCode/", "type": 301 },
-      { "source": "/ar/instashop-promocode/", "destination": "/ar/Instashop-PromoCode/", "type": 301 }
+      { "source": "/ar/instashop-promocode/", "destination": "/ar/Instashop-PromoCode/", "type": 301 },
+      { "source": "/pizza-king-promocode", "destination": "/Pizza-King-PromoCode/", "type": 301 },
+      { "source": "/pizza-king-promocode/", "destination": "/Pizza-King-PromoCode/", "type": 301 },
+      { "source": "/ar/pizza-king-promocode", "destination": "/ar/Pizza-King-PromoCode/", "type": 301 },
+      { "source": "/ar/pizza-king-promocode/", "destination": "/ar/Pizza-King-PromoCode/", "type": 301 },
+      { "source": "/lavania-promocode", "destination": "/Lavania-PromoCode/", "type": 301 },
+      { "source": "/lavania-promocode/", "destination": "/Lavania-PromoCode/", "type": 301 },
+      { "source": "/ar/lavania-promocode", "destination": "/ar/Lavania-PromoCode/", "type": 301 },
+      { "source": "/ar/lavania-promocode/", "destination": "/ar/Lavania-PromoCode/", "type": 301 }
     ],
     "headers": [
       {
