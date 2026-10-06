@@ -652,6 +652,13 @@ a.store:hover { background: #000; transform: translateY(-2px); }
   .feat-body { flex-basis: calc(100% - 80px); padding-inline-start: 0; }
   .feat-cta { width: 100%; justify-content: center; }
 }
+/* several partners: cards side by side (one column on phones), the button along the bottom of each */
+.feat-slot.multi { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 12px; }
+.feat-slot.multi .feat { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: 1fr auto; align-items: start; gap: 12px 14px; }
+.feat-slot.multi .feat::after { display: none; }
+.feat-slot.multi .feat-body { padding-inline-start: 0; }
+.feat-slot.multi .feat-title { font-size: clamp(1.15rem, 1.7vw, 1.3rem); }
+.feat-slot.multi .feat-cta { grid-column: 1 / -1; justify-content: center; }
 
 /* restaurant menu offers: price-tag cards */
 .moffer-list { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }

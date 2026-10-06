@@ -442,7 +442,7 @@ window.FoodiduAdmin = (() => {
   }
   function usage(key) {
     const u = S.data.deals.deals.filter((d) => d.brand === key).map((d) => `عرض الأيام "${d.title.ar}"`);
-    if (S.data.featured.partner === key) u.push("مساحة العرض المميز");
+    if ((S.data.featured.partners || [S.data.featured.partner]).includes(key)) u.push("مساحة العرض المميز");
     if ((S.data.home.heroCodes || []).includes(key)) u.push("كروت أول الصفحة الرئيسية");
     return u;
   }
@@ -564,18 +564,19 @@ window.FoodiduAdmin = (() => {
     const partners = [...S.data.rests.restaurants.map((r) => [r.key, r.name.ar + " (عروض مطاعم)"]), ...S.data.brands.brands.map((b) => [b.key, b.name.ar])];
     const f = { active: check("المساحة شغالة", "لو مش متعلّم، المساحة بتختفي من الصفحة الرئيسية."),
       sponsored: check("إعلان مدفوع", "بيكتب \"إعلان\" بدل \"عرض مميز\"، ودي حاجة لازمة لما الشريك يدفع."),
-      partner: select("الشريك", partners), until: date("تختفي بعد يوم", { hint: "بتختفي لوحدها بعد اليوم ده. سيبه فاضي لو مالهاش نهاية." }),
-      title: bi("عنوان بطريقتك (اختياري)", { hint: "لو فاضي بيتكتب لوحده من عروض الشريك." }), text: bi("سطر بطريقتك (اختياري)"), cta: bi("نص الزرار (اختياري)"),
-      url: text("لينك تاني (اختياري)", { dir: "ltr", hint: "لو فاضي بيفتح صفحة الشريك على Foodidu." }) };
-    for (const [k, x] of Object.entries(f)) x.set(fe[k]);
+      partners: multi("الشركاء", partners, { req: true, hint: "اختار شريك أو أكتر: كل واحد بيظهر في بانر لوحده جنب التاني." }),
+      until: date("تختفي بعد يوم", { hint: "بتختفي لوحدها بعد اليوم ده. سيبه فاضي لو مالهاش نهاية." }),
+      title: bi("عنوان بطريقتك (اختياري)", { hint: "لما يكون فيه شريك واحد بس. لو فاضي بيتكتب لوحده من عروض الشريك." }), text: bi("سطر بطريقتك (اختياري)"), cta: bi("نص الزرار (اختياري)"),
+      url: text("لينك تاني (اختياري)", { dir: "ltr", hint: "لما يكون فيه شريك واحد بس. لو فاضي بيفتح صفحة الشريك على Foodidu." }) };
+    for (const [k, x] of Object.entries(f)) x.set(k === "partners" ? fe.partners || (fe.partner ? [fe.partner] : []) : fe[k]);
     return editor("مساحة \"عرض مميز\" تحت أول الصفحة الرئيسية", f, async () => {
-      const v = collect(f), next = { _help: fe._help, active: v.active, sponsored: v.sponsored, partner: v.partner };
+      const v = collect(f), next = { _help: fe._help, active: v.active, sponsored: v.sponsored, partners: v.partners };
       if (v.until) next.until = v.until;
       for (const k of ["title", "text", "cta"]) if (v[k].en || v[k].ar) next[k] = v[k];
       if (v.url) next.url = v.url;
       if (JSON.stringify(next) === JSON.stringify(fe)) return false;
       S.data.featured = next;
-      change("featured", `Featured slot: ${v.partner}${v.active ? "" : " (off)"}`);
+      change("featured", `Featured slot: ${v.partners.join(", ")}${v.active ? "" : " (off)"}`);
     }, { inline: true });
   }
   function homeEditor() {

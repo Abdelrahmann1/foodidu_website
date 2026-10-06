@@ -749,12 +749,20 @@ sub rest_card {
     . '<span class="bcard-offer">' . T($l, 'ro_from', min => fmt_n(rest_min($r))) . '</span>'
     . qq{<span class="bcard-foot"><span class="bcard-deal">$deal</span>} . icon('arrow', 'flip go') . '</span></a></li>';
 }
-# Featured-partner banner under the home hero (data/featured.json). Gone after "until"; site.js also hides it
-# on that date when the site was not rebuilt.
+# Featured-partner banners under the home hero (data/featured.json): one or more partners side by side ("partners",
+# or the older single "partner"). Gone after "until"; site.js also hides them on that date when the site was not rebuilt.
+sub feat_keys { my $p = $FEAT->{partners} // ($FEAT->{partner} ? [$FEAT->{partner}] : []); @$p }
 sub featured_html {
   my $l = shift;
-  my $key = $FEAT->{partner} // '';
-  return '' unless $FEAT->{active} && $key && !($FEAT->{until} && $FEAT->{until} lt $TODAY);
+  my @keys = feat_keys();
+  return '' unless $FEAT->{active} && @keys && !($FEAT->{until} && $FEAT->{until} lt $TODAY);
+  my $tag = T($l, $FEAT->{sponsored} ? 'ft_sponsored' : 'ft_label');
+  my $until = $FEAT->{until} ? qq{ data-until="$FEAT->{until}"} : '';
+  my $cards = join '', map { feat_card($_, $l, $tag, @keys == 1) } @keys;
+  return qq{<aside class="wrap feat-slot} . (@keys > 1 ? ' multi' : '') . qq{" aria-label="$tag"$until>$cards</aside>};
+}
+sub feat_card {   # one partner's banner; the custom title/text/cta/url apply only when the slot has a single partner
+  my ($key, $l, $tag, $single) = @_;
   my ($r) = grep { $_->{key} eq $key } @RESTS;
   my $b = $BYKEY{$key};
   die "data/featured.json: unknown partner '$key'\n" unless $r || $b;
@@ -763,18 +771,16 @@ sub featured_html {
     ? (Te($l, 'ft_rest_title', name => $name, p => rest_max_save($r)), T($l, 'ft_rest_text', n => noffers($l, scalar @{ $r->{offers} }), min => fmt_n(rest_min($r))),
        T($l, 'ft_rest_cta'), rest_url($r, $l), rest_logo($r, $l, 64))
     : (Te($l, 'ft_code_title', name => $name), esc(offers_text($b, $l)), T($l, 'ft_code_cta'), brand_url($b, $l), logo_img($b, $l, 64));
-  my %own = map { my $v = $FEAT->{$_}; ($_ => ref $v ? $v->{$l} : $v) } grep { $FEAT->{$_} } qw(title text cta url);
+  my %own = !$single ? () : map { my $v = $FEAT->{$_}; ($_ => ref $v ? $v->{$l} : $v) } grep { $FEAT->{$_} } qw(title text cta url);
   ($title, $text, $cta) = map { defined $own{$_->[0]} ? esc($own{$_->[0]}) : $_->[1] } [title => $title], [text => $text], [cta => $cta];
   $url = $own{url} if $own{url};
   $text .= ' · ' . T($l, 'ft_until', date => fmt_date($l, $FEAT->{until})) if $FEAT->{until};
-  my $tag = T($l, $FEAT->{sponsored} ? 'ft_sponsored' : 'ft_label');
   my $rel = $url =~ m{^https?://} ? ($FEAT->{sponsored} ? ' rel="sponsored noopener"' : ' rel="noopener"') . ' target="_blank"' : '';
-  my $until = $FEAT->{until} ? qq{ data-until="$FEAT->{until}"} : '';
   my $trk = qq{ data-brand="$key" data-sponsored="} . ($FEAT->{sponsored} ? 'yes' : 'no') . '"';   # views and clicks for the partner's report
-  return qq{<aside class="wrap feat-slot" aria-label="$tag"$until data-track-view="featured_view"$trk><a class="feat" href="} . esc($url) . qq{"$rel data-track="featured_click"$trk>}
+  return qq{<a class="feat" href="} . esc($url) . qq{"$rel data-track="featured_click" data-track-view="featured_view"$trk>}
     . '<span class="logo-tile">' . ($logo =~ s/ loading="lazy"//r) . qq{</span><span class="feat-body"><span class="feat-tag">$tag</span>}
     . qq{<span class="feat-title">$title</span><span class="feat-text">$text</span></span>}
-    . qq{<span class="feat-cta">$cta } . icon('arrow', 'flip') . '</span></a></aside>';
+    . qq{<span class="feat-cta">$cta } . icon('arrow', 'flip') . '</span></a>';
 }
 sub dd_qa { my ($l, @ds) = @_; map { [Te($l, 'dd_q', brand => dd_name($_, $l), day => dd_when($_, $l)), esc($_->{details}{$l}) . ' ' . T($l, 'dd_note')] } @ds }
 
@@ -1256,14 +1262,13 @@ HTML
       until => $_->{validUntil}, checked => $_->{lastChecked}, page => rest_url($_, 'ar'), menu => $_->{menu}{ar} // $_->{website} } } @RESTS;
   my @deals = map { my $d = $_; my $b = dd_brand($d) // dd_rest($d); +{ name => ($b ? $b->{name}{ar} : $d->{name}{ar}), title => $d->{title}{ar},
       days => [ map { $DAYN{ar}{$_} } @{ $d->{days} } ], checked => $d->{lastChecked}, source => $d->{source} } } @DDEALS;
-  my $fk = $FEAT->{partner} // '';
-  my ($fr) = grep { $_->{key} eq $fk } @RESTS;
-  my $fp = $fr // $BYKEY{$fk};
+  my @fps = grep { $_->[1] } map { my $k = $_; my ($r) = grep { $_->{key} eq $k } @RESTS; [$r, $r // $BYKEY{$k}] } feat_keys();   # [restaurant, partner]
+  my ($fr, $fp) = @{ $fps[0] // [] };
   my %data = (
     built => (sort { $b cmp $a } $DATA_DATE, $RO_DATE, $DD_DATE, mdate($FT_FILE))[0],   # newest data file's date: stable between builds
     site => $SITE, pages => scalar(@PAGES),
     codes => \@codes, restaurants => \@rests, deals => \@deals,
-    featured => ($fp ? { active => ($FEAT->{active} ? $T : $F), partner => $fp->{name}{ar}, until => $FEAT->{until}, sponsored => ($FEAT->{sponsored} ? $T : $F),
+    featured => ($fp ? { active => ($FEAT->{active} ? $T : $F), partner => join('، ', map { $_->[1]{name}{ar} } @fps), until => $FEAT->{until}, sponsored => ($FEAT->{sponsored} ? $T : $F),
       page => ($fr ? rest_url($fr, 'ar') : brand_url($fp, 'ar')) } : undef),
     appCheck => ($appcheck ? $T : $F), ga => { measurementId => $measurement }, gsc => { site => "$SITE/" }, play => $PLAY_URL,
     assets => { admin => asset('/js/admin.js'), art => asset('/js/art.js') }, repo => 'Abdelrahmann1/foodidu_website',
