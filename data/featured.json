@@ -2,5 +2,5 @@
   "_help": "The featured-partner banners right under the home-page hero: a slot you can sell. 'partners' lists one or more restaurant keys (restaurant-offers.json) or brand keys (brands.json); each gets its own banner, side by side, with wording, logo and link from that partner. With a single partner you can write your own wording: \"title\", \"text\" and/or \"cta\" as { \"en\": \"...\", \"ar\": \"...\" }, and \"url\" to link somewhere else. Set \"sponsored\" to true when the partners pay for the slot: it is then labelled Sponsored / إعلان (required for paid placements) and outside links get rel=\"sponsored\". The banners hide themselves after \"until\" (YYYY-MM-DD, Cairo time), even without a rebuild. Set \"active\" to false to remove them. Edit in foodidu.com/dashboard/ (إدارة المحتوى) or here, then run: perl tools/build.pl",
   "active": true,
   "sponsored": false,
-  "partners": ["noon-egypt", "noon", "waffarha"]
+  "partners": ["noon-egypt", "waffarha"]
 }
