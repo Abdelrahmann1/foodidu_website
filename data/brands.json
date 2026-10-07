@@ -469,10 +469,7 @@
           "noCode": true,
           "badge": { "en": ["10%", "cashback"], "ar": ["10%", "كاش باك"] },
           "offer": { "en": "10% cashback on every order", "ar": "كاش باك 10% على كل طلب" },
-          "terms": {
-            "en": "10% cashback on all orders from the website or app. It applies by itself.",
-            "ar": "كاش باك 10% على كل الطلبات من الموقع أو التطبيق، ويُطبَّق تلقائياً."
-          }
+          "terms": { "en": "10% cashback on all orders from the website or app. It applies by itself.", "ar": "كاش باك 10% على كل الطلبات من الموقع أو التطبيق، ويُطبَّق تلقائياً." }
         }
       ],
       "where": { "en": "the Just Smash website or app", "ar": "موقع أو تطبيق جست سماش" },
@@ -512,10 +509,7 @@
           "noCode": true,
           "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
           "offer": { "en": "15% off when you order on the website", "ar": "خصم 15% عند الطلب من الموقع" },
-          "terms": {
-            "en": "15% off when you order directly from the Mini Beirut website. It applies by itself.",
-            "ar": "خصم 15% عند الطلب مباشرة من موقع ميني بيروت، ويُطبَّق تلقائياً."
-          }
+          "terms": { "en": "15% off when you order directly from the Mini Beirut website. It applies by itself.", "ar": "خصم 15% عند الطلب مباشرة من موقع ميني بيروت، ويُطبَّق تلقائياً." }
         }
       ],
       "where": { "en": "the Mini Beirut website", "ar": "موقع ميني بيروت" },
@@ -886,6 +880,17 @@
           "badge": { "en": ["50 EGP", "off"], "ar": ["50 جنيه", "خصم"] },
           "offer": { "en": "50 EGP off orders of 200 EGP or more", "ar": "خصم 50 جنيه على طلب 200 جنيه أو أكثر" },
           "terms": { "en": "50 EGP off online orders of 200 EGP or more, for new and returning customers.", "ar": "خصم 50 جنيه على الطلب الأونلاين بقيمة 200 جنيه أو أكثر، للعملاء الجدد والحاليين." }
+        },
+        {
+          "code": "",
+          "noCode": true,
+          "badge": { "en": ["899 EGP", "box of 4"], "ar": ["899 جنيه", "بوكس 4"] },
+          "offer": { "en": "Four in the Box: 4 sandwiches (200 g) + 4 fries + 4 drinks for 899 EGP", "ar": "فور إن ذا بوكس: 4 ساندوتشات 200 جم + 4 بطاطس + 4 مشروبات بـ 899 جنيه" },
+          "terms": {
+            "en": "4 sandwiches (200 g), 4 fries and 4 soft drinks for 899 EGP including tax on the Buffalo Burger website. Available in branches, takeaway, on the website and app, and on the hotline 19914.",
+            "ar": "4 ساندوتشات 200 جرام و4 بطاطس و4 مشروبات بـ 899 جنيه شامل الضريبة على موقع بافلو برجر. العرض متاح في الفروع والتيك أواي والموقع والتطبيق والخط الساخن 19914."
+          },
+          "lastVerified": "2026-10-07"
         }
       ],
       "about": {

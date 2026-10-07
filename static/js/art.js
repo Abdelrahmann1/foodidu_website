@@ -90,7 +90,7 @@ function ogJobs(e, kind) {
     }
     if (e.noCode) return { lang, file: `${e.key}-${lang}`, text: brandOgCopy(e, lang), items: [{ ...e, tag: lang === "ar" ? "بدون كود" : "No code needed" }] };
     return { lang, file: `${e.key}-${lang}`, text: brandOgCopy(e, lang), items: [e, ...(e.moreCodes || []).map((x) => ({ ...e, code: x.code, badge: x.badge, ...(x.noCode ? { tag: lang === "ar" ? "بدون كود" : "No code needed" } : {}) }))]
-      .sort((x, y) => !!y.tag - !!x.tag) };   // the last ticket is drawn in front: a real code goes there
+      .sort((x, y) => !!y.tag - !!x.tag).slice(-2) };   // at most 2 tickets, and the front (last) one is a real code
   });
 }
 // Share images for the section pages (home, all codes, partners, day deals): Pizza Hut and KFC tickets (or whichever is left).
