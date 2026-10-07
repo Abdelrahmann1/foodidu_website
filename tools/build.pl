@@ -167,7 +167,7 @@ my %S = (
   c_empty => 'No codes match this filter.', c_filters => 'Filter codes',
   # brand page
   nocode => 'No code needed', nocode_go => 'Order', nocode_aria => '{name}: no code needed, order from {where}',
-  blog_h1 => 'Foodidu blog', blog_title => 'Foodidu Blog: Saving Guides, Sale Dates and Promo Codes',
+  blog_nav => 'Blog', blog_h1 => 'Foodidu blog', blog_title => 'Foodidu Blog: Saving Guides, Sale Dates and Promo Codes',
   blog_desc => 'Guides to save on food delivery, groceries and online shopping in Egypt and the GCC: sale season dates, how promo codes work, and which codes to use.',
   blog_lede => 'Practical guides to pay less: sale season dates, how promo codes work, and the codes we test ourselves.',
   blog_by => 'By the Foodidu team', blog_author => 'Foodidu team', blog_pub => 'Published {date}', blog_upd => 'Updated {date}', blog_toc => 'In this article', blog_codes => 'Codes in this article',
@@ -308,7 +308,7 @@ my %S = (
   c_group_restaurants => 'أكواد خصم المطاعم', c_group_groceries => 'أكواد خصم البقالة والسوبر ماركت', c_group_shopping => 'أكواد خصم التسوق أونلاين',
   c_empty => 'لا توجد أكواد تطابق هذا الاختيار.', c_filters => 'تصفية الأكواد',
   nocode => 'بدون كود', nocode_go => 'اطلب', nocode_aria => '{name}: بدون كود، اطلب من {where}',
-  blog_h1 => 'مدونة Foodidu', blog_title => 'مدونة Foodidu: أدلة التوفير ومواعيد العروض وأكواد الخصم',
+  blog_nav => 'المدونة', blog_h1 => 'مدونة Foodidu', blog_title => 'مدونة Foodidu: أدلة التوفير ومواعيد العروض وأكواد الخصم',
   blog_desc => 'أدلة للتوفير في طلبات الأكل والبقالة والتسوق أونلاين في مصر والخليج: مواعيد مواسم التخفيضات، وطريقة عمل أكواد الخصم، والأكواد التي تستخدمها.',
   blog_lede => 'أدلة عملية لتدفع أقل: مواعيد مواسم التخفيضات، وطريقة عمل أكواد الخصم، والأكواد التي نجرّبها بأنفسنا.',
   blog_by => 'بقلم فريق Foodidu', blog_author => 'فريق Foodidu', blog_pub => 'نُشر في {date}', blog_upd => 'آخر تحديث {date}', blog_toc => 'في هذا المقال', blog_codes => 'الأكواد في هذا المقال',
@@ -597,7 +597,7 @@ sub layout {
   my @nav = (
     [T($l, 'nav_codes'), $codes, 'codes', 'tag'], (@DDEALS ? [T($l, 'dd_nav'), path_for($l, '/day-deals/'), 'daydeals', 'calendar'] : ()),
     [T($l, 'nav_rest'), "$codes#restaurants", '', 'fork'], [T($l, 'nav_groc'), "$codes#groceries", '', 'basket'],
-    [T($l, 'nav_shop'), "$codes#shopping", '', 'bag'], [T($l, 'nav_partner'), path_for($l, '/partners/'), 'partners', 'store'],
+    [T($l, 'nav_shop'), "$codes#shopping", '', 'bag'], (@PUB ? [T($l, 'blog_nav'), path_for($l, '/blog/'), 'blog', 'menubook'] : ()), [T($l, 'nav_partner'), path_for($l, '/partners/'), 'partners', 'store'],
   );
   my $nav = join '', map { qq{<a href="$_->[1]"} . ($_->[2] && ($a{nav} // '') eq $_->[2] ? ' aria-current="page"' : '') . '><span class="nav-ic">' . icon($_->[3]) . "</span><span>$_->[0]</span>" . icon('arrow', 'nav-go flip') . '</a>' } @nav;
   my $other_label = $other eq 'ar' ? 'العربية' : 'English';
@@ -1133,7 +1133,7 @@ $side
 HTML
     my $t = $p->{seo}{$l}{title};
     layout(lang => $l, key => "/blog/$p->{slug}/", title => (length($t) + 10 <= 65 ? "$t | Foodidu" : $t), desc => $p->{seo}{$l}{description},
-      body => $body, crumbs => $crumbs, noindex => $draft, og => "/img/og/codes-$l.png", lastmod => ($upd || $p->{published} || $TODAY),
+      body => $body, nav => 'blog', crumbs => $crumbs, noindex => $draft, og => "/img/og/codes-$l.png", lastmod => ($upd || $p->{published} || $TODAY),
       ld => [ { '@type' => 'BlogPosting', headline => $p->{h1}{$l}, description => $p->{seo}{$l}{description}, inLanguage => $l,
         ($p->{published} ? (datePublished => $p->{published}, dateModified => ($upd || $p->{published})) : ()),
         author => { '@type' => 'Organization', name => T($l, 'blog_author'), url => "$SITE/" }, publisher => { '@id' => "$SITE/#org" },
@@ -1162,7 +1162,7 @@ HTML
 @{[ band($l) ]}
 HTML
     my $i = 0;
-    layout(lang => $l, key => '/blog/', title => T($l, 'blog_title') . ' | Foodidu', desc => T($l, 'blog_desc'), body => $body, crumbs => $crumbs,
+    layout(lang => $l, key => '/blog/', title => T($l, 'blog_title') . ' | Foodidu', desc => T($l, 'blog_desc'), body => $body, nav => 'blog', crumbs => $crumbs,
       pagetype => 'CollectionPage', og => "/img/og/codes-$l.png", lastmod => (sort map { $_->{updated} // $_->{published} } @PUB)[-1],
       ld => [ { '@type' => 'ItemList', name => T($l, 'blog_h1'), numberOfItems => scalar @PUB,
         itemListElement => [ map { { '@type' => 'ListItem', position => ++$i, name => $_->{h1}{$l}, url => absu(post_url($_, $l)) } } @PUB ] } ]);

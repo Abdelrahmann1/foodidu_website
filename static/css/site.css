@@ -112,6 +112,7 @@ ul, ol { margin: 0; padding: 0; }
 .nav > a:hover { background: rgba(84, 58, 20, .08); }
 .nav > a[aria-current="page"] { background: var(--ink); color: var(--sun); }
 .nav-ic, .nav .nav-go, .nav-extra, .nav-backdrop { display: none; }
+@media (min-width: 1061px) and (max-width: 1260px) { .nav { gap: 0; } .nav > a { padding-inline: 10px; font-size: .94rem; } }   /* 7 links fit next to the logo and language button */
 .lang {
   display: inline-flex; align-items: center; gap: 6px; min-height: 42px; padding: 0 14px;
   border: 2px solid var(--ink); border-radius: 999px; text-decoration: none; font-weight: 700; font-size: .95rem;
