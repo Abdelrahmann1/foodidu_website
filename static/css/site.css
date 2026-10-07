@@ -431,7 +431,7 @@ ul, ol { margin: 0; padding: 0; }
 .empty[hidden] { display: none; }
 
 /* category tiles */
-.cats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 16px; }
 .cat {
   position: relative; display: flex; align-items: center; gap: 16px; padding: 20px 22px;
   background: var(--paper); border: 2px solid var(--line); border-radius: var(--r); text-decoration: none;
@@ -1005,3 +1005,12 @@ html.menu-open .cookie { display: none; }
 /* Codes page: restaurant menu offers under the code groups */
 .ro-hub { margin-top: 34px; }
 .ro-hub .section-sub { margin: -4px 0 14px; }
+
+/* codes page: link to the first-order codes under the intro */
+.lede-link { margin-top: 12px; }
+.lede-link a {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 16px; border-radius: 999px;
+  background: var(--paper); border: 2px solid var(--ink); color: var(--ink); font-weight: 700; text-decoration: none;
+}
+.lede-link a .icon { width: 18px; height: 18px; flex: none; }
+.lede-link a:hover, .lede-link a:focus-visible { background: var(--sun-4); }

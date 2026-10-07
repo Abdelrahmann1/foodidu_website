@@ -66,6 +66,7 @@ my $RO_FILE = "$ROOT/data/restaurant-offers.json";
 my @RESTS = -f $RO_FILE ? @{ JSON::PP->new->utf8->decode(slurp($RO_FILE, 1))->{restaurants} // [] } : ();
 my $RO_DATE = -f $RO_FILE ? mdate($RO_FILE) : $DATA_DATE;
 my $FT_FILE = "$ROOT/data/featured.json";
+my @FO;   # first-order codes, filled once the brands are loaded (used by the footer and /first-order-promo-codes/)
 my $FEAT = -f $FT_FILE ? JSON::PP->new->utf8->decode(slurp($FT_FILE, 1)) : {};
 my $HOME_FILE = "$ROOT/data/home.json";
 my $HOME = -f $HOME_FILE ? JSON::PP->new->utf8->decode(slurp($HOME_FILE, 1)) : {};
@@ -128,6 +129,15 @@ my %S = (
   dd_know => 'Know a weekly deal we missed?', dd_know_p => "Send it to us on Facebook or Instagram and we'll add it after checking the brand's official page.",
   dd_empty => 'No day deals yet. Check back soon.',
   ro_card_save => 'Save up to', ro_more => 'More restaurant offers and codes', b_all_cat => 'All {cat} codes',
+  fo_title => 'First Order Promo Codes: Restaurants, Groceries & More', fo_h1 => 'First order promo codes',
+  fo_desc => '{n} first-order promo codes from {list} and more. Copy a code and use it on the first order of your new account in Egypt or the GCC.',
+  fo_lede => 'Every code that works on your first order, in one place: {n} from {b}. They are for new accounts on each app or website.',
+  fo_how => 'How to use a first-order code', fo_s1 => 'Create a new account', fo_s1p => 'Sign up on the app or website. These codes are usually for numbers and emails that have not ordered before.',
+  fo_s2 => 'Add your order', fo_s2p => 'Check the conditions under the code: some need a minimum order amount.', fo_s3 => 'Paste the code before you pay', fo_s3p => 'Copy the code here and paste it in the promo code field at checkout.',
+  fo_q1 => 'What is a first-order promo code?', fo_a1 => 'A code that gives you a discount on the first order from your account on an app or website. It usually stops working after that first order.',
+  fo_q2 => 'Can I use more than one first-order code?', fo_a2 => 'Yes, one per app: each app has its own first-order code. You usually cannot combine two codes in the same order.',
+  fo_q3 => 'Why is my first-order code not working?', fo_a3 => 'Usually because the account or phone number already placed an order, or the order is below the minimum amount. Check the conditions under each code.',
+  fo_all => 'All first-order codes',
   c_rest_title => 'Restaurant menu offers (no code needed)', c_rest_sub => 'Deals from official restaurant menus, with the menu price for comparison.',
   ro_all => 'All {name} offers', ro_save => 'Save {p}%', ro_was => 'instead of {was}', egp => 'EGP', ro_from => 'from {min} EGP',
   ro_h1 => '{name} offers', ro_lede => '{count} from {min} EGP, saving up to {max}% on the menu price.',
@@ -254,6 +264,15 @@ my %S = (
   dd_know => 'تعرف عرضاً أسبوعياً غير موجود هنا؟', dd_know_p => 'ابعته لنا على فيسبوك أو إنستجرام وسنضيفه بعد التأكد من الصفحة الرسمية للعلامة التجارية.',
   dd_empty => 'لا توجد عروض أيام حالياً، تابعنا قريباً.',
   ro_card_save => 'وفّر حتى', ro_more => 'عروض وأكواد مطاعم أخرى', b_all_cat => 'كل أكواد {cat}',
+  fo_title => 'أكواد خصم أول طلب: مطاعم وبقالة وتسوق أونلاين', fo_h1 => 'أكواد خصم أول طلب',
+  fo_desc => '{n} كود خصم لأول طلب من {list} وغيرها. انسخ الكود واستخدمه على أول طلب من حسابك الجديد في مصر أو الخليج.',
+  fo_lede => 'كل الأكواد التي تعمل على أول طلب في مكان واحد: {n} من {b}. هي للحسابات الجديدة في كل تطبيق أو موقع.',
+  fo_how => 'كيف تستخدم كود أول طلب', fo_s1 => 'أنشئ حساباً جديداً', fo_s1p => 'سجّل في التطبيق أو الموقع. هذه الأكواد عادةً للأرقام والبريد الذي لم يطلب من قبل.',
+  fo_s2 => 'أضف طلبك', fo_s2p => 'راجع الشروط تحت الكود: بعض الأكواد تحتاج حداً أدنى لقيمة الطلب.', fo_s3 => 'الصق الكود قبل الدفع', fo_s3p => 'انسخ الكود من هنا والصقه في خانة كود الخصم عند الدفع.',
+  fo_q1 => 'ما هو كود خصم أول طلب؟', fo_a1 => 'كود يمنحك خصماً على أول طلب من حسابك في تطبيق أو موقع، ويتوقف عادةً بعد هذا الطلب.',
+  fo_q2 => 'هل يمكنني استخدام أكثر من كود أول طلب؟', fo_a2 => 'نعم، كود لكل تطبيق: لكل تطبيق كود أول طلب خاص به. لكن عادةً لا يمكن استخدام كودين في نفس الطلب.',
+  fo_q3 => 'لماذا لا يعمل كود أول طلب معي؟', fo_a3 => 'غالباً لأن الحساب أو رقم الهاتف طلب من قبل، أو لأن قيمة الطلب أقل من الحد الأدنى. راجع الشروط تحت كل كود.',
+  fo_all => 'كل أكواد خصم أول طلب',
   c_rest_title => 'عروض منيو المطاعم (بدون كود)', c_rest_sub => 'عروض من المنيو الرسمي للمطاعم، مع سعرها في المنيو للمقارنة.',
   ro_all => 'كل عروض {name}', ro_save => 'وفّر <bdi>{p}%</bdi>', ro_was => 'بدل {was}', egp => 'جنيه', ro_from => 'تبدأ من {min} جنيه',
   ro_h1 => 'عروض {name}', ro_lede => '{count} تبدأ من {min} جنيه، ووفّر حتى {max}% من سعر المنيو.',
@@ -624,6 +643,7 @@ $a{body}
 <nav aria-label="@{[ T($l, 'foot_codes') ]}"><h2>@{[ T($l, 'foot_codes') ]}</h2><ul class="foot-links cols">$foot_codes</ul></nav>
 <nav aria-label="Foodidu"><h2>Foodidu</h2><ul class="foot-links">
 <li><a href="$codes">@{[ T($l, 'foot_all') ]}</a></li>
+@{[ @FO ? '<li><a href="' . path_for($l, '/first-order-promo-codes/') . '">' . T($l, 'fo_h1') . '</a></li>' : '' ]}
 @{[ @DDEALS ? '<li><a href="' . path_for($l, '/day-deals/') . '">' . T($l, 'dd_nav') . '</a></li>' : '' ]}
 @{[ join '', map { '<li><a href="' . rest_url($_, $l) . '">' . Te($l, 'ro_h1', name => $_->{name}{$l}) . '</a></li>' } @RESTS ]}
 <li><a href="@{[ path_for($l, '/partners/') ]}">@{[ T($l, 'nav_partner') ]}</a></li>
@@ -654,7 +674,7 @@ HTML
 sub offers_of {
   my $b = shift;
   # an extra code has its own lastVerified when it was checked on another day ("" = not checked yet); otherwise the brand's
-  return ($b, map { +{ %$b, code => $_->{code}, badge => $_->{badge}, offer => $_->{offer}, terms => $_->{terms}, exclusive => ($_->{exclusive} // 0), extra => 1,
+  return ($b, map { +{ %$b, code => $_->{code}, badge => $_->{badge}, offer => $_->{offer}, terms => $_->{terms}, exclusive => ($_->{exclusive} // 0), firstOrder => ($_->{firstOrder} // 0), extra => 1,
     lastVerified => (exists $_->{lastVerified} ? $_->{lastVerified} : $b->{lastVerified}) } } @{ $b->{moreCodes} // [] });
 }
 sub offers_text { my ($b, $l) = @_; join ' · ', map { $_->{offer}{$l} } offers_of($b) }
@@ -666,6 +686,7 @@ sub search_index {
 my %BYKEY = map { ($_->{key} => $_) } @BRANDS;
 sub count_cat { my $c = shift; my @o = map { offers_of($_) } grep { $_->{category} eq $c } @BRANDS; scalar @o }
 my @ALL_OFFERS = map { offers_of($_) } @BRANDS;
+@FO = grep { $_->{firstOrder} } @ALL_OFFERS;   # codes for a new account's first order: /first-order-promo-codes/
 my $NCODES = scalar @ALL_OFFERS;
 my @VERIFIED = sort grep { $_ } map { $_->{lastVerified} } @BRANDS;
 # Brands without lastVerified were never checked by us: they never count as checked anywhere on the site.
@@ -798,6 +819,7 @@ for my $l (@LANGS) {
       my $c = $_;
       qq{<a class="cat" href="$codes#$c"><span class="ic">} . icon($CATICON{$c}) . '</span><span><b>' . esc($CATN{$c}{$l}) . '</b><small>' . ncodes($l, count_cat($c)) . '</small></span>' . icon('arrow', 'go flip') . '</a>'
     } @CATS;
+    $cats .= qq{<a class="cat" href="} . path_for($l, '/first-order-promo-codes/') . qq{"><span class="ic">} . icon('gift') . '</span><span><b>' . T($l, 'fo_h1') . '</b><small>' . ncodes($l, scalar @FO) . '</small></span>' . icon('arrow', 'go flip') . '</a>' if @FO;
     my $featured = join '', map { ticket_li($_, $l) } grep { $_->{featured} } @BRANDS;
     my $logos = join '', (map { brand_card($_, $l) } grep { ($_->{priority} // '') ne 'low' } @BRANDS), (map { rest_card($_, $l) } @RESTS),
       (map { brand_card($_, $l) } grep { ($_->{priority} // '') eq 'low' } @BRANDS);
@@ -890,6 +912,7 @@ HTML
 @{[ crumbs_html($l, $crumbs) ]}
 <h1>@{[ T($l, 'c_h1') ]}</h1>
 <p class="lede">@{[ T($l, 'c_lede', n => nbrands($l, $n)) ]}</p>
+@{[ @FO ? '<p class="lede-link"><a href="' . path_for($l, '/first-order-promo-codes/') . '">' . icon('gift') . T($l, 'fo_all') . ' ' . icon('arrow', 'flip') . '</a></p>' : '' ]}
 @{[ search_form($l) ]}
 </div>
 </section>
@@ -909,6 +932,52 @@ HTML
       crumbs => $crumbs, pagetype => 'CollectionPage', og => "/img/og/codes-$l.png", fd => { brands => search_index($l) },
       ld => [ { '@type' => 'ItemList', name => T($l, 'c_h1'), numberOfItems => $n,
         itemListElement => [ map { { '@type' => 'ListItem', position => ++$i, name => $_->{name}{$l}, url => absu(brand_url($_, $l)) } } @BRANDS ] } ]);
+  }
+
+  # ---------- first-order codes: every code that works on a new account's first order ("firstOrder": true)
+  if (@FO) {
+    my $fo_url = path_for($l, '/first-order-promo-codes/');
+    my @fob = do { my %s; grep { !$s{ $_->{key} }++ } @FO };   # brands with a first-order code, in list order
+    my $list = join($l eq 'ar' ? '، ' : ', ', map { $_->{name}{$l} } @fob[0 .. ($#fob < 3 ? $#fob : 3)]);
+    my $groups = join '', map {
+      my $c = $_;
+      my @bs = grep { $_->{category} eq $c } @FO;
+      @bs ? qq{<section class="group" id="fo-$c" aria-labelledby="fo-g-$c"><div class="group-head"><span class="ic">} . icon($CATICON{$c}) . qq{</span><h2 id="fo-g-$c">} . T($l, "c_group_$c") . '</h2><span class="n">' . ncodes($l, scalar @bs) . '</span></div>'
+        . '<ul class="ticket-list">' . join('', map { ticket_li($_, $l) } @bs) . '</ul></section>' : '';
+    } @CATS;
+    my @qa = map { [T($l, "fo_q$_"), T($l, "fo_a$_")] } 1 .. 3;
+    my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'c_h1'), $codes], [T($l, 'fo_h1'), $fo_url]];
+    my $body = <<"HTML";
+<section class="page-hero">
+<div class="wrap">
+@{[ crumbs_html($l, $crumbs) ]}
+<h1>@{[ T($l, 'fo_h1') ]}</h1>
+<p class="lede">@{[ T($l, 'fo_lede', n => ncodes($l, scalar @FO), b => nbrands($l, scalar @fob)) ]}</p>
+</div>
+</section>
+<div class="scallop" aria-hidden="true"></div>
+<section class="wrap section-tight">
+$groups
+</section>
+<section class="wrap section-tight" aria-labelledby="fo-how-title">
+<div class="section-head"><h2 class="h2" id="fo-how-title">@{[ T($l, 'fo_how') ]}</h2></div>
+<ol class="steps">
+<li class="step"><span class="num" aria-hidden="true">@{[ $l eq 'ar' ? '١' : '1' ]}</span><h3>@{[ T($l, 'fo_s1') ]}</h3><p>@{[ T($l, 'fo_s1p') ]}</p></li>
+<li class="step"><span class="num" aria-hidden="true">@{[ $l eq 'ar' ? '٢' : '2' ]}</span><h3>@{[ T($l, 'fo_s2') ]}</h3><p>@{[ T($l, 'fo_s2p') ]}</p></li>
+<li class="step"><span class="num" aria-hidden="true">@{[ $l eq 'ar' ? '٣' : '3' ]}</span><h3>@{[ T($l, 'fo_s3') ]}</h3><p>@{[ T($l, 'fo_s3p') ]}</p></li>
+</ol>
+</section>
+<section class="wrap section-tight two-col" aria-labelledby="fofaq-title">
+<div><p class="eyebrow">@{[ T($l, 'faq_eyebrow') ]}</p><h2 class="h2" id="fofaq-title">@{[ T($l, 'faq_title') ]}</h2></div>
+@{[ faq_html(@qa) ]}
+</section>
+@{[ band($l) ]}
+HTML
+    my $i = 0;
+    layout(lang => $l, key => '/first-order-promo-codes/', title => T($l, 'fo_title') . ' | Foodidu', desc => T($l, 'fo_desc', n => scalar @FO, list => $list),
+      body => $body, nav => 'codes', crumbs => $crumbs, pagetype => 'CollectionPage', og => "/img/og/codes-$l.png",
+      ld => [ { '@type' => 'ItemList', name => T($l, 'fo_h1'), numberOfItems => scalar @fob,
+        itemListElement => [ map { { '@type' => 'ListItem', position => ++$i, name => $_->{name}{$l}, url => absu(brand_url($_, $l)) } } @fob ] }, faq_ld(@qa) ]);
   }
 
   # ---------- day deals page
@@ -1072,7 +1141,8 @@ HTML
     my @rest = grep { $_->{category} ne $b->{category} } @BRANDS;
     my @related = grep { defined } (@same, @rest)[0 .. 2];
     my $catlinks = join '', (map { '<li><a href="' . brand_url($_, $l) . '">' . esc($_->{name}{$l}) . '</a></li>' } grep { $_ ne $b } @cat),
-      ($b->{category} eq 'restaurants' ? map { '<li><a href="' . rest_url($_, $l) . '">' . Te($l, 'ro_h1', name => $_->{name}{$l}) . '</a></li>' } @RESTS : ());
+      ($b->{category} eq 'restaurants' ? map { '<li><a href="' . rest_url($_, $l) . '">' . Te($l, 'ro_h1', name => $_->{name}{$l}) . '</a></li>' } @RESTS : ()),
+      ((grep { $_->{firstOrder} } @offers) ? '<li><a href="' . path_for($l, '/first-order-promo-codes/') . '">' . T($l, 'fo_all') . '</a></li>' : ());
     my $related = join '', map { ticket_li($_, $l) } @related;
     my $sidecats = join '', map { qq{<li><a href="} . path_for($l, '/promo-codes/') . qq{#$_"><span class="logo-tile">} . icon($CATICON{$_}) . '</span><span><b>' . esc($CATN{$_}{$l}) . '</b><small>' . ncodes($l, count_cat($_)) . '</small></span></a></li>' } @CATS;
     my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'c_h1'), path_for($l, '/promo-codes/')], [$name, $url]];

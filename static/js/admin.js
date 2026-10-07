@@ -11,7 +11,7 @@ window.FoodiduAdmin = (() => {
   const ICONS = [["fork", "مطاعم"], ["pizza", "بيتزا"], ["basket", "بقالة"], ["bag", "تسوق"], ["gift", "هدية"], ["tag", "خصم"]];
   const RESERVED = ["ar", "en", "promo-codes", "partners", "day-deals", "privacy-policy", "terms-and-conditions", "dashboard", "img", "css", "js", "pages", "components", "404"];
   // key order in the JSON files, so a saved entry looks like the ones written by hand
-  const BRAND_KEYS = ["key", "slug", "name", "logo", "code", "noCode", "category", "region", "regionLabel", "exclusive", "featured", "priority", "url", "urlLabel", "lastVerified", "badge", "offer", "terms", "where", "steps", "moreCodes", "about", "seo"];
+  const BRAND_KEYS = ["key", "slug", "name", "logo", "code", "noCode", "category", "region", "regionLabel", "exclusive", "firstOrder", "featured", "priority", "url", "urlLabel", "lastVerified", "badge", "offer", "terms", "where", "steps", "moreCodes", "about", "seo"];
   const REST_KEYS = ["key", "slug", "name", "logo", "category", "region", "menu", "website", "phone", "cuisine", "lastChecked", "validUntil", "about", "seo", "offers"];
   const DEAL_KEYS = ["id", "brand", "name", "logo", "icon", "region", "url", "featured", "days", "title", "details", "source", "sourceLabel", "lastChecked"];
   let REPO = "", root = null, token = null;
@@ -354,13 +354,13 @@ window.FoodiduAdmin = (() => {
       noCode: check("خصم من غير كود", "الخصم بيتطبق لوحده من موقع أو تطبيق البراند. التذكرة هتفتح لينك البراند بدل ما تنسخ كود، فلازم تكتب اللينك."),
       category: select("النوع", Object.entries(S.data.brands.categories).map(([k, v]) => [k, v.ar])), region: regions(),
       regionLabel: bi("اسم المنطقة بطريقتك (اختياري)", { hint: "لو عايز يظهر مثلاً \"مصر والسعودية\" بدل اختيار المنطقة." }),
-      exclusive: check("كود حصري لـ Foodidu", "بيظهر عليه \"حصري\"."), featured: check("في \"أقوى الأكواد\"", "بيظهر في قسم أقوى الأكواد في الصفحة الرئيسية."),
+      exclusive: check("كود حصري لـ Foodidu", "بيظهر عليه \"حصري\"."), firstOrder: check("لأول طلب بس", "بيظهر كمان في صفحة أكواد خصم أول طلب."), featured: check("في \"أقوى الأكواد\"", "بيظهر في قسم أقوى الأكواد في الصفحة الرئيسية."),
       priority: select("مكانه في القوايم", [["top", "أولوية أولى (كود بيكسبني)"], ["", "عادي"], ["low", "في الآخر (كود مش من شركائنا)"]], { hint: "جوه كل مجموعة، رتّب بالأسهم في قايمة الأكواد." }),
       url: text("لينك موقع أو تطبيق البراند (اختياري)", { dir: "ltr", type: "url" }), urlLabel: bi("نص زرار اللينك (اختياري)", { hint: "لو فاضي: \"اذهب إلى\" + اسم البراند." }),
       lastVerified: date("آخر مرة جربنا فيها الكود بنفسنا", { today: true, hint: "لو فاضي، الكود بيظهر من غير \"اتحقق منه\"." }),
       badge: badge("الخصم على التذكرة"), offer: bi("العرض في سطر", { req: true, hint: "زي: خصم 30% على أول طلب بحد أقصى 150 جنيه" }),
       terms: bi("الشروط", { req: true, area: true }), where: bi("بيتستخدم فين", { req: true, hint: "زي: تطبيق رابيت" }),
-      moreCodes: list("أكواد تانية لنفس البراند (اختياري)", () => group({ code: text("الكود", { req: true, dir: "ltr", pattern: /^\S+$/, patternMsg: "من غير مسافات" }), badge: badge("الخصم على التذكرة"), offer: bi("العرض في سطر", { req: true }), terms: bi("الشروط", { req: true, area: true }), exclusive: check("حصري"), lastVerified: date("آخر مرة جربنا الكود ده بنفسنا", { today: true, hint: "لو فاضي، الكود ده بيظهر من غير \"اتحقق منه\"." }) }), { item: "كود", add: "كود تاني" }),
+      moreCodes: list("أكواد تانية لنفس البراند (اختياري)", () => group({ code: text("الكود", { req: true, dir: "ltr", pattern: /^\S+$/, patternMsg: "من غير مسافات" }), badge: badge("الخصم على التذكرة"), offer: bi("العرض في سطر", { req: true }), terms: bi("الشروط", { req: true, area: true }), exclusive: check("حصري"), firstOrder: check("لأول طلب بس"), lastVerified: date("آخر مرة جربنا الكود ده بنفسنا", { today: true, hint: "لو فاضي، الكود ده بيظهر من غير \"اتحقق منه\"." }) }), { item: "كود", add: "كود تاني" }),
       about: bi("عن البراند", { req: true, area: true, hint: "جملتين عن البراند والكود. بيظهر في صفحة البراند." }), seo: seo()
     };
     idFields(isNew, "-PromoCode", f);
@@ -494,13 +494,14 @@ window.FoodiduAdmin = (() => {
         const stale = gone.flatMap((c) => texts.filter(([, t]) => new RegExp("(^|[^A-Za-z0-9])" + c.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "($|[^A-Za-z0-9])", "i").test(t)).map(([n]) => `${n} لسه فيه الكود ${c} اللي اتشال. عدّله.`));
         if (stale.length) throw new Error(stale.join(" "));
       }
-      v.moreCodes = v.moreCodes.map((m) => { if (!m.exclusive) delete m.exclusive; if ((m.lastVerified || "") === (v.lastVerified || "")) delete m.lastVerified; return m; });
-      const noCode = v.noCode;
+      v.moreCodes = v.moreCodes.map((m) => { if (!m.exclusive) delete m.exclusive; if (!m.firstOrder) delete m.firstOrder; if ((m.lastVerified || "") === (v.lastVerified || "")) delete m.lastVerified; return m; });
+      const noCode = v.noCode, firstOrder = v.firstOrder;
       clean(v);
-      delete v.noCode;
+      delete v.noCode; delete v.firstOrder;
       const errs = uniqueErrors(v, b); if (errs.length) throw new Error(errs.join(" "));
       const next = Object.assign(isNew ? {} : clone(b), v);
       if (noCode) { next.noCode = true; next.code = ""; } else delete next.noCode;
+      if (firstOrder) next.firstOrder = true; else delete next.firstOrder;
       for (const k of ["moreCodes", "regionLabel", "urlLabel", "priority", "lastVerified"]) if (!(k in v)) delete next[k];
       next.url = v.url || "";
       next.logo = cur.logo || "";
