@@ -18,8 +18,8 @@
 </head>
 <body>
 <h1>Foodidu intro video (motion logo)</h1>
-<p>Open via <code>perl tools/serve.pl</code> at <code>/__tools/intro.html</code>. The logo is the real <code>static/img/foodidu-logo.svg</code>, drawn as is (no redraw, no morph).
-Everything is rendered frame by frame and encoded in the browser (WebCodecs: H.264 + AAC in MP4); "Render" saves the file to <code>banners/video/</code>.</p>
+<p>Open via <code>perl tools/serve.pl</code> at <code>/__tools/intro.html</code>. The logo is the real <code>static/img/foodidu-logo.svg</code>, drawn as is (no redraw, no morph); the food stickers are drawn here in code.
+Every frame is rendered and encoded in the browser (WebCodecs: H.264 + AAC in MP4); "Render" saves the file to <code>banners/video/</code>.</p>
 <div class="bar">
   <select id="fmt"></select>
   <select id="tag"><option value="en">Discover. Eat. Save.</option><option value="ar">اكتشف. اطلب. وفّر.</option><option value="">no tagline</option></select>
@@ -31,14 +31,16 @@ Everything is rendered frame by frame and encoded in the browser (WebCodecs: H.2
 <pre id="log"></pre>
 <script>
 "use strict";
-/* ---------- timing (seconds) ----------
-   0.00 fade in · 0.05–1.4 dots, sparkles and food icons drift in on a dark stage
-   1.55–2.45 everything spirals into points of the logo, which assembles where they land
-   2.45 impact: flash, a sun-yellow flood fills the frame, a burst of deal confetti
-   3.15–3.75 light sweep across the logo · 3.86 bounce + glow · 4.28 tagline · 5.05–6.5 still end frame */
+/* ---------- the film (seconds), bright from the first frame ----------
+   0.10–1.50 DISCOVER: food stickers pop in around the frame, one by one, each with a marimba note
+   1.60–2.40 EAT: they swirl into a plate in the middle
+   2.45      SAVE: the logo slaps on like a sticker, the frame floods sun-yellow, deal confetti flies out
+   3.15–3.75 light sweep · 3.86 bounce + glow · 3.95–4.60 food stickers frame the logo · 4.28 tagline
+   5.05–6.50 still end frame */
 const DUR = 6.5, SR = 48000;
-const T = { arrive0: 2.12, arrive1: 2.42, impact: 2.45, sweep0: 3.15, sweep1: 3.75, bounce: 3.86, tag: 4.28, still: 5.05 };
-const C = { sun: "#FFD15C", sun2: "#FFC533", sun3: "#FFE4A1", sun4: "#FFF1CC", cream: "#FFF9EB", ink: "#543A14", inkDeep: "#3A280D", leaf: "#7EB143", leafLight: "#A6D46A", leafDeep: "#4A7A1E", dark: "#130D06" };
+const T = { swirl0: 1.6, arrive0: 2.1, stamp: 2.45, sweep0: 3.15, sweep1: 3.75, bounce: 3.86, frame0: 3.95, tag: 4.28, still: 5.05 };
+const C = { sun: "#FFD15C", sun2: "#FFC533", sun3: "#FFE4A1", sun4: "#FFF1CC", cream: "#FFF9EB", ink: "#543A14", inkDeep: "#3A280D", leaf: "#7EB143", leafDeep: "#4A7A1E",
+  tomato: "#E5533D", crust: "#E39B45", bun: "#F2A541", meat: "#7A4221", pink: "#FF8FB6", sky: "#5BC0EB", white: "#FFFFFF", sleeve: "#C98A4B", chicken: "#D9822B", bone: "#FFF6E0" };
 const FORMATS = {
   "16x9-4k":   { w: 3840, h: 2160, fps: 60, br: 45e6, codec: "avc1.640034", label: "16:9 4K (YouTube, website, ads)" },
   "16x9-1080": { w: 1920, h: 1080, fps: 60, br: 16e6, codec: "avc1.64002a", label: "16:9 1080p" },
@@ -56,26 +58,64 @@ const eInCubic = (x) => x ** 3;
 const eInOutSine = (x) => -(Math.cos(Math.PI * x) - 1) / 2;
 const eOutExpo = (x) => (x >= 1 ? 1 : 1 - 2 ** (-10 * x));
 const eOutBack = (x, s = 1.70158) => 1 + (s + 1) * (x - 1) ** 3 + s * (x - 1) ** 2;
-const smooth = (x) => x * x * (3 - 2 * x);
 function rng(seed) { return () => { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
-const angDiff = (a, b) => { let d = b - a; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return d; };
 
-/* ---------- food + deal icons (24-unit, stroked like the site's icons) ---------- */
-const ICONS = {
-  fork: "M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10M17 21V3c-2.2 1.2-3.5 3.8-3.5 7v3H17",
-  pizza: "M12 3 4.5 19.5c4.8 2 10.2 2 15 0Z M6.8 14.5c3.4 1.3 7 1.3 10.4 0 M13.2 10.5a1.2 1.2 0 1 1-2.4 0a1.2 1.2 0 1 1 2.4 0Z",
-  burger: "M4.5 10.5a7.5 5.5 0 0 1 15 0Z M3.5 13.5h17 M5 16.5h14v.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 5 17v-.5Z",
-  coffee: "M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5V9Z M16 10h1.5a2.5 2.5 0 0 1 0 5H16 M8 3.5c0 1 1 1 1 2s-1 1-1 2 M12 3.5c0 1 1 1 1 2s-1 1-1 2",
-  basket: "M4 10h16l-1.6 8.2A2 2 0 0 1 16.4 20H7.6a2 2 0 0 1-2-1.8L4 10Z M8 10l3-6M16 10l-3-6M9.5 14v2.5M14.5 14v2.5",
-  bag: "M5 8h14l-1 12H6L5 8Z M9 8V6a3 3 0 0 1 6 0v2",
-  tag: "M3 12V4h8l10 10-8 8L3 12Z M9 7.5a1.5 1.5 0 1 1-3 0a1.5 1.5 0 1 1 3 0Z",
-  ticket: "M3 7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3a2 2 0 0 0 0 4v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-3a2 2 0 0 0 0-4V7Z M14 6.5v2M14 11v2M14 15.5v2",
-  percent: "M6 18 18 6 M9.5 7.5a2 2 0 1 1-4 0a2 2 0 1 1 4 0Z M18.5 16.5a2 2 0 1 1-4 0a2 2 0 1 1 4 0Z",
-  pin: "M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z M14.5 9a2.5 2.5 0 1 1-5 0a2.5 2.5 0 1 1 5 0Z",
-  gift: "M4 8h16a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z M12 8v13M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M12 8H8.5a2.5 2.5 0 1 1 0-5C11 3 12 8 12 8Zm0 0h3.5a2.5 2.5 0 1 0 0-5C13 3 12 8 12 8Z",
-  menubook: "M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5Z M4 19a2 2 0 0 1 2-2h13v4H6a2 2 0 0 1-2-2ZM9 7h6M9 11h6",
+/* ---------- food stickers: flat drawings in a 100-unit box, brown outline like the logo, white die-cut border ---------- */
+const circ = (x, y, r) => `M${x + r},${y}a${r},${r} 0 1 0 ${-2 * r},0a${r},${r} 0 1 0 ${2 * r},0Z`;
+const rrect = (x, y, w, h, r) => `M${x + r},${y}h${w - 2 * r}a${r},${r} 0 0 1 ${r},${r}v${h - 2 * r}a${r},${r} 0 0 1 ${-r},${r}h${-(w - 2 * r)}a${r},${r} 0 0 1 ${-r},${-r}v${-(h - 2 * r)}a${r},${r} 0 0 1 ${r},${-r}Z`;
+const wavyCircle = (r, amp, n) => { let d = ""; for (let i = 0; i <= 96; i++) { const a = (i / 96) * Math.PI * 2, rr = r + amp * Math.sin(n * a); d += (i ? "L" : "M") + (Math.cos(a) * rr).toFixed(2) + "," + (Math.sin(a) * rr).toFixed(2); } return d + "Z"; };
+// layer: [path, fill] (outlined), or { d, fill, line } for details without the outline
+const FOOD = {
+  pizza: [["M-36,-26L36,-26L0,46Z", C.sun2], ["M-42,-34Q0,-52 42,-34L37,-22Q0,-38 -37,-22Z", C.crust], [circ(-12, -10, 8), C.tomato], [circ(12, -5, 7), C.tomato], [circ(-1, 15, 6.5), C.tomato],
+    { d: "M15,12q5,-6 9,0q-5,5 -9,0Z M-20,4q4,-6 8,0q-4,5 -8,0Z", fill: C.leaf }],
+  burger: [["M-38,-6C-38,-40 38,-40 38,-6Z", C.bun], ["M-42,-6Q-35,6 -28,-2Q-21,6 -14,-2Q-7,6 0,-2Q7,6 14,-2Q21,6 28,-2Q35,6 42,-6L42,2L-42,2Z", C.leaf],
+    ["M-40,0L40,0L32,12L20,5L8,12L-4,5L-16,12L-28,5L-40,12Z", C.sun], [rrect(-40, 6, 80, 15, 7.5), C.meat], ["M-37,21L37,21Q37,36 22,36L-22,36Q-37,36 -37,21Z", C.bun],
+    { d: "M-18,-22l5,-2l1,3l-5,2Z M-2,-27l5,-1l0,3l-5,1Z M13,-21l5,1l-1,3l-5,-1Z M2,-14l5,0l0,3l-5,0Z M-26,-12l4,-2l1,3l-4,2Z", fill: C.cream }],
+  fries: [["M-22,-2L-24,-42L-15,-43L-13,-2Z", C.sun], ["M-12,-2L-12,-49L-3,-49L-3,-2Z", C.sun], ["M-1,-2L2,-45L11,-44L8,-2Z", C.sun], ["M8,-2L14,-40L22,-38L17,-2Z", C.sun], ["M-6,-2L-8,-38L1,-38L1,-2Z", C.sun2],
+    ["M-30,-6L30,-6L23,42L-23,42Z", C.tomato], { d: "M-28,8Q-14,2 0,8Q14,14 28,8", line: [C.white, 4.5] }],
+  donut: [[`${circ(0, 0, 40)}${circ(0, 0, 12)}`, C.crust], [`${wavyCircle(32, 3, 9)}${circ(0, 0, 14)}`, C.pink],
+    { d: "M-20,-14l7,-3l1,3l-7,3Z M16,-20l3,6l-3,1l-3,-6Z M20,10l6,4l-2,3l-6,-4Z M-6,22l7,1l0,3l-7,-1Z M-24,8l2,7l-3,1l-2,-7Z M2,-26l7,-1l0,3l-7,1Z", fill: C.white },
+    { d: "M-10,-24l6,2l-1,3l-6,-2Z M24,-6l1,7l-3,0l-1,-7Z M-22,-2l-1,7l-3,0l1,-7Z M10,20l6,-3l1,3l-6,3Z", fill: C.leaf }, { d: "M8,-12l5,4l-2,2l-5,-4Z M-14,14l6,-2l1,3l-6,2Z", fill: C.sky }],
+  coffee: [["M-26,-28L26,-28L20,44L-20,44Z", C.white], ["M-23.6,0L23.6,0L21.8,22L-21.8,22Z", C.sleeve], [rrect(-31, -40, 62, 13, 6), "#7A5428"], [rrect(-17, -48, 34, 10, 4), "#7A5428"],
+    { d: circ(0, 11, 5), fill: C.leaf }],
+  soda: [["M3,-30L11,-30L20,-60L12,-60Z", C.leaf], ["M-26,-26L26,-26L20,44L-20,44Z", C.tomato], ["M-23.8,4L23.8,4L23,14L-23,14Z", C.white], [rrect(-31, -36, 62, 12, 6), C.white]],
+  taco: [[circ(-30, -8, 10), C.leaf], [circ(-14, -20, 10), C.tomato], [circ(2, -25, 10), C.leaf], [circ(18, -20, 10), C.sun], [circ(32, -8, 9), C.tomato], [circ(-22, -16, 7), C.meat], [circ(10, -24, 7), C.meat],
+    ["M-46,20C-46,-30 46,-30 46,20Z", C.sun2], { d: "M-30,8 q4,-4 8,0 M-6,0 q4,-4 8,0 M18,8 q4,-4 8,0", line: [C.crust, 3] }],
+  icecream: [["M-22,0L22,0L0,48Z", C.crust], ["M-27,0C-31,-40 31,-40 27,0Q13.5,8 0,0Q-13.5,8 -27,0Z", C.pink], [circ(4, -37, 7), C.tomato],
+    { d: "M-14,9L8,31 M-4,2L14,20 M14,9L-8,31 M4,2L-14,20", line: [C.ink, 2.2] }, { d: "M4,-44q2,-8 9,-10", line: [C.ink, 2.6] }],
+  chicken: [[`M14,8L30,24L22,32L6,16Z`, C.bone], [circ(32, 20, 7), C.bone], [circ(26, 34, 7), C.bone], ["M-38,-8C-42,-34 -10,-46 8,-30C22,-18 18,4 4,12C-12,22 -34,14 -38,-8Z", C.chicken],
+    { d: "M-24,-18q6,-6 14,-4 M-14,-4q6,-4 12,-2", line: [C.cream, 3] }],
+  bowl: [["M-14,-22L30,-50L33,-46L-10,-18Z", C.ink], ["M-4,-20L38,-40L40,-36L0,-16Z", C.ink], [circ(-24, -8, 11), C.leaf], [circ(-6, -14, 11), C.leaf], [circ(16, -10, 10), C.white], [circ(16, -10, 4.5), C.sun2], [circ(30, -4, 8), C.tomato],
+    ["M-44,-4L44,-4Q40,40 0,40Q-40,40 -44,-4Z", C.white], { d: "M-40,8L40,8L38.6,14L-38.6,14Z", fill: C.leaf }],
+  coupon: [["M-46,-28L46,-28L46,-8A8,8 0 0 0 46,8L46,28L-46,28L-46,8A8,8 0 0 0 -46,-8Z", C.white], { d: "M16,-22v6M16,-9v6M16,4v6M16,17v6", line: [C.ink, 2.6] }, { text: "%", x: -14, y: 13, size: 40, fill: C.tomato }],
+  tag: [["M-42,-24L22,-24L44,0L22,24L-42,24Z", C.leaf], [circ(26, 0, 5), C.white], { text: "%", x: -12, y: 12, size: 34, fill: C.white }],
 };
-const PATHS = Object.fromEntries(Object.entries(ICONS).map(([k, d]) => [k, new Path2D(d)]));
+const FOOD_KEYS = ["burger", "pizza", "coffee", "fries", "donut", "taco", "soda", "icecream", "coupon", "chicken", "bowl", "tag"];
+
+const SPRITES = {};
+function sprite(key, px) {   // the sticker, drawn once per pixel size: white border, then the drawing; the shadow is added when it is placed
+  const id = key + ":" + Math.round(px);
+  if (SPRITES[id]) return SPRITES[id];
+  const pad = 1.3, S = Math.ceil(px * pad), c = new OffscreenCanvas(S, S), x = c.getContext("2d"), k = px / 100;
+  x.translate(S / 2, S / 2); x.scale(k, k); x.lineJoin = "round"; x.lineCap = "round";
+  const layers = FOOD[key].map((L) => (Array.isArray(L) ? { p: new Path2D(L[0]), fill: L[1], outline: true } : { ...L, p: L.d ? new Path2D(L.d) : null }));
+  x.fillStyle = C.white; x.strokeStyle = C.white; x.lineWidth = 16;
+  for (const L of layers) if (L.outline) { x.stroke(L.p); x.fill(L.p, "evenodd"); }
+  for (const L of layers) {
+    if (L.text) { x.font = `700 ${L.size}px "Readex Pro"`; x.fillStyle = L.fill; x.fillText(L.text, L.x - L.size * 0.3, L.y); continue; }
+    if (L.line) { x.strokeStyle = L.line[0]; x.lineWidth = L.line[1]; x.stroke(L.p); continue; }
+    x.fillStyle = L.fill; x.fill(L.p, "evenodd");
+    if (L.outline) { x.strokeStyle = C.ink; x.lineWidth = 3.4; x.stroke(L.p); }
+  }
+  return (SPRITES[id] = c);
+}
+function drawSticker(ctx, key, x, y, size, rot, scale, u, alpha = 1) {
+  if (scale <= 0.01 || alpha <= 0) return;
+  const sp = sprite(key, size), d = sp.width * scale;
+  ctx.save(); ctx.globalAlpha = alpha; ctx.translate(x, y); ctx.rotate(rot);
+  ctx.shadowColor = "rgba(84,58,20,0.28)"; ctx.shadowBlur = 16 * u * scale; ctx.shadowOffsetY = 8 * u * scale;
+  ctx.drawImage(sp, -d / 2, -d / 2, d, d); ctx.restore();
+}
 
 /* ---------- assets ---------- */
 const A = {};
@@ -89,102 +129,50 @@ async function loadAssets() {
   }
 }
 
-/* ---------- layout: everything scales with the frame, so every format is the same film ---------- */
+/* ---------- layout: everything scales with the frame ---------- */
 function layout(W, H) {
   const portrait = H > W, square = H === W;
-  const lw = Math.round(portrait ? W * 0.8 : square ? W * 0.72 : W * 0.44);
+  const lw = Math.round(portrait ? W * 0.8 : square ? W * 0.66 : W * 0.42);
   const lh = Math.round(lw * 304 / 767);
   const cx = W / 2, cy = Math.round(H / 2 - lh * 0.2);
-  return { W, H, lw, lh, cx, cy, u: Math.min(W, H) / 1080, lx: Math.round(cx - lw / 2), ly: Math.round(cy - lh / 2), diag: Math.hypot(W, H) };
+  return { W, H, lw, lh, cx, cy, u: Math.min(W, H) / 1080, lx: Math.round(cx - lw / 2), ly: Math.round(cy - lh / 2), diag: Math.hypot(W, H), portrait, square };
 }
 
-/* ---------- the scene: particles with fixed seeds, logo points to land on, mask cells ---------- */
 function makeScene(L) {
-  const r = rng(20261007), { W, H, cx, cy, lw, lh, u } = L;
-  // where the logo has ink: sample its alpha
-  const oc = new OffscreenCanvas(lw, lh), ox = oc.getContext("2d");
-  ox.drawImage(A.logo, 0, 0, lw, lh);
-  const px = ox.getImageData(0, 0, lw, lh).data, alpha = (x, y) => px[(Math.min(lh - 1, Math.max(0, y | 0)) * lw + Math.min(lw - 1, Math.max(0, x | 0))) * 4 + 3];
-  const targets = [];
-  while (targets.length < 170) { const x = r() * lw, y = r() * lh; if (alpha(x, y) > 200) targets.push({ x: L.lx + x, y: L.ly + y }); }
-  const rMax = Math.hypot(lw / 2, lh / 2);
-  // mask cells over every part of the logo, revealed from the centre out
-  const cell = Math.max(5, Math.round(lh / 17)), cells = [];
-  for (let gy = 0; gy < lh; gy += cell) for (let gx = 0; gx < lw; gx += cell) {
-    let any = false;
-    for (let sy = gy; sy < Math.min(lh, gy + cell) && !any; sy += 3) for (let sx = gx; sx < Math.min(lw, gx + cell); sx += 3) if (alpha(sx, sy) > 8) { any = true; break; }
-    if (!any) continue;
-    const x = L.lx + gx + cell / 2, y = L.ly + gy + cell / 2, d = Math.hypot(x - cx, y - cy) / rMax;
-    cells.push({ x, y, t0: T.arrive0 + 0.02 + 0.3 * d + r() * 0.025, rad: cell * 0.76 });
+  const r = rng(77), { W, H, cx, cy, u, portrait, square } = L;
+  // DISCOVER: stickers around the frame (an ellipse, kept clear of the middle)
+  const n = FOOD_KEYS.length, intro = [];
+  const rx = portrait ? W * 0.33 : square ? W * 0.36 : W * 0.37, ry = portrait ? H * 0.34 : square ? H * 0.36 : H * 0.33;
+  const arc = [0]; for (let i = 1; i <= 720; i++) { const a0 = ((i - 1) / 720) * Math.PI * 2, a1 = (i / 720) * Math.PI * 2; arc.push(arc[i - 1] + Math.hypot(rx * (Math.cos(a1) - Math.cos(a0)), ry * (Math.sin(a1) - Math.sin(a0)))); }
+  const atLen = (f) => { const want = f * arc[720]; let i = 1; while (arc[i] < want) i++; return (i / 720) * Math.PI * 2; };
+  for (let k = 0; k < n; k++) {
+    const a = atLen((k + 0.5 + lerp(-0.1, 0.1, r())) / n);   // the table starts at angle 0, so no offset here
+    const order = [0, 6, 3, 9, 1, 7, 4, 10, 2, 8, 5, 11][k];   // pop around the ring, not in a line
+    intro.push({ key: FOOD_KEYS[k], x: cx + Math.cos(a) * rx * lerp(0.97, 1.03, r()), y: H / 2 + Math.sin(a) * ry * lerp(0.97, 1.03, r()),
+      size: lerp(170, 215, r()) * u * (portrait ? 0.95 : 1), rot: lerp(-0.3, 0.3, r()), pop: 0.1 + order * 0.11, ph: r() * 6.28,
+      arrive: T.arrive0 + order * 0.027, dir: k % 2 ? 1 : -1 });
   }
-  // particles: glowing dots, sparkles and food / deal icons
-  const minWH = Math.min(W, H), parts = [];
-  const iconKeys = Object.keys(ICONS), darkCols = [C.sun, C.sun, C.leafLight, C.cream, C.sun2];
-  const tgt = (i) => targets[i % targets.length];
-  const plan = (p) => {
-    const T0 = tgt(p.i);
-    p.tx = T0.x; p.ty = T0.y;
-    p.rT = Math.hypot(p.tx - cx, p.ty - cy); p.aT = Math.atan2(p.ty - cy, p.tx - cx);
-    p.tArr = T.arrive0 + (T.arrive1 - T.arrive0 - 0.04) * clamp(p.rT / rMax) + r() * 0.04;
-    p.t1 = lerp(1.5, 1.8, r());
-    p.swirl = (r() < 0.5 ? -1 : 1) * lerp(0.35, 0.9, r());
-    return p;
-  };
-  let i = 0;
-  for (let k = 0; k < 95; k++) {   // dots, already on stage
-    const a = r() * Math.PI * 2, d = lerp(0.32, 0.95, Math.sqrt(r())) * Math.max(W, H) * 0.55;
-    const sx = cx + Math.cos(a) * d * (W > H ? 1.25 : 0.8), sy = cy + Math.sin(a) * d * (W > H ? 0.8 : 1.25);
-    parts.push(plan({ i: i++, kind: "dot", sx, sy, mx: lerp(sx, cx, 0.22), my: lerp(sy, cy, 0.22), ta: lerp(0.05, 1.0, r()), durA: 1.0,
-      size: lerp(2.2, 6.5, r() ** 1.6) * u, col: darkCols[k % darkCols.length], tw: r() * 6.28, orbit: lerp(-0.12, 0.12, r()) }));
+  // the end frame: a few stickers around the logo and tagline
+  const spots = portrait ? [[0.2, 0.13, "pizza", -0.2], [0.8, 0.15, "coffee", 0.18], [0.5, 0.23, "coupon", -0.08], [0.17, 0.82, "burger", 0.15], [0.83, 0.8, "donut", -0.12], [0.5, 0.9, "fries", 0.06]]
+    : square ? [[0.15, 0.14, "pizza", -0.2], [0.85, 0.14, "coffee", 0.18], [0.13, 0.86, "burger", 0.15], [0.87, 0.86, "donut", -0.12], [0.5, 0.92, "coupon", 0.05]]
+    : [[0.11, 0.24, "pizza", -0.2], [0.08, 0.68, "burger", 0.15], [0.25, 0.88, "coupon", -0.1], [0.89, 0.24, "coffee", 0.18], [0.92, 0.68, "donut", -0.12], [0.75, 0.88, "fries", 0.08]];
+  const outro = spots.map(([fx, fy, key, rot], k) => ({ key, x: W * fx, y: H * fy, rot, size: (portrait ? 175 : square ? 165 : 180) * u, pop: T.frame0 + k * 0.1 }));
+  // SAVE: confetti from the logo
+  const burst = [], cols = [C.tomato, C.leaf, C.white, C.ink, C.sun2, C.pink, C.sky];
+  for (let k = 0; k < 44; k++) {
+    const a = (k / 44) * Math.PI * 2 + lerp(-0.1, 0.1, r());
+    burst.push({ a, dist: lerp(0.18, 0.45, r()) * Math.min(W, H) * (W > H ? 1.3 : 1), x0: cx + Math.cos(a) * L.lw * 0.46, y0: cy + Math.sin(a) * L.lh * 0.52,
+      kind: ["dot", "rect", "star", "rect", "dot"][k % 5], size: lerp(6, 13, r()) * u, col: cols[k % cols.length], d0: r() * 0.08, spin: lerp(-6, 6, r()) });
   }
-  for (let k = 0; k < 26; k++) {   // sparkles
-    const a = r() * Math.PI * 2, d = lerp(0.25, 0.8, r()) * minWH * 0.75;
-    const sx = cx + Math.cos(a) * d * (W > H ? 1.5 : 1), sy = cy + Math.sin(a) * d * (W > H ? 1 : 1.5);
-    parts.push(plan({ i: i++, kind: "spark", sx, sy, mx: lerp(sx, cx, 0.15), my: lerp(sy, cy, 0.15), ta: lerp(0.25, 1.4, r()), durA: 0.9,
-      size: lerp(7, 14, r()) * u, col: k % 3 ? C.cream : C.sun, tw: r() * 6.28, orbit: lerp(-0.1, 0.1, r()) }));
-  }
-  for (let k = 0; k < 28; k++) {   // food and deal icons fly in from outside the frame
-    const a = (k / 28) * Math.PI * 2 + r() * 0.2, far = L.diag * 0.62;
-    const ring = lerp(0.3, 0.46, r()) * minWH, ma = a + (r() < 0.5 ? -1 : 1) * lerp(0.25, 0.55, r());
-    const sc = W > H ? [1.45, 1] : H > W ? [1, 1.5] : [1.1, 1.1];
-    parts.push(plan({ i: i++, kind: "icon", icon: iconKeys[k % iconKeys.length], sx: cx + Math.cos(a) * far, sy: cy + Math.sin(a) * far,
-      mx: cx + Math.cos(ma) * ring * sc[0], my: cy + Math.sin(ma) * ring * sc[1], ta: lerp(0.45, 1.35, r()), durA: 0.8,
-      size: lerp(36, 58, r()) * u, col: [C.sun, C.leafLight, C.cream, C.sun2][k % 4], rot0: lerp(-1.2, 1.2, r()), spin: lerp(-0.8, 0.8, r()), orbit: lerp(-0.16, 0.16, r()) }));
-  }
-  // impact burst: deal confetti thrown out from the logo
-  const burst = [], bcols = [C.ink, C.leafDeep, "#FFFFFF", C.ink, C.sun2];
-  for (let k = 0; k < 34; k++) {
-    const T0 = targets[(k * 5) % targets.length], a = Math.atan2(T0.y - cy, T0.x - cx) + lerp(-0.35, 0.35, r());
-    burst.push({ x: T0.x, y: T0.y, a, dist: lerp(0.16, 0.36, r()) * minWH * (W > H ? 1.25 : 1), kind: ["dot", "spark", "dot", "icon"][k % 4],
-      icon: ["percent", "tag", "ticket"][k % 3], size: (k % 4 === 3 ? lerp(26, 36, r()) : lerp(5, 11, r())) * u, col: bcols[k % bcols.length], d0: r() * 0.12, rot: lerp(-0.6, 0.6, r()) });
-  }
-  // the food pattern, drawn once per size (re-rasterising the SVG every frame is slow at 4K)
   const pw = Math.round(375 * 1.2 * u), ph = Math.round(812 * 1.2 * u), pat = new OffscreenCanvas(pw, ph);
   pat.getContext("2d").drawImage(A.pattern, 0, 0, pw, ph);
-  return { parts, cells, burst, rMax, pat };
-}
-
-/* particle position at time t (screen space, before the camera) */
-function partPos(p, t, L) {
-  const { cx, cy } = L, tAe = p.ta + p.durA;
-  const floatAt = (tt) => { const rM = Math.hypot(p.mx - cx, p.my - cy), aM = Math.atan2(p.my - cy, p.mx - cx) + p.orbit * Math.max(0, tt - tAe); return [cx + Math.cos(aM) * rM, cy + Math.sin(aM) * rM, rM, aM]; };
-  if (t < tAe) { const e = p.kind === "icon" ? eOutCubic(seg(t, p.ta, tAe)) : eInOutSine(seg(t, p.ta, tAe)); const [fx, fy] = floatAt(tAe); return { x: lerp(p.sx, fx, e), y: lerp(p.sy, fy, e), s: 0 }; }
-  if (t < p.t1) { const [x, y] = floatAt(t); return { x, y, s: 0 }; }
-  const [, , r1, a1] = floatAt(p.t1), s = eInCubic(seg(t, p.t1, p.tArr));
-  const rr = lerp(r1, p.rT, s), aa = a1 + (angDiff(a1, p.aT) + p.swirl) * s - p.swirl * s * s * s;   // lands exactly on its point
-  return { x: cx + Math.cos(aa) * rr, y: cy + Math.sin(aa) * rr, s };
+  return { intro, outro, burst, pat };
 }
 
 function star(ctx, r) {
   ctx.beginPath(); ctx.moveTo(0, -r);
   ctx.quadraticCurveTo(r * 0.12, -r * 0.12, r, 0); ctx.quadraticCurveTo(r * 0.12, r * 0.12, 0, r);
   ctx.quadraticCurveTo(-r * 0.12, r * 0.12, -r, 0); ctx.quadraticCurveTo(-r * 0.12, -r * 0.12, 0, -r); ctx.fill();
-}
-function drawIcon(ctx, key, x, y, size, rot, col, glow) {
-  ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(size / 24, size / 24); ctx.translate(-12, -12);
-  ctx.lineWidth = 1.9; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.strokeStyle = col;
-  if (glow) { ctx.shadowColor = col; ctx.shadowBlur = glow; }
-  ctx.stroke(PATHS[key]); ctx.restore();
 }
 
 /* ---------- one frame ---------- */
@@ -193,105 +181,86 @@ function drawFrame(ctx, L, S, t, tagLang) {
   const { W, H, cx, cy, lw, lh, lx, ly, u } = L;
   ctx.save();
   ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.fillStyle = C.dark; ctx.fillRect(0, 0, W, H);
-  // camera: a slow push in that settles to a perfectly still 1.0 before the end frame
-  const cam = lerp(0.965, 1, eInOutSine(seg(t, 0, 2.95)));
-  ctx.translate(cx, cy); ctx.scale(cam, cam); ctx.translate(-cx, -cy);
+  // a little shake when the logo slaps on
+  const sh = t > T.stamp && t < T.stamp + 0.3 ? 9 * u * (1 - seg(t, T.stamp, T.stamp + 0.3)) ** 2 : 0;
+  if (sh) ctx.translate(Math.sin(t * 97) * sh, Math.cos(t * 83) * sh);
+  // bright cream stage with the site's food pattern
+  let g = ctx.createRadialGradient(cx, H / 2, 0, cx, H / 2, L.diag * 0.6);
+  g.addColorStop(0, "#FFFDF6"); g.addColorStop(0.6, C.cream); g.addColorStop(1, C.sun4);
+  ctx.fillStyle = g; ctx.fillRect(-50, -50, W + 100, H + 100);
+  const pw = S.pat.width, ph = S.pat.height;
+  ctx.globalAlpha = 0.22;
+  for (let y = -ph * 0.3; y < H; y += ph) for (let x = -pw * 0.2; x < W; x += pw) ctx.drawImage(S.pat, x, y);
+  ctx.globalAlpha = 1;
 
-  // dark stage: warm ambient light, builds up as everything gathers
-  const amb = seg(t, 0, 0.9) * 0.55 + seg(t, 1.3, T.impact) * 0.45;
-  let g = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * 0.62);
-  g.addColorStop(0, `rgba(255,190,70,${0.16 * amb})`); g.addColorStop(0.45, `rgba(120,80,20,${0.10 * amb})`); g.addColorStop(1, "rgba(0,0,0,0)");
-  ctx.fillStyle = g; ctx.fillRect(-W, -H, W * 3, H * 3);
-  g = ctx.createRadialGradient(W * 0.15, H * 0.1, 0, W * 0.15, H * 0.1, Math.max(W, H) * 0.5);
-  g.addColorStop(0, `rgba(126,177,67,${0.07 * amb})`); g.addColorStop(1, "rgba(0,0,0,0)");
-  ctx.fillStyle = g; ctx.fillRect(-W, -H, W * 3, H * 3);
-
-  // sun-yellow flood from the centre at the impact
-  const fl = eOutExpo(seg(t, T.impact, T.impact + 0.85)), fr = fl * L.diag * 0.62;
+  // SAVE: sun-yellow flood from the plate when the logo lands
+  const fl = eOutExpo(seg(t, T.stamp, T.stamp + 0.8)), fr = fl * L.diag * 0.62;
   if (fl > 0) {
     ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, fr, 0, Math.PI * 2); ctx.clip();
     g = ctx.createRadialGradient(cx, cy, 0, cx, cy, L.diag * 0.55);
     g.addColorStop(0, C.sun3); g.addColorStop(0.42, C.sun); g.addColorStop(1, C.sun2);
-    ctx.fillStyle = g; ctx.fillRect(-W, -H, W * 3, H * 3);
-    const pw = S.pat.width, ph = S.pat.height;   // the site's food pattern, very light
-    ctx.globalAlpha = 0.34 * seg(t, T.impact + 0.1, T.impact + 0.7);
+    ctx.fillStyle = g; ctx.fillRect(-50, -50, W + 100, H + 100);
+    ctx.globalAlpha = 0.34;
     for (let y = -ph * 0.3; y < H; y += ph) for (let x = -pw * 0.2; x < W; x += pw) ctx.drawImage(S.pat, x, y);
-    ctx.globalAlpha = 1;
-    g = ctx.createRadialGradient(cx, cy, Math.min(W, H) * 0.35, cx, cy, L.diag * 0.62);
-    g.addColorStop(0, "rgba(200,130,0,0)"); g.addColorStop(1, "rgba(200,130,0,0.18)");
-    ctx.fillStyle = g; ctx.fillRect(-W, -H, W * 3, H * 3);
-    ctx.restore();
-    if (fl < 1) { ctx.save(); ctx.globalCompositeOperation = "lighter"; ctx.strokeStyle = `rgba(255,214,120,${0.8 * (1 - fl)})`; ctx.shadowColor = "rgba(255,200,90,0.9)"; ctx.shadowBlur = 40 * u; ctx.lineWidth = 6 * u * (1 - fl) + 1.5 * u; ctx.beginPath(); ctx.arc(cx, cy, fr, 0, Math.PI * 2); ctx.stroke(); ctx.restore(); }
+    ctx.globalAlpha = 1; ctx.restore();
+    if (fl < 1) { ctx.strokeStyle = `rgba(255,255,255,${0.9 * (1 - fl)})`; ctx.lineWidth = 14 * u * (1 - fl) + 2 * u; ctx.beginPath(); ctx.arc(cx, cy, fr, 0, Math.PI * 2); ctx.stroke(); }
   }
 
-  // particles (dark stage)
-  if (t < T.arrive1 + 0.1) {
-    ctx.save(); ctx.globalCompositeOperation = "lighter";
-    for (const p of S.parts) {
-      if (t < p.ta || t > p.tArr + 0.06) continue;
-      const fade = seg(t, p.ta, p.ta + 0.35) * (1 - seg(t, p.tArr - 0.02, p.tArr + 0.06));
-      const pos = partPos(p, t, L);
-      const shrink = 1 - 0.55 * pos.s;
-      const twinkle = p.kind === "icon" ? 1 : 0.65 + 0.35 * Math.sin(t * 7 + p.tw);
-      // speed trail while they rush in
-      const ghosts = pos.s > 0.15 ? 3 : 0;
-      for (let gI = ghosts; gI >= 0; gI--) {
-        const q = gI ? partPos(p, t - gI * 0.014, L) : pos, a = fade * twinkle * (gI ? 0.22 / gI : 1);
-        if (a <= 0.01) continue;
-        ctx.globalAlpha = a;
-        if (p.kind === "dot") {
-          const rad = p.size * shrink;
-          g = ctx.createRadialGradient(q.x, q.y, 0, q.x, q.y, rad * 3);
-          g.addColorStop(0, p.col); g.addColorStop(0.33, p.col); g.addColorStop(1, "rgba(0,0,0,0)");
-          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, rad * 3, 0, Math.PI * 2); ctx.fill();
-        } else if (p.kind === "spark") {
-          ctx.save(); ctx.translate(q.x, q.y); ctx.rotate(t * 0.8 + p.tw); ctx.fillStyle = p.col; ctx.shadowColor = p.col; ctx.shadowBlur = 14 * u;
-          star(ctx, p.size * shrink * (0.75 + 0.25 * Math.sin(t * 9 + p.tw))); ctx.restore();
-        } else {
-          drawIcon(ctx, p.icon, q.x, q.y, p.size * shrink, p.rot0 + p.spin * t + pos.s * 1.6, p.col, gI ? 0 : 12 * u);
-        }
-      }
+  // EAT: a plate gathers the food, then the logo lands on it
+  const plateIn = eOutBack(seg(t, T.swirl0 - 0.1, T.swirl0 + 0.35)), plateOut = seg(t, T.stamp, T.stamp + 0.12);
+  if (plateIn > 0 && plateOut < 1) {
+    const pr = lh * 0.62 * plateIn * (1 + 0.08 * Math.sin(Math.PI * seg(t, T.arrive0, T.stamp))) * (1 - plateOut);
+    ctx.save(); ctx.shadowColor = "rgba(84,58,20,0.22)"; ctx.shadowBlur = 30 * u; ctx.shadowOffsetY = 12 * u;
+    ctx.fillStyle = C.white; ctx.beginPath(); ctx.arc(cx, cy, pr, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+    ctx.strokeStyle = C.sun4; ctx.lineWidth = pr * 0.1; ctx.beginPath(); ctx.arc(cx, cy, pr * 0.78, 0, Math.PI * 2); ctx.stroke();
+  }
+
+  // DISCOVER + EAT: the stickers pop in, float, then swirl onto the plate
+  if (t < T.stamp + 0.05) {
+    for (const s of S.intro) {
+      if (t < s.pop) continue;
+      const popK = seg(t, s.pop, s.pop + 0.42), sc = eOutBack(popK, 2.6);
+      const bob = Math.sin(t * 2.3 + s.ph) * 7 * u, wob = Math.sin(t * 1.9 + s.ph) * 0.06;
+      const sw = eInCubic(seg(t, T.swirl0 + (s.arrive - T.arrive0) * 0.5, s.arrive + 0.25));
+      if (sw >= 1) continue;
+      const dx = s.x - cx, dy = s.y + bob - cy, r0 = Math.hypot(dx, dy), a0 = Math.atan2(dy, dx);
+      const rr = r0 * (1 - sw), aa = a0 + s.dir * 1.9 * sw;
+      drawSticker(ctx, s.key, cx + Math.cos(aa) * rr, cy + Math.sin(aa) * rr, s.size, s.rot + wob + s.dir * 4 * sw, sc * (1 - 0.8 * sw), u);
     }
-    ctx.restore(); ctx.globalAlpha = 1;
   }
 
-  // energy core while they gather, then the impact flash
-  const core = seg(t, 1.4, T.impact) ** 2 * (1 - seg(t, T.impact, T.impact + 0.25));
-  const flash = Math.sin(Math.PI * seg(t, T.impact - 0.03, T.impact + 0.3)) ** 2;
-  if (core > 0 || flash > 0) {
-    ctx.save(); ctx.globalCompositeOperation = "lighter";
-    g = ctx.createRadialGradient(cx, cy, 0, cx, cy, lw * 0.75);
-    g.addColorStop(0, `rgba(255,236,180,${0.35 * core + 0.55 * flash})`); g.addColorStop(0.5, `rgba(255,200,80,${0.12 * core + 0.2 * flash})`); g.addColorStop(1, "rgba(0,0,0,0)");
-    ctx.fillStyle = g; ctx.fillRect(cx - lw, cy - lw, lw * 2, lw * 2); ctx.restore();
+  // confetti burst, from behind the logo
+  const b0 = T.stamp + 0.03;
+  if (t > b0 && t < b0 + 1.3) {
+    for (const b of S.burst) {
+      const k = seg(t, b0 + b.d0, b0 + b.d0 + 1.05); if (k <= 0 || k >= 1) continue;
+      const e = eOutCubic(k), x = b.x0 + Math.cos(b.a) * b.dist * e, y = b.y0 + Math.sin(b.a) * b.dist * e + 60 * u * k * k;
+      ctx.save(); ctx.globalAlpha = 1 - seg(k, 0.55, 1); ctx.translate(x, y); ctx.rotate(b.spin * k); ctx.fillStyle = b.col;
+      if (b.kind === "dot") { ctx.beginPath(); ctx.arc(0, 0, b.size * 0.75, 0, Math.PI * 2); ctx.fill(); }
+      else if (b.kind === "rect") ctx.fillRect(-b.size * 0.4, -b.size, b.size * 0.8, b.size * 2);
+      else star(ctx, b.size * 1.3);
+      ctx.restore();
+    }
   }
 
-  // logo: assembled where the particles land, then sweep, bounce, glow
-  if (t >= T.arrive0) {
-    const bt = t - T.bounce;
-    const bounce = bt > 0 && bt < 0.75 ? 0.075 * Math.exp(-7 * bt) * Math.sin(2 * Math.PI * 2.4 * bt) : 0;
-    const settle = lerp(0.94, 1, eOutBack(seg(t, T.arrive0, T.arrive0 + 0.75), 1.2));
-    const s = settle * (1 + bounce);
-    // soft glow behind the logo
-    const glowA = 0.35 * seg(t, T.arrive0, T.impact) + 0.25 * Math.max(0, Math.sin(Math.PI * seg(t, T.bounce, T.bounce + 0.7))) + 0.15 * seg(t, T.impact, T.impact + 0.6);
+  // the logo slaps on, then light sweep, bounce, glow
+  if (t >= T.stamp) {
+    const k = seg(t, T.stamp, T.stamp + 0.42);
+    const bt = t - T.bounce, bounce = bt > 0 && bt < 0.75 ? 0.07 * Math.exp(-7 * bt) * Math.sin(2 * Math.PI * 2.4 * bt) : 0;
+    const s = lerp(1.45, 1, eOutBack(k, 2.2)) * (1 + bounce), rot = lerp(-0.08, 0, eOutBack(k, 2));
+    const glowA = 0.5 * Math.max(0, Math.sin(Math.PI * seg(t, T.stamp, T.stamp + 0.9))) + 0.35 * Math.max(0, Math.sin(Math.PI * seg(t, T.bounce, T.bounce + 0.7))) + 0.18 * seg(t, T.stamp, T.stamp + 0.6);
     if (glowA > 0) {
       ctx.save(); ctx.translate(cx, cy); ctx.scale(1, lh / lw * 1.6);
       g = ctx.createRadialGradient(0, 0, 0, 0, 0, lw * 0.75);
-      g.addColorStop(0, `rgba(255,249,235,${glowA})`); g.addColorStop(1, "rgba(255,249,235,0)");
+      g.addColorStop(0, `rgba(255,253,246,${glowA})`); g.addColorStop(1, "rgba(255,253,246,0)");
       ctx.fillStyle = g; ctx.fillRect(-lw, -lw, lw * 2, lw * 2); ctx.restore();
     }
     ctx.save();
-    ctx.translate(cx, cy); ctx.scale(s, s); ctx.translate(-cx, -cy);
-    const shadowA = 0.26 * seg(t, T.impact, T.impact + 0.5);
-    if (shadowA > 0) { ctx.shadowColor = `rgba(58,40,13,${shadowA})`; ctx.shadowBlur = 38 * u; ctx.shadowOffsetY = 18 * u; }
-    const assembling = t < S.cells.reduce((m, c) => Math.max(m, c.t0 + 0.16), 0);
-    if (assembling) {   // the logo shows through circles that grow where particles land
-      ctx.beginPath();
-      for (const c of S.cells) { const k = seg(t, c.t0, c.t0 + 0.16); if (k > 0) { const rad = c.rad * eOutCubic(k); ctx.moveTo(c.x + rad, c.y); ctx.arc(c.x, c.y, rad, 0, Math.PI * 2); } }
-      ctx.clip();
-    }
+    ctx.globalAlpha = seg(t, T.stamp, T.stamp + 0.05);
+    ctx.translate(cx, cy); ctx.rotate(rot); ctx.scale(s, s); ctx.translate(-cx, -cy);
+    ctx.shadowColor = "rgba(58,40,13,0.3)"; ctx.shadowBlur = 36 * u * s; ctx.shadowOffsetY = 18 * u * s;
     const sw = seg(t, T.sweep0, T.sweep1);
-    if (sw > 0 && sw < 1) {   // a light band across the logo only
+    if (sw > 0 && sw < 1) {   // a warm light band across the logo only
       let sc = sweepCanvas[lw];
       if (!sc) sc = sweepCanvas[lw] = new OffscreenCanvas(lw, lh);
       const sx = sc.getContext("2d");
@@ -303,24 +272,15 @@ function drawFrame(ctx, L, S, t, tagLang) {
       bg.addColorStop(0, "rgba(255,240,200,0)"); bg.addColorStop(0.5, "rgba(255,240,200,0.5)"); bg.addColorStop(1, "rgba(255,240,200,0)");
       sx.fillStyle = bg; sx.fillRect(-bw, -lh * 2, bw * 2, lh * 4); sx.restore();
       ctx.drawImage(sc, lx, ly, lw, lh);
-    } else {
-      ctx.drawImage(A.logo, lx, ly, lw, lh);
-    }
+    } else ctx.drawImage(A.logo, lx, ly, lw, lh);
     ctx.restore();
   }
 
-  // impact burst: deal confetti
-  const bt0 = T.impact + 0.02;
-  if (t > bt0 && t < bt0 + 1.2) {
-    for (const b of S.burst) {
-      const k = seg(t, bt0 + b.d0, bt0 + b.d0 + 0.95); if (k <= 0 || k >= 1) continue;
-      const e = eOutCubic(k), x = b.x + Math.cos(b.a) * b.dist * e, y = b.y + Math.sin(b.a) * b.dist * e;
-      ctx.globalAlpha = 1 - seg(k, 0.45, 1);
-      if (b.kind === "icon") drawIcon(ctx, b.icon, x, y, b.size * (0.6 + 0.4 * e), b.rot * (1 + e), b.col, 0);
-      else if (b.kind === "spark") { ctx.save(); ctx.translate(x, y); ctx.rotate(e * 2); ctx.fillStyle = b.col; star(ctx, b.size * 1.4 * (1 - 0.4 * e)); ctx.restore(); }
-      else { ctx.fillStyle = b.col; ctx.beginPath(); ctx.arc(x, y, b.size * (1 - 0.5 * e), 0, Math.PI * 2); ctx.fill(); }
-    }
-    ctx.globalAlpha = 1;
+  // the end frame: food stickers come back around the logo
+  for (const s of S.outro) {
+    if (t < s.pop) continue;
+    const sc = eOutBack(seg(t, s.pop, s.pop + 0.45), 2.4), wob = (1 - seg(t, s.pop, s.pop + 0.8)) * Math.sin((t - s.pop) * 18) * 0.12;
+    drawSticker(ctx, s.key, s.x, s.y, s.size, s.rot + wob, sc, u);
   }
 
   // tagline, word by word
@@ -330,111 +290,81 @@ function drawFrame(ctx, L, S, t, tagLang) {
     ctx.save();
     ctx.font = `700 ${size}px "Readex Pro"`; ctx.textBaseline = "alphabetic"; ctx.direction = "ltr";
     if ("letterSpacing" in ctx) ctx.letterSpacing = rtl ? "0px" : `${(size * 0.015).toFixed(2)}px`;
-    const dot = rtl ? "." : ".", gap = size * 0.42;
+    const dot = ".", gap = size * 0.42;
     const ws = words.map((w) => ({ w, a: ctx.measureText(w).width, d: ctx.measureText(dot).width }));
     const total = ws.reduce((m, x) => m + x.a + x.d, 0) + gap * (ws.length - 1);
     let x = cx - total / 2;
-    const order = rtl ? [...ws.keys()].reverse() : [...ws.keys()];   // Arabic reads right to left: first word on the right
+    const order = rtl ? [...ws.keys()].reverse() : [...ws.keys()];   // Arabic reads right to left: the first word on the right
     const xs = []; for (const k of order) { xs[k] = x; x += ws[k].a + ws[k].d + gap; }
     ws.forEach((wd, k) => {
       const e = seg(t, T.tag + k * 0.14, T.tag + k * 0.14 + 0.45); if (e <= 0) return;
       const yy = y0 + (1 - eOutBack(e, 2)) * size * 0.55;
       ctx.globalAlpha = eOutCubic(e);
-      ctx.fillStyle = C.inkDeep;
       if (rtl) { ctx.fillStyle = C.leafDeep; ctx.fillText(dot, xs[k], yy); ctx.fillStyle = C.inkDeep; ctx.fillText(wd.w, xs[k] + wd.d, yy); }
-      else { ctx.fillText(wd.w, xs[k], yy); ctx.fillStyle = C.leafDeep; ctx.fillText(dot, xs[k] + wd.a, yy); }
+      else { ctx.fillStyle = C.inkDeep; ctx.fillText(wd.w, xs[k], yy); ctx.fillStyle = C.leafDeep; ctx.fillText(dot, xs[k] + wd.a, yy); }
     });
-    const ul = eOutCubic(seg(t, T.tag + 0.5, T.still));   // a small leaf-green accent under it
+    const ul = eOutCubic(seg(t, T.tag + 0.5, T.still));
     if (ul > 0) { ctx.globalAlpha = 1; ctx.fillStyle = C.leafDeep; const uw = lw * 0.12 * ul, uh = Math.max(3, size * 0.11); ctx.beginPath(); ctx.roundRect(cx - uw / 2, y0 + size * 0.42, uw, uh, uh / 2); ctx.fill(); }
     ctx.restore();
   }
   ctx.restore();
-  // fade in from black
-  const fi = 1 - seg(t, 0, 0.3);
-  if (fi > 0) { ctx.fillStyle = `rgba(0,0,0,${fi})`; ctx.fillRect(0, 0, W, H); }
+  const fi = 1 - seg(t, 0, 0.18);   // a quick fade in from white
+  if (fi > 0) { ctx.fillStyle = `rgba(255,255,255,${fi})`; ctx.fillRect(0, 0, W, H); }
 }
 
-/* ---------- sound design (synthesised, so the music is ours): whoosh → particles → impact → finish ---------- */
+/* ---------- sound (synthesised here, so it is ours): marimba pops → whoosh → slap + impact → shimmer → pops → chime ---------- */
 async function buildAudio() {
   const ctx = new OfflineAudioContext(2, Math.ceil(DUR * SR), SR), r = rng(4242);
   const comp = ctx.createDynamicsCompressor();
-  comp.threshold.value = -16; comp.knee.value = 10; comp.ratio.value = 3; comp.attack.value = 0.004; comp.release.value = 0.25;
+  comp.threshold.value = -16; comp.knee.value = 10; comp.ratio.value = 3; comp.attack.value = 0.003; comp.release.value = 0.2;
   const master = ctx.createGain(); master.gain.value = 0.9; master.connect(comp); comp.connect(ctx.destination);
   const nb = ctx.createBuffer(1, SR * 3, SR), nd = nb.getChannelData(0); for (let i = 0; i < nd.length; i++) nd[i] = r() * 2 - 1;
-  const ir = ctx.createBuffer(2, SR * 2.4, SR);
-  for (let ch = 0; ch < 2; ch++) { const d = ir.getChannelData(ch); for (let i = 0; i < d.length; i++) d[i] = (r() * 2 - 1) * (1 - i / d.length) ** 3.2; }
-  const rev = ctx.createConvolver(); rev.buffer = ir; const revG = ctx.createGain(); revG.gain.value = 0.3; rev.connect(revG); revG.connect(master);
-  const out = (node, pan = 0, wet = 0) => {
-    const p = ctx.createStereoPanner(); p.pan.value = pan; node.connect(p); p.connect(master);
-    if (wet) { const w = ctx.createGain(); w.gain.value = wet; p.connect(w); w.connect(rev); }
-    return p;
-  };
+  const ir = ctx.createBuffer(2, SR * 1.8, SR);
+  for (let ch = 0; ch < 2; ch++) { const d = ir.getChannelData(ch); for (let i = 0; i < d.length; i++) d[i] = (r() * 2 - 1) * (1 - i / d.length) ** 3.5; }
+  const rev = ctx.createConvolver(); rev.buffer = ir; const revG = ctx.createGain(); revG.gain.value = 0.22; rev.connect(revG); revG.connect(master);
+  const out = (node, pan = 0, wet = 0) => { const p = ctx.createStereoPanner(); p.pan.value = pan; node.connect(p); p.connect(master); if (wet) { const w = ctx.createGain(); w.gain.value = wet; p.connect(w); w.connect(rev); } return p; };
   const noise = (t0, t1) => { const s = ctx.createBufferSource(); s.buffer = nb; s.loop = true; s.start(t0, r() * 2); s.stop(t1); return s; };
   const env = (g, pts) => { g.gain.setValueAtTime(0, 0); for (const [tt, v, kind] of pts) kind === "x" ? g.gain.exponentialRampToValueAtTime(Math.max(v, 1e-4), tt) : kind === "s" ? g.gain.setValueAtTime(v, tt) : g.gain.linearRampToValueAtTime(v, tt); };
+  const tone = (tt, f, gv, dec, type = "sine", pan = 0, wet = 0.25) => { const o = ctx.createOscillator(); o.type = type; o.frequency.value = f; const g = ctx.createGain(); env(g, [[tt, 0, "s"], [tt + 0.004, gv], [tt + dec, 0.0001, "x"]]); o.connect(g); out(g, pan, wet); o.start(tt); o.stop(tt + dec + 0.02); };
+  const marimba = (tt, f, gv, pan) => { tone(tt, f, gv, 0.55, "sine", pan, 0.3); tone(tt, f * 3.93, gv * 0.18, 0.12, "sine", pan, 0.2); tone(tt, f * 2, gv * 0.08, 0.2, "sine", pan, 0.2); };
+  const bubble = (tt, f0, f1, gv, pan) => { const o = ctx.createOscillator(); o.frequency.setValueAtTime(f0, tt); o.frequency.exponentialRampToValueAtTime(f1, tt + 0.06); const g = ctx.createGain(); env(g, [[tt, 0, "s"], [tt + 0.004, gv], [tt + 0.11, 0.0001, "x"]]); o.connect(g); out(g, pan, 0.1); o.start(tt); o.stop(tt + 0.13); };
 
-  // 1. soft whooshes as the elements drift in
-  const whoosh = (t0, t1, f0, f1, peak, p0, p1, q = 1.1) => {
-    const src = noise(t0, t1 + 0.05), bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.Q.value = q;
-    bp.frequency.setValueAtTime(f0, t0); bp.frequency.exponentialRampToValueAtTime(f1, t1);
-    const g = ctx.createGain(); env(g, [[t0, 0, "s"], [lerp(t0, t1, 0.62), peak], [t1, 0.0001, "x"]]);
-    src.connect(bp); bp.connect(g); const p = out(g, 0, 0.25); p.pan.setValueAtTime(p0, t0); p.pan.linearRampToValueAtTime(p1, t1);
-  };
-  whoosh(0.05, 1.3, 260, 1900, 0.32, -0.6, 0.45);
-  whoosh(0.5, 1.55, 420, 3200, 0.2, 0.55, -0.35);
-  // 2. particle sparkles: tiny high pings, denser as they gather
-  const notes = [1568, 1760, 2093, 2349, 2637, 3136, 3520];
-  for (let k = 0; k < 20; k++) {
-    const tt = lerp(0.45, 2.3, Math.sqrt(r())), f = notes[(r() * notes.length) | 0], gv = lerp(0.03, 0.06, r());
-    for (const [mul, gm] of [[1, 1], [2.01, 0.22]]) {
-      const o = ctx.createOscillator(); o.type = "sine"; o.frequency.value = f * mul;
-      const g = ctx.createGain(); env(g, [[tt, 0, "s"], [tt + 0.004, gv * gm], [tt + 0.22, 0.0001, "x"]]);
-      o.connect(g); out(g, lerp(-0.7, 0.7, r()), 0.4); o.start(tt); o.stop(tt + 0.25);
-    }
-  }
-  // 3. riser into the impact
-  { const src = noise(1.7, T.impact), bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.Q.value = 0.9;
-    bp.frequency.setValueAtTime(500, 1.7); bp.frequency.exponentialRampToValueAtTime(7000, T.impact);
-    const g = ctx.createGain(); env(g, [[1.7, 0.0001, "s"], [T.impact - 0.02, 0.2, "x"], [T.impact, 0.0001]]);
-    src.connect(bp); bp.connect(g); out(g, 0, 0.2); }
-  // 4. the logo impact: sub thump + body + click + air
-  { const t0 = T.impact;
-    const sub = ctx.createOscillator(); sub.type = "sine"; sub.frequency.setValueAtTime(115, t0); sub.frequency.exponentialRampToValueAtTime(42, t0 + 0.42);
-    const gs = ctx.createGain(); env(gs, [[t0, 0, "s"], [t0 + 0.006, 0.95], [t0 + 0.95, 0.0001, "x"]]); sub.connect(gs); out(gs); sub.start(t0); sub.stop(t0 + 1);
-    const body = ctx.createOscillator(); body.type = "triangle"; body.frequency.setValueAtTime(260, t0); body.frequency.exponentialRampToValueAtTime(95, t0 + 0.14);
-    const gb = ctx.createGain(); env(gb, [[t0, 0, "s"], [t0 + 0.004, 0.32], [t0 + 0.28, 0.0001, "x"]]); body.connect(gb); out(gb, 0, 0.3); body.start(t0); body.stop(t0 + 0.3);
-    const click = noise(t0, t0 + 0.1), hp = ctx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 1800;
-    const gc = ctx.createGain(); env(gc, [[t0, 0, "s"], [t0 + 0.002, 0.45], [t0 + 0.07, 0.0001, "x"]]); click.connect(hp); hp.connect(gc); out(gc, 0, 0.35);
-    const air = noise(t0, t0 + 1.1), lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.setValueAtTime(2600, t0); lp.frequency.exponentialRampToValueAtTime(500, t0 + 0.9);
-    const ga = ctx.createGain(); env(ga, [[t0, 0, "s"], [t0 + 0.01, 0.22], [t0 + 1.0, 0.0001, "x"]]); air.connect(lp); lp.connect(ga); out(ga, 0, 0.6); }
-  // warm bed: a low drone that builds, then a soft pad after the impact
-  for (const [f, g0] of [[110, 0.05], [164.8, 0.035]]) {
-    const o = ctx.createOscillator(); o.type = "sine"; o.frequency.value = f; const g = ctx.createGain();
-    env(g, [[0.2, 0, "s"], [1.6, g0], [T.impact - 0.03, g0 * 1.4], [T.impact + 0.1, 0.0001, "x"]]); o.connect(g); out(g); o.start(0.2); o.stop(T.impact + 0.15);
-  }
-  for (const [f, g0, pan] of [[220, 0.03, -0.3], [329.6, 0.022, 0.3], [440, 0.014, 0]]) {
-    const o = ctx.createOscillator(); o.type = "sine"; o.frequency.value = f; const g = ctx.createGain();
-    env(g, [[T.impact, 0, "s"], [T.impact + 0.35, g0], [5.2, g0 * 0.7], [6.4, 0.0001, "x"]]); o.connect(g); out(g, pan, 0.5); o.start(T.impact); o.stop(6.45);
-  }
-  // 5. light sweep shimmer
+  // DISCOVER: every sticker pops with a marimba note, rising (C major pentatonic)
+  const scale = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66, 1318.51, 1567.98, 1760, 2093, 2349.32];
+  for (let k = 0; k < 12; k++) { const tt = 0.1 + k * 0.11; marimba(tt, scale[k], 0.2, k % 2 ? 0.35 : -0.35); bubble(tt, 240 + k * 20, 620 + k * 30, 0.12, k % 2 ? 0.35 : -0.35); }
+  // soft groove under it: a light shaker on the off-beats
+  for (let k = 0; k < 9; k++) { const tt = 0.15 + k * 0.25, s = noise(tt, tt + 0.06), hp = ctx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 7000; const g = ctx.createGain(); env(g, [[tt, 0, "s"], [tt + 0.005, k % 2 ? 0.05 : 0.08], [tt + 0.05, 0.0001, "x"]]); s.connect(hp); hp.connect(g); out(g, 0.2, 0); }
+  // EAT: whoosh as they swirl onto the plate, rising into the slap
+  { const t0 = T.swirl0 - 0.05, t1 = T.stamp, src = noise(t0, t1), bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.Q.value = 1;
+    bp.frequency.setValueAtTime(300, t0); bp.frequency.exponentialRampToValueAtTime(4500, t1);
+    const g = ctx.createGain(); env(g, [[t0, 0.0001, "s"], [t1 - 0.03, 0.34, "x"], [t1, 0.0001]]); src.connect(bp); bp.connect(g);
+    const p = out(g, 0, 0.2); p.pan.setValueAtTime(-0.5, t0); p.pan.linearRampToValueAtTime(0.5, t1); }
+  // SAVE: sticker slap + punchy kick + a bright sparkle burst + a warm major chord
+  { const t0 = T.stamp;
+    const kick = ctx.createOscillator(); kick.frequency.setValueAtTime(160, t0); kick.frequency.exponentialRampToValueAtTime(45, t0 + 0.3);
+    const gk = ctx.createGain(); env(gk, [[t0, 0, "s"], [t0 + 0.004, 0.95], [t0 + 0.5, 0.0001, "x"]]); kick.connect(gk); out(gk); kick.start(t0); kick.stop(t0 + 0.55);
+    const slap = noise(t0, t0 + 0.2), bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 1700; bp.Q.value = 0.8;
+    const gs = ctx.createGain(); env(gs, [[t0, 0, "s"], [t0 + 0.002, 0.55], [t0 + 0.14, 0.0001, "x"]]); slap.connect(bp); bp.connect(gs); out(gs, 0, 0.35);
+    [2093, 2637, 3136, 3520, 4186].forEach((f, k) => tone(t0 + 0.03 + k * 0.035, f, 0.06, 0.35, "sine", lerp(-0.6, 0.6, k / 4), 0.5));
+    for (const [f, gv, pan] of [[261.63, 0.06, -0.3], [329.63, 0.05, 0.3], [392, 0.045, 0], [523.25, 0.03, 0]]) {
+      const o = ctx.createOscillator(); o.type = "triangle"; o.frequency.value = f; const g = ctx.createGain();
+      env(g, [[t0, 0, "s"], [t0 + 0.08, gv], [5.4, gv * 0.6], [6.45, 0.0001, "x"]]); o.connect(g); out(g, pan, 0.5); o.start(t0); o.stop(6.5);
+    } }
+  // light sweep shimmer
   { const src = noise(T.sweep0, T.sweep1 + 0.1), bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.Q.value = 2;
     bp.frequency.setValueAtTime(5000, T.sweep0); bp.frequency.exponentialRampToValueAtTime(11000, T.sweep1);
-    const g = ctx.createGain(); env(g, [[T.sweep0, 0, "s"], [lerp(T.sweep0, T.sweep1, 0.5), 0.09], [T.sweep1, 0.0001, "x"]]);
-    src.connect(bp); bp.connect(g); const p = out(g, 0, 0.4); p.pan.setValueAtTime(-0.6, T.sweep0); p.pan.linearRampToValueAtTime(0.6, T.sweep1);
-    [2637, 3136, 3951].forEach((f, k) => { const tt = T.sweep0 + 0.12 + k * 0.13, o = ctx.createOscillator(); o.frequency.value = f; const gg = ctx.createGain();
-      env(gg, [[tt, 0, "s"], [tt + 0.004, 0.045], [tt + 0.35, 0.0001, "x"]]); o.connect(gg); out(gg, lerp(-0.5, 0.5, k / 2), 0.5); o.start(tt); o.stop(tt + 0.4); }); }
-  // 6. bounce pop
-  { const t0 = T.bounce, o = ctx.createOscillator(); o.type = "sine"; o.frequency.setValueAtTime(300, t0); o.frequency.exponentialRampToValueAtTime(760, t0 + 0.07);
-    const g = ctx.createGain(); env(g, [[t0, 0, "s"], [t0 + 0.005, 0.28], [t0 + 0.14, 0.0001, "x"]]); o.connect(g); out(g, 0, 0.2); o.start(t0); o.stop(t0 + 0.16); }
-  // 7. clean finishing chime as the tagline lands
-  for (const [tt, f] of [[T.tag, 1046.5], [T.tag + 0.1, 1568]]) {
-    for (const [mul, gm, dec] of [[1, 1, 1.7], [2.76, 0.32, 0.9], [5.4, 0.12, 0.45]]) {
-      const o = ctx.createOscillator(); o.frequency.value = f * mul; const g = ctx.createGain();
-      env(g, [[tt, 0, "s"], [tt + 0.005, 0.12 * gm], [tt + dec, 0.0001, "x"]]); o.connect(g); out(g, f > 1100 ? 0.25 : -0.25, 0.5); o.start(tt); o.stop(tt + dec + 0.05);
-    }
+    const g = ctx.createGain(); env(g, [[T.sweep0, 0, "s"], [lerp(T.sweep0, T.sweep1, 0.5), 0.08], [T.sweep1, 0.0001, "x"]]);
+    src.connect(bp); bp.connect(g); const p = out(g, 0, 0.4); p.pan.setValueAtTime(-0.6, T.sweep0); p.pan.linearRampToValueAtTime(0.6, T.sweep1); }
+  // bounce pop, then the stickers framing the logo pop back
+  bubble(T.bounce, 300, 780, 0.26, 0);
+  [1046.5, 1318.51, 1567.98, 1318.51, 1760, 2093].forEach((f, k) => { const tt = T.frame0 + k * 0.1; marimba(tt, f, 0.11, k % 2 ? 0.45 : -0.45); bubble(tt, 320, 700, 0.06, k % 2 ? 0.45 : -0.45); });
+  // finishing chime with the tagline
+  for (const [tt, f] of [[T.tag + 0.02, 1046.5], [T.tag + 0.16, 1318.51], [T.tag + 0.3, 1567.98], [T.tag + 0.44, 2093]]) {
+    for (const [mul, gm, dec] of [[1, 1, 1.6], [2.76, 0.3, 0.8], [5.4, 0.1, 0.4]]) tone(tt, f * mul, 0.1 * gm, dec, "sine", f > 1500 ? 0.25 : -0.25, 0.5);
   }
   const buf = await ctx.startRendering();
   let peak = 0; for (let ch = 0; ch < 2; ch++) { const d = buf.getChannelData(ch); for (let i = 0; i < d.length; i++) peak = Math.max(peak, Math.abs(d[i])); }
-  const k = 0.89 / (peak || 1), fadeN = Math.round(SR * 0.08);   // -1 dBFS peak, and a tiny fade at the very end
+  const k = 0.89 / (peak || 1), fadeN = Math.round(SR * 0.08);   // -1 dBFS peak, a tiny fade at the very end
   for (let ch = 0; ch < 2; ch++) { const d = buf.getChannelData(ch); for (let i = 0; i < d.length; i++) d[i] *= k * Math.min(1, (d.length - i) / fadeN); }
   return buf;
 }
@@ -482,8 +412,7 @@ async function renderVideo(fmtKey, tagLang = "en") {
 async function stillFrame(fmtKey, t, tagLang = "en", file) {   // a PNG of one moment, for checking or a thumbnail
   const F = FORMATS[fmtKey], L = layout(F.w, F.h), S = makeScene(L), cv = new OffscreenCanvas(F.w, F.h), ctx = cv.getContext("2d", { alpha: false });
   drawFrame(ctx, L, S, t, tagLang);
-  const blob = await cv.convertToBlob({ type: "image/png" });
-  const res = await fetch(`/__save?path=${file}`, { method: "POST", body: blob }); return res.text();
+  const res = await fetch(`/__save?path=${file}`, { method: "POST", body: await cv.convertToBlob({ type: "image/png" }) }); return res.text();
 }
 
 /* ---------- preview ---------- */
