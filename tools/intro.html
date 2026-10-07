@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foodidu intro video</title>
+<script src="https://cdn.jsdelivr.net/npm/mp4-muxer@5.1.3/build/mp4-muxer.min.js"></script>
+<style>
+  body { font: 14px/1.5 system-ui, sans-serif; background: #1b1b1b; color: #eee; margin: 16px; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  p { margin: 0 0 10px; color: #bbb; max-width: 70em; }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+  button, select { font: inherit; padding: 6px 12px; border-radius: 8px; border: 1px solid #555; background: #2d2d2d; color: #eee; cursor: pointer; }
+  input[type="range"] { width: min(520px, 90vw); }
+  canvas { display: block; max-width: 100%; max-height: 72vh; height: auto; background: #000; border-radius: 6px; }
+  pre { background: #111; padding: 10px; border-radius: 6px; max-height: 30vh; overflow: auto; font-size: 12px; }
+</style>
+</head>
+<body>
+<h1>Foodidu intro video (motion logo)</h1>
+<p>Open via <code>perl tools/serve.pl</code> at <code>/__tools/intro.html</code>. The logo is the real <code>static/img/foodidu-logo.svg</code>, drawn as is (no redraw, no morph).
+Everything is rendered frame by frame and encoded in the browser (WebCodecs: H.264 + AAC in MP4); "Render" saves the file to <code>banners/video/</code>.</p>
+<div class="bar">
+  <select id="fmt"></select>
+  <select id="tag"><option value="en">Discover. Eat. Save.</option><option value="ar">اكتشف. اطلب. وفّر.</option><option value="">no tagline</option></select>
+  <button id="play">Play with sound</button>
+  <input id="scrub" type="range" min="0" max="6.5" step="0.01" value="0"> <span id="tl">0.00s</span>
+  <button id="render">Render MP4</button>
+</div>
+<canvas id="cv"></canvas>
+<pre id="log"></pre>
+<script>
+"use strict";
+/* ---------- timing (seconds) ----------
+   0.00 fade in · 0.05–1.4 dots, sparkles and food icons drift in on a dark stage
+   1.55–2.45 everything spirals into points of the logo, which assembles where they land
+   2.45 impact: flash, a sun-yellow flood fills the frame, a burst of deal confetti
+   3.15–3.75 light sweep across the logo · 3.86 bounce + glow · 4.28 tagline · 5.05–6.5 still end frame */
+const DUR = 6.5, SR = 48000;
+const T = { arrive0: 2.12, arrive1: 2.42, impact: 2.45, sweep0: 3.15, sweep1: 3.75, bounce: 3.86, tag: 4.28, still: 5.05 };
+const C = { sun: "#FFD15C", sun2: "#FFC533", sun3: "#FFE4A1", sun4: "#FFF1CC", cream: "#FFF9EB", ink: "#543A14", inkDeep: "#3A280D", leaf: "#7EB143", leafLight: "#A6D46A", leafDeep: "#4A7A1E", dark: "#130D06" };
+const FORMATS = {
+  "16x9-4k":   { w: 3840, h: 2160, fps: 60, br: 45e6, codec: "avc1.640034", label: "16:9 4K (YouTube, website, ads)" },
+  "16x9-1080": { w: 1920, h: 1080, fps: 60, br: 16e6, codec: "avc1.64002a", label: "16:9 1080p" },
+  "9x16-1080": { w: 1080, h: 1920, fps: 60, br: 16e6, codec: "avc1.64002a", label: "9:16 1080x1920 (Reels, TikTok, Stories)" },
+  "1x1-1080":  { w: 1080, h: 1080, fps: 60, br: 14e6, codec: "avc1.64002a", label: "1:1 1080 (feed posts)" },
+};
+const TAGS = { en: ["Discover", "Eat", "Save"], ar: ["اكتشف", "اطلب", "وفّر"] };
+
+/* ---------- small math ---------- */
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, x) => a + (b - a) * x;
+const eOutCubic = (x) => 1 - (1 - x) ** 3;
+const eInCubic = (x) => x ** 3;
+const eInOutSine = (x) => -(Math.cos(Math.PI * x) - 1) / 2;
+const eOutExpo = (x) => (x >= 1 ? 1 : 1 - 2 ** (-10 * x));
+const eOutBack = (x, s = 1.70158) => 1 + (s + 1) * (x - 1) ** 3 + s * (x - 1) ** 2;
+const smooth = (x) => x * x * (3 - 2 * x);
+function rng(seed) { return () => { seed |= 0; seed = (seed + 0x6D2B79F5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+const angDiff = (a, b) => { let d = b - a; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return d; };
+
+/* ---------- food + deal icons (24-unit, stroked like the site's icons) ---------- */
+const ICONS = {
+  fork: "M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10M17 21V3c-2.2 1.2-3.5 3.8-3.5 7v3H17",
+  pizza: "M12 3 4.5 19.5c4.8 2 10.2 2 15 0Z M6.8 14.5c3.4 1.3 7 1.3 10.4 0 M13.2 10.5a1.2 1.2 0 1 1-2.4 0a1.2 1.2 0 1 1 2.4 0Z",
+  burger: "M4.5 10.5a7.5 5.5 0 0 1 15 0Z M3.5 13.5h17 M5 16.5h14v.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 5 17v-.5Z",
+  coffee: "M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5V9Z M16 10h1.5a2.5 2.5 0 0 1 0 5H16 M8 3.5c0 1 1 1 1 2s-1 1-1 2 M12 3.5c0 1 1 1 1 2s-1 1-1 2",
+  basket: "M4 10h16l-1.6 8.2A2 2 0 0 1 16.4 20H7.6a2 2 0 0 1-2-1.8L4 10Z M8 10l3-6M16 10l-3-6M9.5 14v2.5M14.5 14v2.5",
+  bag: "M5 8h14l-1 12H6L5 8Z M9 8V6a3 3 0 0 1 6 0v2",
+  tag: "M3 12V4h8l10 10-8 8L3 12Z M9 7.5a1.5 1.5 0 1 1-3 0a1.5 1.5 0 1 1 3 0Z",
+  ticket: "M3 7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3a2 2 0 0 0 0 4v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-3a2 2 0 0 0 0-4V7Z M14 6.5v2M14 11v2M14 15.5v2",
+  percent: "M6 18 18 6 M9.5 7.5a2 2 0 1 1-4 0a2 2 0 1 1 4 0Z M18.5 16.5a2 2 0 1 1-4 0a2 2 0 1 1 4 0Z",
+  pin: "M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z M14.5 9a2.5 2.5 0 1 1-5 0a2.5 2.5 0 1 1 5 0Z",
+  gift: "M4 8h16a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z M12 8v13M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8M12 8H8.5a2.5 2.5 0 1 1 0-5C11 3 12 8 12 8Zm0 0h3.5a2.5 2.5 0 1 0 0-5C13 3 12 8 12 8Z",
+  menubook: "M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5Z M4 19a2 2 0 0 1 2-2h13v4H6a2 2 0 0 1-2-2ZM9 7h6M9 11h6",
+};
+const PATHS = Object.fromEntries(Object.entries(ICONS).map(([k, d]) => [k, new Path2D(d)]));
+
+/* ---------- assets ---------- */
+const A = {};
+async function loadImg(src) { const i = new Image(); i.src = src; await i.decode(); return i; }
+async function loadAssets() {
+  A.logo = await loadImg("/__static/img/foodidu-logo.svg");   // 767 x 304, drawn untouched
+  A.pattern = await loadImg("/__static/img/pattern.svg");     // the site's food pattern (375 x 812)
+  for (const [file, range] of [["readex-pro-latin-v27.woff2", "U+0000-00FF, U+2010-205E"], ["readex-pro-arabic-v27.woff2", "U+0600-06FF, U+0750-077F, U+FB50-FDFF, U+FE70-FEFF"]]) {
+    const f = new FontFace("Readex Pro", `url(/__static/fonts/${file})`, { weight: "300 700", unicodeRange: range });
+    document.fonts.add(await f.load());
+  }
+}
+
+/* ---------- layout: everything scales with the frame, so every format is the same film ---------- */
+function layout(W, H) {
+  const portrait = H > W, square = H === W;
+  const lw = Math.round(portrait ? W * 0.8 : square ? W * 0.72 : W * 0.44);
+  const lh = Math.round(lw * 304 / 767);
+  const cx = W / 2, cy = Math.round(H / 2 - lh * 0.2);
+  return { W, H, lw, lh, cx, cy, u: Math.min(W, H) / 1080, lx: Math.round(cx - lw / 2), ly: Math.round(cy - lh / 2), diag: Math.hypot(W, H) };
+}
+
+/* ---------- the scene: particles with fixed seeds, logo points to land on, mask cells ---------- */
+function makeScene(L) {
+  const r = rng(20261007), { W, H, cx, cy, lw, lh, u } = L;
+  // where the logo has ink: sample its alpha
+  const oc = new OffscreenCanvas(lw, lh), ox = oc.getContext("2d");
+  ox.drawImage(A.logo, 0, 0, lw, lh);
+  const px = ox.getImageData(0, 0, lw, lh).data, alpha = (x, y) => px[(Math.min(lh - 1, Math.max(0, y | 0)) * lw + Math.min(lw - 1, Math.max(0, x | 0))) * 4 + 3];
+  const targets = [];
+  while (targets.length < 170) { const x = r() * lw, y = r() * lh; if (alpha(x, y) > 200) targets.push({ x: L.lx + x, y: L.ly + y }); }
+  const rMax = Math.hypot(lw / 2, lh / 2);
+  // mask cells over every part of the logo, revealed from the centre out
+  const cell = Math.max(5, Math.round(lh / 17)), cells = [];
+  for (let gy = 0; gy < lh; gy += cell) for (let gx = 0; gx < lw; gx += cell) {
+    let any = false;
+    for (let sy = gy; sy < Math.min(lh, gy + cell) && !any; sy += 3) for (let sx = gx; sx < Math.min(lw, gx + cell); sx += 3) if (alpha(sx, sy) > 8) { any = true; break; }
+    if (!any) continue;
+    const x = L.lx + gx + cell / 2, y = L.ly + gy + cell / 2, d = Math.hypot(x - cx, y - cy) / rMax;
+    cells.push({ x, y, t0: T.arrive0 + 0.02 + 0.3 * d + r() * 0.025, rad: cell * 0.76 });
+  }
+  // particles: glowing dots, sparkles and food / deal icons
+  const minWH = Math.min(W, H), parts = [];
+  const iconKeys = Object.keys(ICONS), darkCols = [C.sun, C.sun, C.leafLight, C.cream, C.sun2];
+  const tgt = (i) => targets[i % targets.length];
+  const plan = (p) => {
+    const T0 = tgt(p.i);
+    p.tx = T0.x; p.ty = T0.y;
+    p.rT = Math.hypot(p.tx - cx, p.ty - cy); p.aT = Math.atan2(p.ty - cy, p.tx - cx);
+    p.tArr = T.arrive0 + (T.arrive1 - T.arrive0 - 0.04) * clamp(p.rT / rMax) + r() * 0.04;
+    p.t1 = lerp(1.5, 1.8, r());
+    p.swirl = (r() < 0.5 ? -1 : 1) * lerp(0.35, 0.9, r());
+    return p;
+  };
+  let i = 0;
+  for (let k = 0; k < 95; k++) {   // dots, already on stage
+    const a = r() * Math.PI * 2, d = lerp(0.32, 0.95, Math.sqrt(r())) * Math.max(W, H) * 0.55;
+    const sx = cx + Math.cos(a) * d * (W > H ? 1.25 : 0.8), sy = cy + Math.sin(a) * d * (W > H ? 0.8 : 1.25);
+    parts.push(plan({ i: i++, kind: "dot", sx, sy, mx: lerp(sx, cx, 0.22), my: lerp(sy, cy, 0.22), ta: lerp(0.05, 1.0, r()), durA: 1.0,
+      size: lerp(2.2, 6.5, r() ** 1.6) * u, col: darkCols[k % darkCols.length], tw: r() * 6.28, orbit: lerp(-0.12, 0.12, r()) }));
+  }
+  for (let k = 0; k < 26; k++) {   // sparkles
+    const a = r() * Math.PI * 2, d = lerp(0.25, 0.8, r()) * minWH * 0.75;
+    const sx = cx + Math.cos(a) * d * (W > H ? 1.5 : 1), sy = cy + Math.sin(a) * d * (W > H ? 1 : 1.5);
+    parts.push(plan({ i: i++, kind: "spark", sx, sy, mx: lerp(sx, cx, 0.15), my: lerp(sy, cy, 0.15), ta: lerp(0.25, 1.4, r()), durA: 0.9,
+      size: lerp(7, 14, r()) * u, col: k % 3 ? C.cream : C.sun, tw: r() * 6.28, orbit: lerp(-0.1, 0.1, r()) }));
+  }
+  for (let k = 0; k < 28; k++) {   // food and deal icons fly in from outside the frame
+    const a = (k / 28) * Math.PI * 2 + r() * 0.2, far = L.diag * 0.62;
+    const ring = lerp(0.3, 0.46, r()) * minWH, ma = a + (r() < 0.5 ? -1 : 1) * lerp(0.25, 0.55, r());
+    const sc = W > H ? [1.45, 1] : H > W ? [1, 1.5] : [1.1, 1.1];
+    parts.push(plan({ i: i++, kind: "icon", icon: iconKeys[k % iconKeys.length], sx: cx + Math.cos(a) * far, sy: cy + Math.sin(a) * far,
+      mx: cx + Math.cos(ma) * ring * sc[0], my: cy + Math.sin(ma) * ring * sc[1], ta: lerp(0.45, 1.35, r()), durA: 0.8,
+      size: lerp(36, 58, r()) * u, col: [C.sun, C.leafLight, C.cream, C.sun2][k % 4], rot0: lerp(-1.2, 1.2, r()), spin: lerp(-0.8, 0.8, r()), orbit: lerp(-0.16, 0.16, r()) }));
+  }
+  // impact burst: deal confetti thrown out from the logo
+  const burst = [], bcols = [C.ink, C.leafDeep, "#FFFFFF", C.ink, C.sun2];
+  for (let k = 0; k < 34; k++) {
+    const T0 = targets[(k * 5) % targets.length], a = Math.atan2(T0.y - cy, T0.x - cx) + lerp(-0.35, 0.35, r());
+    burst.push({ x: T0.x, y: T0.y, a, dist: lerp(0.16, 0.36, r()) * minWH * (W > H ? 1.25 : 1), kind: ["dot", "spark", "dot", "icon"][k % 4],
+      icon: ["percent", "tag", "ticket"][k % 3], size: (k % 4 === 3 ? lerp(26, 36, r()) : lerp(5, 11, r())) * u, col: bcols[k % bcols.length], d0: r() * 0.12, rot: lerp(-0.6, 0.6, r()) });
+  }
+  // the food pattern, drawn once per size (re-rasterising the SVG every frame is slow at 4K)
+  const pw = Math.round(375 * 1.2 * u), ph = Math.round(812 * 1.2 * u), pat = new OffscreenCanvas(pw, ph);
+  pat.getContext("2d").drawImage(A.pattern, 0, 0, pw, ph);
+  return { parts, cells, burst, rMax, pat };
+}
+
+/* particle position at time t (screen space, before the camera) */
+function partPos(p, t, L) {
+  const { cx, cy } = L, tAe = p.ta + p.durA;
+  const floatAt = (tt) => { const rM = Math.hypot(p.mx - cx, p.my - cy), aM = Math.atan2(p.my - cy, p.mx - cx) + p.orbit * Math.max(0, tt - tAe); return [cx + Math.cos(aM) * rM, cy + Math.sin(aM) * rM, rM, aM]; };
+  if (t < tAe) { const e = p.kind === "icon" ? eOutCubic(seg(t, p.ta, tAe)) : eInOutSine(seg(t, p.ta, tAe)); const [fx, fy] = floatAt(tAe); return { x: lerp(p.sx, fx, e), y: lerp(p.sy, fy, e), s: 0 }; }
+  if (t < p.t1) { const [x, y] = floatAt(t); return { x, y, s: 0 }; }
+  const [, , r1, a1] = floatAt(p.t1), s = eInCubic(seg(t, p.t1, p.tArr));
+  const rr = lerp(r1, p.rT, s), aa = a1 + (angDiff(a1, p.aT) + p.swirl) * s - p.swirl * s * s * s;   // lands exactly on its point
+  return { x: cx + Math.cos(aa) * rr, y: cy + Math.sin(aa) * rr, s };
+}
+
+function star(ctx, r) {
+  ctx.beginPath(); ctx.moveTo(0, -r);
+  ctx.quadraticCurveTo(r * 0.12, -r * 0.12, r, 0); ctx.quadraticCurveTo(r * 0.12, r * 0.12, 0, r);
+  ctx.quadraticCurveTo(-r * 0.12, r * 0.12, -r, 0); ctx.quadraticCurveTo(-r * 0.12, -r * 0.12, 0, -r); ctx.fill();
+}
+function drawIcon(ctx, key, x, y, size, rot, col, glow) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(size / 24, size / 24); ctx.translate(-12, -12);
+  ctx.lineWidth = 1.9; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.strokeStyle = col;
+  if (glow) { ctx.shadowColor = col; ctx.shadowBlur = glow; }
+  ctx.stroke(PATHS[key]); ctx.restore();
+}
+
+/* ---------- one frame ---------- */
+const sweepCanvas = {};
+function drawFrame(ctx, L, S, t, tagLang) {
+  const { W, H, cx, cy, lw, lh, lx, ly, u } = L;
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.fillStyle = C.dark; ctx.fillRect(0, 0, W, H);
+  // camera: a slow push in that settles to a perfectly still 1.0 before the end frame
+  const cam = lerp(0.965, 1, eInOutSine(seg(t, 0, 2.95)));
+  ctx.translate(cx, cy); ctx.scale(cam, cam); ctx.translate(-cx, -cy);
+
+  // dark stage: warm ambient light, builds up as everything gathers
+  const amb = seg(t, 0, 0.9) * 0.55 + seg(t, 1.3, T.impact) * 0.45;
+  let g = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * 0.62);
+  g.addColorStop(0, `rgba(255,190,70,${0.16 * amb})`); g.addColorStop(0.45, `rgba(120,80,20,${0.10 * amb})`); g.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = g; ctx.fillRect(-W, -H, W * 3, H * 3);
+  g = ctx.createRadialGradient(W * 0.15, H * 0.1, 0, W * 0.15, H * 0.1, Math.max(W, H) * 0.5);
+  g.addColorStop(0, `rgba(126,177,67,${0.07 * amb})`); g.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = g; ctx.fillRect(-W, -H, W * 3, H * 3);
+
+  // sun-yellow flood from the centre at the impact
+  const fl = eOutExpo(seg(t, T.impact, T.impact + 0.85)), fr = fl * L.diag * 0.62;
+  if (fl > 0) {
+    ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, fr, 0, Math.PI * 2); ctx.clip();
+    g = ctx.createRadialGradient(cx, cy, 0, cx, cy, L.diag * 0.55);
+    g.addColorStop(0, C.sun3); g.addColorStop(0.42, C.sun); g.addColorStop(1, C.sun2);
+    ctx.fillStyle = g; ctx.fillRect(-W, -H, W * 3, H * 3);
+    const pw = S.pat.width, ph = S.pat.height;   // the site's food pattern, very light
+    ctx.globalAlpha = 0.34 * seg(t, T.impact + 0.1, T.impact + 0.7);
+    for (let y = -ph * 0.3; y < H; y += ph) for (let x = -pw * 0.2; x < W; x += pw) ctx.drawImage(S.pat, x, y);
+    ctx.globalAlpha = 1;
+    g = ctx.createRadialGradient(cx, cy, Math.min(W, H) * 0.35, cx, cy, L.diag * 0.62);
+    g.addColorStop(0, "rgba(200,130,0,0)"); g.addColorStop(1, "rgba(200,130,0,0.18)");
+    ctx.fillStyle = g; ctx.fillRect(-W, -H, W * 3, H * 3);
+    ctx.restore();
+    if (fl < 1) { ctx.save(); ctx.globalCompositeOperation = "lighter"; ctx.strokeStyle = `rgba(255,214,120,${0.8 * (1 - fl)})`; ctx.shadowColor = "rgba(255,200,90,0.9)"; ctx.shadowBlur = 40 * u; ctx.lineWidth = 6 * u * (1 - fl) + 1.5 * u; ctx.beginPath(); ctx.arc(cx, cy, fr, 0, Math.PI * 2); ctx.stroke(); ctx.restore(); }
+  }
+
+  // particles (dark stage)
+  if (t < T.arrive1 + 0.1) {
+    ctx.save(); ctx.globalCompositeOperation = "lighter";
+    for (const p of S.parts) {
+      if (t < p.ta || t > p.tArr + 0.06) continue;
+      const fade = seg(t, p.ta, p.ta + 0.35) * (1 - seg(t, p.tArr - 0.02, p.tArr + 0.06));
+      const pos = partPos(p, t, L);
+      const shrink = 1 - 0.55 * pos.s;
+      const twinkle = p.kind === "icon" ? 1 : 0.65 + 0.35 * Math.sin(t * 7 + p.tw);
+      // speed trail while they rush in
+      const ghosts = pos.s > 0.15 ? 3 : 0;
+      for (let gI = ghosts; gI >= 0; gI--) {
+        const q = gI ? partPos(p, t - gI * 0.014, L) : pos, a = fade * twinkle * (gI ? 0.22 / gI : 1);
+        if (a <= 0.01) continue;
+        ctx.globalAlpha = a;
+        if (p.kind === "dot") {
+          const rad = p.size * shrink;
+          g = ctx.createRadialGradient(q.x, q.y, 0, q.x, q.y, rad * 3);
+          g.addColorStop(0, p.col); g.addColorStop(0.33, p.col); g.addColorStop(1, "rgba(0,0,0,0)");
+          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, rad * 3, 0, Math.PI * 2); ctx.fill();
+        } else if (p.kind === "spark") {
+          ctx.save(); ctx.translate(q.x, q.y); ctx.rotate(t * 0.8 + p.tw); ctx.fillStyle = p.col; ctx.shadowColor = p.col; ctx.shadowBlur = 14 * u;
+          star(ctx, p.size * shrink * (0.75 + 0.25 * Math.sin(t * 9 + p.tw))); ctx.restore();
+        } else {
+          drawIcon(ctx, p.icon, q.x, q.y, p.size * shrink, p.rot0 + p.spin * t + pos.s * 1.6, p.col, gI ? 0 : 12 * u);
+        }
+      }
+    }
+    ctx.restore(); ctx.globalAlpha = 1;
+  }
+
+  // energy core while they gather, then the impact flash
+  const core = seg(t, 1.4, T.impact) ** 2 * (1 - seg(t, T.impact, T.impact + 0.25));
+  const flash = Math.sin(Math.PI * seg(t, T.impact - 0.03, T.impact + 0.3)) ** 2;
+  if (core > 0 || flash > 0) {
+    ctx.save(); ctx.globalCompositeOperation = "lighter";
+    g = ctx.createRadialGradient(cx, cy, 0, cx, cy, lw * 0.75);
+    g.addColorStop(0, `rgba(255,236,180,${0.35 * core + 0.55 * flash})`); g.addColorStop(0.5, `rgba(255,200,80,${0.12 * core + 0.2 * flash})`); g.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = g; ctx.fillRect(cx - lw, cy - lw, lw * 2, lw * 2); ctx.restore();
+  }
+
+  // logo: assembled where the particles land, then sweep, bounce, glow
+  if (t >= T.arrive0) {
+    const bt = t - T.bounce;
+    const bounce = bt > 0 && bt < 0.75 ? 0.075 * Math.exp(-7 * bt) * Math.sin(2 * Math.PI * 2.4 * bt) : 0;
+    const settle = lerp(0.94, 1, eOutBack(seg(t, T.arrive0, T.arrive0 + 0.75), 1.2));
+    const s = settle * (1 + bounce);
+    // soft glow behind the logo
+    const glowA = 0.35 * seg(t, T.arrive0, T.impact) + 0.25 * Math.max(0, Math.sin(Math.PI * seg(t, T.bounce, T.bounce + 0.7))) + 0.15 * seg(t, T.impact, T.impact + 0.6);
+    if (glowA > 0) {
+      ctx.save(); ctx.translate(cx, cy); ctx.scale(1, lh / lw * 1.6);
+      g = ctx.createRadialGradient(0, 0, 0, 0, 0, lw * 0.75);
+      g.addColorStop(0, `rgba(255,249,235,${glowA})`); g.addColorStop(1, "rgba(255,249,235,0)");
+      ctx.fillStyle = g; ctx.fillRect(-lw, -lw, lw * 2, lw * 2); ctx.restore();
+    }
+    ctx.save();
+    ctx.translate(cx, cy); ctx.scale(s, s); ctx.translate(-cx, -cy);
+    const shadowA = 0.26 * seg(t, T.impact, T.impact + 0.5);
+    if (shadowA > 0) { ctx.shadowColor = `rgba(58,40,13,${shadowA})`; ctx.shadowBlur = 38 * u; ctx.shadowOffsetY = 18 * u; }
+    const assembling = t < S.cells.reduce((m, c) => Math.max(m, c.t0 + 0.16), 0);
+    if (assembling) {   // the logo shows through circles that grow where particles land
+      ctx.beginPath();
+      for (const c of S.cells) { const k = seg(t, c.t0, c.t0 + 0.16); if (k > 0) { const rad = c.rad * eOutCubic(k); ctx.moveTo(c.x + rad, c.y); ctx.arc(c.x, c.y, rad, 0, Math.PI * 2); } }
+      ctx.clip();
+    }
+    const sw = seg(t, T.sweep0, T.sweep1);
+    if (sw > 0 && sw < 1) {   // a light band across the logo only
+      let sc = sweepCanvas[lw];
+      if (!sc) sc = sweepCanvas[lw] = new OffscreenCanvas(lw, lh);
+      const sx = sc.getContext("2d");
+      sx.globalCompositeOperation = "source-over"; sx.clearRect(0, 0, lw, lh); sx.drawImage(A.logo, 0, 0, lw, lh);
+      sx.globalCompositeOperation = "source-atop";
+      const bx = lerp(-0.35, 1.35, eInOutSine(sw)) * lw, bw = lw * 0.12;
+      sx.save(); sx.translate(bx, lh / 2); sx.rotate(0.35);
+      const bg = sx.createLinearGradient(-bw, 0, bw, 0);
+      bg.addColorStop(0, "rgba(255,240,200,0)"); bg.addColorStop(0.5, "rgba(255,240,200,0.5)"); bg.addColorStop(1, "rgba(255,240,200,0)");
+      sx.fillStyle = bg; sx.fillRect(-bw, -lh * 2, bw * 2, lh * 4); sx.restore();
+      ctx.drawImage(sc, lx, ly, lw, lh);
+    } else {
+      ctx.drawImage(A.logo, lx, ly, lw, lh);
+    }
+    ctx.restore();
+  }
+
+  // impact burst: deal confetti
+  const bt0 = T.impact + 0.02;
+  if (t > bt0 && t < bt0 + 1.2) {
+    for (const b of S.burst) {
+      const k = seg(t, bt0 + b.d0, bt0 + b.d0 + 0.95); if (k <= 0 || k >= 1) continue;
+      const e = eOutCubic(k), x = b.x + Math.cos(b.a) * b.dist * e, y = b.y + Math.sin(b.a) * b.dist * e;
+      ctx.globalAlpha = 1 - seg(k, 0.45, 1);
+      if (b.kind === "icon") drawIcon(ctx, b.icon, x, y, b.size * (0.6 + 0.4 * e), b.rot * (1 + e), b.col, 0);
+      else if (b.kind === "spark") { ctx.save(); ctx.translate(x, y); ctx.rotate(e * 2); ctx.fillStyle = b.col; star(ctx, b.size * 1.4 * (1 - 0.4 * e)); ctx.restore(); }
+      else { ctx.fillStyle = b.col; ctx.beginPath(); ctx.arc(x, y, b.size * (1 - 0.5 * e), 0, Math.PI * 2); ctx.fill(); }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  // tagline, word by word
+  const words = TAGS[tagLang];
+  if (words && t > T.tag) {
+    const size = Math.round(lh * 0.165), y0 = cy + lh / 2 + lh * 0.36, rtl = tagLang === "ar";
+    ctx.save();
+    ctx.font = `700 ${size}px "Readex Pro"`; ctx.textBaseline = "alphabetic"; ctx.direction = "ltr";
+    if ("letterSpacing" in ctx) ctx.letterSpacing = rtl ? "0px" : `${(size * 0.015).toFixed(2)}px`;
+    const dot = rtl ? "." : ".", gap = size * 0.42;
+    const ws = words.map((w) => ({ w, a: ctx.measureText(w).width, d: ctx.measureText(dot).width }));
+    const total = ws.reduce((m, x) => m + x.a + x.d, 0) + gap * (ws.length - 1);
+    let x = cx - total / 2;
+    const order = rtl ? [...ws.keys()].reverse() : [...ws.keys()];   // Arabic reads right to left: first word on the right
+    const xs = []; for (const k of order) { xs[k] = x; x += ws[k].a + ws[k].d + gap; }
+    ws.forEach((wd, k) => {
+      const e = seg(t, T.tag + k * 0.14, T.tag + k * 0.14 + 0.45); if (e <= 0) return;
+      const yy = y0 + (1 - eOutBack(e, 2)) * size * 0.55;
+      ctx.globalAlpha = eOutCubic(e);
+      ctx.fillStyle = C.inkDeep;
+      if (rtl) { ctx.fillStyle = C.leafDeep; ctx.fillText(dot, xs[k], yy); ctx.fillStyle = C.inkDeep; ctx.fillText(wd.w, xs[k] + wd.d, yy); }
+      else { ctx.fillText(wd.w, xs[k], yy); ctx.fillStyle = C.leafDeep; ctx.fillText(dot, xs[k] + wd.a, yy); }
+    });
+    const ul = eOutCubic(seg(t, T.tag + 0.5, T.still));   // a small leaf-green accent under it
+    if (ul > 0) { ctx.globalAlpha = 1; ctx.fillStyle = C.leafDeep; const uw = lw * 0.12 * ul, uh = Math.max(3, size * 0.11); ctx.beginPath(); ctx.roundRect(cx - uw / 2, y0 + size * 0.42, uw, uh, uh / 2); ctx.fill(); }
+    ctx.restore();
+  }
+  ctx.restore();
+  // fade in from black
+  const fi = 1 - seg(t, 0, 0.3);
+  if (fi > 0) { ctx.fillStyle = `rgba(0,0,0,${fi})`; ctx.fillRect(0, 0, W, H); }
+}
+
+/* ---------- sound design (synthesised, so the music is ours): whoosh → particles → impact → finish ---------- */
+async function buildAudio() {
+  const ctx = new OfflineAudioContext(2, Math.ceil(DUR * SR), SR), r = rng(4242);
+  const comp = ctx.createDynamicsCompressor();
+  comp.threshold.value = -16; comp.knee.value = 10; comp.ratio.value = 3; comp.attack.value = 0.004; comp.release.value = 0.25;
+  const master = ctx.createGain(); master.gain.value = 0.9; master.connect(comp); comp.connect(ctx.destination);
+  const nb = ctx.createBuffer(1, SR * 3, SR), nd = nb.getChannelData(0); for (let i = 0; i < nd.length; i++) nd[i] = r() * 2 - 1;
+  const ir = ctx.createBuffer(2, SR * 2.4, SR);
+  for (let ch = 0; ch < 2; ch++) { const d = ir.getChannelData(ch); for (let i = 0; i < d.length; i++) d[i] = (r() * 2 - 1) * (1 - i / d.length) ** 3.2; }
+  const rev = ctx.createConvolver(); rev.buffer = ir; const revG = ctx.createGain(); revG.gain.value = 0.3; rev.connect(revG); revG.connect(master);
+  const out = (node, pan = 0, wet = 0) => {
+    const p = ctx.createStereoPanner(); p.pan.value = pan; node.connect(p); p.connect(master);
+    if (wet) { const w = ctx.createGain(); w.gain.value = wet; p.connect(w); w.connect(rev); }
+    return p;
+  };
+  const noise = (t0, t1) => { const s = ctx.createBufferSource(); s.buffer = nb; s.loop = true; s.start(t0, r() * 2); s.stop(t1); return s; };
+  const env = (g, pts) => { g.gain.setValueAtTime(0, 0); for (const [tt, v, kind] of pts) kind === "x" ? g.gain.exponentialRampToValueAtTime(Math.max(v, 1e-4), tt) : kind === "s" ? g.gain.setValueAtTime(v, tt) : g.gain.linearRampToValueAtTime(v, tt); };
+
+  // 1. soft whooshes as the elements drift in
+  const whoosh = (t0, t1, f0, f1, peak, p0, p1, q = 1.1) => {
+    const src = noise(t0, t1 + 0.05), bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.Q.value = q;
+    bp.frequency.setValueAtTime(f0, t0); bp.frequency.exponentialRampToValueAtTime(f1, t1);
+    const g = ctx.createGain(); env(g, [[t0, 0, "s"], [lerp(t0, t1, 0.62), peak], [t1, 0.0001, "x"]]);
+    src.connect(bp); bp.connect(g); const p = out(g, 0, 0.25); p.pan.setValueAtTime(p0, t0); p.pan.linearRampToValueAtTime(p1, t1);
+  };
+  whoosh(0.05, 1.3, 260, 1900, 0.32, -0.6, 0.45);
+  whoosh(0.5, 1.55, 420, 3200, 0.2, 0.55, -0.35);
+  // 2. particle sparkles: tiny high pings, denser as they gather
+  const notes = [1568, 1760, 2093, 2349, 2637, 3136, 3520];
+  for (let k = 0; k < 20; k++) {
+    const tt = lerp(0.45, 2.3, Math.sqrt(r())), f = notes[(r() * notes.length) | 0], gv = lerp(0.03, 0.06, r());
+    for (const [mul, gm] of [[1, 1], [2.01, 0.22]]) {
+      const o = ctx.createOscillator(); o.type = "sine"; o.frequency.value = f * mul;
+      const g = ctx.createGain(); env(g, [[tt, 0, "s"], [tt + 0.004, gv * gm], [tt + 0.22, 0.0001, "x"]]);
+      o.connect(g); out(g, lerp(-0.7, 0.7, r()), 0.4); o.start(tt); o.stop(tt + 0.25);
+    }
+  }
+  // 3. riser into the impact
+  { const src = noise(1.7, T.impact), bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.Q.value = 0.9;
+    bp.frequency.setValueAtTime(500, 1.7); bp.frequency.exponentialRampToValueAtTime(7000, T.impact);
+    const g = ctx.createGain(); env(g, [[1.7, 0.0001, "s"], [T.impact - 0.02, 0.2, "x"], [T.impact, 0.0001]]);
+    src.connect(bp); bp.connect(g); out(g, 0, 0.2); }
+  // 4. the logo impact: sub thump + body + click + air
+  { const t0 = T.impact;
+    const sub = ctx.createOscillator(); sub.type = "sine"; sub.frequency.setValueAtTime(115, t0); sub.frequency.exponentialRampToValueAtTime(42, t0 + 0.42);
+    const gs = ctx.createGain(); env(gs, [[t0, 0, "s"], [t0 + 0.006, 0.95], [t0 + 0.95, 0.0001, "x"]]); sub.connect(gs); out(gs); sub.start(t0); sub.stop(t0 + 1);
+    const body = ctx.createOscillator(); body.type = "triangle"; body.frequency.setValueAtTime(260, t0); body.frequency.exponentialRampToValueAtTime(95, t0 + 0.14);
+    const gb = ctx.createGain(); env(gb, [[t0, 0, "s"], [t0 + 0.004, 0.32], [t0 + 0.28, 0.0001, "x"]]); body.connect(gb); out(gb, 0, 0.3); body.start(t0); body.stop(t0 + 0.3);
+    const click = noise(t0, t0 + 0.1), hp = ctx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 1800;
+    const gc = ctx.createGain(); env(gc, [[t0, 0, "s"], [t0 + 0.002, 0.45], [t0 + 0.07, 0.0001, "x"]]); click.connect(hp); hp.connect(gc); out(gc, 0, 0.35);
+    const air = noise(t0, t0 + 1.1), lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.setValueAtTime(2600, t0); lp.frequency.exponentialRampToValueAtTime(500, t0 + 0.9);
+    const ga = ctx.createGain(); env(ga, [[t0, 0, "s"], [t0 + 0.01, 0.22], [t0 + 1.0, 0.0001, "x"]]); air.connect(lp); lp.connect(ga); out(ga, 0, 0.6); }
+  // warm bed: a low drone that builds, then a soft pad after the impact
+  for (const [f, g0] of [[110, 0.05], [164.8, 0.035]]) {
+    const o = ctx.createOscillator(); o.type = "sine"; o.frequency.value = f; const g = ctx.createGain();
+    env(g, [[0.2, 0, "s"], [1.6, g0], [T.impact - 0.03, g0 * 1.4], [T.impact + 0.1, 0.0001, "x"]]); o.connect(g); out(g); o.start(0.2); o.stop(T.impact + 0.15);
+  }
+  for (const [f, g0, pan] of [[220, 0.03, -0.3], [329.6, 0.022, 0.3], [440, 0.014, 0]]) {
+    const o = ctx.createOscillator(); o.type = "sine"; o.frequency.value = f; const g = ctx.createGain();
+    env(g, [[T.impact, 0, "s"], [T.impact + 0.35, g0], [5.2, g0 * 0.7], [6.4, 0.0001, "x"]]); o.connect(g); out(g, pan, 0.5); o.start(T.impact); o.stop(6.45);
+  }
+  // 5. light sweep shimmer
+  { const src = noise(T.sweep0, T.sweep1 + 0.1), bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.Q.value = 2;
+    bp.frequency.setValueAtTime(5000, T.sweep0); bp.frequency.exponentialRampToValueAtTime(11000, T.sweep1);
+    const g = ctx.createGain(); env(g, [[T.sweep0, 0, "s"], [lerp(T.sweep0, T.sweep1, 0.5), 0.09], [T.sweep1, 0.0001, "x"]]);
+    src.connect(bp); bp.connect(g); const p = out(g, 0, 0.4); p.pan.setValueAtTime(-0.6, T.sweep0); p.pan.linearRampToValueAtTime(0.6, T.sweep1);
+    [2637, 3136, 3951].forEach((f, k) => { const tt = T.sweep0 + 0.12 + k * 0.13, o = ctx.createOscillator(); o.frequency.value = f; const gg = ctx.createGain();
+      env(gg, [[tt, 0, "s"], [tt + 0.004, 0.045], [tt + 0.35, 0.0001, "x"]]); o.connect(gg); out(gg, lerp(-0.5, 0.5, k / 2), 0.5); o.start(tt); o.stop(tt + 0.4); }); }
+  // 6. bounce pop
+  { const t0 = T.bounce, o = ctx.createOscillator(); o.type = "sine"; o.frequency.setValueAtTime(300, t0); o.frequency.exponentialRampToValueAtTime(760, t0 + 0.07);
+    const g = ctx.createGain(); env(g, [[t0, 0, "s"], [t0 + 0.005, 0.28], [t0 + 0.14, 0.0001, "x"]]); o.connect(g); out(g, 0, 0.2); o.start(t0); o.stop(t0 + 0.16); }
+  // 7. clean finishing chime as the tagline lands
+  for (const [tt, f] of [[T.tag, 1046.5], [T.tag + 0.1, 1568]]) {
+    for (const [mul, gm, dec] of [[1, 1, 1.7], [2.76, 0.32, 0.9], [5.4, 0.12, 0.45]]) {
+      const o = ctx.createOscillator(); o.frequency.value = f * mul; const g = ctx.createGain();
+      env(g, [[tt, 0, "s"], [tt + 0.005, 0.12 * gm], [tt + dec, 0.0001, "x"]]); o.connect(g); out(g, f > 1100 ? 0.25 : -0.25, 0.5); o.start(tt); o.stop(tt + dec + 0.05);
+    }
+  }
+  const buf = await ctx.startRendering();
+  let peak = 0; for (let ch = 0; ch < 2; ch++) { const d = buf.getChannelData(ch); for (let i = 0; i < d.length; i++) peak = Math.max(peak, Math.abs(d[i])); }
+  const k = 0.89 / (peak || 1), fadeN = Math.round(SR * 0.08);   // -1 dBFS peak, and a tiny fade at the very end
+  for (let ch = 0; ch < 2; ch++) { const d = buf.getChannelData(ch); for (let i = 0; i < d.length; i++) d[i] *= k * Math.min(1, (d.length - i) / fadeN); }
+  return buf;
+}
+
+/* ---------- render to MP4 (H.264 + AAC) and save to banners/video/ ---------- */
+const logEl = document.getElementById("log");
+const log = (s) => { logEl.textContent += s + "\n"; logEl.scrollTop = 1e9; console.log(s); };
+async function renderVideo(fmtKey, tagLang = "en") {
+  const F = FORMATS[fmtKey], L = layout(F.w, F.h), S = makeScene(L), t0 = performance.now();
+  const cv = new OffscreenCanvas(F.w, F.h), ctx = cv.getContext("2d", { alpha: false });
+  ctx.imageSmoothingQuality = "high";
+  const muxer = new Mp4Muxer.Muxer({ target: new Mp4Muxer.ArrayBufferTarget(), fastStart: "in-memory", firstTimestampBehavior: "offset",
+    video: { codec: "avc", width: F.w, height: F.h, frameRate: F.fps }, audio: { codec: "aac", numberOfChannels: 2, sampleRate: SR } });
+  let err = null;
+  const venc = new VideoEncoder({ output: (c, m) => muxer.addVideoChunk(c, m), error: (e) => { err = e; } });
+  venc.configure({ codec: F.codec, width: F.w, height: F.h, bitrate: F.br, framerate: F.fps, latencyMode: "quality", avc: { format: "avc" } });
+  const N = Math.round(DUR * F.fps);
+  for (let i = 0; i < N; i++) {
+    drawFrame(ctx, L, S, i / F.fps, tagLang);
+    const frame = new VideoFrame(cv, { timestamp: Math.round(i * 1e6 / F.fps), duration: Math.round(1e6 / F.fps) });
+    venc.encode(frame, { keyFrame: i % (F.fps * 2) === 0 }); frame.close();
+    while (venc.encodeQueueSize > 4) await new Promise((r) => setTimeout(r, 4));
+    if (err) throw err;
+    if (i % 60 === 0) log(`${fmtKey}: frame ${i}/${N}`);
+  }
+  await venc.flush();
+  const ab = await buildAudio();
+  const aenc = new AudioEncoder({ output: (c, m) => muxer.addAudioChunk(c, m), error: (e) => { err = e; } });
+  aenc.configure({ codec: "mp4a.40.2", sampleRate: SR, numberOfChannels: 2, bitrate: 192000 });
+  const l0 = ab.getChannelData(0), r0 = ab.getChannelData(1), CH = 4800;
+  for (let s = 0; s < ab.length; s += CH) {
+    const n = Math.min(CH, ab.length - s), data = new Float32Array(n * 2);
+    data.set(l0.subarray(s, s + n), 0); data.set(r0.subarray(s, s + n), n);
+    const ad = new AudioData({ format: "f32-planar", sampleRate: SR, numberOfFrames: n, numberOfChannels: 2, timestamp: Math.round(s * 1e6 / SR), data });
+    aenc.encode(ad); ad.close();
+  }
+  await aenc.flush();
+  if (err) throw err;
+  muxer.finalize();
+  const name = `banners/video/foodidu-intro-${fmtKey}${tagLang === "en" ? "" : tagLang ? "-" + tagLang : "-notag"}.mp4`;
+  const res = await fetch(`/__save?path=${name}`, { method: "POST", body: muxer.target.buffer });
+  const msg = `${await res.text()} in ${((performance.now() - t0) / 1000).toFixed(1)}s`;
+  log(msg); return msg;
+}
+async function stillFrame(fmtKey, t, tagLang = "en", file) {   // a PNG of one moment, for checking or a thumbnail
+  const F = FORMATS[fmtKey], L = layout(F.w, F.h), S = makeScene(L), cv = new OffscreenCanvas(F.w, F.h), ctx = cv.getContext("2d", { alpha: false });
+  drawFrame(ctx, L, S, t, tagLang);
+  const blob = await cv.convertToBlob({ type: "image/png" });
+  const res = await fetch(`/__save?path=${file}`, { method: "POST", body: blob }); return res.text();
+}
+
+/* ---------- preview ---------- */
+const cv = document.getElementById("cv"), pctx = cv.getContext("2d"), fmtSel = document.getElementById("fmt"), tagSel = document.getElementById("tag"), scrub = document.getElementById("scrub"), tl = document.getElementById("tl");
+for (const [k, f] of Object.entries(FORMATS)) fmtSel.append(new Option(f.label, k));
+fmtSel.value = "16x9-1080";
+let PL, PS, playing = null;
+function setup() { const F = FORMATS[fmtSel.value], sc = Math.min(1, 960 / Math.max(F.w, F.h)); cv.width = Math.round(F.w * sc); cv.height = Math.round(F.h * sc); PL = layout(cv.width, cv.height); PS = makeScene(PL); draw(+scrub.value); }
+function draw(t) { drawFrame(pctx, PL, PS, t, tagSel.value); tl.textContent = t.toFixed(2) + "s"; }
+scrub.oninput = () => { playing = null; draw(+scrub.value); };
+fmtSel.onchange = setup; tagSel.onchange = () => draw(+scrub.value);
+document.getElementById("play").onclick = async () => {
+  const buf = await buildAudio(), ac = new AudioContext(), src = ac.createBufferSource(); src.buffer = buf; src.connect(ac.destination);
+  const start = ac.currentTime + 0.05; src.start(start); const id = playing = {};
+  const tick = () => { if (playing !== id) return; const t = ac.currentTime - start; if (t > DUR) return; if (t >= 0) { scrub.value = t; draw(t); } requestAnimationFrame(tick); };
+  tick();
+};
+document.getElementById("render").onclick = async () => { try { await renderVideo(fmtSel.value, tagSel.value); } catch (e) { log("ERROR " + e.message); } };
+window.FD = { renderVideo, stillFrame, buildAudio, FORMATS };
+loadAssets().then(setup).then(() => log("ready"), (e) => log("ERROR " + e.message));
+</script>
+</body>
+</html>
