@@ -610,6 +610,14 @@ a.store:hover { background: #000; transform: translateY(-2px); }
 .dd-know p { color: var(--ink-2); max-width: 40em; }
 .dd-know-links { display: flex; flex-wrap: wrap; gap: 10px; }
 .dd-know-links .btn { min-height: 44px; padding: .5em 1.1em; font-size: .95rem; }
+/* follow the WhatsApp channel */
+.wa-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 22px; border: 2px solid var(--line); border-radius: var(--r); background: var(--paper); }
+.wa-cta h2 { font-size: 1.45rem; margin-bottom: 4px; }
+.wa-cta p { color: var(--ink-2); max-width: 40em; }
+.wa-cta .btn .icon { width: 1.25em; height: 1.25em; }
+.side-wa { display: block; }
+.side-wa h2 { font-size: 1.3rem; margin-bottom: 6px; }
+.side-wa .btn { margin-top: 14px; width: 100%; justify-content: center; }
 @media (max-width: 520px) {
   .dday { gap: 12px; padding: 14px; }
   .dday-cal { width: 68px; border-radius: 13px; }

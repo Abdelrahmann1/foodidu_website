@@ -22,11 +22,13 @@ my $NOW   = time;
 my $YEAR  = strftime('%Y', gmtime $NOW);
 my $FORM_URL = 'https://script.google.com/macros/s/AKfycbyxKza22srkcMWv5bFGp4ZzQ0ulZaVc29RV_8brZ6l_Zih_rxz0tdMCHrM_CDvQ84-d/exec';
 my @SOCIAL = (
+  ['whatsapp',  'WhatsApp',  'https://whatsapp.com/channel/0029VbDn2NXK0IBiEFwKWp25'],
   ['facebook',  'Facebook',  'https://www.facebook.com/Foodidu.EG'],
   ['instagram', 'Instagram', 'https://www.instagram.com/foodidu_official'],
   ['tiktok',    'TikTok',    'https://www.tiktok.com/@foodidu_'],
   ['linkedin',  'LinkedIn',  'https://www.linkedin.com/company/foodidu/'],
 );
+my ($WA) = map { $_->[2] } grep { $_->[0] eq 'whatsapp' } @SOCIAL;   # the WhatsApp channel: follow cards on the pages
 
 my $PLAY_URL = 'https://play.google.com/store/apps/details?id=com.fooddidu.app';
 my $LOGO = '/img/foodidu-logo.svg';   # the "welcome to Foodidu" brand logo, 767x304
@@ -162,6 +164,7 @@ my %S = (
   c_empty => 'No codes match this filter.', c_filters => 'Filter codes',
   # brand page
   nocode => 'No code needed', nocode_go => 'Order', nocode_aria => '{name}: no code needed, order from {where}',
+  wa_title => 'New codes on WhatsApp', wa_text => 'Follow the Foodidu channel on WhatsApp to get new promo codes and deals as soon as we add them.', wa_btn => 'Follow on WhatsApp',
   nocode_item => 'an offer with no code needed ({offer})', b_a1_mixed => '{name} offers on Foodidu: {list}.', b_nst1p_self => 'Open it on your phone or in your browser.',
   b_h1_nocode => '{name} discount', b_how_nocode => 'How to get the {name} discount', b_faq_nocode => '{name} discount: FAQ', b_side_nocode => 'Your {name} discount',
   b_nst1 => 'Open {where}', b_nst1p => 'Use the button on this page or open it yourself.', b_nst2 => 'Order as usual', b_nst2p => 'Add what you want to your cart.',
@@ -296,6 +299,7 @@ my %S = (
   c_group_restaurants => 'أكواد خصم المطاعم', c_group_groceries => 'أكواد خصم البقالة والسوبر ماركت', c_group_shopping => 'أكواد خصم التسوق أونلاين',
   c_empty => 'لا توجد أكواد تطابق هذا الاختيار.', c_filters => 'تصفية الأكواد',
   nocode => 'بدون كود', nocode_go => 'اطلب', nocode_aria => '{name}: بدون كود، اطلب من {where}',
+  wa_title => 'أكواد جديدة على واتساب', wa_text => 'تابع قناة Foodidu على واتساب لتصلك أكواد الخصم والعروض الجديدة أول بأول.', wa_btn => 'تابع القناة على واتساب',
   nocode_item => 'عرض بدون كود ({offer})', b_a1_mixed => 'عروض {name} على Foodidu: {list}.', b_nst1p_self => 'افتحه بنفسك من هاتفك أو من المتصفح.',
   b_h1_nocode => 'عرض خصم {name}', b_how_nocode => 'طريقة الحصول على خصم {name}', b_faq_nocode => 'أسئلة عن خصم {name}', b_side_nocode => 'خصم {name}',
   b_nst1 => 'افتح {where}', b_nst1p => 'من الزر في هذه الصفحة أو بنفسك.', b_nst2 => 'اطلب كالمعتاد', b_nst2p => 'أضف ما تريده إلى السلة.',
@@ -403,6 +407,7 @@ my %ICON = (
   facebook => '<path fill="currentColor" stroke="none" d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v7h4v-7h3l.5-4h-3.5V9c0-.6.4-1 1-1Z"/>',
   instagram=> '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>',
   tiktok   => '<path fill="currentColor" stroke="none" d="M16.5 3c.3 2.3 1.8 3.9 4 4.1v3.3c-1.5 0-2.9-.4-4-1.2v6.3A5.5 5.5 0 1 1 11 10v3.4a2.2 2.2 0 1 0 2 2.2V3h3.5Z"/>',
+  whatsapp => '<path d="M3.5 20.5 4.8 16.3A8.5 8.5 0 1 1 8 19.6Z"/><path fill="currentColor" stroke="none" d="M9.1 7.6c.3 0 .5.1.6.4l.8 1.8c.1.3 0 .6-.2.8l-.6.6c.6 1.3 1.6 2.3 2.9 2.9l.6-.6c.2-.2.5-.3.8-.2l1.8.8c.3.1.4.3.4.6v.4c0 1-1 1.9-2 1.8-3.6-.4-6.5-3.3-6.9-6.9-.1-1 .8-2 1.8-2Z"/>',
   linkedin => '<path fill="currentColor" stroke="none" d="M4 9h4v12H4zM6 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm4 6h3.8v1.7c.6-1 1.9-2 3.9-2 4 0 4.3 2.6 4.3 6V21h-4v-5.5c0-1.5 0-3.3-2-3.3s-2.3 1.5-2.3 3.2V21H10z"/>',
 );
 sub icon { my ($n, $cls) = @_; $cls = $cls ? " $cls" : ''; qq{<svg class="icon$cls" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">$ICON{$n}</svg>} }
@@ -507,6 +512,14 @@ sub search_form {
 sub band {
   my ($l) = @_;
   qq{<section class="wrap section-tight"><div class="band"><div><h2>} . T($l, 'band_title') . '</h2><p>' . T($l, 'band_text') . qq{</p><a class="btn btn-sun" href="} . path_for($l, '/partners/') . '">' . T($l, 'band_btn') . ' ' . icon('arrow', 'flip') . qq{</a></div><img class="face" src="$LOGO" alt="" width="200" height="79" loading="lazy"></div></section>};
+}
+# Follow the WhatsApp channel: a card in the brand page sidebar ($side), or a strip above the partner band
+sub wa_cta {
+  my ($l, $side) = @_;
+  return '' unless $WA;
+  my $a = qq{<a class="btn btn-leaf" href="$WA" rel="noopener" target="_blank" data-track="whatsapp_channel_click">} . icon('whatsapp') . ' ' . T($l, 'wa_btn') . '</a>';
+  return '<div class="side-card wa-cta side-wa"><h2>' . T($l, 'wa_title') . '</h2><p>' . T($l, 'wa_text') . "</p>$a</div>" if $side;
+  '<section class="wrap section-tight"><div class="wa-cta"><div><h2>' . T($l, 'wa_title') . '</h2><p>' . T($l, 'wa_text') . "</p></div>$a</div></section>";
 }
 sub store_buttons {
   my ($l, $cls) = @_;
@@ -882,6 +895,7 @@ for my $l (@LANGS) {
 <li>@{[ icon('gift') ]}<h3>@{[ T($l, 'h_w4') ]}</h3><p>@{[ T($l, 'h_w4p') ]}</p></li>
 </ul>
 </section>
+@{[ wa_cta($l) ]}
 @{[ band($l) ]}
 <section class="wrap section-tight two-col" aria-labelledby="faq-title">
 <div><p class="eyebrow">@{[ T($l, 'faq_eyebrow') ]}</p><h2 class="h2" id="faq-title">@{[ T($l, 'faq_title') ]}</h2></div>
@@ -928,6 +942,7 @@ HTML
 <p class="section-sub">@{[ T($l, 'c_rest_sub') ]}</p>
 <ul class="brand-cards">@{[ join '', map { rest_card($_, $l) } @RESTS ]}</ul></section>
 </section>
+@{[ wa_cta($l) ]}
 @{[ band($l) ]}
 HTML
     my $i = 0;
@@ -974,6 +989,7 @@ $groups
 <div><p class="eyebrow">@{[ T($l, 'faq_eyebrow') ]}</p><h2 class="h2" id="fofaq-title">@{[ T($l, 'faq_title') ]}</h2></div>
 @{[ faq_html(@qa) ]}
 </section>
+@{[ wa_cta($l) ]}
 @{[ band($l) ]}
 HTML
     my $i = 0;
@@ -995,7 +1011,7 @@ HTML
     my %fv = (brand => dd_name($first, $l), day => dd_when($first, $l));
     my $tbase = T($l, 'dd_page_title', %fv);
     my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'dd_h1'), path_for($l, '/day-deals/')]];
-    my $social = join '', map { qq{<a class="btn btn-line" href="$_->[2]" rel="noopener" target="_blank">} . icon($_->[0]) . " $_->[1]</a>" } @SOCIAL[0, 1];
+    my $social = join '', map { qq{<a class="btn btn-line" href="$_->[2]" rel="noopener" target="_blank">} . icon($_->[0]) . " $_->[1]</a>" } grep { $_->[0] =~ /^(?:facebook|instagram)$/ } @SOCIAL;
     my $body = <<"HTML";
 <section class="page-hero">
 <div class="wrap">
@@ -1010,6 +1026,7 @@ $groups
 <p class="note">@{[ T($l, 'dd_note') ]}</p>
 <div class="dd-know"><div><h2>@{[ T($l, 'dd_know') ]}</h2><p>@{[ T($l, 'dd_know_p') ]}</p></div><div class="dd-know-links">$social</div></div>
 </section>
+@{[ wa_cta($l) ]}
 <section class="wrap section-tight two-col" aria-labelledby="ddfaq-title">
 <div><p class="eyebrow">@{[ T($l, 'faq_eyebrow') ]}</p><h2 class="h2" id="ddfaq-title">@{[ T($l, 'faq_title') ]}</h2></div>
 @{[ faq_html(@qa) ]}
@@ -1080,6 +1097,7 @@ $actions
 <div class="section-head"><h2 class="h2" id="more-title">@{[ T($l, 'ro_more') ]}</h2></div>
 <ul class="brand-cards">$more</ul>
 </section>
+@{[ wa_cta($l) ]}
 @{[ band($l) ]}
 HTML
     layout(lang => $l, key => "/$r->{slug}/", title => (length($tbase) + 10 <= 65 ? "$tbase | Foodidu" : $tbase), desc => $r->{seo}{$l}{description},
@@ -1190,6 +1208,7 @@ $bdd
 </article>
 <aside class="side">
 <div class="side-card side-codes"><h2>@{[ Te($l, $nc ? 'b_side_nocode' : @coded > 1 ? 'b_side_codes' : 'b_side_code', name => $name) ]}</h2>$side_codes</div>
+@{[ wa_cta($l, 1) ]}
 <div class="side-card"><h2>@{[ T($l, 'b_side_cats') ]}</h2><ul class="side-list">$sidecats</ul></div>
 </aside>
 </div>
