@@ -224,3 +224,12 @@ details.as-table .tbl-wrap { margin-top: 8px; }
   .bars li { grid-template-columns: minmax(70px, 38%) 1fr; }
   .tile-value { font-size: 1.6rem; }
 }
+
+/* partner badge tool (Tools) */
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge-tool select { min-height: 42px; padding: 8px 12px; border: 1.5px solid var(--axis); border-radius: 10px; background: #fff; color: var(--ink); font: inherit; font-size: .92rem; }
+.badge-prev { margin: 14px 0 6px; }
+.badge-prev img { display: block; max-width: 100%; height: auto; }
+.badge-l { margin: 12px 0 6px; font-size: .88rem; }
+.badge-code { display: block; width: 100%; padding: 10px 12px; margin-bottom: 8px; border: 1.5px solid var(--line); border-radius: 10px; background: #fbf8f0; color: var(--ink); font: 600 .8rem/1.6 ui-monospace, Consolas, monospace; resize: vertical; }
+.badge-code[dir="auto"] { font: 500 .9rem/1.6 var(--font-body); }

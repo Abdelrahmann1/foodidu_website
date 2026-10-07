@@ -553,7 +553,37 @@
           el("li", null, el("span", null, el("b", { text: "فحص الـ SEO: " }), el("code", { class: "ltr", text: "perl tools/seo-audit.pl" }))))),
         card("خطوات الإعداد", "عشان كل أجزاء لوحة التحكم تشتغل.", el("ul", { class: "check" }, setup.map(([ok, t, d, apis]) => el("li", null,
           ok === true ? chip("good", "تمام") : ok === false ? chip("warning", "لسه") : chip("info", "اتأكد"),
-          el("span", null, el("b", { text: t + ": " }), d ? d : null, apis ? apis.map((a, i) => [i ? " · " : "", ext(`https://console.cloud.google.com/apis/library/${a}?project=${PROJECT}`, a)]) : null)))))));
+          el("span", null, el("b", { text: t + ": " }), d ? d : null, apis ? apis.map((a, i) => [i ? " · " : "", ext(`https://console.cloud.google.com/apis/library/${a}?project=${PROJECT}`, a)]) : null))))),
+        badgeCard()));
+  }
+
+  /* ---------- partner badge: a ready link for a partner's site, pointing at their page here (a backlink) ---------- */
+  function badgeCard() {
+    const attr = (s) => String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const partners = [], seen = new Set();
+    for (const c of D.codes) if (!seen.has(c.key)) { seen.add(c.key); partners.push({ ar: c.brand, en: c.brandEn, page: c.page, pageEn: c.pageEn, code: true }); }
+    for (const r of D.restaurants) partners.push({ ar: r.name, en: r.nameEn, page: r.page, pageEn: r.pageEn, code: false });
+    const who = el("select", { "aria-label": "الشريك" }, partners.map((p, i) => el("option", { value: String(i), text: p.ar + (p.code ? "" : " (عروض)") })));
+    const lang = el("select", { "aria-label": "لغة الشارة" }, el("option", { value: "ar", text: "عربي" }), el("option", { value: "en", text: "English" }));
+    const html = el("textarea", { class: "badge-code ltr", readonly: true, rows: 4, dir: "ltr", "aria-label": "كود الشارة لموقع الشريك" });
+    const text = el("textarea", { class: "badge-code", readonly: true, rows: 2, dir: "auto", "aria-label": "نص بلينك للسوشيال" });
+    const prev = el("div", { class: "badge-prev" });
+    const copy = (box) => { const b = el("button", { class: "dash-btn ghost", type: "button", text: "انسخ" }); b.addEventListener("click", () => {
+      navigator.clipboard.writeText(box.value).then(() => { b.textContent = "اتنسخ ✓"; setTimeout(() => { b.textContent = "انسخ"; }, 2000); }, () => { box.select(); }); }); return b; };
+    const update = () => {
+      const p = partners[+who.value], l = lang.value, url = D.site + (l === "ar" ? p.page : p.pageEn), img = `/img/badge/foodidu-badge-${l}-v1.png`;
+      const alt = l === "ar" ? (p.code ? `كود خصم ${p.ar} على Foodidu` : `عروض ${p.ar} على Foodidu`) : (p.code ? `${p.en} promo code on Foodidu` : `${p.en} offers on Foodidu`);
+      html.value = `<a href="${attr(url)}" target="_blank" rel="noopener" title="${attr(alt)}"><img src="${D.site}${img}" alt="${attr(alt)}" width="240" height="75" loading="lazy"></a>`;
+      text.value = l === "ar" ? `${p.code ? "كود الخصم بتاعنا" : "عروضنا"} موجود${p.code ? "" : "ة"} على Foodidu 👇\n${url}` : `${p.code ? "Find our promo code" : "See our offers"} on Foodidu: ${url}`;
+      prev.replaceChildren(el("a", { href: url, target: "_blank", rel: "noopener" }, el("img", { src: img, alt, width: "240", height: "75" })));
+    };
+    who.addEventListener("change", update); lang.addEventListener("change", update); update();
+    const c = card("شارة لشركائك", "ابعت الكود ده للشريك يحطه في موقعه (في الفوتر أو صفحة العروض). اللينك بيودّي على صفحته عندنا، وده بيساعد جوجل يلاقيها ويرتّبها أعلى.",
+      el("div", { class: "badge-row" }, who, lang), prev,
+      el("p", { class: "badge-l" }, el("b", { text: "لموقع الشريك (HTML):" })), html, copy(html),
+      el("p", { class: "badge-l" }, el("b", { text: "لو مالوش موقع (بوست أو بايو):" })), text, copy(text));
+    c.classList.add("wide", "badge-tool");
+    return c;
   }
 
   /* ---------- go ---------- */

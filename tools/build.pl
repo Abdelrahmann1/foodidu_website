@@ -1259,7 +1259,7 @@ HTML
       exclusive => ($_->{exclusive} ? $T : $F), low => (($b->{priority} // '') eq 'low' ? $T : $F),
       checked => $_->{lastVerified}, page => brand_url($b, 'ar'), pageEn => brand_url($b, 'en') } } offers_of($b) } @BRANDS;
   my @rests = map { +{ key => $_->{key}, name => $_->{name}{ar}, offers => scalar(@{ $_->{offers} }), min => rest_min($_), save => rest_max_save($_),
-      until => $_->{validUntil}, checked => $_->{lastChecked}, page => rest_url($_, 'ar'), menu => $_->{menu}{ar} // $_->{website} } } @RESTS;
+      until => $_->{validUntil}, checked => $_->{lastChecked}, page => rest_url($_, 'ar'), pageEn => rest_url($_, 'en'), nameEn => $_->{name}{en}, menu => $_->{menu}{ar} // $_->{website} } } @RESTS;
   my @deals = map { my $d = $_; my $b = dd_brand($d) // dd_rest($d); +{ name => ($b ? $b->{name}{ar} : $d->{name}{ar}), title => $d->{title}{ar},
       days => [ map { $DAYN{ar}{$_} } @{ $d->{days} } ], checked => $d->{lastChecked}, source => $d->{source} } } @DDEALS;
   my @fps = grep { $_->[1] } map { my $k = $_; my ($r) = grep { $_->{key} eq $k } @RESTS; [$r, $r // $BYKEY{$k}] } feat_keys();   # [restaurant, partner]
