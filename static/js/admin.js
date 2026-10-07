@@ -6,13 +6,14 @@
 window.FoodiduAdmin = (() => {
   "use strict";
   const BRANCH = "main", TOKEN_KEY = "fd_gh_token";
-  const FILES = { brands: "data/brands.json", rests: "data/restaurant-offers.json", deals: "data/day-deals.json", featured: "data/featured.json", home: "data/home.json", firebase: "firebase.json" };
+  const FILES = { brands: "data/brands.json", rests: "data/restaurant-offers.json", deals: "data/day-deals.json", featured: "data/featured.json", home: "data/home.json", blog: "data/blog.json", firebase: "firebase.json" };
   const DAYS = [["sat", "السبت"], ["sun", "الأحد"], ["mon", "الاتنين"], ["tue", "التلات"], ["wed", "الأربع"], ["thu", "الخميس"], ["fri", "الجمعة"]];
   const ICONS = [["fork", "مطاعم"], ["pizza", "بيتزا"], ["basket", "بقالة"], ["bag", "تسوق"], ["gift", "هدية"], ["tag", "خصم"]];
-  const RESERVED = ["ar", "en", "promo-codes", "partners", "day-deals", "privacy-policy", "terms-and-conditions", "dashboard", "img", "css", "js", "pages", "components", "404"];
+  const RESERVED = ["ar", "en", "promo-codes", "partners", "day-deals", "privacy-policy", "terms-and-conditions", "dashboard", "blog", "first-order-promo-codes", "img", "css", "js", "pages", "components", "404"];
   // key order in the JSON files, so a saved entry looks like the ones written by hand
   const BRAND_KEYS = ["key", "slug", "name", "logo", "code", "noCode", "category", "region", "regionLabel", "exclusive", "firstOrder", "featured", "priority", "url", "urlLabel", "lastVerified", "badge", "offer", "terms", "where", "steps", "moreCodes", "about", "seo"];
   const REST_KEYS = ["key", "slug", "name", "logo", "category", "region", "menu", "website", "phone", "cuisine", "lastChecked", "validUntil", "about", "seo", "offers"];
+  const POST_KEYS = ["key", "slug", "status", "published", "updated", "seasonEnd", "brands", "seo", "h1", "lede", "body", "faq"];
   const DEAL_KEYS = ["id", "brand", "name", "logo", "icon", "region", "url", "featured", "days", "title", "details", "source", "sourceLabel", "lastChecked"];
   let REPO = "", root = null, token = null;
   const S = { loaded: false, base: null, data: {}, dirty: new Set(), blobs: {}, deletes: new Set(), baseFiles: new Set(), changes: [], logos: {}, tab: "brands", view: null };
@@ -116,7 +117,7 @@ window.FoodiduAdmin = (() => {
   /* ---------- form fields: each is { node, get(), set(v), check() -> [error messages] } ---------- */
   const field = (label, input, hint) => el("label", { class: "adm-f" }, el("span", { class: "adm-l", text: label }), input, hint ? el("small", { class: "adm-h", text: hint }) : null);
   function text(label, o = {}) {
-    const i = el(o.area ? "textarea" : "input", { type: o.area ? null : o.type || "text", dir: o.dir || "auto", rows: o.area ? 3 : null, placeholder: o.ph || null, inputmode: o.type === "number" ? "numeric" : null });
+    const i = el(o.area ? "textarea" : "input", { type: o.area ? null : o.type || "text", dir: o.dir || "auto", rows: o.area ? o.rows || 3 : null, placeholder: o.ph || null, inputmode: o.type === "number" ? "numeric" : null });
     const counter = o.count ? el("small", { class: "adm-c" }) : null;
     const upd = () => { if (!counter) return; const n = i.value.trim().length; counter.textContent = `${n} حرف (المناسب ${o.count[0]} لـ ${o.count[1]})`; counter.classList.toggle("bad", n > 0 && (n < o.count[0] || n > o.count[1])); };
     i.addEventListener("input", upd);
@@ -413,6 +414,93 @@ window.FoodiduAdmin = (() => {
     return { f, sync };
   }
 
+  /* ---------- blog: articles in data/blog.json; the site builds /blog/<slug>/ (the Markdown is described in tools/build.pl) ---------- */
+  const BLOG_MIN = { words: 400, sections: 2, links: 2 };   // the same quality gate as tools/build.pl
+  const MD_HELP = "فقرات بينها سطر فاضي. ## عنوان قسم · ### عنوان صغير · - نقطة · 1. خطوة · > نصيحة · **كلام تقيل** · [نص](brand:noon) لينك لصفحة كود · [نص](page:/first-order-promo-codes/) لينك لصفحة في الموقع · [نص](https://...) لينك لموقع تاني · {{code:noon}} الكود نفسه و{{offer:noon}} العرض (بيتحدثوا لوحدهم لو الكود اتغير) · [[codes: noon, iherb]] في سطر لوحده: تذاكر الأكواد.";
+  function mdCheck(src, label) {   // -> { words, sections, links, errors }, counted like the build does
+    const s = src || "", errors = [];
+    let links = 0;
+    for (const m of s.matchAll(/\]\(([^)\s]+)\)/g)) {
+      const h = m[1], b = /^brand:([a-z0-9-]+)$/.exec(h);
+      if (b) { links++; if (!findBrand(b[1])) errors.push(`${label}: مفيش كود اسمه ${b[1]}`); }
+      else if (/^page:\/[A-Za-z0-9/-]*$/.test(h)) links++;
+      else if (!/^https:\/\//.test(h)) errors.push(`${label}: اللينك ${h} لازم يبدأ بـ brand: أو page:/ أو https://`);
+    }
+    for (const m of s.matchAll(/\{\{(?:code|offer):([a-z0-9-]+)\}\}/g)) if (!findBrand(m[1])) errors.push(`${label}: مفيش كود اسمه ${m[1]}`);
+    for (const m of s.matchAll(/^\[\[codes:\s*([a-z0-9,\s-]+)\]\]\s*$/gm)) for (const k of m[1].split(/[\s,]+/).filter(Boolean)) { links++; if (!findBrand(k)) errors.push(`${label}: مفيش كود اسمه ${k}`); }
+    const words = (s.replace(/\[\[codes:[^\]]*\]\]/g, "").replace(/\{\{[^}]*\}\}/g, "x").replace(/\]\([^)]*\)/g, "]").match(/[\p{L}\p{N}]+/gu) || []).length;
+    return { words, sections: (s.match(/^## /gm) || []).length, links, errors };
+  }
+  const postUses = (p, key) => (p.brands || []).includes(key) || [p.body.ar, p.body.en, ...(p.faq || []).flatMap((q) => [q.a.ar, q.a.en])]
+    .some((s) => new RegExp(`(?:brand:|\\{\\{(?:code|offer):)${key}(?![a-z0-9-])|\\[\\[codes:[^\\]]*(?<![a-z0-9-])${key}(?![a-z0-9-])`).test(s || ""));
+  function blogForm(isNew) {
+    return {
+      slug: text("لينك المقال", { req: true, dir: "ltr", pattern: /^[a-z0-9]+(-[a-z0-9]+)*$/, patternMsg: "حروف إنجليزي صغيرة وأرقام وشَرطة - بس",
+        hint: isNew ? "زي white-friday-2026: المقال بيبقى على foodidu.com/ar/blog/white-friday-2026/. ما بيتغيرش بعد كده." : "ثابت عشان ما نخسرش ترتيب المقال في جوجل." }),
+      status: select("الحالة", [["draft", "مسودة: مخفية عن جوجل، ومش متلينكة من أي صفحة"], ["published", "منشور: يظهر في المدونة وجوجل"]],
+        { hint: `النشر بيرفض المقال لو أقل من ${BLOG_MIN.words} كلمة، أو فيه أقل من ${BLOG_MIN.sections} أقسام (##)، أو أقل من ${BLOG_MIN.links} لينكات لصفحات الأكواد. المسودة بتتحفظ عادي.` }),
+      updated: date("آخر تحديث", { today: true, hint: "غيّره لما تحدّث معلومة في المقال. تاريخ النشر بيتحط لوحده أول ما تنشره." }),
+      seasonEnd: date("الموسم بيخلص يوم (اختياري)", { hint: "لمقالات المواسم زي الجمعة البيضاء: بعد اليوم ده بيظهر في المقال إن الموسم خلص، لحد ما تحدّثه." }),
+      brands: multi("الأكواد اللي في المقال", S.data.brands.brands.map((b) => [b.key, b.name.ar]), { hint: "بتظهر جنب المقال، والمقال بيظهر في صفحة كل كود منهم." }),
+      seo: seo(),
+      h1: bi("العنوان في الصفحة", { req: true }),
+      lede: bi("المقدمة", { req: true, area: true, hint: "سطرين تحت العنوان." }),
+      body: bi("المقال", { req: true, area: true, rows: 22, hint: MD_HELP }),
+      faq: list("أسئلة شائعة (اختياري)", () => group({ q: bi("السؤال", { req: true }), a: bi("الإجابة", { req: true, area: true }) }), { item: "سؤال", add: "سؤال" })
+    };
+  }
+  function blogEditor(slug) {
+    const p = slug && S.data.blog.posts.find((x) => x.slug === slug), isNew = !p, f = blogForm(isNew);
+    const cur = p ? clone(p) : { status: "draft", updated: today(), brands: [] };
+    for (const [k, x] of Object.entries(f)) x.set(cur[k]);
+    if (!isNew) f.slug.input.disabled = true;
+    return editor(isNew ? "مقال جديد" : `تعديل ${p.h1.ar}`, f, async () => {
+      const v = collect(f);
+      if (isNew && S.data.blog.posts.some((x) => x.slug === v.slug)) throw new Error("فيه مقال تاني بنفس اللينك. غيّره.");
+      const others = [...entities(), ...S.data.blog.posts.filter((x) => x !== p)];
+      for (const l of ["ar", "en"]) {
+        if (others.some((x) => x.seo && x.seo[l] && x.seo[l].title === v.seo[l].title)) throw new Error(`عنوان جوجل (${l === "ar" ? "عربي" : "English"}) نفس عنوان صفحة تانية. كل صفحة لازم عنوانها مختلف.`);
+        if (others.some((x) => x.seo && x.seo[l] && x.seo[l].description === v.seo[l].description)) throw new Error(`وصف جوجل (${l === "ar" ? "عربي" : "English"}) نفس وصف صفحة تانية.`);
+      }
+      const next = { ...(isNew ? {} : clone(p)), key: v.slug, slug: v.slug, status: v.status, updated: v.updated || today(), brands: v.brands, seo: v.seo, h1: v.h1, lede: v.lede, body: v.body };
+      if (v.seasonEnd) next.seasonEnd = v.seasonEnd; else delete next.seasonEnd;
+      if (v.faq.length) next.faq = v.faq; else delete next.faq;
+      if (v.status === "published" && (!p || p.status !== "published")) { next.published = today(); next.updated = today(); }   // it goes live today
+      if (!isNew && same(next, p, POST_KEYS)) return false;
+      if (isNew) {   // an article that comes back after a delete: drop its 301s
+        const gone = new Set(["", "/ar"].flatMap((ar) => [`${ar}/blog/${v.slug}`, `${ar}/blog/${v.slug}/`])), red = S.data.firebase.hosting.redirects, keep = red.filter((r) => !gone.has(r.source));
+        if (keep.length !== red.length) { S.data.firebase.hosting.redirects = keep; S.dirty.add("firebase"); }
+      }
+      const arr = S.data.blog.posts, i = arr.findIndex((x) => x.slug === next.slug);
+      if (i < 0) arr.push(ordered(next, POST_KEYS)); else arr[i] = ordered(next, POST_KEYS);
+      change("blog", `${isNew ? "Add" : "Edit"} article ${next.slug}${next.status === "published" ? "" : " (draft)"}`);
+    }, { check: () => {
+      const e = [];
+      for (const [l, name] of [["ar", "المقال (عربي)"], ["en", "المقال (English)"]]) {
+        const r = mdCheck(f.body.get()[l], name);
+        e.push(...r.errors);
+        if (f.status.get() !== "published") continue;
+        if (r.words < BLOG_MIN.words) e.push(`${name}: ${r.words} كلمة بس، والنشر محتاج ${BLOG_MIN.words} على الأقل. احفظه مسودة لحد ما يكمل.`);
+        if (r.sections < BLOG_MIN.sections) e.push(`${name}: محتاج ${BLOG_MIN.sections} أقسام على الأقل (سطر بيبدأ بـ ##).`);
+        if (r.links < BLOG_MIN.links) e.push(`${name}: محتاج ${BLOG_MIN.links} لينكات على الأقل لصفحات الأكواد (brand: أو page: أو [[codes: ...]]).`);
+      }
+      f.faq.get().forEach((q, i) => { for (const l of ["ar", "en"]) e.push(...mdCheck(q.a[l], `السؤال ${i + 1}`).errors); });
+      return e;
+    } });
+  }
+  function removePost(p) {
+    if (!confirm(`تمسح مقال "${p.h1.ar}"؟` + (p.status === "published" ? " لينكه هيحوّل لوحده (301) عشان ما نخسرش زوار جوجل." : ""))) return;
+    const arr = S.data.blog.posts;
+    arr.splice(arr.indexOf(p), 1);
+    if (p.status === "published") {
+      const to = arr.some((x) => x.status === "published") ? "/blog/" : "/promo-codes/", red = S.data.firebase.hosting.redirects;
+      for (const ar of ["", "/ar"]) for (const end of ["", "/"]) { const source = `${ar}/blog/${p.slug}${end}`; if (!red.some((r) => r.source === source)) red.push({ source, destination: ar + to, type: 301 }); }
+      S.dirty.add("firebase");
+    }
+    change("blog", `Delete article ${p.slug}`);
+    render();
+  }
+
   /* ---------- views ---------- */
   function renderBar() {
     const bar = root && root.querySelector(".adm-bar");
@@ -444,6 +532,7 @@ window.FoodiduAdmin = (() => {
     const u = S.data.deals.deals.filter((d) => d.brand === key).map((d) => `عرض الأيام "${d.title.ar}"`);
     if ((S.data.featured.partners || [S.data.featured.partner]).includes(key)) u.push("مساحة العرض المميز");
     if ((S.data.home.heroCodes || []).includes(key)) u.push("كروت أول الصفحة الرئيسية");
+    for (const p of S.data.blog.posts) if (postUses(p, key)) u.push(`مقال "${p.h1.ar}"`);
     return u;
   }
   async function removeEntity(kind, e) {
@@ -610,7 +699,7 @@ window.FoodiduAdmin = (() => {
     if (!root) return;
     if (!token) return renderConnect();
     if (!S.loaded) { root.replaceChildren(el("p", { class: "dash-note", text: "بيحمّل البيانات من GitHub..." })); return; }
-    const tabs = [["brands", `الأكواد (${S.data.brands.brands.length})`], ["rests", `عروض المطاعم (${S.data.rests.restaurants.length})`], ["deals", `عروض الأيام (${S.data.deals.deals.length})`], ["featured", "العرض المميز"], ["home", "كروت الرئيسية"]];
+    const tabs = [["brands", `الأكواد (${S.data.brands.brands.length})`], ["rests", `عروض المطاعم (${S.data.rests.restaurants.length})`], ["deals", `عروض الأيام (${S.data.deals.deals.length})`], ["blog", `المدونة (${S.data.blog.posts.length})`], ["featured", "العرض المميز"], ["home", "كروت الرئيسية"]];
     let body;
     if (S.view) body = S.view();
     else if (S.tab === "brands") body = el("div", null, el("p", { class: "adm-add" }, btn("+ كود جديد", open(() => brandEditor(null)))),
@@ -627,6 +716,12 @@ window.FoodiduAdmin = (() => {
         ["الأيام", (d) => d.days.map((k) => (DAYS.find((x) => x[0] === k) || [k, k])[1]).join("، ")], ["آخر مراجعة", (d) => d.lastChecked, "adm-date"]],
       S.data.deals.deals, (d) => [btn("تعديل", open(() => dealEditor(d.id)), "ghost sm"),
         btn("حذف", () => { if (!confirm(`تمسح عرض "${d.title.ar}"؟`)) return; S.data.deals.deals.splice(S.data.deals.deals.findIndex((x) => x.id === d.id), 1); change("deals", `Delete day deal ${d.id}`); render(); }, "ghost sm danger")]));
+    else if (S.tab === "blog") body = el("div", null, el("p", { class: "adm-add" }, btn("+ مقال جديد", open(() => blogEditor(null)))),
+      tableOf([["المقال", (p) => p.h1.ar], ["الحالة", (p) => el("span", { class: "chip-s " + (p.status === "published" ? "good" : "warning"), text: p.status === "published" ? "منشور" : "مسودة" })],
+        ["النشر", (p) => p.published, "adm-date"], ["آخر تحديث", (p) => p.updated, "adm-date"]],
+      S.data.blog.posts, (p) => [btn("تعديل", open(() => blogEditor(p.slug)), "ghost sm"),
+        el("a", { class: "dash-btn ghost sm", href: `https://foodidu.com/ar/blog/${p.slug}/`, target: "_blank", rel: "noopener", text: p.status === "published" ? "افتحه" : "شوف المسودة" }),
+        btn("حذف", () => removePost(p), "ghost sm danger")]));
     else if (S.tab === "featured") body = featuredEditor();
     else body = homeEditor();
     root.replaceChildren(

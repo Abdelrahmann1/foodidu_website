@@ -1,0 +1,55 @@
+{
+  "_help": "Foodidu blog. Edit it from the dashboard (إدارة المحتوى > المدونة). status \"draft\" = built for review but hidden from Google and not linked; \"published\" = in /blog/ and the sitemap, and must pass the quality gate in tools/build.pl (words, ## sections, links to code pages). The body Markdown is described in tools/build.pl.",
+  "posts": [
+    {
+      "key": "white-friday-2026",
+      "slug": "white-friday-2026",
+      "status": "draft",
+      "updated": "2026-10-07",
+      "seasonEnd": "2026-12-01",
+      "brands": ["noon", "noon-egypt", "iherb", "waffarha"],
+      "seo": {
+        "en": {
+          "title": "White Friday 2026: Sale Dates & noon, iHerb Promo Codes",
+          "description": "White Friday and Black Friday 2026 dates in Egypt and Saudi Arabia, promo codes for noon, iHerb and Waffarha, and how to tell if a discount is real."
+        },
+        "ar": {
+          "title": "عروض الجمعة البيضاء 2026: المواعيد وأكواد خصم نون وآي هيرب",
+          "description": "مواعيد الجمعة البيضاء والبلاك فرايدي 2026 في مصر والسعودية، وأكواد خصم نون وآي هيرب ووفّرها، ونصائح لتعرف إن كان الخصم حقيقياً."
+        }
+      },
+      "h1": { "en": "White Friday 2026: dates, promo codes and tips to save", "ar": "عروض الجمعة البيضاء 2026: المواعيد والأكواد ونصائح التوفير" },
+      "lede": {
+        "en": "White Friday and Black Friday are the biggest sale season of the year in Egypt and the GCC. We gathered each store's dates from past years, the promo codes you can use, and how to tell if a discount is real.",
+        "ar": "الجمعة البيضاء والبلاك فرايدي أكبر موسم تخفيضات في السنة في مصر والخليج. جمعنا لك مواعيد كل متجر في السنوات الماضية، والأكواد التي يمكنك استخدامها، وطريقة تعرف بها إن كان الخصم حقيقياً."
+      },
+      "body": {
+        "en": "## When is White Friday 2026?\n\nBlack Friday is the Friday after American Thanksgiving. This year it falls on **Friday 27 November 2026**, followed by **Cyber Monday** on Monday 30 November. In Egypt and the GCC, stores give the season different names and usually run their deals for a week or more around that day:\n\n- **noon** calls it \"Yellow Friday\" and runs it in Egypt, Saudi Arabia and the UAE. In 2022, for example, it ran from 20 to 27 November.\n- **Amazon** calls it \"White Friday\". In 2024, Amazon Egypt ran it from 20 to 30 November, with discounts of up to 70%.\n- **iHerb** starts early: in 2025 its sale began on 12 November with discounts from 20% on selected categories, then from 25% sitewide in the week of Black Friday and Cyber Monday.\n\n> The stores have not announced their 2026 dates yet. We will update this article as soon as they do, and you can follow the [Foodidu channel on WhatsApp](https://whatsapp.com/channel/0029VbDn2NXK0IBiEFwKWp25) to get the update.\n\n## Promo codes to use during the sale season\n\nA promo code applies at checkout, so if the store accepts it on a discounted product, you save twice. These codes are for stores that take part in the season. They are all on Foodidu and we test them ourselves:\n\n[[codes: noon, noon-egypt, iherb, waffarha]]\n\n- **noon in Saudi Arabia and the GCC:** the code {{code:noon}} is for the first order from a new account only. If you have never ordered from noon, keep it for your biggest order of the season. [noon code details](brand:noon)\n- **noon Egypt:** the code {{code:noon-egypt}} works on your orders from noon Egypt, not only the first one. [noon Egypt code details](brand:noon-egypt)\n- **iHerb:** the code {{code:iherb}} works in every country iHerb ships to, on eligible products. [iHerb code details](brand:iherb)\n- **Waffarha:** the code {{code:waffarha}} gives you cashback in Egypt and a discount in Saudi Arabia. It works once per user, and you can still use other coupons. [Waffarha code details](brand:waffarha)\n\n## How to tell if a discount is real\n\nThe best-known trick of the sale season is a \"price before discount\" that goes up a few days before the season, so the discount looks bigger than it is. These simple steps protect you from it:\n\n1. **Write the prices down now:** make a list of what you want to buy and today's price of each product. If the \"White Friday price\" is close to the normal price, the discount is not real.\n2. **Compare more than one store:** the same product can be cheaper in another store, even after the discount.\n3. **Count the delivery fee:** delivery can eat part of the discount, so compare the final price at checkout, not the product price alone.\n4. **Check the return policy:** in stores where many sellers sell, return terms can change from one seller to another, so read them before you buy.\n\n## Tips to save more\n\n- **Get your account ready before the season:** create the account and add your address and payment method now, because limited deals can sell out in minutes.\n- **Keep your first-order code for a big order:** first-order codes work once, so don't spend one on a small order before the season. You will find them all in [first order promo codes](page:/first-order-promo-codes/).\n- **Try the code at checkout:** if the store accepts it on the discounted product you save more, and if it refuses it, the product is most likely excluded from codes.\n- **Look at bank offers:** some stores add an extra discount when you pay with certain banks' cards during the season, and list them on their offers page.\n\n## What about food and groceries?\n\nWhite Friday sales are mostly about electronics, fashion and home appliances. If you order food or groceries, first-order codes for apps like Rabbit, talabat mart and Breadfast are available right now, with no need to wait for the season. Browse [all promo codes](page:/promo-codes/) to find the code for the restaurant or app you order from.",
+        "ar": "## متى الجمعة البيضاء 2026؟\n\nالبلاك فرايدي هو يوم الجمعة الذي يلي عيد الشكر الأمريكي، ويوافق هذا العام **الجمعة 27 نوفمبر 2026**، ويليه **السايبر مونداي** يوم الاثنين 30 نوفمبر. في مصر والخليج تطلق المتاجر على الموسم أسماء مختلفة، وتمدّ العروض عادةً لأسبوع أو أكثر حول هذا اليوم:\n\n- **نون** يسمّيه «الجمعة الصفراء» (Yellow Friday)، ويقيمه في مصر والسعودية والإمارات. في 2022 مثلاً امتد من 20 إلى 27 نوفمبر.\n- **أمازون** يسمّيه «الجمعة البيضاء» (White Friday). في 2024 امتد في أمازون مصر من 20 إلى 30 نوفمبر، بخصومات وصلت إلى 70%.\n- **آي هيرب** يبدأ مبكراً: في 2025 انطلقت عروضه يوم 12 نوفمبر بخصومات تبدأ من 20% على أقسام مختارة، ثم من 25% على الموقع كله في أسبوع البلاك فرايدي والسايبر مونداي.\n\n> المتاجر لم تعلن مواعيد 2026 الرسمية بعد. سنحدّث هذا المقال فور إعلانها، ويمكنك متابعة [قناة Foodidu على واتساب](https://whatsapp.com/channel/0029VbDn2NXK0IBiEFwKWp25) ليصلك التحديث.\n\n## أكواد خصم تستخدمها في موسم التخفيضات\n\nالكود يُطبَّق في صفحة الدفع، فإذا قبله المتجر على منتج مخفّض تكون قد وفّرت مرتين. هذه أكواد لمتاجر تشارك في الموسم، وكلها على Foodidu ونجرّبها بأنفسنا:\n\n[[codes: noon, noon-egypt, iherb, waffarha]]\n\n- **نون في السعودية والخليج:** كود {{code:noon}} لأول طلب من حساب جديد فقط. إذا لم تطلب من نون من قبل، فاحتفظ به لأكبر طلب في الموسم. [تفاصيل كود نون](brand:noon)\n- **نون مصر:** كود {{code:noon-egypt}} يعمل على طلباتك من نون مصر، وليس مخصصاً لأول طلب فقط. [تفاصيل كود نون مصر](brand:noon-egypt)\n- **آي هيرب:** كود {{code:iherb}} يعمل في كل دولة يشحن لها آي هيرب، على المنتجات المشمولة بالخصم. [تفاصيل كود آي هيرب](brand:iherb)\n- **وفّرها:** كود {{code:waffarha}} يعطيك كاش باك في مصر وخصماً في السعودية، ويُستخدم مرة واحدة لكل مستخدم مع إمكانية استخدام كوبونات أخرى. [تفاصيل كود وفّرها](brand:waffarha)\n\n## كيف تعرف أن الخصم حقيقي؟\n\nأشهر خدعة في مواسم التخفيضات أن يرتفع «السعر قبل الخصم» قبل الموسم بأيام، فيبدو الخصم أكبر من حقيقته. هذه خطوات بسيطة تحميك منها:\n\n1. **سجّل الأسعار من الآن:** اكتب قائمة بما تريد شراءه وسعر كل منتج اليوم. إذا جاء «سعر الجمعة البيضاء» قريباً من سعره العادي، فالخصم ليس حقيقياً.\n2. **قارن بين أكثر من متجر:** المنتج نفسه قد يكون أرخص في متجر آخر حتى بعد الخصم.\n3. **احسب التوصيل:** رسوم التوصيل قد تأكل جزءاً من الخصم، فقارن السعر النهائي في صفحة الدفع وليس سعر المنتج وحده.\n4. **راجع سياسة الاسترجاع:** في المتاجر التي يبيع فيها أكثر من بائع، قد تختلف شروط الاسترجاع من بائع لآخر، فاقرأها قبل الشراء.\n\n## نصائح لتوفّر أكثر\n\n- **جهّز حسابك قبل الموسم:** أنشئ الحساب وأضف عنوانك وطريقة الدفع من الآن، فالعروض المحدودة قد تنفد في دقائق.\n- **احتفظ بكود أول طلب للطلب الكبير:** أكواد أول طلب تُستخدم مرة واحدة، فلا تضيّعها على طلب صغير قبل الموسم. تجدها كلها في [أكواد خصم أول طلب](page:/first-order-promo-codes/).\n- **جرّب الكود في صفحة الدفع:** إذا قبله المتجر على المنتج المخفّض فقد وفّرت أكثر، وإذا رفضه فالمنتج غالباً مستثنى من الأكواد.\n- **راجع عروض البنوك:** بعض المتاجر تضيف خصماً عند الدفع ببطاقات بنوك معينة خلال الموسم، وتعلن عنها في صفحة العروض.\n\n## وماذا عن الأكل والبقالة؟\n\nتركّز تخفيضات الجمعة البيضاء غالباً على الإلكترونيات والموضة والأجهزة المنزلية. أما إذا كنت تطلب أكلاً أو بقالة، فأكواد أول طلب لتطبيقات مثل رابيت وطلبات مارت وبريدفاست متاحة الآن، ولا تحتاج انتظار الموسم. تصفّح [كل أكواد الخصم](page:/promo-codes/) لتجد كود المطعم أو التطبيق الذي تطلب منه."
+      },
+      "faq": [
+        {
+          "q": { "en": "When is White Friday 2026?", "ar": "متى الجمعة البيضاء 2026؟" },
+          "a": {
+            "en": "Black Friday falls on Friday 27 November 2026, and Cyber Monday on Monday 30 November. Stores in Egypt and the GCC usually run their deals for a week or more around that day, and announce the official dates shortly before the season.",
+            "ar": "البلاك فرايدي يوافق الجمعة 27 نوفمبر 2026، والسايبر مونداي الاثنين 30 نوفمبر. المتاجر في مصر والخليج تمدّ العروض عادةً لأسبوع أو أكثر حول هذا اليوم، وتعلن مواعيدها الرسمية قبل الموسم بفترة قصيرة."
+          }
+        },
+        {
+          "q": { "en": "What is the difference between White Friday, Yellow Friday and Black Friday?", "ar": "ما الفرق بين الجمعة البيضاء والجمعة الصفراء والبلاك فرايدي؟" },
+          "a": {
+            "en": "They are the same sale season under different names: Black Friday is the global name, White Friday is the name Amazon and many stores in the region use, and Yellow Friday is noon's name for it.",
+            "ar": "كلها نفس موسم التخفيضات بأسماء مختلفة: «البلاك فرايدي» هو الاسم العالمي، و«الجمعة البيضاء» اسم أمازون ومتاجر كثيرة في المنطقة، و«الجمعة الصفراء» اسم نون."
+          }
+        },
+        {
+          "q": { "en": "Can I use a promo code on White Friday deals?", "ar": "هل أستطيع استخدام كود خصم مع تخفيضات الجمعة البيضاء؟" },
+          "a": {
+            "en": "It depends on the store and the product. Try the code at checkout: if it is accepted, it works on the discounted product; if it is refused, the product is excluded from codes.",
+            "ar": "يعتمد على المتجر والمنتج. جرّب الكود في صفحة الدفع: إذا قُبل فهو يعمل على المنتج المخفّض، وإذا رُفض فالمنتج مستثنى من الأكواد."
+          }
+        }
+      ]
+    }
+  ]
+}

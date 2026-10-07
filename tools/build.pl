@@ -72,6 +72,9 @@ my @FO;   # first-order codes, filled once the brands are loaded (used by the fo
 my $FEAT = -f $FT_FILE ? JSON::PP->new->utf8->decode(slurp($FT_FILE, 1)) : {};
 my $HOME_FILE = "$ROOT/data/home.json";
 my $HOME = -f $HOME_FILE ? JSON::PP->new->utf8->decode(slurp($HOME_FILE, 1)) : {};
+my $BLOG_FILE = "$ROOT/data/blog.json";
+my @POSTS = -f $BLOG_FILE ? @{ JSON::PP->new->utf8->decode(slurp($BLOG_FILE, 1))->{posts} // [] } : ();
+my @PUB = sort { $b->{published} cmp $a->{published} } grep { ($_->{status} // '') eq 'published' } @POSTS;   # published articles, newest first
 my $TODAY = strftime('%Y-%m-%d', localtime $NOW);
 my %DAYC = (   # calendar block: "Every Tuesday" / "كل ثلاثاء" (Arabic without the article)
   en => $DAYN{en},
@@ -164,6 +167,12 @@ my %S = (
   c_empty => 'No codes match this filter.', c_filters => 'Filter codes',
   # brand page
   nocode => 'No code needed', nocode_go => 'Order', nocode_aria => '{name}: no code needed, order from {where}',
+  blog_h1 => 'Foodidu blog', blog_title => 'Foodidu Blog: Saving Guides, Sale Dates and Promo Codes',
+  blog_desc => 'Guides to save on food delivery, groceries and online shopping in Egypt and the GCC: sale season dates, how promo codes work, and which codes to use.',
+  blog_lede => 'Practical guides to pay less: sale season dates, how promo codes work, and the codes we test ourselves.',
+  blog_by => 'By the Foodidu team', blog_author => 'Foodidu team', blog_pub => 'Published {date}', blog_upd => 'Updated {date}', blog_toc => 'In this article', blog_codes => 'Codes in this article',
+  blog_draft => 'Draft: this article is hidden from Google and not linked from any page until it is published.',
+  blog_ended => 'This season ended on {date}. The codes in this article come straight from their pages on Foodidu, and we will update the rest for the next season.',
   wa_title => 'New codes on WhatsApp', wa_text => 'Follow the Foodidu channel on WhatsApp to get new promo codes and deals as soon as we add them.', wa_btn => 'Follow on WhatsApp',
   nocode_item => 'an offer with no code needed ({offer})', b_a1_mixed => '{name} offers on Foodidu: {list}.', b_nst1p_self => 'Open it on your phone or in your browser.',
   b_h1_nocode => '{name} discount', b_how_nocode => 'How to get the {name} discount', b_faq_nocode => '{name} discount: FAQ', b_side_nocode => 'Your {name} discount',
@@ -299,6 +308,12 @@ my %S = (
   c_group_restaurants => 'أكواد خصم المطاعم', c_group_groceries => 'أكواد خصم البقالة والسوبر ماركت', c_group_shopping => 'أكواد خصم التسوق أونلاين',
   c_empty => 'لا توجد أكواد تطابق هذا الاختيار.', c_filters => 'تصفية الأكواد',
   nocode => 'بدون كود', nocode_go => 'اطلب', nocode_aria => '{name}: بدون كود، اطلب من {where}',
+  blog_h1 => 'مدونة Foodidu', blog_title => 'مدونة Foodidu: أدلة التوفير ومواعيد العروض وأكواد الخصم',
+  blog_desc => 'أدلة للتوفير في طلبات الأكل والبقالة والتسوق أونلاين في مصر والخليج: مواعيد مواسم التخفيضات، وطريقة عمل أكواد الخصم، والأكواد التي تستخدمها.',
+  blog_lede => 'أدلة عملية لتدفع أقل: مواعيد مواسم التخفيضات، وطريقة عمل أكواد الخصم، والأكواد التي نجرّبها بأنفسنا.',
+  blog_by => 'بقلم فريق Foodidu', blog_author => 'فريق Foodidu', blog_pub => 'نُشر في {date}', blog_upd => 'آخر تحديث {date}', blog_toc => 'في هذا المقال', blog_codes => 'الأكواد في هذا المقال',
+  blog_draft => 'مسودة: هذا المقال مخفي عن جوجل وغير مرتبط بأي صفحة حتى يُنشر.',
+  blog_ended => 'انتهى هذا الموسم في {date}. الأكواد في المقال تأتي مباشرة من صفحاتها على Foodidu، وسنحدّث باقي المقال للموسم القادم.',
   wa_title => 'أكواد جديدة على واتساب', wa_text => 'تابع قناة Foodidu على واتساب لتصلك أكواد الخصم والعروض الجديدة أول بأول.', wa_btn => 'تابع القناة على واتساب',
   nocode_item => 'عرض بدون كود ({offer})', b_a1_mixed => 'عروض {name} على Foodidu: {list}.', b_nst1p_self => 'افتحه بنفسك من هاتفك أو من المتصفح.',
   b_h1_nocode => 'عرض خصم {name}', b_how_nocode => 'طريقة الحصول على خصم {name}', b_faq_nocode => 'أسئلة عن خصم {name}', b_side_nocode => 'خصم {name}',
@@ -661,6 +676,7 @@ $a{body}
 <li><a href="$codes">@{[ T($l, 'foot_all') ]}</a></li>
 @{[ @FO ? '<li><a href="' . path_for($l, '/first-order-promo-codes/') . '">' . T($l, 'fo_h1') . '</a></li>' : '' ]}
 @{[ @DDEALS ? '<li><a href="' . path_for($l, '/day-deals/') . '">' . T($l, 'dd_nav') . '</a></li>' : '' ]}
+@{[ @PUB ? '<li><a href="' . path_for($l, '/blog/') . '">' . T($l, 'blog_h1') . '</a></li>' : '' ]}
 @{[ join '', map { '<li><a href="' . rest_url($_, $l) . '">' . Te($l, 'ro_h1', name => $_->{name}{$l}) . '</a></li>' } @RESTS ]}
 <li><a href="@{[ path_for($l, '/partners/') ]}">@{[ T($l, 'nav_partner') ]}</a></li>
 <li><a href="@{[ path_for($l, '/privacy-policy/') ]}">@{[ T($l, 'privacy') ]}</a></li>
@@ -703,6 +719,67 @@ my %BYKEY = map { ($_->{key} => $_) } @BRANDS;
 sub count_cat { my $c = shift; my @o = map { offers_of($_) } grep { $_->{category} eq $c } @BRANDS; scalar @o }
 my @ALL_OFFERS = map { offers_of($_) } @BRANDS;
 @FO = grep { $_->{firstOrder} } @ALL_OFFERS;   # codes for a new account's first order: /first-order-promo-codes/
+
+# ------------------------------------------------------------------ blog (data/blog.json)
+# Articles are written in a small Markdown (the dashboard shows the same help):
+#   a blank line between blocks · ## section · ### subsection · - list · 1. list · > tip
+#   **bold** · [text](brand:key) a code page · [text](page:/path/) a page of this site · [text](https://...) another site
+#   {{code:key}} the brand's code and {{offer:key}} its offer, read from brands.json so an article never shows a stale code
+#   [[codes: key, key]] on its own line: those brands' code tickets
+# A published article must pass a quality gate (%BLOG_MIN) or the build stops: no thin or unlinked article goes live.
+my %BLOG_MIN = (words => 400, sections => 2, links => 2);   # the dashboard checks the same numbers
+sub post_url { my ($p, $l) = @_; path_for($l, "/blog/$p->{slug}/") }
+sub md_brand { $BYKEY{ $_[0] } // die "blog: there is no brand \"$_[0]\" in brands.json\n" }
+sub md_ref {
+  my ($what, $k, $l) = @_;
+  my $b = md_brand($k);
+  return esc($b->{offer}{$l}) if $what eq 'offer';
+  $b->{noCode} ? T($l, 'nocode') : '<strong dir="ltr">' . esc($b->{code}) . '</strong>';
+}
+sub md_link {
+  my ($text, $href, $l, $st) = @_;   # both already escaped
+  if ($href =~ /^brand:([a-z0-9-]+)$/) { $st->{links}++; return '<a href="' . brand_url(md_brand($1), $l) . qq{">$text</a>} }
+  if ($href =~ m{^page:(/[A-Za-z0-9/-]*)$}) { $st->{links}++; return '<a href="' . path_for($l, $1) . qq{">$text</a>} }
+  return qq{<a href="$href" rel="noopener" target="_blank">$text</a>} if $href =~ m{^https://};
+  die "blog: the link \"$href\" must start with brand:, page:/ or https://\n";
+}
+sub md_inline {
+  my ($s, $l, $st) = @_;
+  $s = esc($s);
+  $s =~ s/\{\{(code|offer):([a-z0-9-]+)\}\}/md_ref($1, $2, $l)/ge;
+  $s =~ s/\*\*(.+?)\*\*/<strong>$1<\/strong>/g;
+  $s =~ s/\[([^\]]+)\]\(([^)\s]+)\)/md_link($1, $2, $l, $st)/ge;
+  $s;
+}
+sub md_html {   # -> (html, [[id, heading html], ...] for the table of contents)
+  my ($src, $l, $st) = @_;
+  $src = ($src // '') =~ s/^((?:#{2,3}\s|\[\[codes:).*)$/\n$1\n/mgr;   # headings and ticket rows are blocks of their own
+  my (@out, @toc);
+  for my $blk (split /\n[ \t]*\n/, $src) {
+    $blk =~ s/^\s+|\s+$//g;
+    next unless length $blk;
+    my @lines = split /\n/, $blk;
+    if ($blk =~ /^\[\[codes:\s*([a-z0-9,\s-]+)\]\]$/) {
+      my @bs = map { md_brand($_) } grep { length } split /[\s,]+/, $1;
+      $st->{links} += @bs;
+      push @out, '<ul class="ticket-list post-codes">' . join('', map { map { ticket_li($_, $l) } offers_of($_) } @bs) . '</ul>';
+    } elsif ($blk =~ /^(#{2,3})\s+(.+)$/) {
+      my ($lvl, $h) = (length $1, md_inline($2, $l, $st));
+      if ($lvl == 2) { my $id = 's' . (@toc + 1); push @toc, [$id, $h]; push @out, qq{<h2 id="$id">$h</h2>} }
+      else { push @out, "<h3>$h</h3>" }
+    } elsif (!grep { !/^-\s+/ } @lines) {
+      push @out, '<ul>' . join('', map { '<li>' . md_inline(s/^-\s+//r, $l, $st) . '</li>' } @lines) . '</ul>';
+    } elsif (!grep { !/^\d+\.\s+/ } @lines) {
+      push @out, '<ol>' . join('', map { '<li>' . md_inline(s/^\d+\.\s+//r, $l, $st) . '</li>' } @lines) . '</ol>';
+    } elsif ($blk =~ /^>/) {
+      push @out, '<p class="post-tip">' . icon('info') . '<span>' . md_inline(join(' ', map { s/^>\s?//r } @lines), $l, $st) . '</span></p>';
+    } else {
+      push @out, '<p>' . md_inline(join(' ', @lines), $l, $st) . '</p>';
+    }
+  }
+  (join("\n", @out), \@toc);
+}
+sub md_words { my $s = shift // ''; $s =~ s/\[\[codes:[^\]]*\]\]//g; $s =~ s/\{\{[^}]*\}\}/x/g; $s =~ s/\]\([^)]*\)/]/g; my $n = () = $s =~ /[\p{L}\p{N}]+/g; $n }
 my $NCODES = scalar @ALL_OFFERS;
 my @VERIFIED = sort grep { $_ } map { $_->{lastVerified} } @BRANDS;
 # Brands without lastVerified were never checked by us: they never count as checked anywhere on the site.
@@ -999,6 +1076,98 @@ HTML
         itemListElement => [ map { { '@type' => 'ListItem', position => ++$i, name => $_->{name}{$l}, url => absu(brand_url($_, $l)) } } @fob ] }, faq_ld(@qa) ]);
   }
 
+  # ---------- blog: every article at /blog/<slug>/ (a draft is built too, for review, but noindex and linked from nowhere)
+  for my $p (@POSTS) {
+    my $draft = ($p->{status} // '') ne 'published';
+    my $st = { links => 0 };
+    my ($art, $toc) = md_html($p->{body}{$l}, $l, $st);
+    my @pb = map { md_brand($_) } @{ $p->{brands} // [] };
+    my @qa = map { [esc($_->{q}{$l}), md_inline($_->{a}{$l}, $l, { links => 0 })] } @{ $p->{faq} // [] };
+    unless ($draft) {   # quality gate: a thin or unlinked article never goes live
+      my $w = md_words($p->{body}{$l});
+      my @bad = (
+        ($w < $BLOG_MIN{words} ? "$w words (needs $BLOG_MIN{words})" : ()),
+        (@$toc < $BLOG_MIN{sections} ? scalar(@$toc) . " sections (needs $BLOG_MIN{sections} ## headings)" : ()),
+        ($st->{links} < $BLOG_MIN{links} ? "$st->{links} links to code pages (needs $BLOG_MIN{links})" : ()),
+        ($p->{published} ? () : 'no published date'),
+      );
+      die "blog \"$p->{slug}\" ($l) can't be published yet: " . join('; ', @bad) . "\n" if @bad;
+      warn "blog \"$p->{slug}\": its season ended on $p->{seasonEnd}, update it for the next one\n" if $l eq 'en' && $p->{seasonEnd} && $TODAY gt $p->{seasonEnd};
+    }
+    my $purl = post_url($p, $l);
+    my $crumbs = [[T($l, 'home'), path_for($l, '/')], (@PUB ? [T($l, 'blog_h1'), path_for($l, '/blog/')] : ()), [$p->{h1}{$l}, $purl]];
+    my $upd = $p->{updated} && $p->{published} && $p->{updated} gt $p->{published} ? $p->{updated} : '';
+    my $meta = '<p class="post-meta"><span>' . T($l, 'blog_by') . '</span>'
+      . ($p->{published} ? '<span>' . icon('calendar') . T($l, 'blog_pub', date => fmt_date($l, $p->{published})) . '</span>' : '')
+      . ($upd ? '<span>' . T($l, 'blog_upd', date => fmt_date($l, $upd)) . '</span>' : '') . '</p>';
+    my $notes = ($draft ? '<p class="note post-note">' . T($l, 'blog_draft') . '</p>' : '')
+      . ($p->{seasonEnd} && $TODAY gt $p->{seasonEnd} ? '<p class="note post-note">' . T($l, 'blog_ended', date => fmt_date($l, $p->{seasonEnd})) . '</p>' : '');
+    my $tocnav = @$toc >= 3 ? '<nav class="post-toc" aria-label="' . T($l, 'blog_toc') . '"><p><b>' . T($l, 'blog_toc') . '</b></p><ol>'
+      . join('', map { qq{<li><a href="#$_->[0]">} . ($_->[1] =~ s/<[^>]+>//gr) . '</a></li>' } @$toc) . '</ol></nav>' : '';
+    my $faq = @qa ? qq{<section class="post-faq" aria-labelledby="pfaq-title"><h2 id="pfaq-title">} . T($l, 'faq_eyebrow') . '</h2>' . faq_html(@qa) . '</section>' : '';
+    my $side = @pb ? '<div class="side-card"><h2>' . T($l, 'blog_codes') . '</h2><ul class="side-list">' . join('', map {
+      '<li><a href="' . brand_url($_, $l) . '"><span class="logo-tile">' . logo_img($_, $l, 42) . '</span><span><b>' . esc($_->{name}{$l}) . '</b><small>' . esc($_->{offer}{$l}) . '</small></span></a></li>'
+    } @pb) . '</ul></div>' : '';
+    my $body = <<"HTML";
+<section class="page-hero">
+<div class="wrap">
+@{[ crumbs_html($l, $crumbs) ]}
+<h1>@{[ esc($p->{h1}{$l}) ]}</h1>
+<p class="lede">@{[ esc($p->{lede}{$l}) ]}</p>
+$meta
+</div>
+</section>
+<div class="scallop" aria-hidden="true"></div>
+<div class="wrap brand-body post-body">
+<article class="prose post">
+$notes$tocnav
+$art
+$faq
+</article>
+<aside class="side">
+$side
+@{[ wa_cta($l, 1) ]}
+</aside>
+</div>
+@{[ band($l) ]}
+HTML
+    my $t = $p->{seo}{$l}{title};
+    layout(lang => $l, key => "/blog/$p->{slug}/", title => (length($t) + 10 <= 65 ? "$t | Foodidu" : $t), desc => $p->{seo}{$l}{description},
+      body => $body, crumbs => $crumbs, noindex => $draft, og => "/img/og/codes-$l.png", lastmod => ($upd || $p->{published} || $TODAY),
+      ld => [ { '@type' => 'BlogPosting', headline => $p->{h1}{$l}, description => $p->{seo}{$l}{description}, inLanguage => $l,
+        ($p->{published} ? (datePublished => $p->{published}, dateModified => ($upd || $p->{published})) : ()),
+        author => { '@type' => 'Organization', name => T($l, 'blog_author'), url => "$SITE/" }, publisher => { '@id' => "$SITE/#org" },
+        mainEntityOfPage => { '@id' => absu($purl) . '#webpage' }, image => absu("/img/og/codes-$l.png") }, (@qa ? faq_ld(@qa) : ()) ]);
+  }
+
+  # ---------- blog index: once an article is published
+  if (@PUB) {
+    my $burl = path_for($l, '/blog/');
+    my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'blog_h1'), $burl]];
+    my $cards = join '', map {
+      '<li class="post-card"><h2><a href="' . post_url($_, $l) . '">' . esc($_->{h1}{$l}) . '</a></h2><p>' . esc($_->{lede}{$l}) . '</p>'
+      . '<p class="post-meta"><span>' . icon('calendar') . T($l, 'blog_pub', date => fmt_date($l, $_->{published})) . '</span></p></li>'
+    } @PUB;
+    my $body = <<"HTML";
+<section class="page-hero">
+<div class="wrap">
+@{[ crumbs_html($l, $crumbs) ]}
+<h1>@{[ T($l, 'blog_h1') ]}</h1>
+<p class="lede">@{[ T($l, 'blog_lede') ]}</p>
+</div>
+</section>
+<div class="scallop" aria-hidden="true"></div>
+<section class="wrap section-tight"><ul class="post-list">$cards</ul></section>
+@{[ wa_cta($l) ]}
+@{[ band($l) ]}
+HTML
+    my $i = 0;
+    layout(lang => $l, key => '/blog/', title => T($l, 'blog_title') . ' | Foodidu', desc => T($l, 'blog_desc'), body => $body, crumbs => $crumbs,
+      pagetype => 'CollectionPage', og => "/img/og/codes-$l.png", lastmod => (sort map { $_->{updated} // $_->{published} } @PUB)[-1],
+      ld => [ { '@type' => 'ItemList', name => T($l, 'blog_h1'), numberOfItems => scalar @PUB,
+        itemListElement => [ map { { '@type' => 'ListItem', position => ++$i, name => $_->{h1}{$l}, url => absu(post_url($_, $l)) } } @PUB ] } ]);
+  }
+
   # ---------- day deals page
   if (@DDEALS) {
     my $groups = join '', map {
@@ -1166,7 +1335,8 @@ HTML
     my @related = grep { defined } (@same, @rest)[0 .. 2];
     my $catlinks = join '', (map { '<li><a href="' . brand_url($_, $l) . '">' . esc($_->{name}{$l}) . '</a></li>' } grep { $_ ne $b } @cat),
       ($b->{category} eq 'restaurants' ? map { '<li><a href="' . rest_url($_, $l) . '">' . Te($l, 'ro_h1', name => $_->{name}{$l}) . '</a></li>' } @RESTS : ()),
-      ((grep { $_->{firstOrder} } @offers) ? '<li><a href="' . path_for($l, '/first-order-promo-codes/') . '">' . T($l, 'fo_all') . '</a></li>' : ());
+      ((grep { $_->{firstOrder} } @offers) ? '<li><a href="' . path_for($l, '/first-order-promo-codes/') . '">' . T($l, 'fo_all') . '</a></li>' : ()),
+      (map { '<li><a href="' . post_url($_, $l) . '">' . esc($_->{h1}{$l}) . '</a></li>' } grep { my $p = $_; grep { $_ eq $b->{key} } @{ $p->{brands} // [] } } @PUB);
     my $related = join '', map { ticket_li($_, $l) } @related;
     my $sidecats = join '', map { qq{<li><a href="} . path_for($l, '/promo-codes/') . qq{#$_"><span class="logo-tile">} . icon($CATICON{$_}) . '</span><span><b>' . esc($CATN{$_}{$l}) . '</b><small>' . ncodes($l, count_cat($_)) . '</small></span></a></li>' } @CATS;
     my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'c_h1'), path_for($l, '/promo-codes/')], [$name, $url]];
