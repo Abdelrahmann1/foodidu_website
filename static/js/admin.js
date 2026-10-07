@@ -351,7 +351,7 @@ window.FoodiduAdmin = (() => {
       key: keyField(isNew), slug: slugField(isNew, "KFC-PromoCode"),
       name: bi("اسم البراند", { req: true }),
       code: text("الكود", { dir: "ltr", pattern: /^\S+$/, patternMsg: "من غير مسافات", hint: "فاضي لو الخصم من غير كود." }),
-      noCode: check("خصم من غير كود", "الخصم بيتطبق لوحده من موقع أو تطبيق البراند. التذكرة هتفتح لينك البراند بدل ما تنسخ كود، فلازم تكتب اللينك."),
+      noCode: check("خصم من غير كود", "الخصم بيتطبق لوحده من موقع أو تطبيق البراند. لو كتبت لينك البراند التذكرة هتفتحه، ولو مفيش لينك هيظهر \"بدون كود\" بس."),
       category: select("النوع", Object.entries(S.data.brands.categories).map(([k, v]) => [k, v.ar])), region: regions(),
       regionLabel: bi("اسم المنطقة بطريقتك (اختياري)", { hint: "لو عايز يظهر مثلاً \"مصر والسعودية\" بدل اختيار المنطقة." }),
       exclusive: check("كود حصري لـ Foodidu", "بيظهر عليه \"حصري\"."), firstOrder: check("لأول طلب بس", "بيظهر كمان في صفحة أكواد خصم أول طلب."), featured: check("في \"أقوى الأكواد\"", "بيظهر في قسم أقوى الأكواد في الصفحة الرئيسية."),
@@ -360,7 +360,7 @@ window.FoodiduAdmin = (() => {
       lastVerified: date("آخر مرة جربنا فيها الكود بنفسنا", { today: true, hint: "لو فاضي، الكود بيظهر من غير \"اتحقق منه\"." }),
       badge: badge("الخصم على التذكرة"), offer: bi("العرض في سطر", { req: true, hint: "زي: خصم 30% على أول طلب بحد أقصى 150 جنيه" }),
       terms: bi("الشروط", { req: true, area: true }), where: bi("بيتستخدم فين", { req: true, hint: "زي: تطبيق رابيت" }),
-      moreCodes: list("أكواد تانية لنفس البراند (اختياري)", () => group({ code: text("الكود", { req: true, dir: "ltr", pattern: /^\S+$/, patternMsg: "من غير مسافات" }), badge: badge("الخصم على التذكرة"), offer: bi("العرض في سطر", { req: true }), terms: bi("الشروط", { req: true, area: true }), exclusive: check("حصري"), firstOrder: check("لأول طلب بس"), lastVerified: date("آخر مرة جربنا الكود ده بنفسنا", { today: true, hint: "لو فاضي، الكود ده بيظهر من غير \"اتحقق منه\"." }) }), { item: "كود", add: "كود تاني" }),
+      moreCodes: list("أكواد تانية لنفس البراند (اختياري)", () => group({ code: text("الكود", { dir: "ltr", pattern: /^\S+$/, patternMsg: "من غير مسافات", hint: "فاضي لو العرض من غير كود." }), noCode: check("عرض من غير كود", "بيتطبق لوحده. بيظهر عليه \"بدون كود\" بدل زرار النسخ."), badge: badge("الخصم على التذكرة"), offer: bi("العرض في سطر", { req: true }), terms: bi("الشروط", { req: true, area: true }), exclusive: check("حصري"), firstOrder: check("لأول طلب بس"), lastVerified: date("آخر مرة جربنا الكود ده بنفسنا", { today: true, hint: "لو فاضي، الكود ده بيظهر من غير \"اتحقق منه\"." }) }), { item: "كود", add: "كود تاني" }),
       about: bi("عن البراند", { req: true, area: true, hint: "جملتين عن البراند والكود. بيظهر في صفحة البراند." }), seo: seo()
     };
     idFields(isNew, "-PromoCode", f);
@@ -371,7 +371,7 @@ window.FoodiduAdmin = (() => {
       if (!confirm(`تشيل الكود ${f.code.get()}؟ الكود ${extras[0].code} هيبقى الكود الأساسي.`)) return;
       const [first, ...rest] = extras;
       f.code.set(first.code); f.badge.set(first.badge); f.offer.set(first.offer); f.terms.set(first.terms);
-      f.exclusive.set(first.exclusive); f.lastVerified.set(first.lastVerified || "");
+      f.exclusive.set(first.exclusive); f.firstOrder.set(first.firstOrder); f.lastVerified.set(first.lastVerified || "");
       f.moreCodes.set(rest);
       toast("اتشال. راجع عنوان ووصف جوجل و\"عن البراند\" لو فيهم الكود القديم، وبعدين احفظ.");
     }, "ghost sm danger");
@@ -489,12 +489,12 @@ window.FoodiduAdmin = (() => {
       const v = collect(f);
       if (b) {   // a removed code must not stay in the texts Google shows
         const now = new Set([v.code, ...v.moreCodes.map((m) => m.code)].map((c) => c.toLowerCase()));
-        const gone = [b.code, ...(b.moreCodes || []).map((m) => m.code)].filter((c) => !now.has(c.toLowerCase()));
+        const gone = [b.code, ...(b.moreCodes || []).map((m) => m.code)].filter((c) => c && !now.has(c.toLowerCase()));
         const texts = [["عنوان جوجل", v.seo.en.title + " " + v.seo.ar.title], ["وصف جوجل", v.seo.en.description + " " + v.seo.ar.description], ["عن البراند", v.about.en + " " + v.about.ar]];
         const stale = gone.flatMap((c) => texts.filter(([, t]) => new RegExp("(^|[^A-Za-z0-9])" + c.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "($|[^A-Za-z0-9])", "i").test(t)).map(([n]) => `${n} لسه فيه الكود ${c} اللي اتشال. عدّله.`));
         if (stale.length) throw new Error(stale.join(" "));
       }
-      v.moreCodes = v.moreCodes.map((m) => { if (!m.exclusive) delete m.exclusive; if (!m.firstOrder) delete m.firstOrder; if ((m.lastVerified || "") === (v.lastVerified || "")) delete m.lastVerified; return m; });
+      v.moreCodes = v.moreCodes.map((m) => { if (!m.exclusive) delete m.exclusive; if (!m.firstOrder) delete m.firstOrder; if (m.noCode) m.code = ""; else delete m.noCode; if ((m.lastVerified || "") === (v.lastVerified || "")) delete m.lastVerified; return m; });
       const noCode = v.noCode, firstOrder = v.firstOrder;
       clean(v);
       delete v.noCode; delete v.firstOrder;
@@ -514,7 +514,7 @@ window.FoodiduAdmin = (() => {
     }, { top: logoF.node, images: true, check: () => [
       ...(!cur.logo && !logoF.changed() ? ["اللوجو: ارفع صورة"] : []),
       ...(!f.noCode.get() && !f.code.get() ? ["الكود: مطلوب (أو علّم \"خصم من غير كود\")"] : []),
-      ...(f.noCode.get() && !f.url.get() ? ["لينك موقع أو تطبيق البراند: مطلوب للخصم من غير كود"] : []),
+      ...(f.moreCodes.get().some((m) => !m.noCode && !m.code) ? ["الأكواد التانية: الكود مطلوب (أو علّم \"عرض من غير كود\")"] : []),
       ...(f.noCode.get() && f.moreCodes.get().length ? ["الخصم من غير كود ما ينفعش يكون معاه أكواد تانية"] : []),
     ] });
   }
@@ -614,7 +614,7 @@ window.FoodiduAdmin = (() => {
     let body;
     if (S.view) body = S.view();
     else if (S.tab === "brands") body = el("div", null, el("p", { class: "adm-add" }, btn("+ كود جديد", open(() => brandEditor(null)))),
-      tableOf([["البراند", (b) => b.name.ar], ["الكود", (b) => (b.noCode ? "بدون كود" : el("code", { text: [b.code, ...(b.moreCodes || []).map((m) => m.code)].join(" · ") }))], ["العرض", (b) => b.offer.ar],
+      tableOf([["البراند", (b) => b.name.ar], ["الكود", (b) => (b.noCode ? "بدون كود" : el("code", { text: [b.code, ...(b.moreCodes || []).map((m) => m.code || "بدون كود")].join(" · ") }))], ["العرض", (b) => b.offer.ar],
         ["آخر تجربة", (b) => b.lastVerified || "ما اتجربش", "adm-date"], ["الترتيب", (b) => ({ top: "أولوية أولى", low: "في الآخر" })[b.priority] || "عادي"]],
       siteOrder(), (b) => [btn("↑", () => move(b, -1), "ghost sm"), btn("↓", () => move(b, 1), "ghost sm"), btn("تعديل", open(() => brandEditor(b.key)), "ghost sm"),
         b.lastVerified !== today() || (b.moreCodes || []).some((m) => "lastVerified" in m) ? btn(b.moreCodes && b.moreCodes.length ? "جربت أكوادها النهارده" : "جربته النهارده", () => { b.lastVerified = today(); (b.moreCodes || []).forEach((m) => { delete m.lastVerified; }); change("brands", `Checked ${b.name.en} today`); render(); }, "ghost sm") : null,

@@ -70,7 +70,7 @@ function ticketArt(ctx, b, lang, logo, x, y, w, rot) {
 
 // ---------- Open Graph share images (1200x630): tools/assets.html and the dashboard draw them the same way ----------
 function brandOgCopy(b, lang) {
-  const many = !!(b.moreCodes && b.moreCodes.length);
+  const many = [b, ...(b.moreCodes || [])].filter((x) => !x.noCode).length > 1;
   const title = b.noCode ? (lang === "ar" ? `عرض خصم ${b.name.ar}` : `${b.name.en} discount`)
     : lang === "ar" ? `${many ? "أكواد خصم" : "كود خصم"} ${b.name.ar}` : `${b.name.en} promo ${many ? "codes" : "code"}`;
   return [title, [b.offer[lang], ...(b.moreCodes || []).map((x) => x.offer[lang])].join(" · ")];
@@ -89,7 +89,8 @@ function ogJobs(e, kind) {
       return { lang, file: `${e.key}-${lang}`, text, items: [{ ...e, badge, tag: lang === "ar" ? `وفّر حتى ${save}%` : `Save up to ${save}%` }] };
     }
     if (e.noCode) return { lang, file: `${e.key}-${lang}`, text: brandOgCopy(e, lang), items: [{ ...e, tag: lang === "ar" ? "بدون كود" : "No code needed" }] };
-    return { lang, file: `${e.key}-${lang}`, text: brandOgCopy(e, lang), items: [e, ...(e.moreCodes || []).map((x) => ({ ...e, code: x.code, badge: x.badge }))] };
+    return { lang, file: `${e.key}-${lang}`, text: brandOgCopy(e, lang), items: [e, ...(e.moreCodes || []).map((x) => ({ ...e, code: x.code, badge: x.badge, ...(x.noCode ? { tag: lang === "ar" ? "بدون كود" : "No code needed" } : {}) }))]
+      .sort((x, y) => !!y.tag - !!x.tag) };   // the last ticket is drawn in front: a real code goes there
   });
 }
 // Share images for the section pages (home, all codes, partners, day deals): Pizza Hut and KFC tickets (or whichever is left).

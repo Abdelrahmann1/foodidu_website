@@ -453,37 +453,41 @@
       "slug": "Just-Smash-Burger-PromoCode",
       "name": { "en": "Just Smash Burger", "ar": "جست سماش برجر" },
       "logo": "just-smash.webp",
-      "code": "AUTO10",
+      "code": "SMASH15",
       "category": "restaurants",
       "region": "eg",
       "exclusive": false,
       "featured": false,
       "url": "",
       "lastVerified": "2026-09-29",
-      "badge": { "en": ["10%", "cashback"], "ar": ["10%", "كاش باك"] },
-      "offer": { "en": "10% cashback on every order", "ar": "كاش باك 10% على كل طلب" },
-      "terms": { "en": "10% cashback on all orders from the website or app.", "ar": "كاش باك 10% على كل الطلبات من الموقع أو التطبيق." },
+      "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
+      "offer": { "en": "15% off your order", "ar": "خصم 15% على طلبك" },
+      "terms": { "en": "15% off your order from Just Smash.", "ar": "خصم 15% على طلبك من جست سماش." },
       "moreCodes": [
         {
-          "code": "SMASH15",
-          "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
-          "offer": { "en": "15% off your order", "ar": "خصم 15% على طلبك" },
-          "terms": { "en": "15% off your order from Just Smash.", "ar": "خصم 15% على طلبك من جست سماش." }
+          "code": "",
+          "noCode": true,
+          "badge": { "en": ["10%", "cashback"], "ar": ["10%", "كاش باك"] },
+          "offer": { "en": "10% cashback on every order", "ar": "كاش باك 10% على كل طلب" },
+          "terms": {
+            "en": "10% cashback on all orders from the website or app. It applies by itself.",
+            "ar": "كاش باك 10% على كل الطلبات من الموقع أو التطبيق، ويُطبَّق تلقائياً."
+          }
         }
       ],
       "where": { "en": "the Just Smash website or app", "ar": "موقع أو تطبيق جست سماش" },
       "about": {
-        "en": "Just Smash is a smash-burger restaurant in Egypt. Foodidu has two codes for it: AUTO10 for 10% cashback on orders from the website or app, and SMASH15 for 15% off.",
-        "ar": "جست سماش مطعم سماش برجر في مصر. عندنا له كودان: كود AUTO10 لكاش باك 10% على الطلبات من الموقع أو التطبيق، وكود SMASH15 لخصم 15%."
+        "en": "Just Smash is a smash-burger restaurant in Egypt. Foodidu has one code for it, SMASH15 for 15% off your order, and orders from the website or app also get 10% cashback with no code needed.",
+        "ar": "جست سماش مطعم سماش برجر في مصر. عندنا له كود SMASH15 لخصم 15% على طلبك، وكمان الطلبات من الموقع أو التطبيق عليها كاش باك 10% بدون كود."
       },
       "seo": {
         "en": {
-          "title": "Just Smash Burger Promo Codes: 15% Off or 10% Cashback",
-          "description": "2 Just Smash Burger promo codes in Egypt: SMASH15 for 15% off and AUTO10 for 10% cashback on website and app orders. Copy a code and enjoy your burger for less."
+          "title": "Just Smash Burger Promo Code: 15% Off Your Order",
+          "description": "Just Smash Burger promo code SMASH15 gives you 15% off in Egypt. Website and app orders also get 10% cashback, no code needed."
         },
         "ar": {
-          "title": "أكواد خصم وبرومو كود جست سماش: 15% أو كاش باك 10%",
-          "description": "أكواد خصم جست سماش برجر في مصر: كود SMASH15 لخصم 15%، وكود AUTO10 لكاش باك 10% على الطلبات من الموقع أو التطبيق. انسخ الكود واستمتع بالبرجر بسعر أقل."
+          "title": "كود خصم وبرومو كود جست سماش: خصم 15% على طلبك",
+          "description": "كود خصم جست سماش برجر SMASH15 يمنحك خصم 15% على طلبك في مصر، وكمان الطلبات من الموقع أو التطبيق عليها كاش باك 10% بدون كود."
         }
       }
     },
@@ -492,37 +496,41 @@
       "slug": "Mini-Beirut-PromoCode",
       "name": { "en": "Mini Beirut", "ar": "ميني بيروت" },
       "logo": "mini-beirut.webp",
-      "code": "AUTO15",
+      "code": "BEIRUT25",
       "category": "restaurants",
       "region": "eg",
       "exclusive": false,
       "featured": false,
       "url": "",
       "lastVerified": "2026-09-29",
-      "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
-      "offer": { "en": "15% off when you order on the website", "ar": "خصم 15% عند الطلب من الموقع" },
-      "terms": { "en": "15% off when you order directly from the Mini Beirut website.", "ar": "خصم 15% عند الطلب مباشرة من موقع ميني بيروت." },
+      "badge": { "en": ["25%", "off"], "ar": ["25%", "خصم"] },
+      "offer": { "en": "25% off your order", "ar": "خصم 25% على طلبك" },
+      "terms": { "en": "25% off your order from Mini Beirut.", "ar": "خصم 25% على طلبك من ميني بيروت." },
       "moreCodes": [
         {
-          "code": "BEIRUT25",
-          "badge": { "en": ["25%", "off"], "ar": ["25%", "خصم"] },
-          "offer": { "en": "25% off your order", "ar": "خصم 25% على طلبك" },
-          "terms": { "en": "25% off your order from Mini Beirut.", "ar": "خصم 25% على طلبك من ميني بيروت." }
+          "code": "",
+          "noCode": true,
+          "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
+          "offer": { "en": "15% off when you order on the website", "ar": "خصم 15% عند الطلب من الموقع" },
+          "terms": {
+            "en": "15% off when you order directly from the Mini Beirut website. It applies by itself.",
+            "ar": "خصم 15% عند الطلب مباشرة من موقع ميني بيروت، ويُطبَّق تلقائياً."
+          }
         }
       ],
       "where": { "en": "the Mini Beirut website", "ar": "موقع ميني بيروت" },
       "about": {
-        "en": "Mini Beirut serves Lebanese food in Egypt, from mezze to main dishes. Foodidu has two codes for it: BEIRUT25 for 25% off, and AUTO15 for 15% off when you order directly from the Mini Beirut website.",
-        "ar": "ميني بيروت يقدّم الأكل اللبناني في مصر، من المزّة إلى الأطباق الرئيسية. عندنا له كودان: كود BEIRUT25 لخصم 25%، وكود AUTO15 لخصم 15% عند الطلب مباشرة من موقع ميني بيروت."
+        "en": "Mini Beirut serves Lebanese food in Egypt, from mezze to main dishes. Foodidu has one code for it, BEIRUT25 for 25% off, and orders placed directly on the Mini Beirut website also get 15% off with no code needed.",
+        "ar": "ميني بيروت يقدّم الأكل اللبناني في مصر، من المزّة إلى الأطباق الرئيسية. عندنا له كود BEIRUT25 لخصم 25%، وكمان الطلب مباشرة من موقع ميني بيروت عليه خصم 15% بدون كود."
       },
       "seo": {
         "en": {
-          "title": "Mini Beirut Promo Codes: Up to 25% Off Lebanese Food",
-          "description": "2 Mini Beirut promo codes in Egypt: BEIRUT25 for 25% off and AUTO15 for 15% off orders on the Mini Beirut website. Copy a code and enjoy Lebanese food for less."
+          "title": "Mini Beirut Promo Code BEIRUT25: 25% Off Lebanese Food",
+          "description": "Mini Beirut promo code BEIRUT25 gives you 25% off Lebanese food in Egypt. Orders on the Mini Beirut website also get 15% off, no code needed."
         },
         "ar": {
-          "title": "أكواد خصم وبرومو كود ميني بيروت: خصم حتى 25%",
-          "description": "أكواد خصم ميني بيروت في مصر: كود BEIRUT25 لخصم 25%، وكود AUTO15 لخصم 15% على الطلب من موقع ميني بيروت. انسخ الكود واستمتع بالأكل اللبناني بسعر أقل."
+          "title": "كود خصم وبرومو كود ميني بيروت: خصم 25% على طلبك",
+          "description": "كود خصم ميني بيروت BEIRUT25 يمنحك خصم 25% على الأكل اللبناني في مصر، وكمان الطلب من موقع ميني بيروت عليه خصم 15% بدون كود."
         }
       }
     },
@@ -531,7 +539,8 @@
       "slug": "My-Buffalo-PromoCode",
       "name": { "en": "My Buffalo", "ar": "ماي بافلو" },
       "logo": "my-buffalo.webp",
-      "code": "APPONLY",
+      "code": "",
+      "noCode": true,
       "category": "restaurants",
       "region": "eg",
       "exclusive": false,
@@ -540,21 +549,30 @@
       "lastVerified": "2026-09-29",
       "badge": { "en": ["App", "exclusive"], "ar": ["حصرية", "عروض"] },
       "offer": { "en": "Exclusive deals in the My Buffalo app", "ar": "عروض حصرية على تطبيق ماي بافلو" },
-      "terms": { "en": "Download the My Buffalo app for app-only deals and offers.", "ar": "حمّل تطبيق ماي بافلو للحصول على عروض وخصومات حصرية للتطبيق." },
+      "terms": { "en": "Download the My Buffalo app for app-only deals and offers. No code needed.", "ar": "حمّل تطبيق ماي بافلو للحصول على عروض وخصومات حصرية للتطبيق، بدون كود." },
       "where": { "en": "the My Buffalo app", "ar": "تطبيق ماي بافلو" },
+      "steps": {
+        "en": [
+          ["Download the My Buffalo app", "Get it from your phone's app store."],
+          ["Check the app deals", "The exclusive deals are shown inside the app."],
+          ["Order from the app", "Choose a deal and order straight from the app, no code needed."]
+        ],
+        "ar": [
+          ["حمّل تطبيق ماي بافلو", "نزّله من متجر التطبيقات على هاتفك."],
+          ["تصفّح عروض التطبيق", "العروض الحصرية تظهر داخل التطبيق."],
+          ["اطلب من التطبيق", "اختر العرض واطلب من التطبيق مباشرة، بدون كود."]
+        ]
+      },
       "about": {
         "en": "My Buffalo is a restaurant in Egypt known for buffalo wings and American-style food. Its best offers live inside the My Buffalo app, so download it to unlock the app-only deals.",
         "ar": "ماي بافلو مطعم في مصر معروف بأجنحة البافلو والأكل الأمريكي. أفضل عروضه موجودة داخل تطبيق ماي بافلو، فحمّل التطبيق لتحصل على العروض الحصرية."
       },
       "seo": {
         "en": {
-          "title": "My Buffalo Promo Code: App-Exclusive Deals in Egypt",
-          "description": "My Buffalo code APPONLY: download the My Buffalo app in Egypt to unlock app-only deals and offers. See how to use it step by step."
+          "title": "My Buffalo Deals: App-Exclusive Offers in Egypt",
+          "description": "My Buffalo app deals in Egypt: download the My Buffalo app to get app-only offers and discounts. No promo code needed."
         },
-        "ar": {
-          "title": "كود ماي بافلو: عروض حصرية على التطبيق",
-          "description": "كود ماي بافلو APPONLY: حمّل تطبيق ماي بافلو في مصر للحصول على عروض وخصومات حصرية للتطبيق. اعرف طريقة الاستخدام خطوة بخطوة."
-        }
+        "ar": { "title": "عروض ماي بافلو: خصومات حصرية على التطبيق", "description": "عروض ماي بافلو في مصر: حمّل تطبيق ماي بافلو للحصول على عروض وخصومات حصرية للتطبيق، بدون كود خصم." }
       }
     },
     {
