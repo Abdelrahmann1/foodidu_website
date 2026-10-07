@@ -4,7 +4,8 @@
     {
       "key": "white-friday-2026",
       "slug": "white-friday-2026",
-      "status": "draft",
+      "status": "published",
+      "published": "2026-10-07",
       "updated": "2026-10-07",
       "seasonEnd": "2026-12-01",
       "brands": ["noon", "noon-egypt", "iherb", "waffarha"],
