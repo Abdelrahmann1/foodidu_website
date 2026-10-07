@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Old URLs of the 2025 site (foodidu.com/<page>/index.html). They now 301 to the clean pages; this list is submitted
+     in Search Console (Sitemaps) so Google recrawls them, sees the redirects and moves their rankings over. Remove it
+     from Search Console and delete this file once the old URLs have left the index (about a month). -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://foodidu.com/Abu-Auf-PromoCode/index.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://foodidu.com/BreadFast-PromoCode/index.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://foodidu.com/Butchers-Burger-PromoCode/index.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://foodidu.com/Just-Smash-Burger-PromoCode/index.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://foodidu.com/KFC-PromoCode/index.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://foodidu.com/Mini-Beirut-PromoCode/index.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://foodidu.com/My-Buffalo-PromoCode/index.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://foodidu.com/Noon-EG-PromoCode/index.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://foodidu.com/Noon-PromoCode/index.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://foodidu.com/Pizza-Hut-PromoCode/index.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://foodidu.com/Rabbit-PromoCode/index.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://foodidu.com/Senem-PromoCode/index.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://foodidu.com/index.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://foodidu.com/privacy-policy/index.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://foodidu.com/terms-and-conditions/index.html</loc><lastmod>2026-10-07</lastmod></url>
+</urlset>
