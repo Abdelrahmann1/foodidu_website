@@ -188,34 +188,33 @@
       "slug": "Waffarha-PromoCode",
       "name": { "en": "Waffarha", "ar": "وفّرها" },
       "logo": "waffarha.webp",
-      "code": "AH50",
+      "code": "NROH",
       "category": "shopping",
-      "region": ["eg", "gcc"],
-      "regionLabel": { "en": "Egypt & Saudi Arabia", "ar": "مصر والسعودية" },
+      "region": "eg",
       "exclusive": false,
       "featured": true,
       "priority": "top",
       "url": "",
-      "lastVerified": "2026-10-01",
-      "badge": { "en": ["10%", "savings"], "ar": ["10%", "توفير"] },
-      "offer": { "en": "10% cashback in Egypt (up to 25 EGP), 10% off in Saudi Arabia (up to 20 SAR)", "ar": "كاش باك 10% في مصر (حتى 25 جنيه)، وخصم 10% في السعودية (حتى 20 ريال)" },
+      "lastVerified": "2026-10-11",
+      "badge": { "en": ["10%", "cashback"], "ar": ["10%", "كاش باك"] },
+      "offer": { "en": "10% cashback on your orders, up to 75 EGP", "ar": "كاش باك 10% على طلباتك، بحد أقصى 75 جنيه" },
       "terms": {
-        "en": "Egypt: 10% cashback, up to 25 EGP. Saudi Arabia: 10% off, up to 20 SAR. One use per user; you can still use other coupons.",
-        "ar": "مصر: كاش باك 10% بحد أقصى 25 جنيه. السعودية: خصم 10% بحد أقصى 20 ريال. استخدام واحد لكل مستخدم، ويمكنك استخدام كوبونات أخرى."
+        "en": "10% cashback on Waffarha orders in Egypt, up to 75 EGP. Valid until 31 December 2026. Waffarha's terms apply.",
+        "ar": "كاش باك 10% على طلبات وفّرها في مصر، بحد أقصى 75 جنيه. صالح حتى 31 ديسمبر 2026. تطبق شروط وفّرها."
       },
       "where": { "en": "the Waffarha app or website", "ar": "تطبيق أو موقع وفّرها" },
       "about": {
-        "en": "Waffarha is a deals platform in Egypt and Saudi Arabia with discounts on restaurants, entertainment, health and beauty services and more. Code AH50 gives 10% cashback in Egypt (up to 25 EGP) and 10% off in Saudi Arabia (up to 20 SAR).",
-        "ar": "وفّرها منصة عروض في مصر والسعودية فيها خصومات على المطاعم والترفيه وخدمات الصحة والتجميل وغيرها. الكود AH50 يمنحك كاش باك 10% في مصر (حتى 25 جنيه) وخصم 10% في السعودية (حتى 20 ريال)."
+        "en": "Waffarha is a deals platform in Egypt and Saudi Arabia with discounts on restaurants, entertainment, health and beauty services and more. Code NROH gives you 10% cashback on your orders in Egypt, up to 75 EGP.",
+        "ar": "وفّرها منصة عروض في مصر والسعودية فيها خصومات على المطاعم والترفيه وخدمات الصحة والتجميل وغيرها. الكود NROH يمنحك كاش باك 10% على طلباتك في مصر، بحد أقصى 75 جنيه."
       },
       "seo": {
         "en": {
-          "title": "Waffarha Promo Code AH50: 10% in Egypt & Saudi Arabia",
-          "description": "Waffarha code AH50: 10% cashback in Egypt (up to 25 EGP) and 10% off in Saudi Arabia (up to 20 SAR). One use per user. Copy the code and save."
+          "title": "Waffarha Promo Code NROH: 10% Cashback up to 75 EGP",
+          "description": "Waffarha code NROH: 10% cashback on your Waffarha orders in Egypt, up to 75 EGP. Valid until 31 December 2026. Copy the code and save on deals."
         },
         "ar": {
-          "title": "كود خصم وكوبون وفّرها AH50: 10% في مصر والسعودية",
-          "description": "كود وفّرها AH50: كاش باك 10% في مصر حتى 25 جنيه، وخصم 10% في السعودية حتى 20 ريال. مرة واحدة لكل مستخدم. انسخ الكود ووفّر."
+          "title": "كود خصم وكوبون وفّرها NROH: كاش باك 10% حتى 75 جنيه",
+          "description": "كود وفّرها NROH: كاش باك 10% على طلباتك من وفّرها في مصر بحد أقصى 75 جنيه، وصالح حتى 31 ديسمبر 2026. انسخ الكود ووفّر على العروض."
         }
       }
     },

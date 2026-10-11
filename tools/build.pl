@@ -167,6 +167,7 @@ my %S = (
   c_empty => 'No codes match this filter.', c_filters => 'Filter codes',
   # brand page
   nocode => 'No code needed', nocode_go => 'Order', nocode_aria => '{name}: no code needed, order from {where}',
+  nocode_shop => 'Shop', nocode_shop_aria => '{name}: no code needed, shop on {where}',
   blog_nav => 'Blog', blog_h1 => 'Foodidu blog', blog_title => 'Foodidu Blog: Saving Guides, Sale Dates and Promo Codes',
   blog_desc => 'Guides to save on food delivery, groceries and online shopping in Egypt and the GCC: sale season dates, how promo codes work, and which codes to use.',
   blog_lede => 'Practical guides to pay less: sale season dates, how promo codes work, and the codes we test ourselves.',
@@ -308,6 +309,7 @@ my %S = (
   c_group_restaurants => 'أكواد خصم المطاعم', c_group_groceries => 'أكواد خصم البقالة والسوبر ماركت', c_group_shopping => 'أكواد خصم التسوق أونلاين',
   c_empty => 'لا توجد أكواد تطابق هذا الاختيار.', c_filters => 'تصفية الأكواد',
   nocode => 'بدون كود', nocode_go => 'اطلب', nocode_aria => '{name}: بدون كود، اطلب من {where}',
+  nocode_shop => 'تسوّق', nocode_shop_aria => '{name}: بدون كود، تسوّق من {where}',
   blog_nav => 'المدونة', blog_h1 => 'مدونة Foodidu', blog_title => 'مدونة Foodidu: أدلة التوفير ومواعيد العروض وأكواد الخصم',
   blog_desc => 'أدلة للتوفير في طلبات الأكل والبقالة والتسوق أونلاين في مصر والخليج: مواعيد مواسم التخفيضات، وطريقة عمل أكواد الخصم، والأكواد التي تستخدمها.',
   blog_lede => 'أدلة عملية لتدفع أقل: مواعيد مواسم التخفيضات، وطريقة عمل أكواد الخصم، والأكواد التي نجرّبها بأنفسنا.',
@@ -455,8 +457,9 @@ sub logo_attrs {   # src + srcset for a logo shown at $size CSS px
 sub code_btn {
   my ($b, $l, $lg) = @_;
   return qq{<span class="code-btn nocode static} . ($lg ? ' lg' : '') . '"><span class="code">' . T($l, 'nocode') . '</span></span>' if $b->{noCode} && !$b->{url};
+  my ($go, $aria) = $b->{category} eq 'shopping' ? ('nocode_shop', 'nocode_shop_aria') : ('nocode_go', 'nocode_aria');   # "Shop" for stores like Amazon, "Order" for food
   return qq{<a class="code-btn nocode} . ($lg ? ' lg' : '') . qq{" href="} . esc($b->{url}) . qq{" rel="nofollow sponsored noopener" target="_blank" data-track="brand_link_click" data-brand="$b->{key}" aria-label="}
-    . Te($l, 'nocode_aria', name => $b->{name}{$l}, where => $b->{where}{$l}) . '"><span class="code">' . T($l, 'nocode') . '</span><span class="act">' . icon('external') . '<span class="act-label">' . T($l, 'nocode_go') . '</span></span></a>' if $b->{noCode};
+    . Te($l, $aria, name => $b->{name}{$l}, where => $b->{where}{$l}) . '"><span class="code">' . T($l, 'nocode') . '</span><span class="act">' . icon('external') . '<span class="act-label">' . T($l, $go) . '</span></span></a>' if $b->{noCode};
   my $code = esc($b->{code});
   qq{<button type="button" class="code-btn} . ($lg ? ' lg' : '') . qq{" data-code="$code" data-brand="$b->{key}" aria-label="} . Te($l, 'copy_aria', code => $b->{code}) . qq{">}
   . qq{<span class="code" dir="ltr">$code</span>}
