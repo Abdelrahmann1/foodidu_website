@@ -115,23 +115,22 @@
       "region": "eg",
       "exclusive": false,
       "featured": false,
-      "url": "https://www.amazon.eg/deals?tag=foodiduoffers-21",
-      "urlLabel": { "en": "See today's deals on Amazon", "ar": "شوف عروض اليوم على أمازون" },
+      "url": "",
       "badge": { "en": ["Daily", "deals"], "ar": ["عروض", "يومية"] },
       "offer": { "en": "Today's Deals and coupons on Amazon Egypt, no code needed", "ar": "عروض اليوم والكوبونات على أمازون مصر، بدون كود" },
       "terms": {
-        "en": "Deals change every day and apply by themselves at checkout. A coupon applies once you clip it on the product page. Amazon's terms apply. Foodidu may earn a commission on purchases made through this link, at no extra cost to you.",
-        "ar": "العروض تتغير كل يوم وتُطبَّق تلقائياً عند الدفع، والكوبون يُطبَّق بعد تفعيله من صفحة المنتج. تطبق شروط أمازون. قد يحصل Foodidu على عمولة من المشتريات عبر هذا الرابط، بدون أي تكلفة إضافية عليك."
+        "en": "Deals change every day and apply by themselves at checkout. A coupon applies once you clip it on the product page. Amazon's terms apply.",
+        "ar": "العروض تتغير كل يوم وتُطبَّق تلقائياً عند الدفع، والكوبون يُطبَّق بعد تفعيله من صفحة المنتج. تطبق شروط أمازون."
       },
       "where": { "en": "amazon.eg or the Amazon app", "ar": "موقع amazon.eg أو تطبيق أمازون" },
       "steps": {
         "en": [
-          ["Open Today's Deals", "Use the button on this page to open Today's Deals on Amazon Egypt."],
+          ["Open Today's Deals", "On amazon.eg or in the Amazon app, open Today's Deals from the top menu."],
           ["Pick a deal or clip a coupon", "Filter the deals by category, or open the Coupons tab and clip the coupon on the product page."],
           ["Check the price at checkout", "The deal price and any coupon you clipped apply by themselves, no code needed."]
         ],
         "ar": [
-          ["افتح عروض اليوم", "استخدم الزرار في الصفحة دي عشان تفتح صفحة عروض اليوم على أمازون مصر."],
+          ["افتح عروض اليوم", "من موقع amazon.eg أو تطبيق أمازون، افتح «عروض اليوم» من القايمة اللي فوق."],
           ["اختار عرض أو فعّل كوبون", "فلتر العروض حسب القسم، أو افتح تبويب الكوبونات وفعّل الكوبون من صفحة المنتج."],
           ["راجع السعر في صفحة الدفع", "سعر العرض والكوبون اللي فعّلته بيتطبقوا تلقائياً، بدون كود."]
         ]
