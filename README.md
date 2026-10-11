@@ -40,6 +40,10 @@ firebase deploy --only hosting
 
 Add an entry to `data/day-deals.json`: `days` (`sat sun mon tue wed thu fri`), `brand` (a key from `brands.json`, or `name`/`logo` for a brand without a page), `title`, `details`, the official `source` link and `lastChecked`. The deal shows on the home page, on `/day-deals/` (grouped by day, with FAQ) and on the brand's page, and is highlighted automatically on its day (Cairo time). Only add deals you can link to an official source.
 
+### Amazon picks (affiliate)
+
+`data/amazon-picks.json` lists products the owner chose on amazon.eg (product ID `asin`, `name` and a short `note` in English and Arabic). They show on the Amazon Egypt page and, the first four, on the home page under the featured banners. Every link gets the Associates tag and `rel="nofollow sponsored"`, with an affiliate disclosure above the list. Never add prices: Amazon allows only prices that update from Amazon itself. Edit them from the dashboard (إدارة المحتوى > اختيارات أمازون); the sections are hidden while the list is empty.
+
 ### Featured partner slot (can be sold)
 
 `data/featured.json` puts one partner in a banner right under the home-page hero (English and Arabic). Set `partner` to a restaurant key from `restaurant-offers.json` or a brand key from `brands.json`; wording, logo and link are filled in from that partner, or write your own `title` / `text` / `cta` (`{ "en": …, "ar": … }`) and `url`. Set `"sponsored": true` when the partner pays: the label becomes **Sponsored / إعلان** and outside links get `rel="sponsored"`, as Google requires for paid links. The banner disappears after `until` (Cairo time) even if nobody rebuilds; set `"active": false` to remove it sooner.

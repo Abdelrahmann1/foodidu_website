@@ -176,7 +176,7 @@ my %S = (
   # brand page
   nocode => 'No code needed', nocode_go => 'Order', nocode_aria => '{name}: no code needed, order from {where}',
   nocode_shop => 'Shop', nocode_shop_aria => '{name}: no code needed, shop on {where}',
-  pk_h2 => 'Foodidu picks on Amazon', pk_go => 'See it on Amazon',
+  pk_h2 => 'Foodidu picks on Amazon', pk_go => 'See it on Amazon', pk_eyebrow => 'Amazon Egypt', pk_all => 'All Amazon picks',
   pk_note => 'Products we picked on Amazon Egypt. These are affiliate links: Foodidu may earn a commission on qualifying purchases, at no extra cost to you. Prices change on Amazon, so check the price on the product page.',
   blog_nav => 'Blog', blog_h1 => 'Foodidu blog', blog_title => 'Foodidu Blog: Saving Guides, Sale Dates and Promo Codes',
   blog_desc => 'Guides to save on food delivery, groceries and online shopping in Egypt and the GCC: sale season dates, how promo codes work, and which codes to use.',
@@ -320,7 +320,7 @@ my %S = (
   c_empty => 'لا توجد أكواد تطابق هذا الاختيار.', c_filters => 'تصفية الأكواد',
   nocode => 'بدون كود', nocode_go => 'اطلب', nocode_aria => '{name}: بدون كود، اطلب من {where}',
   nocode_shop => 'تسوّق', nocode_shop_aria => '{name}: بدون كود، تسوّق من {where}',
-  pk_h2 => 'اختيارات Foodidu من أمازون', pk_go => 'شاهده على أمازون',
+  pk_h2 => 'اختيارات Foodidu من أمازون', pk_go => 'شاهده على أمازون', pk_eyebrow => 'أمازون مصر', pk_all => 'كل اختيارات أمازون',
   pk_note => 'منتجات اخترناها لك من أمازون مصر. هذه روابط أفلييت: قد يحصل Foodidu على عمولة من عمليات الشراء المؤهلة، بدون أي تكلفة إضافية عليك. الأسعار تتغير على أمازون، فراجع السعر في صفحة المنتج.',
   blog_nav => 'المدونة', blog_h1 => 'مدونة Foodidu', blog_title => 'مدونة Foodidu: أدلة التوفير ومواعيد العروض وأكواد الخصم',
   blog_desc => 'أدلة للتوفير في طلبات الأكل والبقالة والتسوق أونلاين في مصر والخليج: مواعيد مواسم التخفيضات، وطريقة عمل أكواد الخصم، والأكواد التي تستخدمها.',
@@ -882,6 +882,21 @@ sub rest_card {
     . '<span class="bcard-offer">' . T($l, 'ro_from', min => fmt_n(rest_min($r))) . '</span>'
     . qq{<span class="bcard-foot"><span class="bcard-deal">$deal</span>} . icon('arrow', 'flip go') . '</span></a></li>';
 }
+# Amazon picks (data/amazon-picks.json): the full list on the Amazon page, the first four on the home page under the featured banners.
+sub pick_list {
+  my ($l, $cls, @items) = @_;
+  '<ul class="picks' . ($cls ? " $cls" : '') . '">' . join('', map { '<li class="pick"><div><b>' . esc($_->{name}{$l}) . '</b><span>' . esc($_->{note}{$l}) . '</span></div><a class="btn btn-leaf" href="'
+    . esc("$PICKS->{store}/dp/$_->{asin}?tag=$PICKS->{tag}") . qq{" rel="nofollow sponsored noopener" target="_blank" data-track="brand_link_click" data-brand="$PICKS->{brand}">} . T($l, 'pk_go') . ' ' . icon('external') . '</a></li>' } @items) . '</ul>';
+}
+sub picks_home {
+  my $l = shift;
+  my @items = @{ $PICKS->{items} };
+  my $b = $BYKEY{ $PICKS->{brand} // '' };
+  return '' unless @items && $b;
+  $#items = 3 if @items > 4;
+  qq{<section class="wrap section-tight" aria-labelledby="hpk-title"><div class="section-head"><div><p class="eyebrow">} . T($l, 'pk_eyebrow') . qq{</p><h2 class="h2" id="hpk-title">} . T($l, 'pk_h2') . '</h2><p class="section-sub">' . T($l, 'pk_note') . '</p></div>'
+    . '<a class="btn btn-ink" href="' . brand_url($b, $l) . '#picks-title">' . T($l, 'pk_all') . ' ' . icon('arrow', 'flip') . '</a></div>' . pick_list($l, 'grid2', @items) . '</section>';
+}
 # Featured-partner banners under the home hero (data/featured.json): one or more partners side by side ("partners",
 # or the older single "partner"). Gone after "until"; site.js also hides them on that date when the site was not rebuilt.
 sub feat_keys { my $p = $FEAT->{partners} // ($FEAT->{partner} ? [$FEAT->{partner}] : []); @$p }
@@ -958,6 +973,7 @@ for my $l (@LANGS) {
 </section>
 <div class="scallop" aria-hidden="true"></div>
 @{[ featured_html($l) ]}
+@{[ picks_home($l) ]}
 <section class="wrap section-tight" aria-labelledby="feat-title">
 <div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_feat_eyebrow') ]}</p><h2 class="h2" id="feat-title">@{[ T($l, 'h_feat_title') ]}</h2><p class="section-sub">@{[ T($l, 'h_feat_sub') ]}</p></div>
 <a class="btn btn-ink" href="$codes">@{[ T($l, 'h_see_all', n => $NCODES) ]} @{[ icon('arrow', 'flip') ]}</a></div>
@@ -1347,9 +1363,7 @@ HTML
     } @offers;
     my $side_codes = join '', map { code_btn($_, $l, 1) } @offers;
     my @picks = ($PICKS->{brand} // '') eq $b->{key} ? @{ $PICKS->{items} } : ();
-    my $picks = @picks ? '<section aria-labelledby="picks-title"><h2 id="picks-title">' . T($l, 'pk_h2') . '</h2><p class="note pk-note">' . T($l, 'pk_note') . '</p><ul class="picks">'
-      . join('', map { '<li class="pick"><div><b>' . esc($_->{name}{$l}) . '</b><span>' . esc($_->{note}{$l}) . '</span></div><a class="btn btn-leaf" href="' . esc("$PICKS->{store}/dp/$_->{asin}?tag=$PICKS->{tag}")
-        . qq{" rel="nofollow sponsored noopener" target="_blank" data-track="brand_link_click" data-brand="$b->{key}">} . T($l, 'pk_go') . ' ' . icon('external') . '</a></li>' } @picks) . '</ul></section>' : '';
+    my $picks = @picks ? '<section aria-labelledby="picks-title"><h2 id="picks-title">' . T($l, 'pk_h2') . '</h2><p class="note pk-note">' . T($l, 'pk_note') . '</p>' . pick_list($l, '', @picks) . '</section>' : '';
     my @cat = grep { $_->{category} eq $b->{category} } @BRANDS;
     my @top = grep { ($_->{priority} // '') ne 'low' } @cat;   # low-priority codes are never the suggested ones
     my ($pos) = grep { $top[$_] eq $b } 0 .. $#top;

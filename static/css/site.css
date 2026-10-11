@@ -849,6 +849,7 @@ a.store:hover { background: #000; transform: translateY(-2px); }
 .pick b { display: block; font-size: 1.05rem; }
 .pick span { color: var(--ink-2); }
 .pick .btn { flex: none; }
+.picks.grid2 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); }
 .pk-note { margin: 0 0 14px; }
 @media (max-width: 560px) { .pick { flex-direction: column; align-items: stretch; } }
 .how b { display: block; font-size: 1.05rem; }

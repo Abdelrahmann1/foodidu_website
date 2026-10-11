@@ -6,7 +6,7 @@
 window.FoodiduAdmin = (() => {
   "use strict";
   const BRANCH = "main", TOKEN_KEY = "fd_gh_token";
-  const FILES = { brands: "data/brands.json", rests: "data/restaurant-offers.json", deals: "data/day-deals.json", featured: "data/featured.json", home: "data/home.json", blog: "data/blog.json", firebase: "firebase.json" };
+  const FILES = { brands: "data/brands.json", rests: "data/restaurant-offers.json", deals: "data/day-deals.json", featured: "data/featured.json", home: "data/home.json", blog: "data/blog.json", picks: "data/amazon-picks.json", firebase: "firebase.json" };
   const DAYS = [["sat", "السبت"], ["sun", "الأحد"], ["mon", "الاتنين"], ["tue", "التلات"], ["wed", "الأربع"], ["thu", "الخميس"], ["fri", "الجمعة"]];
   const ICONS = [["fork", "مطاعم"], ["pizza", "بيتزا"], ["basket", "بقالة"], ["bag", "تسوق"], ["gift", "هدية"], ["tag", "خصم"]];
   const RESERVED = ["ar", "en", "promo-codes", "partners", "day-deals", "privacy-policy", "terms-and-conditions", "dashboard", "blog", "first-order-promo-codes", "img", "css", "js", "pages", "components", "404"];
@@ -15,6 +15,7 @@ window.FoodiduAdmin = (() => {
   const REST_KEYS = ["key", "slug", "name", "logo", "category", "region", "menu", "website", "phone", "cuisine", "lastChecked", "validUntil", "about", "seo", "offers"];
   const POST_KEYS = ["key", "slug", "status", "published", "updated", "seasonEnd", "brands", "seo", "h1", "lede", "body", "faq"];
   const DEAL_KEYS = ["id", "brand", "name", "logo", "icon", "region", "url", "featured", "days", "title", "details", "source", "sourceLabel", "lastChecked"];
+  const PICK_KEYS = ["asin", "name", "note"];
   let REPO = "", root = null, token = null;
   const S = { loaded: false, base: null, data: {}, dirty: new Set(), blobs: {}, deletes: new Set(), baseFiles: new Set(), changes: [], logos: {}, tab: "brands", view: null };
   const deployBox = document.createElement("div");
@@ -683,6 +684,38 @@ window.FoodiduAdmin = (() => {
     }, { inline: true });
   }
 
+  /* ---------- Amazon picks (data/amazon-picks.json): the owner's own products, shown on the Amazon page with his tag ---------- */
+  const asinOf = (url) => { const m = /^https:\/\/(?:www\.)?amazon\.eg\/(?:.*\/)?(?:dp|gp\/product|gp\/aw\/d)\/([A-Z0-9]{10})(?:[/?#]|$)/i.exec(url || ""); return m ? m[1].toUpperCase() : ""; };
+  const pickUrl = (asin) => `${S.data.picks.store}/dp/${asin}?tag=${S.data.picks.tag}`;
+  const hasPrice = (s) => /\d[\d,.]*\s*(جنيه|ج\.م)|\d[\d,.]*\s*(EGP|LE)\b|\b(EGP|LE)\s*\d/i.test(s || "");
+  function pickEditor(asin) {
+    const p = asin && S.data.picks.items.find((x) => x.asin === asin), isNew = !p;
+    const f = {
+      link: text("لينك المنتج على أمازون مصر", { req: true, dir: "ltr", ph: "https://www.amazon.eg/.../dp/B0XXXXXXXX", hint: "انسخ لينك صفحة المنتج من amazon.eg. لو اللينك قصير (amzn.to) افتحه الأول وانسخ اللينك الطويل من المتصفح. الـ tag بتاعك بيتحط لوحده." }),
+      name: bi("اسم المنتج", { req: true, hint: "اسم قصير وواضح، زي: سماعة Anker Soundcore R50i." }),
+      note: bi("ليه بترشحه", { req: true, area: true, hint: "سطر من رأيك أو تجربتك. من غير أسعار: أمازون بتمنع كتابة السعر بالإيد لأنه بيتغير." })
+    };
+    if (p) { f.link.set(`${S.data.picks.store}/dp/${p.asin}`); f.name.set(p.name); f.note.set(p.note); }
+    return editor(isNew ? "منتج جديد من أمازون" : `تعديل ${p.name.ar}`, f, async () => {
+      const v = collect(f), next = ordered({ asin: asinOf(v.link), name: v.name, note: v.note }, PICK_KEYS);
+      const arr = S.data.picks.items;
+      if (arr.some((x) => x.asin === next.asin && x !== p)) throw new Error("المنتج ده موجود في القايمة قبل كده.");
+      if (!isNew && same(next, p, PICK_KEYS)) return false;
+      if (p) arr[arr.indexOf(p)] = next; else arr.push(next);
+      change("picks", `${isNew ? "Add" : "Edit"} Amazon pick ${next.asin} (${next.name.en})`);
+    }, { check: () => { const v = collect(f); return [
+      ...(v.link && !asinOf(v.link) ? ["اللينك: لازم يبقى لينك صفحة منتج على amazon.eg فيه /dp/ ورقم المنتج"] : []),
+      ...([v.name.ar, v.name.en, v.note.ar, v.note.en].some(hasPrice) ? ["شيل السعر من الاسم أو السطر: أمازون بتمنع كتابة الأسعار بالإيد."] : []),
+    ]; } });
+  }
+  function movePick(p, step) {
+    const arr = S.data.picks.items, i = arr.indexOf(p), j = i + step;
+    if (j < 0 || j >= arr.length) return;
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+    change("picks", `Move Amazon pick ${p.asin} ${step < 0 ? "up" : "down"}`);
+    render();
+  }
+
   // brands as the site lists them: priority "top", then normal, then "low", each in brands.json order
   const siteOrder = () => ["top", "", "low"].flatMap((p) => S.data.brands.brands.filter((b) => (b.priority || "") === p));
   function move(b, step) {   // swap with the next brand of the same priority group in brands.json
@@ -699,7 +732,7 @@ window.FoodiduAdmin = (() => {
     if (!root) return;
     if (!token) return renderConnect();
     if (!S.loaded) { root.replaceChildren(el("p", { class: "dash-note", text: "بيحمّل البيانات من GitHub..." })); return; }
-    const tabs = [["brands", `الأكواد (${S.data.brands.brands.length})`], ["rests", `عروض المطاعم (${S.data.rests.restaurants.length})`], ["deals", `عروض الأيام (${S.data.deals.deals.length})`], ["blog", `المدونة (${S.data.blog.posts.length})`], ["featured", "العرض المميز"], ["home", "كروت الرئيسية"]];
+    const tabs = [["brands", `الأكواد (${S.data.brands.brands.length})`], ["rests", `عروض المطاعم (${S.data.rests.restaurants.length})`], ["deals", `عروض الأيام (${S.data.deals.deals.length})`], ["blog", `المدونة (${S.data.blog.posts.length})`], ["picks", `اختيارات أمازون (${S.data.picks.items.length})`], ["featured", "العرض المميز"], ["home", "كروت الرئيسية"]];
     let body;
     if (S.view) body = S.view();
     else if (S.tab === "brands") body = el("div", null, el("p", { class: "adm-add" }, btn("+ كود جديد", open(() => brandEditor(null)))),
@@ -722,6 +755,14 @@ window.FoodiduAdmin = (() => {
       S.data.blog.posts, (p) => [btn("تعديل", open(() => blogEditor(p.slug)), "ghost sm"),
         el("a", { class: "dash-btn ghost sm", href: `https://foodidu.com/ar/blog/${p.slug}/`, target: "_blank", rel: "noopener", text: p.status === "published" ? "افتحه" : "شوف المسودة" }),
         btn("حذف", () => removePost(p), "ghost sm danger")]));
+    else if (S.tab === "picks") body = el("div", null,
+      el("p", { class: "dash-note", text: "منتجات بتختارها بنفسك من أمازون مصر. بتظهر كلها في صفحة أمازون تحت \"اختيارات Foodidu من أمازون\"، وأول 4 منها في الصفحة الرئيسية تحت العرض المميز. لينك كل منتج عليه الـ tag بتاعك، والترتيب هنا هو ترتيبها على الموقع." }),
+      el("p", { class: "adm-add" }, btn("+ منتج جديد", open(() => pickEditor(null)))),
+      S.data.picks.items.length ? tableOf([["المنتج", (p) => p.name.ar], ["رقم المنتج", (p) => el("code", { text: p.asin })], ["ليه بترشحه", (p) => p.note.ar]],
+        S.data.picks.items, (p) => [btn("↑", () => movePick(p, -1), "ghost sm"), btn("↓", () => movePick(p, 1), "ghost sm"), btn("تعديل", open(() => pickEditor(p.asin)), "ghost sm"),
+          el("a", { class: "dash-btn ghost sm", href: pickUrl(p.asin), target: "_blank", rel: "noopener", text: "افتحه على أمازون" }),
+          btn("حذف", () => { if (!confirm(`تشيل "${p.name.ar}" من الاختيارات؟`)) return; S.data.picks.items.splice(S.data.picks.items.indexOf(p), 1); change("picks", `Remove Amazon pick ${p.asin}`); render(); }, "ghost sm danger")])
+        : el("p", { class: "dash-note", text: "لسه مفيش منتجات. الجزء ده مش بيظهر على الموقع غير لما تضيف أول منتج." }));
     else if (S.tab === "featured") body = featuredEditor();
     else body = homeEditor();
     root.replaceChildren(
