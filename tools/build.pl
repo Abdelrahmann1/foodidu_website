@@ -95,7 +95,7 @@ my %S = (
   logo_alt => '{name} logo',
   foot_blurb => 'Promo codes and discounts for restaurants, groceries and online shopping in Egypt and the GCC.',
   foot_codes => 'Promo codes', foot_code_link => '{name} promo code', foot_all => 'All promo codes', privacy => 'Privacy policy', terms => 'Terms & conditions',
-  cookie_settings => 'Cookie settings', made => 'Made with love for food lovers.', disclaimer => 'Brand names and logos belong to their owners.',
+  cookie_settings => 'Cookie settings', made => 'Made with love for food lovers.', disclaimer => 'Brand names and logos belong to their owners. As an Amazon Associate, Foodidu earns from qualifying purchases.',
   cookie_text => 'We use cookies to understand how Foodidu is used and to improve it.', accept => 'Accept', decline => 'Decline', cookies => 'Cookies',
   # home
   h_title => 'Foodidu – Promo Codes & Discounts in Egypt and the GCC',
@@ -239,7 +239,7 @@ my %S = (
   logo_alt => 'شعار {name}',
   foot_blurb => 'أكواد وكوبونات خصم للمطاعم والبقالة والتسوق أونلاين في مصر والخليج.',
   foot_codes => 'أكواد الخصم', foot_code_link => 'كود خصم {name}', foot_all => 'كل أكواد الخصم', privacy => 'سياسة الخصوصية', terms => 'الشروط والأحكام',
-  cookie_settings => 'إعدادات ملفات تعريف الارتباط', made => 'صُنع بحب لعشّاق الأكل.', disclaimer => 'أسماء وشعارات العلامات التجارية مملوكة لأصحابها.',
+  cookie_settings => 'إعدادات ملفات تعريف الارتباط', made => 'صُنع بحب لعشّاق الأكل.', disclaimer => 'أسماء وشعارات العلامات التجارية مملوكة لأصحابها. بصفتنا شريكاً في برنامج أمازون للشركاء، يحصل Foodidu على عمولة من عمليات الشراء المؤهلة.',
   cookie_text => 'نستخدم ملفات تعريف الارتباط لفهم كيفية استخدام Foodidu وتحسينه.', accept => 'موافق', decline => 'رفض', cookies => 'ملفات تعريف الارتباط',
   h_title => 'Foodidu – أكواد وكوبونات خصم في مصر والخليج',
   h_desc => 'أكواد خصم كنتاكي وبيتزا هت ونون ورابيت وبريدفاست وغيرها في مكان واحد وباللغتين. انسخ الكود واعرف الشروط ووفّر على طلبك القادم.',
@@ -740,6 +740,10 @@ sub md_link {
   my ($text, $href, $l, $st) = @_;   # both already escaped
   if ($href =~ /^brand:([a-z0-9-]+)$/) { $st->{links}++; return '<a href="' . brand_url(md_brand($1), $l) . qq{">$text</a>} }
   if ($href =~ m{^page:(/[A-Za-z0-9/-]*)$}) { $st->{links}++; return '<a href="' . path_for($l, $1) . qq{">$text</a>} }
+  if ($href =~ m{^https://(?:www\.)?(amazon\.[a-z.]+|amzn\.to)/}) {   # affiliate link: "sponsored" for Google, tracked like a brand's own link
+    my $host = $1; my ($b) = grep { ($_->{url} // '') =~ m{^https://(?:www\.)?\Q$host\E/} } @BRANDS;
+    return qq{<a href="$href" rel="nofollow sponsored noopener" target="_blank" data-track="brand_link_click"} . ($b ? qq{ data-brand="$b->{key}"} : '') . ">$text</a>";
+  }
   return qq{<a href="$href" rel="noopener" target="_blank">$text</a>} if $href =~ m{^https://};
   die "blog: the link \"$href\" must start with brand:, page:/ or https://\n";
 }
@@ -1462,7 +1466,7 @@ HTML
     $content =~ s/\{privacy\}/path_for($l, '\/privacy-policy\/')/ge;
     my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, "${p}_title"), path_for($l, "/$slug/")]];
     my $body = qq{<section class="page-hero"><div class="wrap">} . crumbs_html($l, $crumbs) . '<h1>' . T($l, "${p}_title") . '</h1><p class="updated">'
-      . T($l, 'updated', date => ($l eq 'en' ? 'September 2026' : 'سبتمبر 2026')) . qq{</p></div></section><div class="scallop" aria-hidden="true"></div><div class="wrap legal">$content</div>};
+      . T($l, 'updated', date => ($l eq 'en' ? 'October 2026' : 'أكتوبر 2026')) . qq{</p></div></section><div class="scallop" aria-hidden="true"></div><div class="wrap legal">$content</div>};
     layout(lang => $l, key => "/$slug/", title => T($l, "${p}_seo"), desc => T($l, "${p}_desc"), body => $body, crumbs => $crumbs, lastmod => mdate($src));
   }
 }

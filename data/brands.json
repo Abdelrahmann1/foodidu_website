@@ -105,6 +105,53 @@
       }
     },
     {
+      "key": "amazon-egypt",
+      "slug": "Amazon-EG-PromoCode",
+      "name": { "en": "Amazon Egypt", "ar": "أمازون مصر" },
+      "logo": "amazon-egypt.webp",
+      "code": "",
+      "noCode": true,
+      "category": "shopping",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "https://www.amazon.eg/deals?tag=foodiduoffers-21",
+      "urlLabel": { "en": "See today's deals on Amazon", "ar": "شوف عروض اليوم على أمازون" },
+      "badge": { "en": ["Daily", "deals"], "ar": ["عروض", "يومية"] },
+      "offer": { "en": "Today's Deals and coupons on Amazon Egypt, no code needed", "ar": "عروض اليوم والكوبونات على أمازون مصر، بدون كود" },
+      "terms": {
+        "en": "Deals change every day and apply by themselves at checkout. A coupon applies once you clip it on the product page. Amazon's terms apply. Foodidu may earn a commission on purchases made through this link, at no extra cost to you.",
+        "ar": "العروض تتغير كل يوم وتُطبَّق تلقائياً عند الدفع، والكوبون يُطبَّق بعد تفعيله من صفحة المنتج. تطبق شروط أمازون. قد يحصل Foodidu على عمولة من المشتريات عبر هذا الرابط، بدون أي تكلفة إضافية عليك."
+      },
+      "where": { "en": "amazon.eg or the Amazon app", "ar": "موقع amazon.eg أو تطبيق أمازون" },
+      "steps": {
+        "en": [
+          ["Open Today's Deals", "Use the button on this page to open Today's Deals on Amazon Egypt."],
+          ["Pick a deal or clip a coupon", "Filter the deals by category, or open the Coupons tab and clip the coupon on the product page."],
+          ["Check the price at checkout", "The deal price and any coupon you clipped apply by themselves, no code needed."]
+        ],
+        "ar": [
+          ["افتح عروض اليوم", "استخدم الزرار في الصفحة دي عشان تفتح صفحة عروض اليوم على أمازون مصر."],
+          ["اختار عرض أو فعّل كوبون", "فلتر العروض حسب القسم، أو افتح تبويب الكوبونات وفعّل الكوبون من صفحة المنتج."],
+          ["راجع السعر في صفحة الدفع", "سعر العرض والكوبون اللي فعّلته بيتطبقوا تلقائياً، بدون كود."]
+        ]
+      },
+      "about": {
+        "en": "Amazon Egypt (amazon.eg) is Amazon's store in Egypt for electronics, mobile phones, home and kitchen, fashion, beauty and groceries. Its Today's Deals page lists new discounts every day by category, and the Coupons tab lets you clip a coupon on a product so the discount applies at checkout, with no promo code needed. Prime members also get free same-day and next-day delivery.",
+        "ar": "أمازون مصر (amazon.eg) هو متجر أمازون في مصر للإلكترونيات والموبايلات والمنزل والمطبخ والأزياء والتجميل والبقالة. صفحة عروض اليوم فيها خصومات جديدة كل يوم حسب القسم، وتبويب الكوبونات يخليك تفعّل كوبون على المنتج فيتطبق الخصم عند الدفع بدون كود خصم. ومشتركين Prime ليهم كمان توصيل مجاني في نفس اليوم أو اليوم التالي."
+      },
+      "seo": {
+        "en": {
+          "title": "Amazon Egypt Deals and Coupons: No Promo Code Needed",
+          "description": "Amazon Egypt Today's Deals and coupons: new daily discounts on electronics, home, fashion and groceries on amazon.eg. They apply by themselves, no code needed."
+        },
+        "ar": {
+          "title": "عروض وكوبونات أمازون مصر: خصومات يومية بدون كود",
+          "description": "عروض اليوم وكوبونات أمازون مصر: خصومات يومية جديدة على الإلكترونيات والمنزل والأزياء والبقالة على amazon.eg، وتُطبَّق تلقائياً بدون كود خصم."
+        }
+      }
+    },
+    {
       "key": "iherb",
       "slug": "iHerb-PromoCode",
       "name": { "en": "iHerb", "ar": "آي هيرب" },
