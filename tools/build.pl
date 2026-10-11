@@ -54,6 +54,14 @@ my $DATA_DATE = mdate("$ROOT/data/brands.json");
 my $DD_FILE = "$ROOT/data/day-deals.json";
 my @DDEALS = -f $DD_FILE ? @{ JSON::PP->new->utf8->decode(slurp($DD_FILE, 1))->{deals} // [] } : ();
 my $DD_DATE = -f $DD_FILE ? mdate($DD_FILE) : $DATA_DATE;
+# Amazon picks (data/amazon-picks.json): products the owner chose himself, listed on that brand's page with his affiliate tag.
+# Only the product ID (ASIN) is stored; no prices, because Amazon's rules allow only prices that update from Amazon itself.
+my $PK_FILE = "$ROOT/data/amazon-picks.json";
+my $PICKS = -f $PK_FILE ? JSON::PP->new->utf8->decode(slurp($PK_FILE, 1)) : { items => [] };
+for my $p (@{ $PICKS->{items} }) {
+  die "data/amazon-picks.json: \"" . ($p->{asin} // '') . "\" is not an Amazon product ID (10 capital letters or digits)\n" unless ($p->{asin} // '') =~ /^[A-Z0-9]{10}$/;
+  for my $k (qw(name note)) { die "data/amazon-picks.json: $p->{asin} needs \"$k\" in English and Arabic\n" unless $p->{$k}{en} && $p->{$k}{ar} }
+}
 my @DAYS = qw(sat sun mon tue wed thu fri);   # Egyptian week starts on Saturday
 my %DAYI = map { ($DAYS[$_] => $_) } 0 .. $#DAYS;
 my %DSHORT = (
@@ -168,6 +176,8 @@ my %S = (
   # brand page
   nocode => 'No code needed', nocode_go => 'Order', nocode_aria => '{name}: no code needed, order from {where}',
   nocode_shop => 'Shop', nocode_shop_aria => '{name}: no code needed, shop on {where}',
+  pk_h2 => 'Foodidu picks on Amazon', pk_go => 'See it on Amazon',
+  pk_note => 'Products we picked on Amazon Egypt. These are affiliate links: Foodidu may earn a commission on qualifying purchases, at no extra cost to you. Prices change on Amazon, so check the price on the product page.',
   blog_nav => 'Blog', blog_h1 => 'Foodidu blog', blog_title => 'Foodidu Blog: Saving Guides, Sale Dates and Promo Codes',
   blog_desc => 'Guides to save on food delivery, groceries and online shopping in Egypt and the GCC: sale season dates, how promo codes work, and which codes to use.',
   blog_lede => 'Practical guides to pay less: sale season dates, how promo codes work, and the codes we test ourselves.',
@@ -310,6 +320,8 @@ my %S = (
   c_empty => 'لا توجد أكواد تطابق هذا الاختيار.', c_filters => 'تصفية الأكواد',
   nocode => 'بدون كود', nocode_go => 'اطلب', nocode_aria => '{name}: بدون كود، اطلب من {where}',
   nocode_shop => 'تسوّق', nocode_shop_aria => '{name}: بدون كود، تسوّق من {where}',
+  pk_h2 => 'اختيارات Foodidu من أمازون', pk_go => 'شاهده على أمازون',
+  pk_note => 'منتجات اخترناها لك من أمازون مصر. هذه روابط أفلييت: قد يحصل Foodidu على عمولة من عمليات الشراء المؤهلة، بدون أي تكلفة إضافية عليك. الأسعار تتغير على أمازون، فراجع السعر في صفحة المنتج.',
   blog_nav => 'المدونة', blog_h1 => 'مدونة Foodidu', blog_title => 'مدونة Foodidu: أدلة التوفير ومواعيد العروض وأكواد الخصم',
   blog_desc => 'أدلة للتوفير في طلبات الأكل والبقالة والتسوق أونلاين في مصر والخليج: مواعيد مواسم التخفيضات، وطريقة عمل أكواد الخصم، والأكواد التي تستخدمها.',
   blog_lede => 'أدلة عملية لتدفع أقل: مواعيد مواسم التخفيضات، وطريقة عمل أكواد الخصم، والأكواد التي نجرّبها بأنفسنا.',
@@ -1334,6 +1346,10 @@ HTML
       . '</div><div class="ticket-stub">' . code_btn($_, $l, 1) . '</div></div></div>'
     } @offers;
     my $side_codes = join '', map { code_btn($_, $l, 1) } @offers;
+    my @picks = ($PICKS->{brand} // '') eq $b->{key} ? @{ $PICKS->{items} } : ();
+    my $picks = @picks ? '<section aria-labelledby="picks-title"><h2 id="picks-title">' . T($l, 'pk_h2') . '</h2><p class="note pk-note">' . T($l, 'pk_note') . '</p><ul class="picks">'
+      . join('', map { '<li class="pick"><div><b>' . esc($_->{name}{$l}) . '</b><span>' . esc($_->{note}{$l}) . '</span></div><a class="btn btn-leaf" href="' . esc("$PICKS->{store}/dp/$_->{asin}?tag=$PICKS->{tag}")
+        . qq{" rel="nofollow sponsored noopener" target="_blank" data-track="brand_link_click" data-brand="$b->{key}">} . T($l, 'pk_go') . ' ' . icon('external') . '</a></li>' } @picks) . '</ul></section>' : '';
     my @cat = grep { $_->{category} eq $b->{category} } @BRANDS;
     my @top = grep { ($_->{priority} // '') ne 'low' } @cat;   # low-priority codes are never the suggested ones
     my ($pos) = grep { $top[$_] eq $b } 0 .. $#top;
@@ -1369,6 +1385,7 @@ $coupons
 <div class="scallop" aria-hidden="true"></div>
 <div class="wrap brand-body">
 <article class="prose">
+$picks
 <section aria-labelledby="how-title"><h2 id="how-title">@{[ Te($l, $nc ? 'b_how_nocode' : 'b_how', name => $name) ]}</h2>
 <ol class="how">
 @{[ $nc && $b->{steps} ? join('', map { '<li><div><b>' . esc($_->[0]) . '</b><span>' . esc($_->[1]) . '</span></div></li>' } @{ $b->{steps}{$l} })

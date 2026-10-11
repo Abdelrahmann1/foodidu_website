@@ -1,0 +1,7 @@
+{
+  "_help": "Foodidu picks on Amazon: products the owner chose, shown on the Amazon Egypt page (\"brand\") with the affiliate tag. Each item: asin (the 10-character ID after /dp/ in the product link), name and note in en + ar. Never add prices (Amazon allows only prices that update from Amazon). The section is hidden while items is empty.",
+  "brand": "amazon-egypt",
+  "store": "https://www.amazon.eg",
+  "tag": "foodiduoffers-21",
+  "items": []
+}

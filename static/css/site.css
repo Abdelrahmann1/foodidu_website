@@ -844,6 +844,13 @@ a.store:hover { background: #000; transform: translateY(-2px); }
   font-family: var(--font-display); font-size: 1.6rem; background: var(--sun); color: var(--ink);
 }
 [lang="ar"] .how li::before { content: counter(how, arabic-indic); }
+.picks { list-style: none; display: grid; gap: 12px; }
+.pick { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 16px; background: var(--paper); border: 2px solid var(--line); border-radius: 18px; }
+.pick b { display: block; font-size: 1.05rem; }
+.pick span { color: var(--ink-2); }
+.pick .btn { flex: none; }
+.pk-note { margin: 0 0 14px; }
+@media (max-width: 560px) { .pick { flex-direction: column; align-items: stretch; } }
 .how b { display: block; font-size: 1.05rem; }
 .how span { color: var(--ink-2); }
 .note { margin-top: 18px; font-size: .88rem; color: var(--ink-2); padding: 14px 16px; border-radius: 14px; background: var(--sun-4); }

@@ -44,31 +44,30 @@
       "slug": "Noon-PromoCode",
       "name": { "en": "noon", "ar": "نون" },
       "logo": "noon.webp",
-      "code": "FFR55",
+      "code": "NROH",
       "category": "shopping",
       "region": "gcc",
       "exclusive": true,
-      "firstOrder": true,
       "featured": true,
       "priority": "top",
       "url": "https://www.noon.com/",
-      "lastVerified": "2026-09-29",
-      "badge": { "en": ["15%", "off"], "ar": ["15%", "خصم"] },
-      "offer": { "en": "15% off your first order across the GCC", "ar": "خصم 15% على أول طلب في دول الخليج" },
-      "terms": { "en": "15% off your first order on noon in the GCC.", "ar": "خصم 15% على أول طلب من نون في دول الخليج." },
+      "lastVerified": "2026-10-11",
+      "badge": { "en": ["10%", "cashback"], "ar": ["10%", "كاش باك"] },
+      "offer": { "en": "10% cashback on your noon orders, up to 75 SAR", "ar": "كاش باك 10% على طلباتك من نون، بحد أقصى 75 ريال" },
+      "terms": { "en": "10% cashback on noon orders, up to 75 SAR. Valid until 31 December 2026. noon's terms apply.", "ar": "كاش باك 10% على طلبات نون، بحد أقصى 75 ريال. صالح حتى 31 ديسمبر 2026. تطبق شروط نون." },
       "where": { "en": "the noon app or noon.com", "ar": "تطبيق نون أو موقع noon.com" },
       "about": {
-        "en": "noon is one of the largest online shopping platforms in the Middle East, selling electronics, fashion, beauty, home goods and groceries. Use this code for 15% off your first noon order in the GCC.",
-        "ar": "نون من أكبر منصات التسوق أونلاين في الشرق الأوسط، وتبيع الإلكترونيات والأزياء ومنتجات التجميل والمنزل والبقالة. استخدم هذا الكود للحصول على خصم 15% على أول طلب من نون في دول الخليج."
+        "en": "noon is one of the largest online shopping platforms in the Middle East, selling electronics, fashion, beauty, home goods and groceries. Use code NROH for 10% cashback on your noon orders, up to 75 SAR.",
+        "ar": "نون من أكبر منصات التسوق أونلاين في الشرق الأوسط، وتبيع الإلكترونيات والأزياء ومنتجات التجميل والمنزل والبقالة. استخدم كود NROH للحصول على كاش باك 10% على طلباتك من نون، بحد أقصى 75 ريال."
       },
       "seo": {
         "en": {
-          "title": "noon Promo Code GCC: 15% Off Your First Order",
-          "description": "noon promo code FFR55: 15% off your first order on noon across the GCC. Copy the code and apply it at checkout on the app or noon.com."
+          "title": "noon Promo Code GCC: 10% Cashback up to 75 SAR",
+          "description": "noon promo code NROH: 10% cashback on your noon orders, up to 75 SAR, valid until 31 December 2026. Copy the code and apply it at checkout."
         },
         "ar": {
-          "title": "كود خصم وكوبون نون السعودية والخليج: 15% لأول طلب",
-          "description": "كود خصم نون FFR55: خصم 15% على أول طلب من نون في دول الخليج ومنها السعودية. انسخ الكود واستخدمه عند الدفع في التطبيق أو الموقع."
+          "title": "كود خصم وكوبون نون السعودية والخليج: كاش باك 10%",
+          "description": "كود خصم نون NROH: كاش باك 10% على طلباتك من نون بحد أقصى 75 ريال، وصالح حتى 31 ديسمبر 2026. انسخ الكود واستخدمه عند الدفع في التطبيق أو الموقع."
         }
       }
     },
@@ -130,14 +129,14 @@
           ["Check the price at checkout", "The deal price and any coupon you clipped apply by themselves, no code needed."]
         ],
         "ar": [
-          ["افتح عروض اليوم", "من موقع amazon.eg أو تطبيق أمازون، افتح «عروض اليوم» من القايمة اللي فوق."],
-          ["اختار عرض أو فعّل كوبون", "فلتر العروض حسب القسم، أو افتح تبويب الكوبونات وفعّل الكوبون من صفحة المنتج."],
-          ["راجع السعر في صفحة الدفع", "سعر العرض والكوبون اللي فعّلته بيتطبقوا تلقائياً، بدون كود."]
+          ["افتح عروض اليوم", "من موقع amazon.eg أو تطبيق أمازون، افتح «عروض اليوم» من القائمة في الأعلى."],
+          ["اختر عرضاً أو فعّل كوبوناً", "صفِّ العروض حسب القسم، أو افتح تبويب الكوبونات وفعّل الكوبون من صفحة المنتج."],
+          ["راجع السعر في صفحة الدفع", "سعر العرض والكوبون الذي فعّلته يُطبَّقان تلقائياً، بدون كود."]
         ]
       },
       "about": {
         "en": "Amazon Egypt (amazon.eg) is Amazon's store in Egypt for electronics, mobile phones, home and kitchen, fashion, beauty and groceries. Its Today's Deals page lists new discounts every day by category, and the Coupons tab lets you clip a coupon on a product so the discount applies at checkout, with no promo code needed. Prime members also get free same-day and next-day delivery.",
-        "ar": "أمازون مصر (amazon.eg) هو متجر أمازون في مصر للإلكترونيات والموبايلات والمنزل والمطبخ والأزياء والتجميل والبقالة. صفحة عروض اليوم فيها خصومات جديدة كل يوم حسب القسم، وتبويب الكوبونات يخليك تفعّل كوبون على المنتج فيتطبق الخصم عند الدفع بدون كود خصم. ومشتركين Prime ليهم كمان توصيل مجاني في نفس اليوم أو اليوم التالي."
+        "ar": "أمازون مصر (amazon.eg) هو متجر أمازون في مصر للإلكترونيات والموبايلات والمنزل والمطبخ والأزياء والتجميل والبقالة. صفحة عروض اليوم فيها خصومات جديدة كل يوم حسب القسم، وتبويب الكوبونات يتيح لك تفعيل كوبون على المنتج فيُطبَّق الخصم عند الدفع بدون كود خصم. ويحصل مشتركو Prime أيضاً على توصيل مجاني في نفس اليوم أو اليوم التالي."
       },
       "seo": {
         "en": {
