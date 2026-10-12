@@ -548,8 +548,9 @@ sub wa_cta {
   my ($l, $side) = @_;
   return '' unless $WA;
   my $a = qq{<a class="btn btn-leaf" href="$WA" rel="noopener" target="_blank" data-track="whatsapp_channel_click">} . icon('whatsapp') . ' ' . T($l, 'wa_btn') . '</a>';
-  return '<div class="side-card wa-cta side-wa"><h2>' . T($l, 'wa_title') . '</h2><p>' . T($l, 'wa_text') . "</p>$a</div>" if $side;
-  '<section class="wrap section-tight"><div class="wa-cta"><div><h2>' . T($l, 'wa_title') . '</h2><p>' . T($l, 'wa_text') . "</p></div>$a</div></section>";
+  my $didu = '<img class="didu" src="/img/mascot/didu.svg" alt="" width="88" height="88" loading="lazy">';
+  return '<div class="side-card wa-cta side-wa">' . $didu . '<h2>' . T($l, 'wa_title') . '</h2><p>' . T($l, 'wa_text') . "</p>$a</div>" if $side;
+  '<section class="wrap section-tight"><div class="wa-cta">' . $didu . '<div class="wa-text"><h2>' . T($l, 'wa_title') . '</h2><p>' . T($l, 'wa_text') . "</p></div>$a</div></section>";
 }
 sub store_buttons {
   my ($l, $cls) = @_;
@@ -702,7 +703,7 @@ $a{body}
 <div class="foot-bottom"><span>© $YEAR Foodidu. @{[ T($l, 'made') ]}</span><span>@{[ T($l, 'disclaimer') ]}</span></div>
 </div>
 </footer>
-<div class="toast" id="toast" role="status" aria-live="polite">@{[ icon('check') ]}<span></span></div>
+<div class="toast" id="toast" role="status" aria-live="polite"><img class="didu" src="/img/mascot/didu-party.svg" alt="" width="48" height="48"><span></span></div>
 <div class="cookie" id="cookie" role="region" aria-label="@{[ T($l, 'cookies') ]}" hidden>
 <p>@{[ T($l, 'cookie_text') ]} <a href="@{[ path_for($l, '/privacy-policy/') ]}">@{[ T($l, 'privacy') ]}</a></p>
 <div class="row"><button class="btn btn-ink" type="button" data-accept>@{[ T($l, 'accept') ]}</button><button class="btn btn-line" type="button" data-decline>@{[ T($l, 'decline') ]}</button></div>
@@ -1049,7 +1050,7 @@ HTML
 <section class="wrap section-tight">
 <div class="filters" role="group" aria-label="@{[ T($l, 'c_filters') ]}">$chips</div>
 <div id="codes" data-filterable>$groups</div>
-<p class="empty" data-empty hidden>@{[ T($l, 'c_empty') ]}</p>
+<p class="empty" data-empty hidden><img class="didu" src="/img/mascot/didu-search.svg" alt="" width="120" height="120" loading="lazy">@{[ T($l, 'c_empty') ]}</p>
 <section class="ro-hub" id="restaurant-offers" aria-labelledby="g-ro"><div class="group-head"><span class="ic">@{[ icon('fork') ]}</span><h2 id="g-ro">@{[ T($l, 'c_rest_title') ]}</h2></div>
 <p class="section-sub">@{[ T($l, 'c_rest_sub') ]}</p>
 <ul class="brand-cards">@{[ join '', map { rest_card($_, $l) } @RESTS ]}</ul></section>
@@ -1509,7 +1510,7 @@ HTML
 {
   my $body = <<"HTML";
 <section class="wrap lost">
-<img src="/img/foodidu-logo.svg" alt="Foodidu" width="220" height="87">
+<img class="didu" src="/img/mascot/didu-search.svg" alt="" width="220" height="220">
 <h1>This page went out for delivery.</h1>
 <p>We couldn't find that page. The code you're looking for is probably on our promo codes page.</p>
 <div class="row"><a class="btn btn-ink" href="/promo-codes/">Browse promo codes</a><a class="btn btn-line" href="/">Back to home</a></div>

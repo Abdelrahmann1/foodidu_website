@@ -46,9 +46,11 @@
   /* ---------- toast ---------- */
   var toast = document.getElementById("toast");
   var toastTimer;
-  function showToast(msg) {
+  function showToast(msg, failed) {
     if (!toast) return;
     toast.querySelector("span").textContent = msg;
+    var didu = toast.querySelector("img");   // Didu celebrates a copied code and looks around when copying fails
+    if (didu) didu.src = "/img/mascot/" + (failed ? "didu-search" : "didu-party") + ".svg";
     toast.classList.add("show");
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 2600);
@@ -117,7 +119,7 @@
     }, function () {
       var codeEl = btn.querySelector(".code");
       if (codeEl && window.getSelection) { var sel = window.getSelection(); sel.removeAllRanges(); var rg = document.createRange(); rg.selectNodeContents(codeEl); sel.addRange(rg); }
-      showToast(T.copyFail || "Copy failed, select the code manually");
+      showToast(T.copyFail || "Copy failed, select the code manually", true);
     });
   });
 
@@ -217,7 +219,10 @@
       clearTimeout(missTimer);
       if (!hits.length) {
         var li = document.createElement("li");
-        li.className = "r-empty"; li.textContent = T.noResults || "No codes found";
+        li.className = "r-empty";
+        var didu = document.createElement("img");
+        didu.className = "didu"; didu.src = "/img/mascot/didu-search.svg"; didu.alt = ""; didu.width = didu.height = 56;
+        li.append(didu, T.noResults || "No codes found");
         box.appendChild(li);
         // brands people look for that we don't have yet = partnership leads (sent once the typing stops)
         var term = input.value.trim();
