@@ -24,6 +24,20 @@
       "offer": { "en": "30% off your first order, up to 150 EGP", "ar": "خصم 30% على أول طلب بحد أقصى 150 جنيه" },
       "terms": { "en": "For your first order on Rabbit. The maximum discount is 150 EGP.", "ar": "على أول طلب من رابيت. أقصى قيمة للخصم 150 جنيه." },
       "where": { "en": "the Rabbit app", "ar": "تطبيق رابيت" },
+      "moreCodes": [
+        {
+          "code": "",
+          "noCode": true,
+          "until": "2026-10-31",
+          "lastVerified": "",
+          "badge": { "en": ["50%", "off"], "ar": ["50%", "خصم"] },
+          "offer": { "en": "Up to 50% off restaurants in the Rabbit app, for Rabbit turning 5", "ar": "خصم يصل لـ 50% على المطاعم في تطبيق رابيت، احتفالاً بعيد ميلاد رابيت الخامس" },
+          "terms": {
+            "en": "Discounts of up to 50% on restaurants in the Rabbit app, part of Rabbit Turns 5, Rabbit's fifth birthday. No code needed; the offer and its terms are set by Rabbit.",
+            "ar": "خصومات تصل لـ 50% على المطاعم في تطبيق رابيت، ضمن احتفال Rabbit Turns 5 بعيد ميلاد رابيت الخامس. بدون كود، والعرض وشروطه تحددها رابيت."
+          }
+        }
+      ],
       "about": {
         "en": "Rabbit is a quick-commerce app in Egypt that delivers groceries and everyday essentials to your door in minutes. New customers can use this code to take 30% off their first basket.",
         "ar": "رابيت تطبيق توصيل سريع في مصر يوصّل البقالة واحتياجات البيت اليومية إلى باب منزلك في دقائق. يمكن للعملاء الجدد استخدام هذا الكود للحصول على خصم 30% على أول طلب."
