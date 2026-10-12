@@ -215,6 +215,59 @@
           "was": 876
         }
       ]
+    },
+    {
+      "key": "crispy-hen",
+      "slug": "Crispy-Hen-Offers",
+      "name": { "en": "Crispy Hen", "ar": "كريسبي هن" },
+      "logo": "crispy-hen.webp",
+      "category": "restaurants",
+      "region": "eg",
+      "menu": { "en": "https://www.crispyhen.com/home", "ar": "https://www.crispyhen.com/home" },
+      "website": "https://www.crispyhen.com/",
+      "phone": "01500989004",
+      "cuisine": ["Fried chicken", "Wraps"],
+      "lastChecked": "2026-10-12",
+      "about": {
+        "en": "Crispy Hen is a Nashville fried chicken restaurant in Egypt, serving chicken sandwiches, wraps, tenders and wings. Order from its website or call 01500989004. Prices can change by branch and order type.",
+        "ar": "كريسبي هن مطعم فراخ مقلية على طريقة ناشفيل في مصر، يقدّم ساندويتشات الفراخ والراب والتندرز والأجنحة. اطلب من موقعه أو اتصل على 01500989004. الأسعار قد تختلف حسب الفرع ونوع الطلب."
+      },
+      "seo": {
+        "en": {
+          "title": "Crispy Hen Offers: Fried Chicken Meals from 300 EGP",
+          "description": "Crispy Hen offers in Egypt: 4 meal deals from 300 EGP, saving up to 46%, like Joker Madness for 300 EGP instead of 490. Prices from the official menu."
+        },
+        "ar": {
+          "title": "عروض كريسبي هن: وجبات تبدأ من 300 جنيه",
+          "description": "عروض كريسبي هن في مصر: 4 وجبات تبدأ من 300 جنيه ووفّر حتى 46%، مثل Joker Madness بـ 300 جنيه بدل 490. الأسعار من المنيو الرسمي."
+        }
+      },
+      "offers": [
+        {
+          "name": "Joker Madness",
+          "items": { "en": "Joker wrap + Dirty Poppers + Nashville fries + sauce + drink", "ar": "جوكر راب + Dirty Poppers + بطاطس ناشفيل + صوص + مشروب" },
+          "price": 300,
+          "was": 490
+        },
+        {
+          "name": "Homey Feast",
+          "items": { "en": "Original Homey sandwich + Dirty wings + Nashville fries + drink", "ar": "ساندويتش Original Homey + Dirty Wings + بطاطس ناشفيل + مشروب" },
+          "price": 430,
+          "was": 600
+        },
+        {
+          "name": "Sandwiches Double",
+          "items": { "en": "Slaw Leader + Original Homey + 2 Nashville fries + 2 drinks + 2 sauces", "ar": "Slaw Leader + Original Homey + 2 بطاطس ناشفيل + 2 مشروب + 2 صوص" },
+          "price": 550,
+          "was": 870
+        },
+        {
+          "name": "The Big Joker",
+          "items": { "en": "4 Joker wraps + 4 Nashville fries + 4 drinks", "ar": "4 جوكر راب + 4 بطاطس ناشفيل + 4 مشروبات" },
+          "price": 700,
+          "was": 1300
+        }
+      ]
     }
   ]
 }

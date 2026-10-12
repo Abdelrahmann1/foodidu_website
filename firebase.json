@@ -140,7 +140,11 @@
       { "source": "/vinnys-pizza-promocode", "destination": "/Vinnys-Pizza-PromoCode/", "type": 301 },
       { "source": "/vinnys-pizza-promocode/", "destination": "/Vinnys-Pizza-PromoCode/", "type": 301 },
       { "source": "/ar/vinnys-pizza-promocode", "destination": "/ar/Vinnys-Pizza-PromoCode/", "type": 301 },
-      { "source": "/ar/vinnys-pizza-promocode/", "destination": "/ar/Vinnys-Pizza-PromoCode/", "type": 301 }
+      { "source": "/ar/vinnys-pizza-promocode/", "destination": "/ar/Vinnys-Pizza-PromoCode/", "type": 301 },
+      { "source": "/crispy-hen-offers", "destination": "/Crispy-Hen-Offers/", "type": 301 },
+      { "source": "/crispy-hen-offers/", "destination": "/Crispy-Hen-Offers/", "type": 301 },
+      { "source": "/ar/crispy-hen-offers", "destination": "/ar/Crispy-Hen-Offers/", "type": 301 },
+      { "source": "/ar/crispy-hen-offers/", "destination": "/ar/Crispy-Hen-Offers/", "type": 301 }
     ],
     "headers": [
       {
