@@ -362,7 +362,7 @@ window.FoodiduAdmin = (() => {
       lastVerified: date("آخر مرة جربنا فيها الكود بنفسنا", { today: true, hint: "لو فاضي، الكود بيظهر من غير \"اتحقق منه\"." }),
       badge: badge("الخصم على التذكرة"), offer: bi("العرض في سطر", { req: true, hint: "زي: خصم 30% على أول طلب بحد أقصى 150 جنيه" }),
       terms: bi("الشروط", { req: true, area: true }), where: bi("بيتستخدم فين", { req: true, hint: "زي: تطبيق رابيت" }),
-      moreCodes: list("أكواد تانية لنفس البراند (اختياري)", () => group({ code: text("الكود", { dir: "ltr", pattern: /^\S+$/, patternMsg: "من غير مسافات", hint: "فاضي لو العرض من غير كود." }), noCode: check("عرض من غير كود", "بيتطبق لوحده. بيظهر عليه \"بدون كود\" بدل زرار النسخ."), badge: badge("الخصم على التذكرة"), offer: bi("العرض في سطر", { req: true }), terms: bi("الشروط", { req: true, area: true }), exclusive: check("حصري"), firstOrder: check("لأول طلب بس"), lastVerified: date("آخر مرة جربنا الكود ده بنفسنا", { today: true, hint: "لو فاضي، الكود ده بيظهر من غير \"اتحقق منه\"." }) }), { item: "كود", add: "كود تاني" }),
+      moreCodes: list("أكواد تانية لنفس البراند (اختياري)", () => group({ code: text("الكود", { dir: "ltr", pattern: /^\S+$/, patternMsg: "من غير مسافات", hint: "فاضي لو العرض من غير كود." }), noCode: check("عرض من غير كود", "بيتطبق لوحده. بيظهر عليه \"بدون كود\" بدل زرار النسخ."), until: date("العرض بيخلص يوم (اختياري)", { hint: "بعد اليوم ده بيختفي من الموقع لوحده (الموقع بيتبني كل ليلة)." }), badge: badge("الخصم على التذكرة"), offer: bi("العرض في سطر", { req: true }), terms: bi("الشروط", { req: true, area: true }), exclusive: check("حصري"), firstOrder: check("لأول طلب بس"), lastVerified: date("آخر مرة جربنا الكود ده بنفسنا", { today: true, hint: "لو فاضي، الكود ده بيظهر من غير \"اتحقق منه\"." }) }), { item: "كود", add: "كود تاني" }),
       about: bi("عن البراند", { req: true, area: true, hint: "جملتين عن البراند والكود. بيظهر في صفحة البراند." }), seo: seo()
     };
     idFields(isNew, "-PromoCode", f);
@@ -584,7 +584,7 @@ window.FoodiduAdmin = (() => {
         const stale = gone.flatMap((c) => texts.filter(([, t]) => new RegExp("(^|[^A-Za-z0-9])" + c.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "($|[^A-Za-z0-9])", "i").test(t)).map(([n]) => `${n} لسه فيه الكود ${c} اللي اتشال. عدّله.`));
         if (stale.length) throw new Error(stale.join(" "));
       }
-      v.moreCodes = v.moreCodes.map((m) => { if (!m.exclusive) delete m.exclusive; if (!m.firstOrder) delete m.firstOrder; if (m.noCode) m.code = ""; else delete m.noCode; if ((m.lastVerified || "") === (v.lastVerified || "")) delete m.lastVerified; return m; });
+      v.moreCodes = v.moreCodes.map((m) => { if (!m.exclusive) delete m.exclusive; if (!m.firstOrder) delete m.firstOrder; if (m.noCode) m.code = ""; else delete m.noCode; if (!m.until) delete m.until; if ((m.lastVerified || "") === (v.lastVerified || "")) delete m.lastVerified; return m; });
       const noCode = v.noCode, firstOrder = v.firstOrder;
       clean(v);
       delete v.noCode; delete v.firstOrder;

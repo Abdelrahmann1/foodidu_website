@@ -6,6 +6,8 @@ on:
     branches: [main]
     paths: ["data/**", "static/**", "content/**", "tools/build.pl", "tools/seo-audit.pl", "firebase.json", ".github/workflows/deploy.yml"]
   workflow_dispatch:
+  schedule:
+    - cron: "5 22 * * *"   # every night after midnight in Cairo: offers and banners past their end date drop off
 concurrency:
   group: deploy-live
   cancel-in-progress: false

@@ -54,7 +54,10 @@
       "lastVerified": "2026-10-11",
       "badge": { "en": ["10%", "cashback"], "ar": ["10%", "كاش باك"] },
       "offer": { "en": "10% cashback on your noon orders, up to 75 SAR", "ar": "كاش باك 10% على طلباتك من نون، بحد أقصى 75 ريال" },
-      "terms": { "en": "10% cashback on noon orders, up to 75 SAR. Valid until 31 December 2026. noon's terms apply.", "ar": "كاش باك 10% على طلبات نون، بحد أقصى 75 ريال. صالح حتى 31 ديسمبر 2026. تطبق شروط نون." },
+      "terms": {
+        "en": "10% cashback on noon orders, up to 75 SAR. Valid until 31 December 2026. noon's terms apply.",
+        "ar": "كاش باك 10% على طلبات نون، بحد أقصى 75 ريال. صالح حتى 31 ديسمبر 2026. تطبق شروط نون."
+      },
       "where": { "en": "the noon app or noon.com", "ar": "تطبيق نون أو موقع noon.com" },
       "about": {
         "en": "noon is one of the largest online shopping platforms in the Middle East, selling electronics, fashion, beauty, home goods and groceries. Use code NROH for 10% cashback on your noon orders, up to 75 SAR.",
@@ -342,6 +345,17 @@
             "ar": "للعملاء الجدد فقط، على الطلبات من قسم المطاعم (Breadfast Food) في تطبيق بريدفاست. صالح لـ 3 طلبات."
           },
           "firstOrder": true
+        },
+        {
+          "code": "",
+          "noCode": true,
+          "badge": { "en": ["50%", "off"], "ar": ["50%", "خصم"] },
+          "offer": { "en": "Up to 50% off selected Roma Pizza meals on Breadfast Food", "ar": "خصم يصل لـ 50% على وجبات مختارة من روما بيتزا على بريدفاست فود" },
+          "terms": {
+            "en": "Up to 50% off some Roma Pizza meals when you order them from Breadfast Food in the Breadfast app, until 31 October 2026. No code needed.",
+            "ar": "خصم يصل لـ 50% على بعض وجبات روما بيتزا عند طلبها من بريدفاست فود في تطبيق بريدفاست، حتى 31 أكتوبر 2026. بدون كود."
+          },
+          "until": "2026-10-31"
         }
       ],
       "about": {
@@ -713,6 +727,54 @@
       }
     },
     {
+      "key": "vinnys-pizza",
+      "slug": "Vinnys-Pizza-PromoCode",
+      "name": { "en": "Vinny's Pizza", "ar": "فينيز بيتزا" },
+      "logo": "vinnys-pizza.webp",
+      "code": "",
+      "noCode": true,
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "https://order.vinnyscairo.com/",
+      "urlLabel": { "en": "Order from Vinny's", "ar": "اطلب من فينيز" },
+      "lastVerified": "2026-10-12",
+      "badge": { "en": ["489 EGP", "combo"], "ar": ["489 جنيه", "كومبو"] },
+      "offer": { "en": "2 medium pizzas + a side + a dessert + 2 soft drinks for 489 EGP", "ar": "2 بيتزا وسط + سايد + حلو + 2 مشروب غازي بـ 489 جنيه" },
+      "terms": {
+        "en": "The Medium Madness combo on the Vinny's website: 2 medium pizzas, 1 side, 1 dessert and 2 soft drinks for 489 EGP. Oriental and seafood pizzas are not included, and some pizzas, the American crust and Nutella bites cost extra.",
+        "ar": "كومبو Medium Madness على موقع فينيز: 2 بيتزا وسط وسايد وحلو و2 مشروب غازي بـ 489 جنيه. لا يشمل بيتزا الأورينتال والسي فود، وبعض أنواع البيتزا والعجينة الأمريكية والـ Nutella Bites عليها سعر إضافي."
+      },
+      "where": { "en": "the Vinny's Pizza website", "ar": "موقع فينيز بيتزا" },
+      "steps": {
+        "en": [
+          ["Open the Vinny's website", "Go to order.vinnyscairo.com and choose your branch, for delivery or pickup."],
+          ["Choose Medium Madness", "In Combos & Bundles, pick the Medium Madness combo for 489 EGP."],
+          ["Pick your items and order", "Choose the 2 pizzas, the side, the dessert and the 2 drinks. No code needed."]
+        ],
+        "ar": [
+          ["افتح موقع فينيز", "ادخل على order.vinnyscairo.com واختر الفرع، توصيل أو استلام."],
+          ["اختر Medium Madness", "من قسم Combos & Bundles اختر كومبو Medium Madness بـ 489 جنيه."],
+          ["اختر طلبك واطلب", "اختر البيتزا الاتنين والسايد والحلو والمشروبين. بدون كود."]
+        ]
+      },
+      "about": {
+        "en": "Vinny's Pizza is a New York-style pizza place in Cairo, with branches in Maadi, Zamalek, Heliopolis, the Fifth Settlement, Nasr City, Zayed and New Giza. You can order for delivery or pickup from its website.",
+        "ar": "فينيز بيتزا مطعم بيتزا على الطريقة النيويوركية في القاهرة، له فروع في المعادي والزمالك ومصر الجديدة والتجمع الخامس ومدينة نصر والشيخ زايد ونيو جيزة. تقدر تطلب توصيل أو استلام من موقعه."
+      },
+      "seo": {
+        "en": {
+          "title": "Vinny's Pizza Offer: 2 Medium Pizzas Combo for 489 EGP",
+          "description": "Vinny's Pizza Medium Madness combo in Cairo: 2 medium pizzas, a side, a dessert and 2 soft drinks for 489 EGP on their website. No promo code needed."
+        },
+        "ar": {
+          "title": "عرض فينيز بيتزا: 2 بيتزا وسط وسايد وحلو بـ 489 جنيه",
+          "description": "عرض Medium Madness من فينيز بيتزا في القاهرة: 2 بيتزا وسط وسايد وحلو و2 مشروب غازي بـ 489 جنيه على موقعهم، بدون كود خصم."
+        }
+      }
+    },
+    {
       "key": "lavania",
       "slug": "Lavania-PromoCode",
       "name": { "en": "Lavania", "ar": "لافانيا" },
@@ -824,6 +886,41 @@
         "ar": {
           "title": "كود خصم وبرومو كود زاد ماركت: خصم 100 جنيه على أول أوردر",
           "description": "كود خصم زاد ماركت FIRST100: خصم 100 جنيه على أول أوردر بقيمة 500 جنيه أو أكثر من تطبيق زاد للبقالة في الإسكندرية. مرة واحدة لكل عميل."
+        }
+      }
+    },
+    {
+      "key": "tazah",
+      "slug": "Tazah-PromoCode",
+      "name": { "en": "Tazah", "ar": "طازة" },
+      "logo": "tazah.webp",
+      "code": "FIRST",
+      "category": "groceries",
+      "region": "eg",
+      "exclusive": false,
+      "firstOrder": true,
+      "featured": false,
+      "url": "https://tazah.co/",
+      "urlLabel": { "en": "Shop on Tazah", "ar": "تسوّق من طازة" },
+      "badge": { "en": ["20%", "off"], "ar": ["20%", "خصم"] },
+      "offer": { "en": "20% off your first order, up to 300 EGP", "ar": "خصم 20% على أول أوردر بحد أقصى 300 جنيه" },
+      "terms": {
+        "en": "20% off everything in the Tazah app on your first order, up to 300 EGP off. Enter the code when you pay.",
+        "ar": "خصم 20% على كل المنتجات في تطبيق طازة على أول أوردر، بحد أقصى خصم 300 جنيه. اكتب الكود عند الدفع."
+      },
+      "where": { "en": "the Tazah app", "ar": "تطبيق طازة" },
+      "about": {
+        "en": "Tazah is an online grocery app in Egypt for fresh fruit, vegetables, meat, poultry and bakery, delivered to your home. Its first-order code FIRST gives you 20% off, up to 300 EGP.",
+        "ar": "طازة تطبيق بقالة أونلاين في مصر للخضار والفاكهة واللحوم والفراخ والمخبوزات، ويوصّل طلبك إلى البيت. كود أول أوردر FIRST يمنحك خصم 20% بحد أقصى 300 جنيه."
+      },
+      "seo": {
+        "en": {
+          "title": "Tazah Promo Code FIRST: 20% Off Your First Order in Egypt",
+          "description": "Tazah promo code FIRST gives you 20% off your first order on the Tazah app for fruit, vegetables and meat in Egypt, up to 300 EGP. Copy the code at checkout."
+        },
+        "ar": {
+          "title": "كود خصم وبرومو كود طازة FIRST: خصم 20% على أول أوردر",
+          "description": "كود خصم طازة FIRST يمنحك خصم 20% على أول أوردر من تطبيق طازة للخضار والفاكهة واللحوم في مصر، بحد أقصى 300 جنيه. انسخ الكود واستخدمه عند الدفع."
         }
       }
     },

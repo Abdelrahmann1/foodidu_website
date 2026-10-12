@@ -73,7 +73,7 @@ function brandOgCopy(b, lang) {
   const many = [b, ...(b.moreCodes || [])].filter((x) => !x.noCode).length > 1;
   const title = b.noCode ? (lang === "ar" ? `عرض خصم ${b.name.ar}` : `${b.name.en} discount`)
     : lang === "ar" ? `${many ? "أكواد خصم" : "كود خصم"} ${b.name.ar}` : `${b.name.en} promo ${many ? "codes" : "code"}`;
-  return [title, [b.offer[lang], ...(b.moreCodes || []).map((x) => x.offer[lang])].join(" · ")];
+  return [title, [b.offer[lang], ...(b.moreCodes || []).filter((x) => !x.until).map((x) => x.offer[lang])].join(" · ")];
 }
 // One job per language for a brand (its codes as tickets) or a restaurant (a "save up to" ticket).
 function ogJobs(e, kind) {
@@ -89,7 +89,7 @@ function ogJobs(e, kind) {
       return { lang, file: `${e.key}-${lang}`, text, items: [{ ...e, badge, tag: lang === "ar" ? `وفّر حتى ${save}%` : `Save up to ${save}%` }] };
     }
     if (e.noCode) return { lang, file: `${e.key}-${lang}`, text: brandOgCopy(e, lang), items: [{ ...e, tag: lang === "ar" ? "بدون كود" : "No code needed" }] };
-    return { lang, file: `${e.key}-${lang}`, text: brandOgCopy(e, lang), items: [e, ...(e.moreCodes || []).map((x) => ({ ...e, code: x.code, badge: x.badge, ...(x.noCode ? { tag: lang === "ar" ? "بدون كود" : "No code needed" } : {}) }))]
+    return { lang, file: `${e.key}-${lang}`, text: brandOgCopy(e, lang), items: [e, ...(e.moreCodes || []).filter((x) => !x.until).map((x) => ({ ...e, code: x.code, badge: x.badge, ...(x.noCode ? { tag: lang === "ar" ? "بدون كود" : "No code needed" } : {}) }))]
       .sort((x, y) => !!y.tag - !!x.tag).slice(-2) };   // at most 2 tickets, and the front (last) one is a real code
   });
 }

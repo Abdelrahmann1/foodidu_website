@@ -722,7 +722,7 @@ sub offers_of {
   my $b = shift;
   # an extra code has its own lastVerified when it was checked on another day ("" = not checked yet); otherwise the brand's
   return ($b, map { +{ %$b, code => ($_->{noCode} ? '' : $_->{code}), noCode => ($_->{noCode} // 0), badge => $_->{badge}, offer => $_->{offer}, terms => $_->{terms}, exclusive => ($_->{exclusive} // 0), firstOrder => ($_->{firstOrder} // 0), extra => 1,
-    lastVerified => (exists $_->{lastVerified} ? $_->{lastVerified} : $b->{lastVerified}) } } @{ $b->{moreCodes} // [] });
+    lastVerified => (exists $_->{lastVerified} ? $_->{lastVerified} : $b->{lastVerified}) } } grep { !$_->{until} || $_->{until} ge $TODAY } @{ $b->{moreCodes} // [] });   # "until": gone after that day
 }
 sub offers_text { my ($b, $l) = @_; join ' · ', map { $_->{offer}{$l} } offers_of($b) }
 sub search_index {

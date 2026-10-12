@@ -132,7 +132,15 @@
       { "source": "/amazon-eg-promocode", "destination": "/Amazon-EG-PromoCode/", "type": 301 },
       { "source": "/amazon-eg-promocode/", "destination": "/Amazon-EG-PromoCode/", "type": 301 },
       { "source": "/ar/amazon-eg-promocode", "destination": "/ar/Amazon-EG-PromoCode/", "type": 301 },
-      { "source": "/ar/amazon-eg-promocode/", "destination": "/ar/Amazon-EG-PromoCode/", "type": 301 }
+      { "source": "/ar/amazon-eg-promocode/", "destination": "/ar/Amazon-EG-PromoCode/", "type": 301 },
+      { "source": "/tazah-promocode", "destination": "/Tazah-PromoCode/", "type": 301 },
+      { "source": "/tazah-promocode/", "destination": "/Tazah-PromoCode/", "type": 301 },
+      { "source": "/ar/tazah-promocode", "destination": "/ar/Tazah-PromoCode/", "type": 301 },
+      { "source": "/ar/tazah-promocode/", "destination": "/ar/Tazah-PromoCode/", "type": 301 },
+      { "source": "/vinnys-pizza-promocode", "destination": "/Vinnys-Pizza-PromoCode/", "type": 301 },
+      { "source": "/vinnys-pizza-promocode/", "destination": "/Vinnys-Pizza-PromoCode/", "type": 301 },
+      { "source": "/ar/vinnys-pizza-promocode", "destination": "/ar/Vinnys-Pizza-PromoCode/", "type": 301 },
+      { "source": "/ar/vinnys-pizza-promocode/", "destination": "/ar/Vinnys-Pizza-PromoCode/", "type": 301 }
     ],
     "headers": [
       {
