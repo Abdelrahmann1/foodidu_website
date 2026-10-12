@@ -13,18 +13,16 @@ const line = (d, w, color = C.ink, extra = "") => `<path d="${d}" fill="none" st
 const limb = (d, fill = C.sun) => line(d, 30) + line(d, 17, fill);
 
 // ---------- the bun with a bite (viewBox 0 0 400 400)
-const BUN = "M200 108 C272 108 314 150 314 214 C314 282 268 322 200 322 C132 322 86 282 86 214 C86 150 128 108 200 108 Z";
-const BITE = [[298, 128, 36], [266, 112, 22], [322, 164, 22]];   // three teeth marks on the top right
-const defs = (id) => `<defs>`
-  + `<mask id="${id}-o" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="400"><rect width="400" height="400" fill="#fff"/>${BITE.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r - 8}" fill="#000"/>`).join("")}</mask>`
-  + `<mask id="${id}-i" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="400"><rect width="400" height="400" fill="#fff"/>${BITE.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#000"/>`).join("")}</mask>`
-  + `</defs>`;
-const bun = (id) =>
-  `<g transform="translate(0 9)" mask="url(#${id}-o)"><path d="${BUN}" fill="${C.inkDeep}" stroke="${C.inkDeep}" stroke-width="16" stroke-linejoin="round"/></g>`   // sticker shadow
-  + `<path d="${BUN}" fill="${C.ink}" stroke="${C.ink}" stroke-width="16" stroke-linejoin="round" mask="url(#${id}-o)"/>`                                        // outline
-  + `<g mask="url(#${id}-i)"><path d="${BUN}" fill="${C.sun}"/>`
-  + `<path d="M86 236 C96 292 140 322 200 322 C260 322 304 292 314 236 C300 274 258 296 200 296 C142 296 100 274 86 236 Z" fill="${C.sun2}"/>`        // warm underside
-  + line("M118 176 Q128 140 166 128", 10, C.shine) + `</g>`                                                                                     // shine
+// BITTEN is the round bun (M200 108 C272 108 314 150 314 214 C314 282 268 322 200 322 C132 322 86 282 86 214 C86 150 128 108 200 108 Z)
+// minus three teeth marks, circles at (298,128) r36, (266,112) r22 and (322,164) r22, worked out once as a plain path so the
+// SVGs need no <mask> (mobile app renderers such as Android VectorDrawable and flutter_svg don't draw masks).
+const BITTEN = "M86 214L86.1 208.7L86.4 203.5L86.9 198.5L87.7 192.5L88.6 187.7L89.7 183L90.9 178.4L92.7 173L94.4 168.7L96.2 164.5L98.3 160.5L100.9 155.7L103.8 151.2L106.5 147.6L109.3 144.1L112.2 140.8L116 137L119.3 134L122.8 131.1L126.5 128.4L131.1 125.4L135.1 123L139.3 120.8L143.6 118.8L149 116.6L153.7 114.9L158.5 113.4L163.5 112.1L168.6 111L173.9 110L179.3 109.2L184.9 108.6L192.9 108.1L201.2 108L208.3 108.2L216.2 108.8L222.9 109.5L230.3 110.8L237.5 112.4L244.1 114.2L244.4 116L244.7 117.7L245.3 119.3L245.9 120.9L246.7 122.5L247.5 124L248.5 125.4L250 127.1L251.3 128.3L252.6 129.5L254 130.5L255.5 131.3L257.1 132.1L258.7 132.7L260.3 133.3L262.5 133.7L263.2 137.3L264.1 140L265.1 142.6L266.4 145.2L267.8 147.6L269.4 149.9L271.2 152.1L273.9 154.8L276.1 156.6L279.2 158.7L282.5 160.5L286 161.9L289.6 163L293.3 163.7L297.1 164L300 163.9L300.1 166.3L300.6 169.1L301.5 171.9L302.7 174.5L304.2 176.9L306 179.1L308.2 181.1L310.2 182.6L311.4 187.7L312.5 193.5L313.2 199.5L313.8 205.6L314 211.9L313.9 218.5L313.7 224L313.1 230.4L312.2 236.6L311 242.7L309.8 247.5L308.1 253.2L306.1 258.7L303.9 263.9L301.8 268.1L299.1 273L296.1 277.7L292.9 282.1L290 285.7L286.4 289.7L282.5 293.5L278.4 297.1L274.1 300.4L269.5 303.6L264.7 306.5L259.8 309.1L254.6 311.5L249.3 313.7L243.7 315.6L238 317.3L232.1 318.7L226 319.9L219.7 320.8L214.4 321.4L207.8 321.8L201.1 322L194.4 321.9L186.7 321.5L180.3 320.8L174 319.9L167.9 318.7L162 317.3L156.3 315.6L150.7 313.7L145.4 311.5L139.4 308.7L134.4 306L129.7 303.1L125.2 299.9L120.9 296.5L116.8 292.9L113 289L109.4 285L106 280.7L102.9 276.1L100 271.4L97.4 266.5L95 261.3L92.9 256L91 250.4L89.5 244.6L88.2 238.7L87.2 232.5L86.5 226.2L86.1 219.6Z";
+const bun = () =>
+  `<path d="${BITTEN}" transform="translate(0 9)" fill="${C.inkDeep}" stroke="${C.inkDeep}" stroke-width="12" stroke-linejoin="round"/>`   // sticker shadow
+  + `<path d="${BITTEN}" fill="${C.sun}"/>`
+  + `<path d="M86 236 C96 292 140 322 200 322 C260 322 304 292 314 236 C300 274 258 296 200 296 C142 296 100 274 86 236 Z" fill="${C.sun2}"/>`   // warm underside
+  + line("M118 176 Q128 140 166 128", 10, C.shine)                                                                                          // shine
+  + `<path d="${BITTEN}" fill="none" stroke="${C.ink}" stroke-width="12" stroke-linejoin="round"/>`                                       // outline, on top
   + [[150, 140, -30], [178, 128, 10], [128, 168, -60], [206, 132, 35]].map(([x, y, r]) => `<ellipse cx="${x}" cy="${y}" rx="7" ry="4" fill="${C.cream}" stroke="${C.ink}" stroke-width="2.5" transform="rotate(${r} ${x} ${y})"/>`).join("")   // sesame
   + [[338, 202, 5], [350, 220, 3.5], [328, 228, 3]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${C.sun}" stroke="${C.ink}" stroke-width="2.5"/>`).join("");   // crumbs
 
@@ -70,7 +68,7 @@ const out = path.join(__dirname, "..", "static", "img", "mascot");
 fs.mkdirSync(out, { recursive: true });
 for (const [name, p] of Object.entries(POSES)) {
   const parts = p.parts.map((x) => (typeof x === "function" ? x(name) : x)).join("");
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="${p.title}"><title>${p.title}</title>${defs(name)}${parts}</svg>\n`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="${p.title}"><title>${p.title}</title>${parts}</svg>\n`;
   fs.writeFileSync(path.join(out, `${name}.svg`), svg);
   console.log("wrote", `static/img/mascot/${name}.svg`, svg.length, "bytes");
 }
