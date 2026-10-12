@@ -968,7 +968,7 @@ for my $l (@LANGS) {
 <div class="hero-art">
 <p class="stack-label" aria-hidden="true"><span>@{[ T($l, 'h_top') ]}</span>@{[ icon('arrow', 'flip') ]}</p>
 <div class="stack" role="group" aria-label="@{[ T($l, 'h_top') ]}">$stack</div>
-<img class="sticker" src="$LOGO" alt="" width="150" height="59">
+<img class="sticker" src="/img/mascot/didu.svg" alt="" width="170" height="170">
 </div>
 </div>
 </section>
