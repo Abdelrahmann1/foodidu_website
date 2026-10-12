@@ -902,6 +902,7 @@
       "featured": false,
       "url": "https://tazah.co/",
       "urlLabel": { "en": "Shop on Tazah", "ar": "تسوّق من طازة" },
+      "lastVerified": "2026-10-12",
       "badge": { "en": ["20%", "off"], "ar": ["20%", "خصم"] },
       "offer": { "en": "20% off your first order, up to 300 EGP", "ar": "خصم 20% على أول أوردر بحد أقصى 300 جنيه" },
       "terms": {
@@ -915,11 +916,11 @@
       },
       "seo": {
         "en": {
-          "title": "Tazah Promo Code FIRST: 20% Off Your First Order in Egypt",
+          "title": "Tazah Promo Code FIRST: 20% Off Your First Order",
           "description": "Tazah promo code FIRST gives you 20% off your first order on the Tazah app for fruit, vegetables and meat in Egypt, up to 300 EGP. Copy the code at checkout."
         },
         "ar": {
-          "title": "كود خصم وبرومو كود طازة FIRST: خصم 20% على أول أوردر",
+          "title": "كود خصم وبرومو كود طازة FIRST: 20% على أول أوردر",
           "description": "كود خصم طازة FIRST يمنحك خصم 20% على أول أوردر من تطبيق طازة للخضار والفاكهة واللحوم في مصر، بحد أقصى 300 جنيه. انسخ الكود واستخدمه عند الدفع."
         }
       }
