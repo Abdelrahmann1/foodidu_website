@@ -821,6 +821,52 @@
       }
     },
     {
+      "key": "clams-and-claws",
+      "slug": "Clams-And-Claws-PromoCode",
+      "name": { "en": "Clams and Claws", "ar": "كلامز آند كلوز" },
+      "logo": "clams-and-claws.webp",
+      "code": "",
+      "noCode": true,
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "",
+      "badge": { "en": ["20%", "off"], "ar": ["20%", "خصم"] },
+      "offer": { "en": "20% off every order through their website, app or delivery", "ar": "خصم 20% على كل أوردر من الموقع أو التطبيق أو التوصيل" },
+      "terms": {
+        "en": "20% off every order placed through the Clams and Claws website, app or delivery, from their official ad. No code needed.",
+        "ar": "خصم 20% على كل أوردر من موقع أو تطبيق كلامز آند كلوز أو من خلال التوصيل، حسب إعلانهم الرسمي. بدون كود."
+      },
+      "where": { "en": "the Clams and Claws website, app or delivery", "ar": "موقع أو تطبيق كلامز آند كلوز أو التوصيل" },
+      "steps": {
+        "en": [
+          ["Order online or by delivery", "Use the Clams and Claws website or app, or order for delivery."],
+          ["Pick your seafood", "Add what you want to your order as usual."],
+          ["20% off, no code", "The discount is for every order, so you don't need a code."]
+        ],
+        "ar": [
+          ["اطلب أونلاين أو دليفري", "من موقع أو تطبيق كلامز آند كلوز، أو اطلب توصيل."],
+          ["اختر طلبك", "أضف السي فود اللي عايزه للأوردر كالمعتاد."],
+          ["خصم 20% بدون كود", "الخصم على كل أوردر، فمش محتاج كود."]
+        ]
+      },
+      "about": {
+        "en": "Clams and Claws is a seafood restaurant in Egypt, with branches in New Cairo and at Arkan Plaza in Sheikh Zayed, and delivery to Maadi, Madinaty, El Shorouk, Mohandessin, Zamalek and Dokki.",
+        "ar": "كلامز آند كلوز مطعم مأكولات بحرية في مصر، له فروع في التجمع وأركان بلازا في الشيخ زايد، ويوصّل للمعادي ومدينتي والشروق والمهندسين والزمالك والدقي."
+      },
+      "seo": {
+        "en": {
+          "title": "Clams and Claws Discount: 20% Off Every Order, No Code",
+          "description": "Clams and Claws offer in Egypt: 20% off every order through their website, app or delivery, no promo code needed. Seafood in New Cairo and Sheikh Zayed."
+        },
+        "ar": {
+          "title": "خصم كلامز آند كلوز: 20% على كل أوردر بدون كود",
+          "description": "عرض كلامز آند كلوز في مصر: خصم 20% على كل أوردر من الموقع أو التطبيق أو التوصيل، بدون كود خصم. مطعم سي فود في التجمع والشيخ زايد."
+        }
+      }
+    },
+    {
       "key": "lavania",
       "slug": "Lavania-PromoCode",
       "name": { "en": "Lavania", "ar": "لافانيا" },

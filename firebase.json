@@ -148,7 +148,11 @@
       { "source": "/garnell-promocode", "destination": "/Garnell-PromoCode/", "type": 301 },
       { "source": "/garnell-promocode/", "destination": "/Garnell-PromoCode/", "type": 301 },
       { "source": "/ar/garnell-promocode", "destination": "/ar/Garnell-PromoCode/", "type": 301 },
-      { "source": "/ar/garnell-promocode/", "destination": "/ar/Garnell-PromoCode/", "type": 301 }
+      { "source": "/ar/garnell-promocode/", "destination": "/ar/Garnell-PromoCode/", "type": 301 },
+      { "source": "/clams-and-claws-promocode", "destination": "/Clams-And-Claws-PromoCode/", "type": 301 },
+      { "source": "/clams-and-claws-promocode/", "destination": "/Clams-And-Claws-PromoCode/", "type": 301 },
+      { "source": "/ar/clams-and-claws-promocode", "destination": "/ar/Clams-And-Claws-PromoCode/", "type": 301 },
+      { "source": "/ar/clams-and-claws-promocode/", "destination": "/ar/Clams-And-Claws-PromoCode/", "type": 301 }
     ],
     "headers": [
       {
