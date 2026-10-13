@@ -63,7 +63,9 @@ function ticketArt(ctx, b, lang, logo, x, y, w, rot) {
   rr(ctx, 26, cy, w - 52, ch, 14); ctx.fill(); ctx.stroke(); ctx.setLineDash([]);
   ctx.fillStyle = INK; rr(ctx, w - 26 - 150, cy, 150, ch, [0, 14, 14, 0]); ctx.fill();
   ctx.direction = "ltr"; ctx.textAlign = "center";
-  ctx.font = "700 30px ui-monospace, Consolas, monospace"; ctx.fillStyle = INK; ctx.fillText(b.code, 26 + (w - 52 - 150) / 2, cy + 41);
+  let cs = 30; ctx.font = `700 ${cs}px ui-monospace, Consolas, monospace`;   // a long code shrinks to stay inside its box
+  while (ctx.measureText(b.code).width > w - 52 - 150 - 24 && cs > 18) { cs -= 1; ctx.font = `700 ${cs}px ui-monospace, Consolas, monospace`; }
+  ctx.fillStyle = INK; ctx.fillText(b.code, 26 + (w - 52 - 150) / 2, cy + 41 - (30 - cs) / 3);
   ctx.font = "700 26px 'Readex Pro'"; ctx.fillStyle = SUN; ctx.direction = rtl ? "rtl" : "ltr"; ctx.fillText(rtl ? "انسخ" : "Copy", w - 26 - 75, cy + 40);
   ctx.restore();
 }

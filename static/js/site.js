@@ -105,6 +105,22 @@
     }
     return legacyCopy(text);
   }
+  // a long code on a narrow ticket (GFIRSTORDER250 on a 3-column page): drop the word "Copy" (the icon stays), then the
+  // letter spacing and size, so the whole code always shows instead of ending in "…"
+  function fitCodes() {
+    document.querySelectorAll(".code-btn[data-code]").forEach(function (b) {
+      var c = b.querySelector(".code");
+      if (!c) return;
+      b.classList.remove("tight", "tighter");
+      if (c.scrollWidth > c.clientWidth + 1) b.classList.add("tight");
+      if (c.scrollWidth > c.clientWidth + 1) b.classList.add("tighter");
+    });
+  }
+  fitCodes();
+  var fitTimer;
+  window.addEventListener("resize", function () { clearTimeout(fitTimer); fitTimer = setTimeout(fitCodes, 150); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitCodes);
+
   document.addEventListener("click", function (e) {
     var btn = e.target.closest("[data-code]");
     if (!btn) return;

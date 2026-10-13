@@ -709,6 +709,38 @@
       }
     },
     {
+      "key": "garnell",
+      "slug": "Garnell-PromoCode",
+      "name": { "en": "Garnell", "ar": "جارنيل" },
+      "logo": "garnell.webp",
+      "code": "GFIRSTORDER250",
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "firstOrder": true,
+      "featured": false,
+      "url": "https://www.garnelleg.com/",
+      "urlLabel": { "en": "Order from Garnell", "ar": "اطلب من جارنيل" },
+      "badge": { "en": ["250 EGP", "off"], "ar": ["250 جنيه", "خصم"] },
+      "offer": { "en": "250 EGP off your first order", "ar": "خصم 250 جنيه على أول أوردر" },
+      "terms": { "en": "250 EGP off your first online order from Garnell. Enter the code when you pay.", "ar": "خصم 250 جنيه على أول أوردر أونلاين من جارنيل. اكتب الكود عند الدفع." },
+      "where": { "en": "the Garnell website", "ar": "موقع جارنيل" },
+      "about": {
+        "en": "Garnell is a sushi and poke restaurant in Egypt, with branches in New Cairo (District 5, CFC and Cloud 9), Sheikh Zayed, Zamalek, Maadi, Heliopolis, Nasr City and El Shorouk. Order online from garnelleg.com or call 15247.",
+        "ar": "جارنيل مطعم سوشي وبوكي في مصر، له فروع في التجمع (District 5 وCFC وCloud 9) والشيخ زايد والزمالك والمعادي ومصر الجديدة ومدينة نصر والشروق. اطلب أونلاين من garnelleg.com أو اتصل على 15247."
+      },
+      "seo": {
+        "en": {
+          "title": "Garnell Promo Code: 250 EGP Off Your First Sushi Order",
+          "description": "Garnell promo code GFIRSTORDER250 gives you 250 EGP off your first sushi and poke order on the Garnell website in Cairo. Copy the code at checkout."
+        },
+        "ar": {
+          "title": "كود خصم وبرومو كود جارنيل: خصم 250 جنيه على أول أوردر",
+          "description": "كود خصم جارنيل GFIRSTORDER250 يمنحك خصم 250 جنيه على أول أوردر سوشي وبوكي من موقع جارنيل في القاهرة. انسخ الكود واستخدمه عند الدفع."
+        }
+      }
+    },
+    {
       "key": "pizza-king",
       "slug": "Pizza-King-PromoCode",
       "name": { "en": "Pizza King", "ar": "بيتزا كينج" },

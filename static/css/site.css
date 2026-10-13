@@ -389,6 +389,9 @@ ul, ol { margin: 0; padding: 0; }
   transition: background-color .2s;
 }
 .code-btn .act .icon { width: 1.05em; height: 1.05em; }
+.code-btn.tight .act-label { display: none; }   /* set by site.js when the code would not fit */
+.code-btn.tight .code { letter-spacing: .02em; padding-inline: 8px; }
+.code-btn.tighter .code { font-size: .86rem; letter-spacing: 0; }
 .code-btn .i-check, .code-btn.copied .i-copy { display: none; }
 .code-btn.copied .i-check { display: block; }
 .code-btn.copied { border-color: var(--leaf-deep); border-style: solid; }
