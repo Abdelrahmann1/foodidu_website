@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Recipe animation: preview and video</title>
+<title>Foodidu Business animation: preview and video</title>
 <link rel="stylesheet" href="/__static/css/site.css">
 <style>
   body { padding: 20px; background: #fff; font-family: "Readex Pro", system-ui, sans-serif; }
@@ -12,27 +12,36 @@
 </style>
 </head>
 <body>
-<!-- Dev-only: http://localhost:5000/__tools/recipe-video.html
-     Preview the 30 s recipe animation (static/js/recipe-anim.js) frame by frame, and make an MP4 of it for social media:
+<!-- Dev-only: http://localhost:5000/__tools/anim-video.html
+     Preview the 30 s Foodidu Business explainer (static/js/biz-anim.js, the hero of /business/) frame by frame, and make an MP4 of it for social media:
      every frame is drawn and encoded to H.264 with WebCodecs (frame by frame, so a busy or hidden tab can't drop frames),
-     then written into an MP4 file here (no libraries), saved to banners/business/recipe-mojito-<lang>.mp4. -->
-<h1>Recipe animation</h1>
+     then written into an MP4 file here (no libraries), saved to banners/business/foodidu-business-<lang>.mp4. -->
+<h1>Foodidu Business animation</h1>
 <div class="row">
   <label>Language <select id="lang"><option value="ar">العربية</option><option value="en">English</option></select></label>
   <input id="seek" type="range" min="0" max="30" step="0.1" value="0" style="width:420px"> <span id="tval">0.0 s</span>
-  <button id="mp4">Make the MP4</button>
+  <button id="sheet">Contact sheet</button> <button id="mp4">Make the MP4</button>
 </div>
 <canvas id="cv" data-lang="ar"></canvas>
 <pre id="log"></pre>
-<script src="/__static/js/recipe-anim.js"></script>
+<script src="/__static/js/biz-anim.js"></script>
 <script>
 const log = (m) => { document.getElementById("log").textContent += m + "\n"; };
-let cv = document.getElementById("cv"), anim = FoodiduRecipe.Anim(cv);
+const BG = "#FFF9EB";
+let cv = document.getElementById("cv"), anim = FoodiduBizAnim.Anim(cv);
 const seek = document.getElementById("seek");
-const show = () => { anim.seek(+seek.value); document.getElementById("tval").textContent = (+seek.value).toFixed(1) + " s"; };
+const show = () => { anim.draw(+seek.value, BG); document.getElementById("tval").textContent = (+seek.value).toFixed(1) + " s"; };
 seek.oninput = show;
-document.getElementById("lang").onchange = (e) => { cv.setAttribute("data-lang", e.target.value); anim = FoodiduRecipe.Anim(cv); show(); };
-document.fonts.load("74px Lalezar", "موهيتو Mojito").then(() => document.fonts.load("700 30px 'Readex Pro'", "نعناع mint")).then(show);
+document.getElementById("lang").onchange = (e) => { cv.setAttribute("data-lang", e.target.value); anim = FoodiduBizAnim.Anim(cv); show(); };
+document.fonts.load("54px Lalezar", "Foodidu").then(() => document.fonts.load("700 40px 'Readex Pro'", "منيو menu")).then(() => document.fonts.load("500 24px 'Readex Pro'", "منيو menu")).then(show);
+// all the scenes on one image, to check the layout
+document.getElementById("sheet").onclick = async () => {
+  const lang = document.getElementById("lang").value, ts = [1.5, 3.4, 5, 7.6, 10, 13.4, 16.2, 19.4, 21.5, 24.6, 26.6, 29.2];
+  const sh = document.createElement("canvas"); sh.width = 1440; sh.height = 1080; const sx = sh.getContext("2d");
+  ts.forEach((t, i) => { anim.draw(t, BG); sx.drawImage(cv, (i % 4) * 360, Math.floor(i / 4) * 360, 360, 360); sx.fillStyle = "#000"; sx.font = "20px monospace"; sx.fillText(t + "s", (i % 4) * 360 + 8, Math.floor(i / 4) * 360 + 22); });
+  const b = await new Promise((r) => sh.toBlob(r, "image/png"));
+  log(await (await fetch("/__save?path=" + encodeURIComponent(`banners/business/_sheet-${lang}.png`), { method: "POST", body: b })).text());
+};
 
 // ---------- a small MP4 writer: one H.264 video track, all samples in one chunk, moov before mdat ----------
 const enc = new TextEncoder();
@@ -84,7 +93,7 @@ document.getElementById("mp4").onclick = async () => {
   encoder.configure(config);
   log(`encoding ${lang}: ${N} frames…`);
   for (let i = 0; i < N; i++) {
-    anim.draw(i / FPS);
+    anim.draw(i / FPS, BG);
     const frame = new VideoFrame(cv, { timestamp: Math.round(i * 1e6 / FPS), duration: Math.round(1e6 / FPS) });
     encoder.encode(frame, { keyFrame: i % (FPS * 2) === 0 });
     frame.close();
@@ -94,7 +103,7 @@ document.getElementById("mp4").onclick = async () => {
   await encoder.flush(); encoder.close();
   if (!avcC) { log("no avcC from the encoder"); return; }
   const file = mp4({ width: W, height: H, fps: FPS, avcC, samples });
-  const path = `banners/business/recipe-mojito-${lang}.mp4`;
+  const path = `banners/business/foodidu-business-${lang}.mp4`;
   const r = await fetch("/__save?path=" + encodeURIComponent(path), { method: "POST", body: file });
   log(await r.text() + ` (${samples.length} frames, ${samples.filter((s) => s.key).length} key frames)`);
 };

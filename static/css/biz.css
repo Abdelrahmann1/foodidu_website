@@ -90,6 +90,14 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .bz-stage .mock-stand { position: absolute; z-index: 1; width: 170px; top: 26px; inset-inline-end: 0; transform: rotate(5deg); }
 [dir="rtl"] .bz-stage .mock-stand { transform: rotate(-5deg); }
 .bz-stage .bz-didu { width: 130px; bottom: -8px; inset-inline-end: 10px; }
+/* the landing hero: the 30 s services explainer (static/js/biz-anim.js) */
+.bz-anim { position: relative; width: 100%; max-width: 560px; }
+.bz-anim canvas { display: block; width: 100%; height: auto; aspect-ratio: 1; }
+.anim-btn { position: absolute; bottom: 6%; inset-inline-start: 2%; width: 44px; height: 44px; border-radius: 50%; border: 0; display: grid; place-items: center; background: var(--bz-pri); color: var(--bz-sun); box-shadow: 0 8px 18px -8px rgba(58, 40, 13, .7); opacity: .85; }
+.anim-btn:hover, .anim-btn:focus-visible { opacity: 1; }
+.anim-btn .icon { width: 20px; height: 20px; }
+.anim-btn .i-pause, .anim-btn[aria-pressed="true"] .i-play { display: none; }
+.anim-btn[aria-pressed="true"] .i-pause { display: block; }
 /* a service page: one example, or the phone with the table stand */
 .bz-duo { position: relative; width: 100%; max-width: 480px; display: grid; place-items: center; }
 .bz-duo.n2 { min-height: 520px; }
@@ -253,20 +261,6 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .bz-row-visual .mock-stand { width: min(100%, 210px); }
 .bz-row-visual .mock-web { width: min(100%, 460px); }
 .bz-row-visual .mock-ticket { width: min(100%, 440px); }
-
-/* the recipe animation (static/js/recipe-anim.js) */
-.bz-recipe { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
-.bz-recipe-copy h2 { font-size: clamp(1.75rem, 3.4vw, 2.6rem); line-height: 1.18; color: var(--bz-pri-2); }
-[dir="rtl"] .bz-recipe-copy h2 { line-height: 1.4; }
-.bz-recipe-copy > p { margin-top: 12px; color: var(--bz-ink-2); font-size: 1.05rem; }
-.bz-recipe-copy .bz-ticks { flex-direction: column; gap: 10px; }
-.recipe-box { position: relative; border-radius: 28px; overflow: hidden; background: var(--bz-bg); border: 1px solid var(--bz-line); box-shadow: 0 34px 70px -40px rgba(58, 40, 13, .55); }
-.recipe-box canvas { display: block; width: 100%; height: auto; aspect-ratio: 1; }
-.recipe-btn { position: absolute; bottom: 14px; inset-inline-start: 14px; width: 46px; height: 46px; border-radius: 50%; border: 0; display: grid; place-items: center; background: var(--bz-pri); color: var(--bz-sun); box-shadow: 0 8px 18px -8px rgba(58, 40, 13, .7); }
-.recipe-btn .icon { width: 22px; height: 22px; }
-.recipe-btn .i-pause, .recipe-btn[aria-pressed="true"] .i-play { display: none; }
-.recipe-btn[aria-pressed="true"] .i-pause { display: block; }
-@media (max-width: 900px) { .bz-recipe { grid-template-columns: minmax(0, 1fr); } }
 
 /* free QR tool band (landing, QR menu page) */
 .bz-toolband { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 20px 28px; align-items: center; padding: clamp(22px, 4vw, 36px); border-radius: 24px; background: var(--bz-sun); }
