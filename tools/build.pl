@@ -231,6 +231,10 @@ my %S = (
   qr_band_title => 'Free: make a QR code for your menu', qr_band_text => 'Paste your menu link and print a table card in seconds, with no sign-up.', qr_band_btn => 'Make my code', qr_js_word => 'MENU',
   qr_js_table => 'Table {n}', qr_js_bad => 'Enter a full link, like https://instagram.com/yourpage', qr_js_long => 'This link is too long for a QR code. Use a shorter link.', qr_js_sample => 'This is an example. Paste your menu link to make your code.',
   qr_js_ready => 'Your code is ready. Scan it with your phone to test it before printing.', qr_js_credit => 'Foodidu Business',
+  rec_eyebrow => 'Content for your menu', rec_title => 'Animated recipe videos for your dishes', rec_t1 => 'Step by step, with the measurements', rec_t2 => 'In Arabic and English', rec_t3 => 'For your menu, website and social pages',
+  rec_text => 'A short video that shows how a dish or a drink is made, from the empty glass to the finished drink. This example plays right here: a strawberry mojito mocktail in 30 seconds.',
+  rec_btn => 'Want a video for one of your dishes?', rec_play => 'Play the recipe animation', rec_pause => 'Pause the recipe animation', rec_alt => 'Animation: how to make a strawberry mojito mocktail, step by step with the measurements',
+  biz_wa_msg_video => 'Hi Foodidu Business, I would like an animated recipe video for one of my dishes.',
   biz_nav_maps => 'Google Maps', foot_biz_wa => 'Restaurants, WhatsApp us:', biz_wa_msg_maps => 'Hi Foodidu Business, I would like to put my restaurant on Google Maps.',
   biz_wa_btn => 'Chat with us on WhatsApp', biz_wa_float => 'Chat with Foodidu Business on WhatsApp',
   biz_wa_msg_info => 'Hi Foodidu Business, I would like to know more about your services for my restaurant.', biz_wa_msg_menu => 'Hi Foodidu Business, I would like an online menu for my restaurant.',
@@ -387,6 +391,10 @@ my %S = (
   qr_band_title => 'مجاناً: اعمل كود QR لمنيو مطعمك', qr_band_text => 'حط لينك المنيو واطبع كارت الترابيزة في ثواني، من غير تسجيل.', qr_band_btn => 'اعمل الكود بتاعي', qr_js_word => 'منيو',
   qr_js_table => 'ترابيزة {n}', qr_js_bad => 'اكتب لينك كامل، زي https://instagram.com/yourpage', qr_js_long => 'اللينك ده طويل على الكود. استخدم لينك أقصر.', qr_js_sample => 'ده مثال. حط لينك المنيو بتاعك عشان يتعمل كودك.',
   qr_js_ready => 'كودك جاهز. امسحه بموبايلك وجرّبه قبل الطباعة.', qr_js_credit => 'Foodidu Business',
+  rec_eyebrow => 'محتوى لمنيوك', rec_title => 'فيديوهات وصفات متحركة لأصنافك', rec_t1 => 'خطوة بخطوة وبالمقادير', rec_t2 => 'بالعربي والإنجليزي', rec_t3 => 'للمنيو والموقع والسوشيال',
+  rec_text => 'فيديو قصير بيوضّح الصنف بيتعمل إزاي، من الكوباية الفاضية لحد المشروب الجاهز. وده مثال شغال قدامك: موهيتو فراولة من غير كحول في 30 ثانية.',
+  rec_btn => 'عايز فيديو لصنف عندك؟', rec_play => 'شغّل فيديو الوصفة', rec_pause => 'وقّف فيديو الوصفة', rec_alt => 'أنيميشن: طريقة عمل موهيتو فراولة خطوة بخطوة بالمقادير',
+  biz_wa_msg_video => 'أهلاً Foodidu Business، عايز فيديو وصفة متحركة لصنف عندي.',
   biz_nav_maps => 'جوجل ماب', foot_biz_wa => 'للمطاعم، كلمنا واتساب:', biz_wa_msg_maps => 'أهلاً Foodidu Business، عايز أضيف مطعمي على جوجل ماب.',
   biz_wa_btn => 'كلمنا على واتساب', biz_wa_float => 'كلّم Foodidu Business على واتساب',
   biz_wa_msg_info => 'أهلاً Foodidu Business، عايز أعرف أكتر عن خدماتكم لمطعمي.', biz_wa_msg_menu => 'أهلاً Foodidu Business، عايز منيو إلكتروني لمطعمي.',
@@ -432,6 +440,7 @@ sub fresh { my $ymd = shift or return 0; my ($y, $m, $d) = split /-/, $ymd; my $
 
 # ------------------------------------------------------------------ icons
 my %ICON = (
+  pause    => '<path d="M8 5v14M16 5v14"/>',
   download => '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
   print    => '<path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/>',
   qr       => '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM21 14v.01M14 21h.01M17.5 21H21v-3.5"/>',
@@ -1652,6 +1661,12 @@ HTML
 <div class="bz-rows">$rows</div>
 @{[ $toolband ? qq{<div style="margin-top:clamp(44px,7vw,88px)">$toolband</div>} : '' ]}
 </div></section>
+<section class="bz-sec" aria-labelledby="rec-title"><div class="wrap bz-recipe">
+<div class="bz-recipe-copy"><p class="bz-eyebrow">@{[ T($l, 'rec_eyebrow') ]}</p><h2 id="rec-title">@{[ T($l, 'rec_title') ]}</h2><p>@{[ T($l, 'rec_text') ]}</p>
+@{[ $ticks->(qw(rec_t1 rec_t2 rec_t3)) ]}@{[ biz_wa_link($l, 'video', 'bz-btn bz-wa', T($l, 'rec_btn')) ]}</div>
+<div class="recipe-box"><canvas class="recipe-anim" data-lang="$l" width="1080" height="1080" role="img" aria-label="@{[ T($l, 'rec_alt') ]}"></canvas>
+<button class="recipe-btn" type="button" aria-pressed="false" data-play="@{[ T($l, 'rec_play') ]}" data-pause="@{[ T($l, 'rec_pause') ]}" aria-label="@{[ T($l, 'rec_play') ]}">@{[ icon('play', 'i-play') . icon('pause', 'i-pause') ]}</button></div>
+</div></section>
 <section class="bz-sec bz-alt" aria-labelledby="journey-title"><div class="wrap">
 @{[ $head->('journey-title', T($l, 'biz_journey_eyebrow'), esc($BIZ->{journey}{title}{$l})) ]}
 @{[ $steps->($BIZ->{journey}{steps}) ]}
@@ -1684,7 +1699,7 @@ $plans
 </div></section>
 @{[ $faq->('bfaq-title', @qa) ]}
 HTML
-      layout(lang => $l, key => '/business/', title => $BIZ->{seo}{$l}{title}, desc => $BIZ->{seo}{$l}{description}, body => $body, skin => 'biz', lastmod => mdate($BIZ_FILE),
+      layout(lang => $l, key => '/business/', title => $BIZ->{seo}{$l}{title}, desc => $BIZ->{seo}{$l}{description}, body => $body, skin => 'biz', lastmod => mdate($BIZ_FILE), scripts => [asset('/js/recipe-anim.js')],
         crumbs => $crumbs, og => "/img/og/biz-home-$l.png", fd => { formUrl => $FORM_URL },
         ld => [ { '@type' => 'ItemList', name => 'Foodidu Business', itemListElement => [ map { my $i = $_; { '@type' => 'ListItem', position => $i + 1, name => $svc[$i]{name}{$l}, ($has_page->($svc[$i]) ? (url => absu($surl->($svc[$i]))) : ()) } } 0 .. $#svc ] }, faq_ld(@qa) ]);
     }
