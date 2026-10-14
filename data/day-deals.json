@@ -85,6 +85,21 @@
       "source": "https://order.roma2go.com/ar/product/sunday-offer",
       "sourceLabel": { "en": "Roma Pizza's Sunday offer page", "ar": "صفحة عرض الأحد على موقع روما بيتزا" },
       "lastChecked": "2026-10-04"
+    },
+    {
+      "id": "caribou-wednesday",
+      "name": { "en": "Caribou Coffee", "ar": "كاريبو كوفي" },
+      "icon": "tag",
+      "region": "eg",
+      "days": ["wed"],
+      "title": { "en": "Buy one Classic Coffee, get one free", "ar": "اشتري قهوة كلاسيك والتانية مجاناً" },
+      "details": {
+        "en": "Caribou Coffee Egypt's Wednesday offer: buy one Classic Coffee and get a second one free.",
+        "ar": "عرض كاريبو كوفي مصر يوم الأربع: اشتري قهوة كلاسيك واحصل على التانية مجاناً."
+      },
+      "source": "https://www.facebook.com/caribouegypt/",
+      "sourceLabel": { "en": "Caribou Coffee Egypt on Facebook", "ar": "صفحة كاريبو كوفي مصر على فيسبوك" },
+      "lastChecked": "2026-10-14"
     }
   ]
 }

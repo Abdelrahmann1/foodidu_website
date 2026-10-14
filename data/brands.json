@@ -832,7 +832,8 @@
       "region": "eg",
       "exclusive": false,
       "featured": false,
-      "url": "",
+      "url": "https://www.facebook.com/ClamsnClaws/",
+      "urlLabel": { "en": "Clams and Claws on Facebook", "ar": "كلامز آند كلوز على فيسبوك" },
       "badge": { "en": ["20%", "off"], "ar": ["20%", "خصم"] },
       "offer": { "en": "20% off every order through their website, app or delivery", "ar": "خصم 20% على كل أوردر من الموقع أو التطبيق أو التوصيل" },
       "terms": {
