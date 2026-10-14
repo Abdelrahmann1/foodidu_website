@@ -721,6 +721,7 @@
       "featured": false,
       "url": "https://www.garnelleg.com/",
       "urlLabel": { "en": "Order from Garnell", "ar": "اطلب من جارنيل" },
+      "lastVerified": "2026-10-14",
       "badge": { "en": ["250 EGP", "off"], "ar": ["250 جنيه", "خصم"] },
       "offer": { "en": "250 EGP off your first order", "ar": "خصم 250 جنيه على أول أوردر" },
       "terms": { "en": "250 EGP off your first online order from Garnell. Enter the code when you pay.", "ar": "خصم 250 جنيه على أول أوردر أونلاين من جارنيل. اكتب الكود عند الدفع." },
@@ -735,7 +736,7 @@
           "description": "Garnell promo code GFIRSTORDER250 gives you 250 EGP off your first sushi and poke order on the Garnell website in Cairo. Copy the code at checkout."
         },
         "ar": {
-          "title": "كود خصم وبرومو كود جارنيل: خصم 250 جنيه على أول أوردر",
+          "title": "كود خصم وبرومو كود جارنيل: 250 جنيه على أول أوردر",
           "description": "كود خصم جارنيل GFIRSTORDER250 يمنحك خصم 250 جنيه على أول أوردر سوشي وبوكي من موقع جارنيل في القاهرة. انسخ الكود واستخدمه عند الدفع."
         }
       }
