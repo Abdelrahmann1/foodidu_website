@@ -693,6 +693,7 @@ $a{body}
 @{[ @PUB ? '<li><a href="' . path_for($l, '/blog/') . '">' . T($l, 'blog_h1') . '</a></li>' : '' ]}
 @{[ join '', map { '<li><a href="' . rest_url($_, $l) . '">' . Te($l, 'ro_h1', name => $_->{name}{$l}) . '</a></li>' } @RESTS ]}
 <li><a href="@{[ path_for($l, '/business/') ]}">Foodidu Business</a></li>
+@{[ $BIZ ? join '', map { '<li><a href="' . path_for($l, "/business/$_->{key}/") . '">' . esc($_->{name}{$l}) . '</a></li>' } grep { $_->{page} // 1 } @{ $BIZ->{services} } : '' ]}
 <li><a href="@{[ path_for($l, '/privacy-policy/') ]}">@{[ T($l, 'privacy') ]}</a></li>
 <li><a href="@{[ path_for($l, '/terms-and-conditions/') ]}">@{[ T($l, 'terms') ]}</a></li>
 <li><button type="button" data-cookie-settings>@{[ T($l, 'cookie_settings') ]}</button></li>
@@ -1535,7 +1536,9 @@ HTML
       my $steps = '<ol class="steps">' . join('', map { my $i = $_; my $st = $s->{steps}[$i];
         '<li class="step"><span class="num" aria-hidden="true">' . $num->($i + 1) . '</span><h3>' . esc($st->{title}{$l}) . '</h3><p>' . esc($st->{text}{$l}) . '</p></li>' } 0 .. $#{ $s->{steps} }) . '</ol>';
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $s->{faq} };
-      my $body = $hero->($crumbs, $s->{h1}{$l}, $s->{lede}{$l}) . <<"HTML";
+      my $about = $s->{about} ? '<section class="wrap section-tight biz-about" aria-labelledby="about-title"><h2 class="h2" id="about-title">' . esc($s->{about}{title}{$l}) . '</h2>'
+        . join('', map { '<p>' . esc($_->{$l}) . '</p>' } @{ $s->{about}{text} }) . '</section>' : '';
+      my $body = $hero->($crumbs, $s->{h1}{$l}, $s->{lede}{$l}) . $about . <<"HTML";
 <section class="wrap section-tight" aria-labelledby="feat-title">
 <div class="section-head"><div><p class="eyebrow">@{[ esc($s->{name}{$l}) ]}</p><h2 class="h2" id="feat-title">@{[ T($l, 'biz_feats_title') ]}</h2></div></div>
 $feats

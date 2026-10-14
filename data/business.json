@@ -6,8 +6,8 @@
       "description": "A QR menu, a loyalty program that brings customers back, your own ordering website and app, and visibility on Foodidu, all in one place. Start free."
     },
     "ar": {
-      "title": "Foodidu Business: منيو QR وبرنامج ولاء وموقع لمطعمك",
-      "description": "كل أدوات مطعمك في مكان واحد: منيو QR، وبرنامج ولاء يعيد عملاءك، وموقع وتطبيق طلبات باسمك، وظهور على Foodidu. ابدأ مجاناً بكود خصم حصري."
+      "title": "Foodidu Business: منيو إلكتروني QR وبرنامج ولاء للمطاعم",
+      "description": "كل أدوات مطعمك في مكان واحد: منيو إلكتروني QR، وبرنامج ولاء العملاء، وموقع وتطبيق طلبات باسمك، وظهور على Foodidu. ابدأ مجاناً بكود خصم حصري."
     }
   },
   "h1": { "en": "Everything your restaurant needs, in one place", "ar": "كل أدوات مطعمك في مكان واحد" },
@@ -50,18 +50,31 @@
       },
       "seo": {
         "en": {
-          "title": "Restaurant Loyalty Program: Points & Digital Stamp Cards",
-          "description": "A loyalty program for your restaurant or café: points or a digital stamp card that rewards returning customers and turns Foodidu first-timers into regulars."
+          "title": "Customer Loyalty Program for Restaurants: Points & Stamp Cards",
+          "description": "A customer loyalty program for your restaurant or café: points or a digital stamp card that rewards returning customers and turns first-timers into regulars."
         },
         "ar": {
-          "title": "برنامج ولاء للمطاعم: نقاط وكارت أختام لعملائك",
-          "description": "برنامج ولاء لمطعمك أو الكافيه: نقاط أو كارت أختام إلكتروني يكافئ العملاء اللي بيرجعوا، ويحوّل اللي جه بكود خصم من Foodidu لزبون دائم."
+          "title": "برنامج ولاء العملاء للمطاعم والكافيهات: نقاط وكارت ولاء",
+          "description": "برنامج ولاء العملاء لمطعمك أو الكافيه: نقاط أو كارت أختام إلكتروني يكافئ العملاء اللي بيرجعوا، ويحوّل اللي جه بكود خصم من Foodidu لزبون دائم."
         }
       },
       "h1": { "en": "A loyalty program that brings customers back", "ar": "برنامج ولاء يرجّع عملاءك" },
       "lede": {
         "en": "The customer who came once with a promo code should come back every time. Points or a digital stamp card on their phone, with rewards you choose.",
         "ar": "العميل اللي جه مرة بكود خصم، خليه يرجع كل مرة. نقاط أو كارت أختام إلكتروني على موبايل العميل، ومكافآت أنت اللي بتحددها."
+      },
+      "about": {
+        "title": { "en": "What is a customer loyalty program?", "ar": "يعني إيه برنامج ولاء العملاء؟" },
+        "text": [
+          {
+            "en": "A loyalty program rewards customers for coming back. Every order earns points or a stamp, and after a number of visits the customer gets a reward you choose, like a free drink or a discount.",
+            "ar": "برنامج ولاء العملاء بيكافئ العميل إنه يرجعلك. كل طلب عليه نقاط أو ختم، وبعد عدد زيارات معين العميل ياخد مكافأة أنت بتختارها، زي مشروب ببلاش أو خصم."
+          },
+          {
+            "en": "Big chains run their own loyalty programs because keeping a customer costs less than finding a new one. Foodidu Business gives a single restaurant or café the same tool, as a digital card on the customer's phone instead of a paper card that gets lost.",
+            "ar": "السلاسل الكبيرة عندها برامج ولاء خاصة بيها، لأن إنك تحافظ على عميل أرخص من إنك تجيب عميل جديد. وFoodidu Business بيدي المطعم أو الكافيه الواحد نفس الأداة، ككارت إلكتروني على موبايل العميل بدل الكارت الورق اللي بيضيع."
+          }
+        ]
       },
       "features": [
         {
@@ -115,6 +128,13 @@
           }
         },
         {
+          "q": { "en": "Does the customer need to download an app?", "ar": "العميل محتاج ينزّل تطبيق؟" },
+          "a": {
+            "en": "No. The card opens on the customer's phone from a link or a QR code, with nothing to download.",
+            "ar": "لأ. الكارت بيفتح على موبايل العميل من لينك أو كود QR، من غير تحميل أي حاجة."
+          }
+        },
+        {
           "q": { "en": "Can I choose the rewards?", "ar": "أقدر أحدد المكافآت؟" },
           "a": { "en": "Yes. You decide the reward and when the customer gets it, and you can change it later.", "ar": "أيوه. أنت اللي بتحدد المكافأة وإمتى العميل ياخدها، وتقدر تغيّرها بعدين." }
         },
@@ -127,25 +147,42 @@
     {
       "key": "qr-menu",
       "icon": "qr",
-      "name": { "en": "QR menu", "ar": "منيو QR" },
+      "name": { "en": "QR code menu", "ar": "منيو إلكتروني QR" },
       "short": {
         "en": "An online menu behind a QR code on every table, with photos and prices you can change any time without reprinting.",
         "ar": "منيو أونلاين بكود QR على كل ترابيزة، بالصور والأسعار، تعدّله في أي وقت من غير طباعة."
       },
       "seo": {
         "en": {
-          "title": "QR Menu for Restaurants & Cafés in Egypt",
-          "description": "A QR menu for your restaurant or café: customers scan the code and see your dishes with photos and prices in Arabic and English. Update it with no reprinting."
+          "title": "Free QR Code Menu for Restaurants & Cafés in Egypt",
+          "description": "Make a QR code menu for your restaurant or café: customers scan and see your dishes with photos and prices in Arabic and English. A basic menu is free."
         },
         "ar": {
-          "title": "منيو QR للمطاعم والكافيهات: منيو إلكتروني بالصور",
-          "description": "منيو QR لمطعمك أو الكافيه: العميل يمسح الكود ويشوف الأصناف بالصور والأسعار بالعربي والإنجليزي، وأي تعديل يظهر على طول من غير طباعة."
+          "title": "منيو إلكتروني باركود QR مجاني للمطاعم والكافيهات",
+          "description": "اعمل منيو إلكتروني بباركود QR لمطعمك أو الكافيه: العميل يمسح الكود ويشوف الأصناف بالصور والأسعار بالعربي والإنجليزي. المنيو الأساسي مجاني."
         }
       },
-      "h1": { "en": "A QR menu for your restaurant", "ar": "منيو QR لمطعمك" },
+      "h1": { "en": "A QR code menu for your restaurant or café", "ar": "منيو إلكتروني بباركود QR لمطعمك أو الكافيه" },
       "lede": {
         "en": "An online menu with photos and prices that opens on any phone by scanning a code on the table. Update it any time, with no new printing every time a price changes.",
         "ar": "منيو إلكتروني بالصور والأسعار، بيفتح على أي موبايل بمسح كود على الترابيزة. حدّثه في أي وقت، من غير طباعة منيو جديد كل ما السعر يتغير."
+      },
+      "about": {
+        "title": { "en": "What is a QR code menu?", "ar": "يعني إيه منيو إلكتروني QR؟" },
+        "text": [
+          {
+            "en": "A QR code menu, also called a digital or online menu, is your menu on a web page. You put a QR code on each table, the counter or the door; the customer points the phone camera at it and the menu opens in the browser, with no app to download.",
+            "ar": "المنيو الإلكتروني، أو منيو الباركود، هو منيو مطعمك على صفحة أونلاين. بتحط كود QR على كل ترابيزة أو على الكاشير أو الباب، والعميل يوجّه كاميرا الموبايل عليه فيفتح المنيو في المتصفح، من غير ما ينزّل أي تطبيق."
+          },
+          {
+            "en": "Prices change, dishes run out and offers come and go. With a QR menu you update it once and every table sees the change at once, instead of reprinting paper menus. It suits restaurants, cafés, bakeries, cloud kitchens and food trucks.",
+            "ar": "الأسعار بتتغير، والأصناف بتخلص، والعروض بتيجي وتمشي. مع المنيو الإلكتروني بتعدّل مرة واحدة والتعديل يظهر على كل الترابيزات على طول، بدل ما تطبع منيو ورق من جديد. وبيناسب المطاعم والكافيهات والمخابز والمطابخ السحابية وعربيات الأكل."
+          },
+          {
+            "en": "On Foodidu Business, a basic QR menu is free in the Starter plan, in exchange for an exclusive promo code for Foodidu users. A menu in your own design, with photos of your dishes, is part of the Growth plan.",
+            "ar": "على Foodidu Business، المنيو الأساسي مجاني في الباقة الأساسية، مقابل كود خصم حصري لعملاء Foodidu. والمنيو بتصميمك وصور أصنافك في باقة النمو."
+          }
+        ]
       },
       "features": [
         {
@@ -189,6 +226,13 @@
       ],
       "faq": [
         {
+          "q": { "en": "How do I make a QR menu for my restaurant?", "ar": "إزاي أعمل منيو باركود لمطعمي؟" },
+          "a": {
+            "en": "Send us your menu, or photos of it, through the form. We build the menu in Arabic and English and send you the QR code ready to print.",
+            "ar": "ابعتلنا المنيو أو صوره من الفورم، وإحنا نجهّز المنيو بالعربي والإنجليزي ونبعتلك كود الـ QR جاهز للطباعة."
+          }
+        },
+        {
           "q": { "en": "Do customers need an app?", "ar": "العميل محتاج تطبيق؟" },
           "a": { "en": "No. They scan the code with the phone camera and the menu opens in the browser.", "ar": "لأ. بيمسح الكود بكاميرا الموبايل والمنيو بيفتح في المتصفح." }
         },
@@ -202,6 +246,10 @@
             "en": "A basic QR menu is part of the free Starter plan; a menu in your own design with your photos is in the Growth plan.",
             "ar": "المنيو الأساسي ضمن الباقة الأساسية المجانية، والمنيو بتصميمك وصورك في باقة النمو."
           }
+        },
+        {
+          "q": { "en": "Does it work for cafés too?", "ar": "ينفع للكافيهات؟" },
+          "a": { "en": "Yes. It works for cafés, restaurants, bakeries, cloud kitchens and food trucks.", "ar": "أيوه. بيناسب الكافيهات والمطاعم والمخابز والمطابخ السحابية وعربيات الأكل." }
         }
       ]
     },
@@ -212,11 +260,11 @@
       "short": { "en": "An ordering website and app under your restaurant's name, so customers order from you directly.", "ar": "موقع طلبات وتطبيق باسم مطعمك، والعميل يطلب منك مباشرة." },
       "seo": {
         "en": {
-          "title": "Restaurant Website & Ordering App Under Your Own Name",
+          "title": "Restaurant Website & Online Ordering App Under Your Name",
           "description": "An ordering website and mobile app for your restaurant, with your name, logo and domain: customers order directly from you, for delivery or pickup."
         },
         "ar": {
-          "title": "عمل موقع وتطبيق طلبات لمطعمك باسمك",
+          "title": "عمل موقع لمطعم وتطبيق طلبات أونلاين باسمك",
           "description": "موقع طلبات وتطبيق موبايل لمطعمك باسمك وشعارك ودومينك: العميل يطلب منك مباشرة، توصيل أو استلام، ومنيوك وبرنامج الولاء في مكان واحد."
         }
       },
@@ -224,6 +272,19 @@
       "lede": {
         "en": "Customers order from you directly, for delivery or pickup, on a website and app with your logo and colours. Your customers and orders stay with you.",
         "ar": "العميل يطلب منك مباشرة، توصيل أو استلام، من موقع وتطبيق بشعارك وألوانك. وعملاءك وطلباتك بيفضلوا معاك."
+      },
+      "about": {
+        "title": { "en": "Why an ordering website under your name?", "ar": "ليه موقع طلبات باسم مطعمك؟" },
+        "text": [
+          {
+            "en": "Delivery apps bring orders, but they take a commission on each one and keep the customer's details. A website and app under your own name let your regular customers order from you directly.",
+            "ar": "تطبيقات التوصيل بتجيب طلبات، بس بتاخد عمولة على كل طلب وبيانات العميل بتفضل عندها. موقع وتطبيق باسم مطعمك بيخلّوا زبائنك الدائمين يطلبوا منك مباشرة."
+          },
+          {
+            "en": "Your website also shows up on Google when people search for your restaurant's name, with your menu, branches and offers in one place.",
+            "ar": "وكمان موقعك بيظهر في جوجل لما الناس تدوّر على اسم مطعمك، وفيه المنيو والفروع والعروض في مكان واحد."
+          }
+        ]
       },
       "features": [
         {

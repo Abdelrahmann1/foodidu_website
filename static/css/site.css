@@ -1080,6 +1080,8 @@ a.store:hover { background: #000; transform: translateY(-2px); }
 .feats h3 { font-family: var(--font-body); font-weight: 700; font-size: 1.08rem; line-height: 1.35; margin-bottom: 4px; }
 .feats p { color: var(--ink-2); font-size: .96rem; }
 .biz-cta .face { width: 180px; transform: rotate(4deg); }
+.biz-about p { max-width: 46em; margin-top: 12px; font-size: 1.05rem; color: var(--ink-2); }
+.biz-about .h2 + p { margin-top: 16px; }
 @media (max-width: 860px) {
   .plans { grid-template-columns: minmax(0, 1fr); }
   .plan-note { min-height: 0; }
