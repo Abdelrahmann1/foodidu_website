@@ -1028,6 +1028,7 @@
       "featured": false,
       "url": "https://8orders.com/",
       "urlLabel": { "en": "Order from 8Orders", "ar": "اطلب من 8 أوردرز" },
+      "lastVerified": "2026-10-14",
       "badge": { "en": ["75 EGP", "off"], "ar": ["75 جنيه", "خصم"] },
       "offer": { "en": "75 EGP off your first order in Hurghada", "ar": "خصم 75 جنيه على أول أوردر في الغردقة" },
       "terms": {
