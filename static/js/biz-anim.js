@@ -9,20 +9,20 @@
   var C = { cream: "#FFF9EB", sun: "#FFD15C", sun2: "#FFC533", sunSoft: "#FFF1CC", sun3: "#FFE4A1", ink: "#543A14", deep: "#3A280D", ink2: "#6B522C", ink3: "#8A7350",
     line: "#EFDFBA", line2: "#E4CF9E", leaf: "#4A7A1E", leaf2: "#7EB143", leafSoft: "#EAF3DC", peach: "#FFE9D6", berry: "#D7263D", star: "#E8A317" };
   var TXT = {
-    en: { scenes: ["Foodidu brings the customer", "A QR menu on every table", "Online orders under your name", "Loyalty brings them back", "Real reviews on Google Maps", "Everything your restaurant needs"],
+    en: { stepOf: "Step {n} of {t}", scenes: ["Foodidu brings the customer", "A QR menu on every table", "Online orders under your name", "Loyalty brings them back", "Real reviews on Google Maps", "Everything your restaurant needs"],
       search: "burger promo code", rest: "Your restaurant", offer: "20% off your first order", code: "YOUR CODE", copy: "Copy code", copied: "Copied",
       scan: "Scan for the menu", items: [["Classic burger", "EGP 145"], ["Margherita pizza", "EGP 180"], ["Mint lemonade", "EGP 55"]], open: "Open now",
       url: "yourrestaurant.com", webH: "Hot and fresh, to your door", order: "Order online", newOrder: "New order", twoItems: "2 items · delivery",
       card: "Loyalty card", reward: "Reward: a free drink", real: "Real reviews", place: "Restaurant · Open now", review: "Great food and fast service!", dir: "Directions",
       final: "Everything your restaurant needs", finalSub: "QR menu · loyalty · ordering · Google Maps" },
-    ar: { scenes: ["Foodidu يجيب العميل", "منيو QR على كل ترابيزة", "طلبات أونلاين باسمك", "برنامج ولاء يرجّعه", "تقييمات حقيقية على جوجل ماب", "كل أدوات مطعمك في مكان واحد"],
+    ar: { stepOf: "الخطوة {n} من {t}", scenes: ["Foodidu يجيب العميل", "منيو QR على كل ترابيزة", "طلبات أونلاين باسمك", "برنامج ولاء يرجّعه", "تقييمات حقيقية على جوجل ماب", "كل أدوات مطعمك في مكان واحد"],
       search: "كود خصم مطعم", rest: "مطعمك", offer: "خصم 20% على أول طلب", code: "كودك هنا", copy: "انسخ الكود", copied: "اتنسخ",
       scan: "امسح الكود وشوف المنيو", items: [["برجر كلاسيك", "145 ج.م"], ["بيتزا مارجريتا", "180 ج.م"], ["ليمون نعناع", "55 ج.م"]], open: "مفتوح دلوقتي",
       url: "yourrestaurant.com", webH: "سخن وطازة لحد باب بيتك", order: "اطلب أونلاين", newOrder: "طلب جديد", twoItems: "صنفين · توصيل",
       card: "كارت الولاء", reward: "مكافأة: مشروب ببلاش", real: "تقييمات حقيقية", place: "مطعم · مفتوح دلوقتي", review: "الأكل جميل والخدمة سريعة!", dir: "الاتجاهات",
       final: "كل أدوات مطعمك في مكان واحد", finalSub: "منيو QR · ولاء · طلبات · جوجل ماب" }
   };
-  var SC = [[0, 6], [6, 12], [12, 17], [17, 23], [23, 27.5], [27.5, 30]];   // scene times (s)
+  var SC = [[0, 6], [6, 12], [12, 17], [17, 22.8], [22.8, 26.8], [26.8, 30]];   // scene times (s)
 
   var clamp = function (v, a, b) { return v < a ? a : v > b ? b : v; };
   var lerp = function (a, b, p) { return a + (b - a) * p; };
@@ -49,6 +49,11 @@
       x.font = (weight || 400) + " " + size + "px " + (fam || F); x.fillStyle = col || C.deep; x.textAlign = align || "center"; x.direction = rtl ? "rtl" : "ltr"; x.fillText(s, px, py);
     }
     function ok(i) { return i.complete && i.naturalWidth; }
+    function wrapLines(str, maxW) {   // with the current font
+      var words = str.split(" "), lines = [], cur = "";
+      words.forEach(function (w) { var tryL = cur ? cur + " " + w : w; if (x.measureText(tryL).width > maxW && cur) { lines.push(cur); cur = w; } else cur = tryL; });
+      if (cur) lines.push(cur); return lines;
+    }
     function tap(px, py, t, at) {   // a finger tap: a ring that grows and fades
       var p = prog(t, at, .5); if (p <= 0 || p >= 1) return;
       x.strokeStyle = "rgba(84,58,20," + (1 - p) * .8 + ")"; x.lineWidth = 6; x.beginPath(); x.arc(px, py, 14 + p * 40, 0, 6.28); x.stroke();
@@ -197,7 +202,7 @@
       x.restore();
       // the new-order notification
       var nk = easeBack(prog(t, 15.6, .5)); if (nk > 0 && a > 0) {
-        var nw = 420, nx = S / 2 + out * 150 - nw / 2, ny = 150 + (1 - nk) * -80;
+        var nw = 420, nx = S / 2 + out * 150 - nw / 2, ny = 166 + (1 - nk) * -80;
         x.save(); x.globalAlpha = Math.min(a, nk);
         shadow(30, 14, .3); x.fillStyle = C.deep; rr(nx, ny, nw, 104, 24); x.fill(); noShadow();
         var ic = rtl ? nx + nw - 52 : nx + 52; x.fillStyle = C.sun; x.beginPath(); x.arc(ic, ny + 52, 30, 0, 6.28); x.fill(); text("🔔", ic, ny + 64, 30, 400, C.deep);
@@ -209,33 +214,33 @@
 
     // ---------- scene 4: loyalty stamps fill up ----------
     function scene4(t) {
-      var a = inOut(t, 17, 23.6, .5); if (a <= 0) return;
+      var a = inOut(t, 17, 23.3, .5); if (a <= 0) return;
       var k = easeBack(prog(t, 17, .6)), w = 620, h = 390, cx = S / 2, cy = 500;
       x.save(); x.globalAlpha = Math.min(a, 1); x.translate(cx, cy); x.scale(k, k); x.rotate(-out * .03);
       shadow(50, 26, .45); var g = x.createLinearGradient(-w / 2, -h / 2, w / 2, h / 2); g.addColorStop(0, "#6B4A1C"); g.addColorStop(1, C.deep);
       x.fillStyle = g; rr(-w / 2, -h / 2, w, h, 34); x.fill(); noShadow();
       text(L.card, rtl ? w / 2 - 40 : -w / 2 + 40, -h / 2 + 62, 24, 500, "rgba(255,246,224,.85)", rtl ? "right" : "left");
       text(L.rest, rtl ? -w / 2 + 40 : w / 2 - 40, -h / 2 + 62, 30, 700, C.sun, rtl ? "left" : "right");
-      var filled = 6 + (t > 17.9) + (t > 18.5) + (t > 19.1), d = 86, gap = 22;
+      var filled = 6 + (t > 18.2) + (t > 18.7) + (t > 19.2), d = 86, gap = 22;
       for (var i = 0; i < 10; i++) {
         var col = i % 5, row = Math.floor(i / 5), kk = rtl ? 4 - col : col;
         var px = -w / 2 + 44 + kk * (d + gap) + d / 2, py = -h / 2 + 108 + row * (d + 24) + d / 2;
-        var on = i < filled, gift = i === 9, gp = gift ? easeBack(prog(t, 19.8, .5)) : 0;
-        var pop = on && i >= 6 ? easeBack(prog(t, [17.9, 18.5, 19.1][i - 6], .35)) : 1;
+        var on = i < filled, gift = i === 9, gp = gift ? easeBack(prog(t, 19.9, .5)) : 0;
+        var pop = on && i >= 6 ? easeBack(prog(t, [18.2, 18.7, 19.2][i - 6], .35)) : 1;
         x.beginPath(); x.arc(px, py, d / 2 * (on ? pop : 1) * (gift ? 1 + gp * .12 : 1), 0, 6.28);
         if (gift && gp > 0) { x.fillStyle = C.leaf2; x.fill(); text("🎁", px, py + 14, 38, 400, "#fff"); }
         else if (on) { x.fillStyle = C.sun; x.fill(); x.strokeStyle = C.deep; x.lineWidth = 8; x.lineCap = "round"; x.beginPath(); x.moveTo(px - 18, py); x.lineTo(px - 5, py + 14); x.lineTo(px + 20, py - 14); x.stroke(); }
         else { x.setLineDash([8, 8]); x.strokeStyle = "rgba(255,241,204,.55)"; x.lineWidth = 3; x.stroke(); x.setLineDash([]); if (gift) text("🎁", px, py + 14, 34, 400, "#fff"); }
       }
       x.restore();
-      var rk = easeBack(prog(t, 20.3, .5)); if (rk > 0) {   // the reward
+      var rk = easeBack(prog(t, 20.4, .5)); if (rk > 0) {   // the reward
         x.save(); x.globalAlpha = Math.min(a, 1); x.translate(cx, cy + h / 2 + 70); x.scale(rk, rk);
         x.font = "700 32px " + F; var rw = x.measureText(L.reward).width + 80;
         shadow(24, 10, .3); x.fillStyle = C.leaf2; rr(-rw / 2, -36, rw, 72, 36); x.fill(); noShadow();
         text(L.reward, 0, 11, 32, 700, "#fff");
         x.restore();
       }
-      confetti(t, 20.3, cx, cy - 40);
+      confetti(t, 20.4, cx, cy - 40);
     }
     function confetti(t, at, cx, cy) {
       for (var k = 0; k < 22; k++) {
@@ -249,7 +254,7 @@
 
     // ---------- scene 5: on the map, with real reviews ----------
     function scene5(t) {
-      var a = inOut(t, 23, 28, .5); if (a <= 0) return;
+      var a = inOut(t, 22.8, 27.3, .5); if (a <= 0) return;
       var k = easeBack(prog(t, 23, .6)), w = 640, h = 600, bx = S / 2 - w / 2, by = 180;
       x.save(); x.globalAlpha = Math.min(a, 1); x.translate(S / 2, by + h / 2); x.scale(k, k); x.translate(-S / 2, -(by + h / 2));
       shadow(46, 22, .35); x.fillStyle = "#fff"; rr(bx, by, w, h, 30); x.fill(); noShadow();
@@ -262,7 +267,7 @@
       x.fillStyle = C.sun3; x.save(); x.translate(bx + 470, by + 140); x.rotate(-.1); x.fillRect(-9, -300, 18, 600); x.restore();
       x.restore();
       // the pin drops
-      var pp = prog(t, 23.5, .9), py = lerp(by - 120, by + 130, bounce(pp));
+      var pp = prog(t, 23.8, .9), py = lerp(by - 120, by + 130, bounce(pp));
       if (pp > 0) {
         x.fillStyle = "rgba(84,58,20,.18)"; x.beginPath(); x.ellipse(bx + w / 2, by + 196, 36 * pp, 10 * pp, 0, 0, 6.28); x.fill();
         x.fillStyle = C.ink; x.beginPath(); x.arc(bx + w / 2, py - 20, 40, Math.PI, 0); x.lineTo(bx + w / 2, py + 50); x.closePath(); x.fill();
@@ -271,7 +276,7 @@
       }
       var tx = rtl ? bx + w - 40 : bx + 40, al = rtl ? "right" : "left";
       text(L.rest, tx, by + 336, 34, 700, C.deep, al);
-      stars(rtl ? bx + w - 56 : bx + 56, by + 384, 5, 34, (t - 24.3) / .25);
+      stars(rtl ? bx + w - 56 : bx + 56, by + 384, 5, 34, (t - 24.5) / .25);
       text(L.real, rtl ? bx + w - 270 : bx + 270, by + 396, 22, 700, C.leaf, al);
       text(L.place, tx, by + 436, 22, 500, C.ink3, al);
       var rk = easeBack(prog(t, 25.9, .5)); if (rk > 0) {   // a review from a customer
@@ -286,19 +291,19 @@
 
     // ---------- scene 6: everything in one place ----------
     function scene6(t) {
-      var a = prog(t, 27.4, .5); if (a <= 0) return;
+      var a = prog(t, 26.7, .5); if (a <= 0) return;
       x.save(); x.globalAlpha = a;
-      if (ok(logo)) { var lk = easeBack(prog(t, 27.5, .6)), lw = 300 * lk, lh = lw * 304 / 767; x.drawImage(logo, S / 2 - lw / 2 - 90, 230 - lh / 2, lw, lh); }
-      var pk = easeBack(prog(t, 27.7, .5)); x.save(); x.translate(S / 2 + 160, 230); x.scale(pk, pk); x.fillStyle = C.ink; rr(-80, -26, 160, 52, 14); x.fill(); x.direction = "ltr"; text("Business", 0, 11, 28, 700, C.sun); x.restore();
+      if (ok(logo)) { var lk = easeBack(prog(t, 27.6, .6)), lw = 300 * lk, lh = lw * 304 / 767; x.drawImage(logo, S / 2 - lw / 2 - 90, 230 - lh / 2, lw, lh); }
+      var pk = easeBack(prog(t, 27.8, .5)); x.save(); x.translate(S / 2 + 160, 230); x.scale(pk, pk); x.fillStyle = C.ink; rr(-80, -26, 160, 52, 14); x.fill(); x.direction = "ltr"; text("Business", 0, 11, 28, 700, C.sun); x.restore();
       var icons = ["📱", "🎁", "🛒", "📍", "🏷️"];
       for (var i = 0; i < 5; i++) {
-        var ik = easeBack(prog(t, 27.9 + i * .12, .45)); if (ik <= 0) continue;
+        var ik = easeBack(prog(t, 28 + i * .12, .45)); if (ik <= 0) continue;
         var ang = Math.PI * (1.12 + i * .19), ix = S / 2 + Math.cos(ang) * 330, iy = 600 + Math.sin(ang) * 230;   // an arc over Didu
         x.save(); x.translate(ix, iy); x.scale(ik, ik); shadow(20, 8, .25); x.fillStyle = i % 2 ? C.sun : "#fff"; x.beginPath(); x.arc(0, 0, 58, 0, 6.28); x.fill(); noShadow();
         text(icons[i], 0, 18, 50, 400, C.deep); x.restore();
       }
-      if (ok(img["didu-party"])) { var dk = easeBack(prog(t, 28.1, .6)), ds = 300 * dk; x.drawImage(img["didu-party"], S / 2 - ds / 2, 640 - ds / 2, ds, ds); }
-      confetti(t, 28.1, S / 2, 560);
+      if (ok(img["didu-party"])) { var dk = easeBack(prog(t, 28.2, .6)), ds = 300 * dk; x.drawImage(img["didu-party"], S / 2 - ds / 2, 640 - ds / 2, ds, ds); }
+      confetti(t, 28.2, S / 2, 560);
       x.restore();
     }
 
@@ -312,26 +317,56 @@
       x.fillStyle = gl; x.fillRect(0, 0, S, S);
       scene1(t); scene2(t); scene3(t); scene4(t); scene5(t); scene6(t);
       // Didu guides from the corner (scenes 1-5)
-      var dg = Math.min(prog(t, .8, .6), 1 - prog(t, 27, .4));
+      var dg = Math.min(prog(t, .8, .6), 1 - prog(t, 26.4, .4));
       if (dg > 0 && ok(img["didu-point"])) {
         var ds = 165, dx = rtl ? 30 : S - 30 - ds, dy = 690 + Math.sin(t * 2.2) * 8 + (1 - easeBack(dg)) * 200;
         x.save(); x.globalAlpha = dg; if (!rtl) { x.translate(dx + ds, dy); x.scale(-1, 1); x.drawImage(img["didu-point"], 0, 0, ds, ds); } else x.drawImage(img["didu-point"], dx, dy, ds, ds); x.restore();
       }
-      // the caption: which part of the journey
       var cur = 0; for (var k = 0; k < SC.length; k++) if (t >= SC[k][0]) cur = k;
-      var ca = Math.min(prog(t, SC[cur][0] + .1, .4), 1 - prog(t, SC[cur][1] - .3, .3)); if (cur === SC.length - 1) ca = prog(t, SC[cur][0] + .3, .4);
-      x.save(); x.globalAlpha = ca; x.translate(0, (1 - ca) * 20);
-      x.font = "700 40px " + F; var label = L.scenes[cur], cw = x.measureText(label).width + (cur < 5 ? 150 : 90), cy = S - 170;
-      shadow(26, 10, .28); x.fillStyle = cur < 5 ? C.ink : C.leaf; rr(S / 2 - cw / 2, cy - 48, cw, 96, 48); x.fill(); noShadow();
-      if (cur < 5) {
-        var nx = rtl ? S / 2 + cw / 2 - 52 : S / 2 - cw / 2 + 52; x.fillStyle = C.sun; x.beginPath(); x.arc(nx, cy, 30, 0, 6.28); x.fill();
-        x.direction = "ltr"; text(String(cur + 1), nx, cy + 12, 32, 700, C.deep);
-        text(label, S / 2 + (rtl ? -32 : 32), cy + 14, 40, 700, "#fff");
-      } else text(label, S / 2, cy + 14, 40, 700, "#fff");
-      x.restore();
-      if (cur === 5) { x.save(); x.globalAlpha = prog(t, 28.3, .5); text(L.finalSub, S / 2, S - 70, 28, 600, C.ink2); x.restore(); }
-      // progress dots
-      if (cur < 5) for (k = 0; k < 5; k++) { var dxp = S / 2 + ((rtl ? 2 - k : k - 2) * 34); x.fillStyle = k === cur ? C.ink : k < cur ? C.sun2 : C.line2; x.beginPath(); x.arc(dxp, S - 64, k === cur ? 10 : 7, 0, 6.28); x.fill(); }
+      var last = SC.length - 1;
+      // the title of the part on screen, large at the top once its chapter card has gone
+      var ta = Math.min(prog(t, SC[cur][0] + .75, .35), cur === last ? 1 : 1 - prog(t, SC[cur][1] - .45, .3));
+      if (ta > 0) {
+        x.save(); x.globalAlpha = ta; x.translate(0, (1 - easeOut(ta)) * -24);
+        x.font = "700 50px " + F; var label = L.scenes[cur], pw = x.measureText(label).width + (cur < last ? 150 : 90), ty = 92;
+        shadow(26, 10, .22); x.fillStyle = cur < last ? "#fff" : C.leaf; rr(S / 2 - pw / 2, ty - 50, pw, 100, 50); x.fill(); noShadow();
+        if (cur < last) {
+          var nx = rtl ? S / 2 + pw / 2 - 56 : S / 2 - pw / 2 + 56;
+          x.fillStyle = C.ink; x.beginPath(); x.arc(nx, ty, 34, 0, 6.28); x.fill(); x.direction = "ltr"; text(String(cur + 1), nx, ty + 13, 36, 700, C.sun);
+          text(label, S / 2 + (rtl ? -36 : 36), ty + 17, 50, 700, C.deep);
+        } else text(label, S / 2, ty + 17, 50, 700, "#fff");
+        x.restore();
+      }
+      // five-part progress bar (the current part fills while it plays)
+      if (cur < last) {
+        var gw = (S - 200 - 4 * 14) / 5, gy = S - 72;
+        for (k = 0; k < 5; k++) {
+          var gx0 = rtl ? S - 100 - (k + 1) * gw - k * 14 : 100 + k * (gw + 14);
+          var fp = k < cur ? 1 : k > cur ? 0 : prog(t, SC[k][0], SC[k][1] - SC[k][0]);
+          x.fillStyle = C.line2; rr(gx0, gy, gw, 14, 7); x.fill();
+          if (fp > 0) { var fw = Math.max(14, gw * fp); x.fillStyle = k === cur ? C.ink : C.sun2; rr(rtl ? gx0 + gw - fw : gx0, gy, fw, 14, 7); x.fill(); }
+        }
+      } else { x.save(); x.globalAlpha = prog(t, 28.4, .5); text(L.finalSub, S / 2, S - 70, 28, 600, C.ink2); x.restore(); }
+      // chapter cards: a panel sweeps in from the start side with the part's number and title, then sweeps out
+      for (k = 0; k < SC.length; k++) {
+        var s0 = SC[k][0], pin = k === 0 ? 1 : easeInOut(prog(t, s0 - .35, .35)), pout = easeInOut(prog(t, s0 + .45, .45));
+        if ((k > 0 && t < s0 - .35) || pout >= 1) continue;
+        var off = (1 - pin) * -S * out + pout * S * out;
+        x.save(); x.translate(off, 0);
+        x.fillStyle = k === last ? C.leaf : C.sun; rr(0, 0, S, S, 48); x.fill();
+        x.save(); rr(0, 0, S, S, 48); x.clip(); x.globalAlpha = .07; x.fillStyle = C.deep;
+        for (var st = -S; st < S * 2; st += 110) { x.beginPath(); x.moveTo(st, 0); x.lineTo(st + 44, 0); x.lineTo(st + 44 - S * .4, S); x.lineTo(st - S * .4, S); x.fill(); }
+        x.restore();
+        var col = k === last ? "#fff" : C.deep, y0 = 640;
+        if (k < last) {
+          x.fillStyle = C.ink; x.beginPath(); x.arc(S / 2, 380, 96, 0, 6.28); x.fill();
+          x.direction = "ltr"; text(String(k + 1), S / 2, 418, 108, 700, C.sun);
+          text(L.stepOf.replace("{n}", k + 1).replace("{t}", 5), S / 2, 540, 36, 600, C.ink2);
+        } else y0 = 500;
+        x.font = "700 80px " + F; var lines = wrapLines(L.scenes[k], 900);
+        for (var li = 0; li < lines.length; li++) text(lines[li], S / 2, y0 + li * (rtl ? 112 : 96), 80, 700, col);
+        x.restore();
+      }
       // fade between loops
       var f = Math.max(1 - prog(t, 0, .3), prog(t, T - .4, .4));
       if (f > 0) { if (bg) { x.fillStyle = bg; x.globalAlpha = f; x.fillRect(0, 0, S, S); x.globalAlpha = 1; } else { x.globalCompositeOperation = "destination-out"; x.fillStyle = "rgba(0,0,0," + f + ")"; x.fillRect(0, 0, S, S); x.globalCompositeOperation = "source-over"; } }
