@@ -639,6 +639,45 @@ a.store:hover { background: #000; transform: translateY(-2px); }
 .post-card h2 a { text-decoration: none; } .post-card h2 a:hover { text-decoration: underline; }
 .post-card p { color: var(--ink-2); }
 .post-card .post-meta { margin-top: 0; color: var(--ink); }
+/* home page */
+.more-mobile, .more-dd { display: none; margin-top: 18px; text-align: center; }
+.home-dd .dday-list > li:nth-child(n+4) { display: none; }   /* today's deals come first (site.js); the rest are on the day-deals page */
+.home-dd .more-dd { display: block; }
+.post-card h3 { font-size: 1.35rem; line-height: 1.35; } .post-card h3 a { text-decoration: none; } .post-card h3 a:hover { text-decoration: underline; }
+@media (max-width: 700px) {
+  /* codes: one row you swipe, like the hero cards */
+  .home-feat .ticket-list { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: calc(-1 * var(--gutter)); padding: 4px var(--gutter) 18px; scroll-padding-inline: var(--gutter); scrollbar-width: none; }
+  .home-feat .ticket-list::-webkit-scrollbar { display: none; }
+  .home-feat .ticket-list > li { flex: 0 0 84%; scroll-snap-align: start; }
+  .home-feat .more-mobile { margin-top: 6px; }
+  .home-feat .section-head .btn { display: none; }   /* the button under the row is enough */
+  .home-brands .brand-cards > li:nth-child(n+10) { display: none; }
+  .home-brands .more-mobile { display: block; }
+  .home-brands .section-head .btn { display: none; }
+  .home-dd .dday-list > li:nth-child(n+3) { display: none; }
+  .cats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .cats .cat { padding: 12px; gap: 10px; }
+  .cats .cat .go { display: none; }
+  .cats .cat b { font-size: 1.15rem; }
+  .cats .cat .ic { width: 42px; height: 42px; border-radius: 12px; }
+  .cats .cat .ic .icon { width: 22px; height: 22px; }
+  .why { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .why li { padding: 14px; }
+  .why .icon { width: 24px; height: 24px; margin-bottom: 8px; }
+  .why h3 { font-size: .95rem; }
+  .why p { font-size: .84rem; }
+  .home-blog .post-list > li:nth-child(n+2) { display: none; }
+  .step { display: grid; grid-template-columns: 48px minmax(0, 1fr); column-gap: 14px; align-items: start; padding: 16px; }
+  .step .num { width: 48px; height: 48px; border-radius: 14px; font-size: 1.6rem; margin: 0; grid-row: span 2; }
+  .step h3 { font-size: 1.2rem; margin-bottom: 2px; }
+  .pick > div span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }   /* one article on phones; the button opens the rest */
+  .home-feat .more-mobile { display: block; }
+  .home-brands .brand-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .home-brands .bcard { padding: 10px 6px; align-items: center; text-align: center; }
+  .home-brands .bcard-top { justify-content: center; margin-bottom: 6px; }
+  .home-brands .bcard-flag, .home-brands .bcard-meta, .home-brands .bcard-foot { display: none; }
+  .home-brands .bcard-name { font-size: .8rem; line-height: 1.25; }
+}
 /* follow the WhatsApp channel */
 .wa-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 22px; border: 2px solid var(--line); border-radius: var(--r); background: var(--paper); }
 .wa-cta h2 { font-size: 1.45rem; margin-bottom: 4px; }

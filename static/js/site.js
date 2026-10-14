@@ -155,6 +155,12 @@
       var li = card.parentElement, list = li && li.parentElement;
       if (list && list.firstElementChild !== li) list.insertBefore(li, list.firstElementChild);
     });
+    var week = ["sat", "sun", "mon", "tue", "wed", "thu", "fri"], t = week.indexOf(today);
+    document.querySelectorAll(".home-dd .dday-list").forEach(function (list) {   // home: today first, then the days coming up
+      if (t < 0) return;
+      var soon = function (li) { var c = li.querySelector(".dday[data-days]"); if (!c) return 9; return Math.min.apply(null, c.getAttribute("data-days").split(" ").map(function (d) { var i = week.indexOf(d); return i < 0 ? 9 : (i - t + 7) % 7; })); };
+      Array.prototype.slice.call(list.children).sort(function (a, b) { return soon(a) - soon(b); }).forEach(function (li) { list.appendChild(li); });
+    });
   }
 
   /* ---------- featured partner slot: gone once its end date has passed (Cairo time), even before a rebuild ---------- */

@@ -111,7 +111,7 @@ my %S = (
   h_desc => 'Promo codes for KFC, Pizza Hut, noon, Rabbit, Breadfast and more, all in one place and in Arabic and English. Copy a code, check the conditions and save.',
   h_display => 'Every bite,<br> <em>a better price</em>',
   h_lede => 'Copy promo codes for KFC, Pizza Hut, Rabbit, noon and more, with the conditions spelled out before you order. Free, no sign-up.',
-  h_fact_region => 'Egypt & GCC', h_fact_free => 'Free, no sign-up', h_top => 'Top codes', h_swipe => 'Swipe',
+  h_fact_region => 'Egypt & GCC', h_fact_free => 'Free, no sign-up', h_top => 'Picked for you', h_swipe => 'Swipe',
   h_cat_eyebrow => 'Browse by category', h_cat_title => 'What are you ordering?',
   h_feat_eyebrow => 'Featured codes', h_feat_title => 'Our top codes', h_feat_sub => 'Tap a code to copy it, then paste it at checkout.', h_see_all => 'See all {n} codes',
   h_brands_eyebrow => 'Brands', h_brands_title => 'Every brand on Foodidu', h_brands_sub => 'Tap a brand to see its codes and how to use them.',
@@ -179,7 +179,7 @@ my %S = (
   nocode_shop => 'Shop', nocode_shop_aria => '{name}: no code needed, shop on {where}',
   pk_h2 => 'Foodidu picks on Amazon', pk_go => 'See it on Amazon', pk_eyebrow => 'Amazon Egypt', pk_all => 'All Amazon picks',
   pk_note => 'Products we picked on Amazon Egypt. These are affiliate links: Foodidu may earn a commission on qualifying purchases, at no extra cost to you. Prices change on Amazon, so check the price on the product page.',
-  blog_nav => 'Blog', blog_h1 => 'Foodidu blog', blog_title => 'Foodidu Blog: Saving Guides, Sale Dates and Promo Codes',
+  blog_nav => 'Blog', blog_h1 => 'Foodidu blog', blog_eyebrow => 'From the blog', blog_all => 'All articles', blog_read => 'Read the article', blog_title => 'Foodidu Blog: Saving Guides, Sale Dates and Promo Codes',
   blog_desc => 'Guides to save on food delivery, groceries and online shopping in Egypt and the GCC: sale season dates, how promo codes work, and which codes to use.',
   blog_lede => 'Practical guides to pay less: sale season dates, how promo codes work, and the codes we test ourselves.',
   blog_by => 'By the Foodidu team', blog_author => 'Foodidu team', blog_pub => 'Published {date}', blog_upd => 'Updated {date}', blog_toc => 'In this article', blog_codes => 'Codes in this article',
@@ -257,7 +257,7 @@ my %S = (
   h_desc => 'أكواد خصم كنتاكي وبيتزا هت ونون ورابيت وبريدفاست وغيرها في مكان واحد وباللغتين. انسخ الكود واعرف الشروط ووفّر على طلبك القادم.',
   h_display => 'كل أكلة<br> <em>بسعر أحلى</em>',
   h_lede => 'انسخ أكواد خصم كنتاكي وبيتزا هت ورابيت ونون وغيرها، مع توضيح الشروط قبل أن تطلب. مجاناً وبدون تسجيل.',
-  h_fact_region => 'مصر والخليج', h_fact_free => 'مجاني وبدون تسجيل', h_top => 'أقوى الأكواد', h_swipe => 'اسحب',
+  h_fact_region => 'مصر والخليج', h_fact_free => 'مجاني وبدون تسجيل', h_top => 'اخترناها لك', h_swipe => 'اسحب',
   h_cat_eyebrow => 'تصفّح حسب الفئة', h_cat_title => 'ماذا ستطلب اليوم؟',
   h_feat_eyebrow => 'أكواد مختارة', h_feat_title => 'أقوى الأكواد عندنا', h_feat_sub => 'اضغط على الكود لنسخه، ثم الصقه عند الدفع.', h_see_all => 'عرض كل الأكواد ({n})',
   h_brands_eyebrow => 'العلامات التجارية', h_brands_title => 'كل العلامات على Foodidu', h_brands_sub => 'اضغط على أي علامة لتشوف أكوادها وطريقة استخدامها.',
@@ -323,7 +323,7 @@ my %S = (
   nocode_shop => 'تسوّق', nocode_shop_aria => '{name}: بدون كود، تسوّق من {where}',
   pk_h2 => 'اختيارات Foodidu من أمازون', pk_go => 'شاهده على أمازون', pk_eyebrow => 'أمازون مصر', pk_all => 'كل اختيارات أمازون',
   pk_note => 'منتجات اخترناها لك من أمازون مصر. هذه روابط أفلييت: قد يحصل Foodidu على عمولة من عمليات الشراء المؤهلة، بدون أي تكلفة إضافية عليك. الأسعار تتغير على أمازون، فراجع السعر في صفحة المنتج.',
-  blog_nav => 'المدونة', blog_h1 => 'مدونة Foodidu', blog_title => 'مدونة Foodidu: أدلة التوفير ومواعيد العروض وأكواد الخصم',
+  blog_nav => 'المدونة', blog_h1 => 'مدونة Foodidu', blog_eyebrow => 'من المدونة', blog_all => 'كل المقالات', blog_read => 'اقرأ المقال', blog_title => 'مدونة Foodidu: أدلة التوفير ومواعيد العروض وأكواد الخصم',
   blog_desc => 'أدلة للتوفير في طلبات الأكل والبقالة والتسوق أونلاين في مصر والخليج: مواعيد مواسم التخفيضات، وطريقة عمل أكواد الخصم، والأكواد التي تستخدمها.',
   blog_lede => 'أدلة عملية لتدفع أقل: مواعيد مواسم التخفيضات، وطريقة عمل أكواد الخصم، والأكواد التي نجرّبها بأنفسنا.',
   blog_by => 'بقلم فريق Foodidu', blog_author => 'فريق Foodidu', blog_pub => 'نُشر في {date}', blog_upd => 'آخر تحديث {date}', blog_toc => 'في هذا المقال', blog_codes => 'الأكواد في هذا المقال',
@@ -898,6 +898,16 @@ sub pick_list {
   '<ul class="picks' . ($cls ? " $cls" : '') . '">' . join('', map { '<li class="pick"><span class="pick-ic pk-' . ($_->{icon} // 'bag') . '" aria-hidden="true">' . icon($_->{icon} ? "pk_$_->{icon}" : 'bag') . '</span><div><b>' . esc($_->{name}{$l}) . '</b><span>' . esc($_->{note}{$l}) . '</span></div><a class="btn btn-leaf" href="'
     . esc("$PICKS->{store}/dp/$_->{asin}?tag=$PICKS->{tag}") . qq{" rel="nofollow sponsored noopener" target="_blank" data-track="brand_link_click" data-brand="$PICKS->{brand}">} . T($l, 'pk_go') . ' ' . icon('external') . '</a></li>' } @items) . '</ul>';
 }
+# The latest published articles on the home page (nothing until one is published).
+sub blog_home {
+  my $l = shift;
+  return '' unless @PUB;
+  my @p = @PUB[0 .. ($#PUB < 1 ? $#PUB : 1)];
+  qq{<section class="wrap section-tight home-blog" aria-labelledby="hblog-title"><div class="section-head"><div><p class="eyebrow">} . T($l, 'blog_eyebrow') . qq{</p><h2 class="h2" id="hblog-title">} . T($l, 'blog_h1') . '</h2></div>'
+    . '<a class="btn btn-ink" href="' . path_for($l, '/blog/') . '">' . T($l, 'blog_all') . ' ' . icon('arrow', 'flip') . '</a></div><ul class="post-list">'
+    . join('', map { '<li class="post-card"><h3><a href="' . post_url($_, $l) . '">' . esc($_->{h1}{$l}) . '</a></h3><p>' . esc($_->{lede}{$l}) . '</p><p class="post-meta"><span>' . icon('calendar') . T($l, 'blog_pub', date => fmt_date($l, $_->{published})) . '</span></p></li>' } @p)
+    . '</ul></section>';
+}
 sub picks_home {
   my $l = shift;
   my @items = @{ $PICKS->{items} };
@@ -958,6 +968,7 @@ for my $l (@LANGS) {
     } @CATS;
     $cats .= qq{<a class="cat" href="} . path_for($l, '/first-order-promo-codes/') . qq{"><span class="ic">} . icon('gift') . '</span><span><b>' . T($l, 'fo_h1') . '</b><small>' . ncodes($l, scalar @FO) . '</small></span>' . icon('arrow', 'go flip') . '</a>' if @FO;
     my $featured = join '', map { ticket_li($_, $l) } grep { $_->{featured} } @BRANDS;
+    my $nfeat = grep { $_->{featured} } @BRANDS;
     my $logos = join '', (map { brand_card($_, $l) } grep { ($_->{priority} // '') ne 'low' } @BRANDS), (map { rest_card($_, $l) } @RESTS),
       (map { brand_card($_, $l) } grep { ($_->{priority} // '') eq 'low' } @BRANDS);
     my @facts = ([layers => nbrands($l, $n) =~ s/^(\d+)/<b>$1<\/b>/r], [pin => T($l, 'h_fact_region')]);
@@ -982,17 +993,25 @@ for my $l (@LANGS) {
 </div>
 </section>
 <div class="scallop" aria-hidden="true"></div>
-@{[ featured_html($l) ]}
-<section class="wrap section-tight" aria-labelledby="feat-title">
-<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_feat_eyebrow') ]}</p><h2 class="h2" id="feat-title">@{[ T($l, 'h_feat_title') ]}</h2><p class="section-sub">@{[ T($l, 'h_feat_sub') ]}</p></div>
-<a class="btn btn-ink" href="$codes">@{[ T($l, 'h_see_all', n => $NCODES) ]} @{[ icon('arrow', 'flip') ]}</a></div>
-<ul class="ticket-list">$featured</ul>
-</section>
-@{[ picks_home($l) ]}
-@{[ @DDEALS ? qq{<section class="wrap section-tight" aria-labelledby="dd-title"><div class="section-head"><div><p class="eyebrow">} . T($l, 'dd_eyebrow') . qq{</p><h2 class="h2" id="dd-title">} . T($l, 'dd_title') . '</h2><p class="section-sub">' . T($l, 'dd_sub') . qq{</p></div><a class="btn btn-ink" href="} . path_for($l, '/day-deals/') . '">' . T($l, 'dd_all') . ' ' . icon('arrow', 'flip') . '</a></div>' . dday_list($l, @DDEALS) . '</section>' : '' ]}
 <section class="wrap section-tight" aria-labelledby="cats-title">
 <div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_cat_eyebrow') ]}</p><h2 class="h2" id="cats-title">@{[ T($l, 'h_cat_title') ]}</h2></div></div>
 <div class="cats">$cats</div>
+</section>
+@{[ featured_html($l) ]}
+<section class="wrap section-tight home-feat" aria-labelledby="feat-title">
+<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_feat_eyebrow') ]}</p><h2 class="h2" id="feat-title">@{[ T($l, 'h_feat_title') ]}</h2><p class="section-sub">@{[ T($l, 'h_feat_sub') ]}</p></div>
+<a class="btn btn-ink" href="$codes">@{[ T($l, 'h_see_all', n => $NCODES) ]} @{[ icon('arrow', 'flip') ]}</a></div>
+<ul class="ticket-list">$featured</ul>
+@{[ $nfeat > 6 ? qq{<p class="more-mobile"><a class="btn btn-ink" href="$codes">} . T($l, 'h_see_all', n => $NCODES) . ' ' . icon('arrow', 'flip') . '</a></p>' : '' ]}
+</section>
+@{[ @DDEALS ? qq{<section class="wrap section-tight home-dd" aria-labelledby="dd-title"><div class="section-head"><div><p class="eyebrow">} . T($l, 'dd_eyebrow') . qq{</p><h2 class="h2" id="dd-title">} . T($l, 'dd_title') . '</h2><p class="section-sub">' . T($l, 'dd_sub') . qq{</p></div><a class="btn btn-ink" href="} . path_for($l, '/day-deals/') . '">' . T($l, 'dd_all') . ' ' . icon('arrow', 'flip') . '</a></div>' . dday_list($l, @DDEALS) . (@DDEALS > 3 ? '<p class="more-dd"><a class="btn btn-ink" href="' . path_for($l, '/day-deals/') . '">' . T($l, 'dd_all') . ' (' . scalar(@DDEALS) . ') ' . icon('arrow', 'flip') . '</a></p>' : '') . '</section>' : '' ]}
+@{[ picks_home($l) ]}
+@{[ wa_cta($l) ]}
+<section class="wrap section-tight home-brands" aria-labelledby="brands-title">
+<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_brands_eyebrow') ]}</p><h2 class="h2" id="brands-title">@{[ T($l, 'h_brands_title') ]}</h2><p class="section-sub">@{[ T($l, 'h_brands_sub') ]}</p></div>
+<a class="btn btn-ink" href="$codes">@{[ T($l, 'h_see_all', n => $NCODES) ]} @{[ icon('arrow', 'flip') ]}</a></div>
+<ul class="brand-cards">$logos</ul>
+<p class="more-mobile"><a class="btn btn-ink" href="$codes">@{[ T($l, 'h_see_all', n => $NCODES) ]} @{[ icon('arrow', 'flip') ]}</a></p>
 </section>
 <section class="wrap section-tight" aria-labelledby="how-title">
 <div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_how_eyebrow') ]}</p><h2 class="h2" id="how-title">@{[ T($l, 'h_how_title') ]}</h2></div></div>
@@ -1002,12 +1021,6 @@ for my $l (@LANGS) {
 <li class="step"><span class="num" aria-hidden="true">@{[ $l eq 'ar' ? '٣' : '3' ]}</span><h3>@{[ T($l, 'h_s3') ]}</h3><p>@{[ T($l, 'h_s3p') ]}</p></li>
 </ol>
 </section>
-<section class="wrap section-tight" aria-labelledby="brands-title">
-<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_brands_eyebrow') ]}</p><h2 class="h2" id="brands-title">@{[ T($l, 'h_brands_title') ]}</h2><p class="section-sub">@{[ T($l, 'h_brands_sub') ]}</p></div>
-<a class="btn btn-ink" href="$codes">@{[ T($l, 'h_see_all', n => $NCODES) ]} @{[ icon('arrow', 'flip') ]}</a></div>
-<ul class="brand-cards">$logos</ul>
-</section>
-@{[ app_section($l) ]}
 <section class="wrap section-tight" aria-labelledby="why-title">
 <div class="section-head"><div><p class="eyebrow">@{[ T($l, 'h_why_eyebrow') ]}</p><h2 class="h2" id="why-title">@{[ T($l, 'h_why_title') ]}</h2></div></div>
 <ul class="why">
@@ -1017,7 +1030,8 @@ for my $l (@LANGS) {
 <li>@{[ icon('gift') ]}<h3>@{[ T($l, 'h_w4') ]}</h3><p>@{[ T($l, 'h_w4p') ]}</p></li>
 </ul>
 </section>
-@{[ wa_cta($l) ]}
+@{[ app_section($l) ]}
+@{[ blog_home($l) ]}
 @{[ band($l) ]}
 <section class="wrap section-tight two-col" aria-labelledby="faq-title">
 <div><p class="eyebrow">@{[ T($l, 'faq_eyebrow') ]}</p><h2 class="h2" id="faq-title">@{[ T($l, 'faq_title') ]}</h2></div>
