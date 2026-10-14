@@ -1014,6 +1014,55 @@
       }
     },
     {
+      "key": "8orders",
+      "slug": "8Orders-PromoCode",
+      "name": { "en": "8Orders", "ar": "8 أوردرز" },
+      "logo": "8orders.webp",
+      "code": "",
+      "noCode": true,
+      "category": "restaurants",
+      "region": "eg",
+      "regionLabel": { "en": "Hurghada", "ar": "الغردقة" },
+      "exclusive": false,
+      "firstOrder": true,
+      "featured": false,
+      "url": "https://8orders.com/",
+      "urlLabel": { "en": "Order from 8Orders", "ar": "اطلب من 8 أوردرز" },
+      "badge": { "en": ["75 EGP", "off"], "ar": ["75 جنيه", "خصم"] },
+      "offer": { "en": "75 EGP off your first order in Hurghada", "ar": "خصم 75 جنيه على أول أوردر في الغردقة" },
+      "terms": {
+        "en": "75 EGP off your first order on 8Orders, from its official Facebook post (4 September). 8Orders delivers in Hurghada only. No code needed.",
+        "ar": "خصم 75 جنيه على أول أوردر من 8 أوردرز، حسب بوستهم الرسمي على فيسبوك (4 سبتمبر). التوصيل في الغردقة بس. بدون كود."
+      },
+      "where": { "en": "the 8Orders app", "ar": "تطبيق 8 أوردرز" },
+      "steps": {
+        "en": [
+          ["Download 8Orders", "Get it from Google Play or the App Store, or open 8orders.com."],
+          ["Create your account", "Sign up with your number in Hurghada."],
+          ["Order", "75 EGP off your first order, no code needed."]
+        ],
+        "ar": [
+          ["حمّل 8 أوردرز", "نزّله من Google Play أو App Store، أو ادخل على 8orders.com."],
+          ["اعمل حسابك", "سجّل برقمك وعنوانك في الغردقة."],
+          ["اطلب", "خصم 75 جنيه على أول أوردر، بدون كود."]
+        ]
+      },
+      "about": {
+        "en": "8Orders is an online ordering platform in Hurghada, Egypt, for restaurants, fruit and vegetables, groceries, pharmacy products, electronics and more, with fast delivery.",
+        "ar": "8 أوردرز منصة طلبات أونلاين في الغردقة، فيها مطاعم وخضار وفاكهة وبقالة وصيدلية وإلكترونيات وحاجات تانية كتير، مع توصيل سريع."
+      },
+      "seo": {
+        "en": {
+          "title": "8Orders Hurghada Offer: 75 EGP Off Your First Order",
+          "description": "8Orders offer in Hurghada: 75 EGP off your first order from restaurants, groceries and pharmacies, no promo code needed. Download the app and order."
+        },
+        "ar": {
+          "title": "خصم 8 أوردرز الغردقة: 75 جنيه على أول أوردر",
+          "description": "عرض 8 أوردرز في الغردقة: خصم 75 جنيه على أول أوردر من المطاعم والبقالة والصيدلية، بدون كود خصم. حمّل التطبيق واطلب."
+        }
+      }
+    },
+    {
       "key": "lavania",
       "slug": "Lavania-PromoCode",
       "name": { "en": "Lavania", "ar": "لافانيا" },
