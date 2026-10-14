@@ -215,6 +215,11 @@ my %S = (
   biz_plans_sub => 'Pick a plan in the form and our team will get back to you with the details and the right price for your restaurant.', biz_plan_tag => 'Includes loyalty', biz_plan_cta => 'Choose this plan',
   biz_form_title => 'Tell us about your restaurant', biz_feats_title => 'What you get', biz_how_title => 'How we start', biz_other_title => 'More tools for your restaurant',
   biz_cta_title => 'Ready to grow your restaurant?', biz_cta_text => 'Start free with an exclusive promo code for Foodidu users, and add the tools you need when you need them.',
+  biz_pill => 'For restaurants and cafés in Egypt', biz_tick1 => 'Start free', biz_tick2 => 'Arabic and English', biz_tick3 => 'Nothing for customers to download',
+  biz_more => 'Learn more', biz_nav_plans => 'Plans', biz_form_text => 'Tell us what your restaurant needs. Our team reviews every request and gets back to you with the next steps.',
+  biz_form_t1 => 'No commitment', biz_form_t2 => 'Start with one service', biz_form_t3 => 'Add more whenever you like',
+  biz_foot_blurb => 'Tools for restaurants and cafés in Egypt: a QR menu, a loyalty program, an ordering website and visibility on Foodidu.', biz_foot_svc => 'Services', biz_foot_main => 'Promo codes on Foodidu',
+  biz_mock_menu => 'Example: a QR menu on a phone', biz_mock_card => 'Example: a digital loyalty card', biz_mock_stand => 'Example: a QR code on a table', biz_mock_web => 'Example: an ordering website', biz_mock_tk => 'Example: a promo code on Foodidu',
   p_form_sub => 'Fields marked * are required.', f_services => 'Services you are interested in', f_plan => 'Plan', f_plan_ph => 'Not sure yet',
   f_business => 'Business name', f_contact => 'Contact person', f_contact_hint => 'Arabic or English letters only.', f_phone => 'Phone number', f_email => 'Email address',
   f_location => 'Business location', f_location_ph => 'e.g. Nasr City, Cairo', f_type => 'Business type', f_type_ph => 'Select business type',
@@ -351,6 +356,11 @@ my %S = (
   biz_plans_sub => 'اختار الباقة في الفورم، وفريقنا يتواصل معاك بالتفاصيل والسعر المناسب لمطعمك.', biz_plan_tag => 'فيها برنامج الولاء', biz_plan_cta => 'اختار الباقة دي',
   biz_form_title => 'احكيلنا عن مطعمك', biz_feats_title => 'هتاخد إيه', biz_how_title => 'إزاي بنبدأ', biz_other_title => 'أدوات تانية لمطعمك',
   biz_cta_title => 'جاهز تكبّر مطعمك؟', biz_cta_text => 'ابدأ مجاناً بكود خصم حصري لعملاء Foodidu، وزوّد الأدوات اللي محتاجها وقت ما تحتاجها.',
+  biz_pill => 'للمطاعم والكافيهات في مصر', biz_tick1 => 'ابدأ مجاناً', biz_tick2 => 'بالعربي والإنجليزي', biz_tick3 => 'من غير تطبيق للعميل',
+  biz_more => 'اعرف أكتر', biz_nav_plans => 'الباقات', biz_form_text => 'قولّنا مطعمك محتاج إيه. فريقنا بيراجع كل طلب ويرجعلك بالخطوات الجاية.',
+  biz_form_t1 => 'من غير أي التزام', biz_form_t2 => 'ابدأ بخدمة واحدة', biz_form_t3 => 'وزوّد الباقي وقت ما تحب',
+  biz_foot_blurb => 'أدوات للمطاعم والكافيهات في مصر: منيو QR، وبرنامج ولاء، وموقع طلبات، وظهور على Foodidu.', biz_foot_svc => 'الخدمات', biz_foot_main => 'أكواد الخصم على Foodidu',
+  biz_mock_menu => 'مثال: منيو QR على الموبايل', biz_mock_card => 'مثال: كارت ولاء إلكتروني', biz_mock_stand => 'مثال: كود QR على الترابيزة', biz_mock_web => 'مثال: موقع طلبات', biz_mock_tk => 'مثال: كود خصم على Foodidu',
   p_form_sub => 'الحقول المميزة بـ * مطلوبة.', f_services => 'الخدمات اللي تهمك', f_plan => 'الباقة', f_plan_ph => 'لسه مش متأكد',
   f_business => 'اسم النشاط', f_contact => 'اسم المسؤول', f_contact_hint => 'حروف عربية أو إنجليزية فقط.', f_phone => 'رقم الهاتف', f_email => 'البريد الإلكتروني',
   f_location => 'موقع النشاط', f_location_ph => 'مثال: مدينة نصر، القاهرة', f_type => 'نوع النشاط', f_type_ph => 'اختر نوع النشاط',
@@ -566,6 +576,82 @@ sub app_section {
   . '<p class="eyebrow">' . T($l, 'app_eyebrow') . qq{</p><h2 class="h2" id="app-title">} . T($l, 'app_title') . '</h2><p class="app-sub">' . T($l, 'app_sub') . '</p>'
   . store_buttons($l) . qq{</div><ul class="app-feats">$feats</ul></div></section>};
 }
+# ------------------------------------------------------------------ Foodidu Business look (skin 'biz', static/css/biz.css)
+# Example pictures of each service, drawn in HTML/CSS (no stock photos): a QR menu on a phone, a loyalty card,
+# a QR code on a table (a real code that opens /business/, made by tools/qr.js), an ordering website and a code on Foodidu.
+my %BZM = (
+  en => { rest => 'Your restaurant', open => 'Open now', offer => 'Today: a free drink with any meal', cats => ['All', 'Burgers', 'Pizza', 'Drinks'],
+    items => [['burger', 'Classic burger', 'Beef, cheddar, house sauce', 145], ['pizza', 'Margherita pizza', 'Tomato, mozzarella, basil', 180], ['drink', 'Mint lemonade', 'Fresh, lightly sweet', 55], ['cake', 'Cheesecake', 'Strawberry or Lotus', 90]],
+    cur => 'EGP {n}', card => 'Loyalty card', left => '3 more stamps to a free drink', pts => '320 points', stamp => '+1 stamp', table => 'Table 7', scan => 'Scan for the menu',
+    url => 'yourrestaurant.com', web_h => 'Hot and fresh, straight to your door', del => 'Delivery', pick => 'Pickup', order => 'Order online',
+    tk_on => 'Now on Foodidu', tk_offer => '20% off your first order', tk_code => 'YOUR CODE', tk_copy => 'Copy code', search => 'your restaurant promo code' },
+  ar => { rest => 'مطعمك', open => 'مفتوح دلوقتي', offer => 'النهارده: مشروب ببلاش مع أي وجبة', cats => ['الكل', 'برجر', 'بيتزا', 'مشروبات'],
+    items => [['burger', 'برجر كلاسيك', 'لحم، شيدر، صوص البيت', 145], ['pizza', 'بيتزا مارجريتا', 'طماطم، موتزاريلا، ريحان', 180], ['drink', 'ليمون نعناع', 'فريش وسكره خفيف', 55], ['cake', 'تشيز كيك', 'فراولة أو لوتس', 90]],
+    cur => '{n} ج.م', card => 'كارت الولاء', left => 'باقي 3 أختام على مشروب ببلاش', pts => '320 نقطة', stamp => '+1 ختم', table => 'ترابيزة 7', scan => 'امسح الكود وشوف المنيو',
+    url => 'yourrestaurant.com', web_h => 'سخن وطازة لحد باب بيتك', del => 'توصيل', pick => 'استلام', order => 'اطلب أونلاين',
+    tk_on => 'دلوقتي على Foodidu', tk_offer => 'خصم 20% على أول طلب', tk_code => 'كودك هنا', tk_copy => 'انسخ الكود', search => 'كود خصم مطعمك' },
+);
+my %FOOD = (
+  burger => '<path d="M4 11c0-3.3 3.6-6 8-6s8 2.7 8 6Z"/><path d="M3 14h18"/><path d="M4 17h16v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1Z"/>',
+  pizza  => '<path d="M3 6c5.5-3 12.5-3 18 0L12 21Z"/><path d="M4.6 9.2c4.6-2 10.2-2 14.8 0"/><circle cx="10" cy="12" r="1"/><circle cx="14" cy="14.5" r="1"/>',
+  drink  => '<path d="M6 7h12l-1.5 13a1 1 0 0 1-1 .9h-7a1 1 0 0 1-1-.9Z"/><path d="m12 7 2-5h3"/><path d="M6.5 11h11"/>',
+  cake   => '<path d="M4 20h16v-7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2Z"/><path d="M4 15c2 1.3 4 1.3 6 0s4-1.3 6 0 3 1.3 4 0"/><path d="M12 11V7.5"/><path d="M12 3.8c-.7.9-.7 1.8 0 2.7.7-.9.7-1.8 0-2.7Z"/>',
+);
+sub food_ic { qq{<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">$FOOD{$_[0]}</svg>} }
+sub biz_mock {
+  my ($l, $k) = @_;
+  my $m = $BZM{$l};
+  my $price = sub { (my $s = $m->{cur}) =~ s/\{n\}/$_[0]/; $s };
+  my $th = sub { qq{<span class="m-th m-$_[0]">} . food_ic($_[0]) . '</span>' };
+  my %html = (
+    phone => sub {
+      '<div class="m-phone"><div class="m-screen"><div class="m-top"><span class="m-logo">' . icon('fork') . "</span><div><b>$m->{rest}</b><small><i></i>$m->{open}</small></div></div>"
+      . '<p class="m-offer">' . icon('gift') . "<span>$m->{offer}</span></p>"
+      . '<div class="m-chips">' . join('', map { '<span' . ($_ == 0 ? ' class="on"' : '') . ">$m->{cats}[$_]</span>" } 0 .. 3) . '</div>'
+      . '<ul class="m-items">' . join('', map { '<li>' . $th->($_->[0]) . "<div><b>$_->[1]</b><small>$_->[2]</small></div><em>" . $price->($_->[3]) . '</em></li>' } @{ $m->{items} }) . '</ul></div></div>';
+    },
+    card => sub {
+      "<div class=\"m-card\"><div class=\"m-card-top\"><span>$m->{card}</span><b>$m->{rest}</b></div><ol class=\"m-stamps\">"
+      . join('', map { $_ <= 7 ? '<li class="on">' . icon('check') . '</li>' : $_ == 10 ? '<li class="gift">' . icon('gift') . '</li>' : '<li></li>' } 1 .. 10)
+      . "</ol><div class=\"m-card-foot\"><span>$m->{left}</span><b>$m->{pts}</b></div><span class=\"m-chip\">$m->{stamp}</span></div>";
+    },
+    stand => sub {
+      "<div class=\"m-stand\"><div class=\"m-tent\"><small>$m->{table}</small><img src=\"/img/biz/qr-$l.svg\" alt=\"\" width=\"132\" height=\"132\" loading=\"lazy\"><b>$m->{scan}</b><span>$m->{rest}</span></div></div>";
+    },
+    web => sub {
+      "<div class=\"m-browser\"><div class=\"m-bar\"><i></i><i></i><i></i><span>$m->{url}</span></div><div class=\"m-page\"><div class=\"m-hero\"><span class=\"m-logo\">" . icon('fork') . "</span><b>$m->{web_h}</b>"
+      . "<div class=\"m-toggle\"><span class=\"on\">$m->{del}</span><span>$m->{pick}</span></div><span class=\"m-btn\">$m->{order}</span></div>"
+      . '<ul class="m-tiles">' . join('', map { '<li>' . $th->($_->[0]) . "<b>$_->[1]</b><em>" . $price->($_->[3]) . '</em><i>+</i></li>' } @{ $m->{items} }[0 .. 2]) . '</ul></div></div>';
+    },
+    ticket => sub {   # the restaurant's code on Foodidu, found from a Google search
+      '<div class="m-serp"><div class="m-search">' . icon('search') . "<span>$m->{search}</span></div><div class=\"m-ticket\"><div class=\"m-tk-l\"><span class=\"m-logo\">" . icon('fork') . "</span><div><small>$m->{tk_on}</small><b>$m->{tk_offer}</b></div></div>"
+      . "<div class=\"m-tk-r\"><code>$m->{tk_code}</code><span class=\"m-btn\">$m->{tk_copy}</span></div></div></div>";
+    },
+  );
+  my %label = (phone => 'biz_mock_menu', card => 'biz_mock_card', stand => 'biz_mock_stand', web => 'biz_mock_web', ticket => 'biz_mock_tk');
+  qq{<figure class="mock mock-$k" role="img" aria-label="} . T($l, $label{$k}) . qq{"><div aria-hidden="true">} . $html{$k}->() . '</div></figure>';
+}
+# Header and footer of the Foodidu Business pages (they replace the Foodidu ones in layout())
+sub biz_chrome {
+  my ($l, $key, $lang_link) = @_;
+  my $b = path_for($l, '/business/');
+  my @svc = grep { $_->{page} // 1 } @{ $BIZ->{services} };
+  my $nav = join('', map { my $p = "/business/$_->{key}/"; '<a href="' . path_for($l, $p) . '"' . ($key eq $p ? ' aria-current="page"' : '') . '><span class="nav-ic">' . icon($_->{icon}) . '</span><span>' . esc($_->{name}{$l}) . '</span>' . icon('arrow', 'nav-go flip') . '</a>' } @svc)
+    . qq{<a href="$b#plans"><span class="nav-ic">} . icon('tag') . '</span><span>' . T($l, 'biz_nav_plans') . '</span>' . icon('arrow', 'nav-go flip') . '</a>'
+    . qq{<div class="nav-extra"><a class="bz-btn bz-pri" href="$b#join">} . T($l, 'biz_start') . ' ' . icon('arrow', 'flip') . '</a></div>';
+  my $mark = '<svg class="bz-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="9" fill="#0B6E4F"/><path d="M11.5 23V9.5h9.5M11.5 16.2h7" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="23.2" cy="22.2" r="2.9" fill="#FF6A3D"/></svg>';
+  my $logo = qq{<a class="bz-logo" href="$b" aria-label="Foodidu Business">$mark<span><b>Foodidu</b> Business</span></a>};
+  my $header = qq{<header class="site-header bz-header"><div class="wrap header-in">$logo<nav class="nav" id="site-nav" aria-label="Foodidu Business">$nav</nav><div class="nav-backdrop" data-nav-close hidden></div>$lang_link}
+    . qq{<a class="bz-btn bz-pri bz-head-cta" href="$b#join">} . T($l, 'biz_start') . '</a>'
+    . '<button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="' . T($l, 'menu') . '">' . icon('menu', 'i-menu') . icon('close', 'i-close') . '</button></div></header>';
+  my $footer = qq{<footer class="bz-foot"><div class="wrap"><div class="bz-foot-grid"><div class="bz-foot-brand">$logo<p>} . T($l, 'biz_foot_blurb') . '</p></div>'
+    . '<nav aria-label="' . T($l, 'biz_foot_svc') . '"><h2>' . T($l, 'biz_foot_svc') . '</h2><ul>' . join('', map { '<li><a href="' . path_for($l, "/business/$_->{key}/") . '">' . esc($_->{name}{$l}) . '</a></li>' } @svc)
+    . qq{<li><a href="$b#plans">} . T($l, 'biz_nav_plans') . '</a></li></ul></nav>'
+    . '<nav aria-label="Foodidu"><h2>Foodidu</h2><ul><li><a href="' . path_for($l, '/') . '">' . T($l, 'biz_foot_main') . '</a></li><li><a href="' . path_for($l, '/privacy-policy/') . '">' . T($l, 'privacy') . '</a></li>'
+    . '<li><a href="' . path_for($l, '/terms-and-conditions/') . '">' . T($l, 'terms') . '</a></li><li><button type="button" data-cookie-settings>' . T($l, 'cookie_settings') . '</button></li></ul></nav>'
+    . qq{</div><p class="bz-foot-bottom">© $YEAR Foodidu Business</p></div></footer>};
+  ($header, $footer);
+}
 sub crumbs_html {
   my ($l, $crumbs) = @_;
   my @li;
@@ -712,6 +798,16 @@ $a{body}
 </html>
 HTML
   $html =~ s/\n{2,}/\n/g;
+  if (($a{skin} // '') eq 'biz') {   # Foodidu Business: its own header, footer, colours and fonts (static/css/biz.css)
+    my ($bh, $bf) = biz_chrome($l, $key, $lang_link);
+    $html =~ s{<header class="site-header is-home">.*?</header>}{$bh}s or die "biz header\n";
+    $html =~ s{<footer class="site-footer">.*?</footer>}{$bf}s or die "biz footer\n";
+    $html =~ s{<body>}{<body class="biz">};
+    $html =~ s{<meta name="theme-color" content="#FFD15C">}{<meta name="theme-color" content="#0B6E4F">};
+    $html =~ s{<link rel="preload" href="/fonts/lalezar[^>]*>\n}{};
+    my $bcss = asset('/css/biz.css');
+    $html =~ s{(<link rel="stylesheet" href="[^"]+">)}{$1\n<link rel="stylesheet" href="$bcss">};
+  }
   my $file = $a{file} // "$OUT" . path_for($l, $key) . 'index.html';
   spit($file, $html);
   push @PAGES, { key => $key, lang => $l, lastmod => ($a{lastmod} // $DATA_DATE) } unless $a{noindex};
@@ -1445,61 +1541,68 @@ HTML
       ld => [ faq_ld(@qa) ], lastmod => (sort grep { $_ } $b->{lastVerified}, $DATA_DATE, (@bdd ? $DD_DATE : ()))[-1]);
   }
 
-  # ---------- Foodidu Business (data/business.json): /business/ and one page per service; /partners/ redirects here
+  # ---------- Foodidu Business (data/business.json): /business/ and one page per service; /partners/ redirects here.
+  # Its own look, like a software company's site (layout skin 'biz', static/css/biz.css), not the Foodidu deals style.
   if ($BIZ) {
     my $burl = path_for($l, '/business/');
     my @svc = @{ $BIZ->{services} };
     my $surl = sub { path_for($l, "/business/$_[0]{key}/") };
     my $has_page = sub { $_[0]{page} // 1 };
     my $num = sub { $l eq 'ar' ? (qw(١ ٢ ٣ ٤ ٥ ٦))[$_[0] - 1] : $_[0] };
-    my $hero = sub {   # the dark Foodidu Business hero, with the two buttons to the plans and the form
-      my ($crumbs, $h1, $lede) = @_;
-      '<section class="page-hero biz-hero"><div class="wrap">' . crumbs_html($l, $crumbs) . '<p class="eyebrow">Foodidu Business</p><h1>' . esc($h1) . '</h1><p class="lede">' . esc($lede) . '</p>'
-      . '<p class="biz-btns"><a class="btn btn-sun" href="' . $burl . '#join">' . T($l, 'biz_start') . ' ' . icon('arrow', 'flip') . '</a><a class="btn btn-line" href="' . $burl . '#plans">' . T($l, 'biz_plans_btn') . '</a></p></div></section>'
-      . '<div class="scallop biz-scallop" aria-hidden="true"></div>';
+    my %row_mock = ('loyalty-program' => 'card', 'qr-menu' => 'stand', 'restaurant-website' => 'web', visibility => 'ticket');
+    my $btns = '<div class="bz-btns"><a class="bz-btn bz-pri" href="' . $burl . '#join">' . T($l, 'biz_start') . ' ' . icon('arrow', 'flip') . '</a><a class="bz-btn bz-ghost" href="' . $burl . '#plans">' . T($l, 'biz_plans_btn') . '</a></div>';
+    my $ticks = sub { '<ul class="bz-ticks">' . join('', map { '<li>' . icon('check') . '<span>' . T($l, $_) . '</span></li>' } @_) . '</ul>' };
+    my $hero = sub {
+      my ($crumbs, $pill, $h1, $lede, $visual) = @_;
+      '<section class="bz-hero"><div class="wrap bz-hero-in"><div class="bz-copy">' . crumbs_html($l, $crumbs) . '<p class="bz-pill"><span class="dot" aria-hidden="true"></span>' . esc($pill) . '</p>'
+      . '<h1>' . esc($h1) . '</h1><p class="bz-lede">' . esc($lede) . "</p>$btns" . $ticks->(qw(biz_tick1 biz_tick2 biz_tick3))
+      . qq{</div><div class="bz-visual">$visual</div></div></section>};
     };
-    my $svc_cards = sub {
-      my @list = @_;
-      '<ul class="svcs">' . join('', map { my $s = $_;
-        '<li class="svc' . ($s->{featured} ? ' svc-main' : '') . '">' . ($s->{featured} ? '<span class="svc-tag">' . T($l, 'biz_main_tag') . '</span>' : '')
-        . '<span class="ic">' . icon($s->{icon}) . '</span><h3>' . ($has_page->($s) ? '<a href="' . $surl->($s) . '">' . esc($s->{name}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : esc($s->{name}{$l})) . '</h3>'
-        . '<p>' . esc($s->{short}{$l}) . '</p></li>' } @list) . '</ul>';
+    my $head = sub { my ($id, $eyebrow, $title, $sub) = @_; '<div class="bz-head">' . ($eyebrow ? qq{<p class="bz-eyebrow">$eyebrow</p>} : '') . qq{<h2 id="$id">$title</h2>} . ($sub ? "<p>$sub</p>" : '') . '</div>' };
+    my $steps = sub {
+      '<ol class="bz-steps">' . join('', map { my $i = $_; my $st = $_[0][$i];
+        '<li><span class="bz-num" aria-hidden="true">' . $num->($i + 1) . '</span><h3>' . esc($st->{title}{$l}) . '</h3><p>' . esc($st->{text}{$l}) . '</p></li>' } 0 .. $#{ $_[0] }) . '</ol>';
     };
-    my $cta = '<section class="wrap section-tight"><div class="band biz-cta"><div><h2>' . T($l, 'biz_cta_title') . '</h2><p>' . T($l, 'biz_cta_text') . '</p><a class="btn btn-sun" href="' . $burl . '#join">' . T($l, 'biz_join') . ' ' . icon('arrow', 'flip') . '</a></div>'
-      . '<img class="face" src="/img/mascot/didu-point.svg" alt="" width="200" height="200" loading="lazy"></div></section>';
+    my $faq = sub { my ($id, @qa) = @_; qq{<section class="bz-sec" aria-labelledby="$id"><div class="wrap bz-faq">} . $head->($id, T($l, 'faq_eyebrow'), T($l, 'faq_title')) . faq_html(@qa) . '</div></section>' };
+    my $cta = '<section class="bz-sec"><div class="wrap"><div class="bz-cta"><div><h2>' . T($l, 'biz_cta_title') . '</h2><p>' . T($l, 'biz_cta_text') . '</p></div><a class="bz-btn bz-acc" href="' . $burl . '#join">' . T($l, 'biz_join') . ' ' . icon('arrow', 'flip') . '</a></div></div></section>';
 
     # the landing page
     {
       my $crumbs = [[T($l, 'home'), path_for($l, '/')], ['Foodidu Business', $burl]];
-      my $journey = '<ol class="journey">' . join('', map { my $i = $_; my $st = $BIZ->{journey}{steps}[$i];
-        '<li><span class="num" aria-hidden="true">' . $num->($i + 1) . '</span><h3>' . esc($st->{title}{$l}) . '</h3><p>' . esc($st->{text}{$l}) . '</p></li>' } 0 .. $#{ $BIZ->{journey}{steps} }) . '</ol>';
-      my $plans = '<ul class="plans">' . join('', map { my $p = $_;
-        '<li class="plan' . ($p->{featured} ? ' plan-main' : '') . '">' . ($p->{featured} ? '<span class="svc-tag">' . T($l, 'biz_plan_tag') . '</span>' : '')
-        . '<h3>' . esc($p->{name}{$l}) . '</h3><p class="plan-price">' . esc($p->{price}{$l}) . '</p><p class="plan-note">' . esc($p->{note}{$l}) . '</p>'
-        . '<ul class="plan-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{$l}) . '</span></li>' } @{ $p->{features} }) . '</ul>'
-        . '<a class="btn ' . ($p->{featured} ? 'btn-sun' : 'btn-ink') . '" href="#join" data-plan="' . $p->{key} . '">' . T($l, 'biz_plan_cta') . '</a></li>' } @{ $BIZ->{plans} }) . '</ul>';
+      my $stage = '<div class="bz-stage">' . biz_mock($l, 'phone') . biz_mock($l, 'card') . biz_mock($l, 'stand') . '</div>';
+      my $rows = join '', map { my $s = $_; my $k = $row_mock{$s->{key}};
+        '<article class="bz-row' . ($s->{featured} ? ' bz-row-main' : '') . '"><div class="bz-row-copy">' . ($s->{featured} ? '<span class="bz-tag">' . T($l, 'biz_main_tag') . '</span>' : '')
+        . '<span class="bz-ic">' . icon($s->{icon}) . '</span><h3>' . esc($s->{name}{$l}) . '</h3><p>' . esc($s->{short}{$l}) . '</p>'
+        . ($s->{features} ? '<ul class="bz-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{title}{$l}) . '</span></li>' } @{ $s->{features} }[0 .. 2]) . '</ul>' : '')
+        . ($has_page->($s) ? '<a class="bz-link" href="' . $surl->($s) . '">' . T($l, 'biz_more') . ': ' . esc($s->{name}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : '')
+        . '</div>' . ($k ? '<div class="bz-row-visual">' . biz_mock($l, $k) . '</div>' : '') . '</article>' } @svc;
+      my $plans = '<ul class="bz-plans">' . join('', map { my $p = $_;
+        '<li class="bz-plan' . ($p->{featured} ? ' bz-plan-main' : '') . '">' . ($p->{featured} ? '<span class="bz-tag">' . T($l, 'biz_plan_tag') . '</span>' : '')
+        . '<h3>' . esc($p->{name}{$l}) . '</h3><p class="bz-price">' . esc($p->{price}{$l}) . '</p><p class="bz-note">' . esc($p->{note}{$l}) . '</p>'
+        . '<ul class="bz-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{$l}) . '</span></li>' } @{ $p->{features} }) . '</ul>'
+        . '<a class="bz-btn ' . ($p->{featured} ? 'bz-pri' : 'bz-ghost') . '" href="#join" data-plan="' . $p->{key} . '">' . T($l, 'biz_plan_cta') . '</a></li>' } @{ $BIZ->{plans} }) . '</ul>';
       my $req = ' <span class="req" aria-hidden="true">*</span>';
       my $opts = join '', map { qq{<option value="$_->[0]">} . T($l, $_->[1]) . '</option>' } (['restaurant', 'f_restaurant'], ['cafe', 'f_cafe'], ['cloud-kitchen', 'f_cloud'], ['food-truck', 'f_truck'], ['bakery', 'f_bakery'], ['other', 'f_other']);
       my $svc_checks = join '', map { '<label class="check"><input type="checkbox" name="services" value="' . esc($_->{name}{$l}) . '"' . ($_->{featured} ? ' checked' : '') . '><span>' . esc($_->{name}{$l}) . '</span></label>' } @svc;
       my $plan_opts = '<option value="">' . T($l, 'f_plan_ph') . '</option>' . join('', map { '<option value="' . $_->{key} . '">' . esc($_->{name}{$l}) . ' · ' . esc($_->{price}{$l}) . '</option>' } @{ $BIZ->{plans} });
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $BIZ->{faq} };
-      my $body = $hero->($crumbs, $BIZ->{h1}{$l}, $BIZ->{lede}{$l}) . <<"HTML";
-<section class="wrap section-tight" aria-labelledby="svc-title">
-<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'biz_svc_eyebrow') ]}</p><h2 class="h2" id="svc-title">@{[ T($l, 'biz_svc_title') ]}</h2></div></div>
-@{[ $svc_cards->(@svc) ]}
-</section>
-<section class="wrap section-tight" aria-labelledby="journey-title">
-<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'biz_journey_eyebrow') ]}</p><h2 class="h2" id="journey-title">@{[ esc($BIZ->{journey}{title}{$l}) ]}</h2></div></div>
-$journey
-</section>
-<section class="wrap section-tight" id="plans" aria-labelledby="plans-title">
-<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'biz_plans_eyebrow') ]}</p><h2 class="h2" id="plans-title">@{[ T($l, 'biz_plans_title') ]}</h2><p class="section-sub">@{[ T($l, 'biz_plans_sub') ]}</p></div></div>
+      my $body = $hero->($crumbs, T($l, 'biz_pill'), $BIZ->{h1}{$l}, $BIZ->{lede}{$l}, $stage) . <<"HTML";
+<section class="bz-sec" id="services" aria-labelledby="svc-title"><div class="wrap">
+@{[ $head->('svc-title', T($l, 'biz_svc_eyebrow'), T($l, 'biz_svc_title')) ]}
+<div class="bz-rows">$rows</div>
+</div></section>
+<section class="bz-sec bz-alt" aria-labelledby="journey-title"><div class="wrap">
+@{[ $head->('journey-title', T($l, 'biz_journey_eyebrow'), esc($BIZ->{journey}{title}{$l})) ]}
+@{[ $steps->($BIZ->{journey}{steps}) ]}
+</div></section>
+<section class="bz-sec" id="plans" aria-labelledby="plans-title"><div class="wrap">
+@{[ $head->('plans-title', T($l, 'biz_plans_eyebrow'), T($l, 'biz_plans_title'), T($l, 'biz_plans_sub')) ]}
 $plans
-</section>
-<section class="wrap section-tight" id="join" aria-labelledby="form-title">
+</div></section>
+<section class="bz-sec bz-alt" id="join" aria-labelledby="form-title"><div class="wrap bz-join">
+<div class="bz-join-copy"><p class="bz-eyebrow">Foodidu Business</p><h2 id="form-title">@{[ T($l, 'biz_form_title') ]}</h2><p>@{[ T($l, 'biz_form_text') ]}</p>@{[ $ticks->(qw(biz_form_t1 biz_form_t2 biz_form_t3)) ]}</div>
 <div class="form-card">
-<h2 class="h2" id="form-title">@{[ T($l, 'biz_form_title') ]}</h2>
-<p class="section-sub" style="margin-bottom:24px">@{[ T($l, 'p_form_sub') ]}</p>
+<p class="bz-form-sub">@{[ T($l, 'p_form_sub') ]}</p>
 <form id="vendor-application-form" novalidate>
 <div class="form-grid">
 <div class="field"><label for="f-business">@{[ T($l, 'f_business') ]}$req</label><input id="f-business" name="businessName" required maxlength="200" autocomplete="organization"></div>
@@ -1513,52 +1616,49 @@ $plans
 <div class="field full"><label for="f-desc">@{[ T($l, 'f_desc') ]}</label><textarea id="f-desc" name="description" maxlength="2500" placeholder="@{[ T($l, 'f_desc_ph') ]}"></textarea></div>
 <div class="field full"><label for="f-web">@{[ T($l, 'f_web') ]}</label><input id="f-web" name="website" maxlength="500" inputmode="url" autocomplete="url"></div>
 </div>
-<div class="form-foot"><button class="btn btn-ink" type="submit">@{[ T($l, 'f_submit') ]}</button><small>@{[ T($l, 'f_privacy') ]} <a href="@{[ path_for($l, '/privacy-policy/') ]}">@{[ T($l, 'privacy') ]}</a></small></div>
+<div class="form-foot"><button class="bz-btn bz-pri" type="submit">@{[ T($l, 'f_submit') ]}</button><small>@{[ T($l, 'f_privacy') ]} <a href="@{[ path_for($l, '/privacy-policy/') ]}">@{[ T($l, 'privacy') ]}</a></small></div>
 <p class="form-status" id="form-status" role="status" tabindex="-1" hidden></p>
 </form>
 </div>
-</section>
-<section class="wrap section-tight two-col" aria-labelledby="bfaq-title">
-<div><p class="eyebrow">@{[ T($l, 'faq_eyebrow') ]}</p><h2 class="h2" id="bfaq-title">@{[ T($l, 'faq_title') ]}</h2></div>
-@{[ faq_html(@qa) ]}
-</section>
+</div></section>
+@{[ $faq->('bfaq-title', @qa) ]}
 HTML
-      layout(lang => $l, key => '/business/', title => $BIZ->{seo}{$l}{title}, desc => $BIZ->{seo}{$l}{description}, body => $body, nav => 'business', lastmod => mdate($BIZ_FILE),
+      layout(lang => $l, key => '/business/', title => $BIZ->{seo}{$l}{title}, desc => $BIZ->{seo}{$l}{description}, body => $body, skin => 'biz', lastmod => mdate($BIZ_FILE),
         crumbs => $crumbs, og => "/img/og/partners-$l.png", fd => { formUrl => $FORM_URL },
         ld => [ { '@type' => 'ItemList', name => 'Foodidu Business', itemListElement => [ map { my $i = $_; { '@type' => 'ListItem', position => $i + 1, name => $svc[$i]{name}{$l}, ($has_page->($svc[$i]) ? (url => absu($surl->($svc[$i]))) : ()) } } 0 .. $#svc ] }, faq_ld(@qa) ]);
     }
 
     # one page per service
+    my %hero_mock = ('loyalty-program' => ['card'], 'qr-menu' => ['phone', 'stand'], 'restaurant-website' => ['web']);
     for my $s (grep { $has_page->($_) } @svc) {
       my $url = $surl->($s);
       my $crumbs = [[T($l, 'home'), path_for($l, '/')], ['Foodidu Business', $burl], [$s->{name}{$l}, $url]];
-      my $feats = '<ul class="feats">' . join('', map { '<li>' . icon('check') . '<div><h3>' . esc($_->{title}{$l}) . '</h3><p>' . esc($_->{text}{$l}) . '</p></div></li>' } @{ $s->{features} }) . '</ul>';
-      my $steps = '<ol class="steps">' . join('', map { my $i = $_; my $st = $s->{steps}[$i];
-        '<li class="step"><span class="num" aria-hidden="true">' . $num->($i + 1) . '</span><h3>' . esc($st->{title}{$l}) . '</h3><p>' . esc($st->{text}{$l}) . '</p></li>' } 0 .. $#{ $s->{steps} }) . '</ol>';
+      my $m = $hero_mock{$s->{key}};
+      my $visual = $m ? '<div class="bz-duo n' . scalar(@$m) . '">' . join('', map { biz_mock($l, $_) } @$m) . '</div>' : '<span class="bz-ic bz-ic-xl">' . icon($s->{icon}) . '</span>';
+      my $about = $s->{about} ? qq{<section class="bz-sec" aria-labelledby="about-title"><div class="wrap bz-about"><h2 id="about-title">} . esc($s->{about}{title}{$l}) . '</h2><div>'
+        . join('', map { '<p>' . esc($_->{$l}) . '</p>' } @{ $s->{about}{text} }) . '</div></div></section>' : '';
+      my $feats = '<ul class="bz-feats">' . join('', map { '<li><span class="bz-ic">' . icon('check') . '</span><h3>' . esc($_->{title}{$l}) . '</h3><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $s->{features} }) . '</ul>';
+      my $others = '<ul class="bz-cards">' . join('', map { my $o = $_;
+        '<li><span class="bz-ic">' . icon($o->{icon}) . '</span><h3>' . ($has_page->($o) ? '<a href="' . $surl->($o) . '">' . esc($o->{name}{$l}) . '</a>' : esc($o->{name}{$l})) . '</h3><p>' . esc($o->{short}{$l}) . '</p></li>' } grep { $_ ne $s } @svc) . '</ul>';
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $s->{faq} };
-      my $about = $s->{about} ? '<section class="wrap section-tight biz-about" aria-labelledby="about-title"><h2 class="h2" id="about-title">' . esc($s->{about}{title}{$l}) . '</h2>'
-        . join('', map { '<p>' . esc($_->{$l}) . '</p>' } @{ $s->{about}{text} }) . '</section>' : '';
-      my $body = $hero->($crumbs, $s->{h1}{$l}, $s->{lede}{$l}) . $about . <<"HTML";
-<section class="wrap section-tight" aria-labelledby="feat-title">
-<div class="section-head"><div><p class="eyebrow">@{[ esc($s->{name}{$l}) ]}</p><h2 class="h2" id="feat-title">@{[ T($l, 'biz_feats_title') ]}</h2></div></div>
+      my $body = $hero->($crumbs, $s->{name}{$l}, $s->{h1}{$l}, $s->{lede}{$l}, $visual) . $about . <<"HTML";
+<section class="bz-sec bz-alt" aria-labelledby="feat-title"><div class="wrap">
+@{[ $head->('feat-title', esc($s->{name}{$l}), T($l, 'biz_feats_title')) ]}
 $feats
-</section>
-<section class="wrap section-tight" aria-labelledby="how-title">
-<div class="section-head"><div><h2 class="h2" id="how-title">@{[ T($l, 'biz_how_title') ]}</h2></div></div>
-$steps
-</section>
-<section class="wrap section-tight" aria-labelledby="more-title">
-<div class="section-head"><div><p class="eyebrow">Foodidu Business</p><h2 class="h2" id="more-title">@{[ T($l, 'biz_other_title') ]}</h2></div></div>
-@{[ $svc_cards->(grep { $_ ne $s } @svc) ]}
-</section>
+</div></section>
+<section class="bz-sec" aria-labelledby="how-title"><div class="wrap">
+@{[ $head->('how-title', '', T($l, 'biz_how_title')) ]}
+@{[ $steps->($s->{steps}) ]}
+</div></section>
 $cta
-<section class="wrap section-tight two-col" aria-labelledby="sfaq-title">
-<div><p class="eyebrow">@{[ T($l, 'faq_eyebrow') ]}</p><h2 class="h2" id="sfaq-title">@{[ T($l, 'faq_title') ]}</h2></div>
-@{[ faq_html(@qa) ]}
-</section>
+<section class="bz-sec bz-alt" aria-labelledby="more-title"><div class="wrap">
+@{[ $head->('more-title', 'Foodidu Business', T($l, 'biz_other_title')) ]}
+$others
+</div></section>
+@{[ $faq->('sfaq-title', @qa) ]}
 HTML
       my $t = $s->{seo}{$l}{title};
-      layout(lang => $l, key => "/business/$s->{key}/", title => (length($t) + 10 <= 65 ? "$t | Foodidu" : $t), desc => $s->{seo}{$l}{description}, body => $body, nav => 'business', lastmod => mdate($BIZ_FILE),
+      layout(lang => $l, key => "/business/$s->{key}/", title => (length($t) + 10 <= 65 ? "$t | Foodidu" : $t), desc => $s->{seo}{$l}{description}, body => $body, skin => 'biz', lastmod => mdate($BIZ_FILE),
         crumbs => $crumbs, og => "/img/og/partners-$l.png",
         ld => [ { '@type' => 'Service', name => $s->{name}{$l}, serviceType => $s->{name}{en}, description => $s->{seo}{$l}{description}, url => absu($url),
           provider => { '@id' => "$SITE/#org" }, areaServed => { '@type' => 'Country', name => 'Egypt' } }, faq_ld(@qa) ]);

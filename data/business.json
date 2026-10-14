@@ -349,7 +349,21 @@
       "short": {
         "en": "A page for your restaurant and your promo code on Foodidu, in Google, on our WhatsApp channel and our social pages.",
         "ar": "صفحة لمطعمك وكود خصمك على Foodidu، تظهر في جوجل وفي قناتنا على واتساب وصفحاتنا على السوشيال."
-      }
+      },
+      "features": [
+        {
+          "title": { "en": "Your page in Arabic and English", "ar": "صفحة لمطعمك بالعربي والإنجليزي" },
+          "text": { "en": "A page for your restaurant and your promo code, in both languages.", "ar": "صفحة لمطعمك وكود خصمك باللغتين." }
+        },
+        {
+          "title": { "en": "Found on Google", "ar": "بتظهر في جوجل" },
+          "text": { "en": "Built to show up when people search for your restaurant's promo code.", "ar": "متجهزة تظهر لما الناس تدوّر على كود خصم مطعمك." }
+        },
+        {
+          "title": { "en": "On our WhatsApp channel", "ar": "في قناتنا على واتساب" },
+          "text": { "en": "Your offer reaches the people who follow Foodidu for deals.", "ar": "عرضك يوصل للناس اللي متابعة Foodidu عشان العروض." }
+        }
+      ]
     }
   ],
   "plans": [
