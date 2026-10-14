@@ -152,7 +152,11 @@
       { "source": "/clams-and-claws-promocode", "destination": "/Clams-And-Claws-PromoCode/", "type": 301 },
       { "source": "/clams-and-claws-promocode/", "destination": "/Clams-And-Claws-PromoCode/", "type": 301 },
       { "source": "/ar/clams-and-claws-promocode", "destination": "/ar/Clams-And-Claws-PromoCode/", "type": 301 },
-      { "source": "/ar/clams-and-claws-promocode/", "destination": "/ar/Clams-And-Claws-PromoCode/", "type": 301 }
+      { "source": "/ar/clams-and-claws-promocode/", "destination": "/ar/Clams-And-Claws-PromoCode/", "type": 301 },
+      { "source": "/hurryapp-promocode", "destination": "/HurryApp-PromoCode/", "type": 301 },
+      { "source": "/hurryapp-promocode/", "destination": "/HurryApp-PromoCode/", "type": 301 },
+      { "source": "/ar/hurryapp-promocode", "destination": "/ar/HurryApp-PromoCode/", "type": 301 },
+      { "source": "/ar/hurryapp-promocode/", "destination": "/ar/HurryApp-PromoCode/", "type": 301 }
     ],
     "headers": [
       {

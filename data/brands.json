@@ -868,6 +868,53 @@
       }
     },
     {
+      "key": "hurryapp",
+      "slug": "HurryApp-PromoCode",
+      "name": { "en": "HurryApp", "ar": "هاري آب" },
+      "logo": "hurryapp.webp",
+      "code": "",
+      "noCode": true,
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "featured": false,
+      "url": "https://play.google.com/store/apps/details?id=com.tawaf.hurryapp",
+      "urlLabel": { "en": "Get HurryApp", "ar": "حمّل هاري آب" },
+      "badge": { "en": ["150 EGP", "gift"], "ar": ["150 جنيه", "رصيد هدية"] },
+      "offer": { "en": "150 EGP free balance when you download the app", "ar": "رصيد 150 جنيه هدية لما تحمّل التطبيق" },
+      "terms": {
+        "en": "Download HurryApp and get 150 EGP of free balance to order from its restaurants, as in HurryApp's official ad, which also promises discounts of up to 70% and free delivery. No code needed.",
+        "ar": "حمّل تطبيق هاري آب واحصل على رصيد 150 جنيه مجاناً تطلب بيه من مطاعمه، حسب إعلان هاري آب الرسمي، وفيه كمان خصومات تصل لـ 70% وتوصيل مجاني. بدون كود."
+      },
+      "where": { "en": "the HurryApp app", "ar": "تطبيق هاري آب" },
+      "steps": {
+        "en": [
+          ["Download HurryApp", "Get it from Google Play or the App Store."],
+          ["Create your account", "Sign up with your phone number to get the 150 EGP balance."],
+          ["Order with your balance", "Choose a restaurant and pay with the free balance, no code needed."]
+        ],
+        "ar": [
+          ["حمّل هاري آب", "نزّله من Google Play أو App Store."],
+          ["سجّل حسابك", "سجّل برقم موبايلك عشان يوصلك رصيد الـ 150 جنيه."],
+          ["اطلب بالرصيد", "اختار المطعم وادفع بالرصيد الهدية، بدون كود."]
+        ]
+      },
+      "about": {
+        "en": "HurryApp is an Egyptian food delivery app with restaurants such as Koshary Sayed Hanafy, Wa7ed Mashwy, Momen, Arabiata and Pie Station, and live order tracking. It has over 100,000 downloads on Google Play.",
+        "ar": "هاري آب تطبيق مصري لتوصيل الأكل، فيه مطاعم زي كشري سيد حنفي وواحد مشوي ومؤمن وأرابياتا وباي ستيشن، وتقدر تتابع طلبك لحظة بلحظة. حمّله أكتر من 100 ألف شخص على Google Play."
+      },
+      "seo": {
+        "en": {
+          "title": "HurryApp Offer: 150 EGP Free Balance When You Download",
+          "description": "HurryApp food delivery offer in Egypt: download the app and get 150 EGP of free balance, plus discounts of up to 70% and free delivery. No promo code needed."
+        },
+        "ar": {
+          "title": "عرض هاري آب: رصيد 150 جنيه هدية لما تحمّل التطبيق",
+          "description": "عرض هاري آب لتوصيل الأكل في مصر: حمّل التطبيق واحصل على رصيد 150 جنيه هدية، وخصومات تصل لـ 70% وتوصيل مجاني. بدون كود خصم."
+        }
+      }
+    },
+    {
       "key": "lavania",
       "slug": "Lavania-PromoCode",
       "name": { "en": "Lavania", "ar": "لافانيا" },
