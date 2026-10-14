@@ -50,6 +50,9 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
   .biz .nav > a:nth-child(n) .nav-ic { background: var(--bz-sun-soft); color: var(--bz-pri); }
   .biz .nav-extra .bz-btn { width: 100%; }
 }
+/* the header shows Services / Free QR code / Plans on wide screens; the phone menu lists every service */
+@media (min-width: 1061px) { .biz .nav .nav-svc { display: none; } }
+@media (max-width: 1060px) { .biz .nav .nav-desk { display: none; } }
 @media (max-width: 600px) { .bz-head-cta { display: none; } }
 @media (max-width: 440px) { .biz .lang .lang-long { display: none; } .bz-logo img { height: 36px; } }
 
@@ -178,6 +181,32 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .m-tiles b { display: block; margin-top: 6px; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .m-tiles em { font-style: normal; font-size: 11px; font-weight: 700; color: var(--bz-leaf); }
 .m-tiles i { position: absolute; bottom: 8px; inset-inline-end: 8px; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: var(--bz-pri); color: var(--bz-sun); font-style: normal; font-size: 13px; line-height: 1; }
+/* a restaurant on Google Maps (a generic map: no Google artwork) */
+.m-maps { border-radius: 18px; overflow: hidden; background: #fff; border: 1px solid var(--bz-line); box-shadow: 0 26px 50px -26px rgba(58, 40, 13, .5); }
+.m-map { position: relative; height: 130px; overflow: hidden; background: #EEF3E6; }
+.m-map::before { content: ""; position: absolute; top: 14px; left: 8%; width: 74px; height: 50px; border-radius: 14px; background: #D8EBC4; }
+.m-map::after { content: ""; position: absolute; bottom: 10px; right: 10%; width: 90px; height: 34px; border-radius: 12px; background: #DCEAF6; }
+.m-map i { position: absolute; background: #fff; }
+.m-map .r1 { left: -10%; right: -10%; top: 58%; height: 14px; transform: rotate(-7deg); }
+.m-map .r2 { top: -10%; bottom: -10%; left: 32%; width: 11px; transform: rotate(14deg); }
+.m-map .r3 { top: -10%; bottom: -10%; left: 74%; width: 9px; background: var(--bz-sun-3); }
+.m-pin { position: absolute; z-index: 1; left: 50%; top: 26px; margin-left: -22px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--bz-pri); color: var(--bz-sun); box-shadow: 0 0 0 8px rgba(84, 58, 20, .15); }
+.m-pin .icon { width: 24px; height: 24px; }
+.m-place { padding: 14px 16px 12px; }
+.m-place b { display: block; font-size: 15px; }
+.m-place > small { display: block; color: var(--bz-ink-3); font-size: 11.5px; }
+.m-stars { display: flex; align-items: center; gap: 8px; margin: 2px 0; }
+.m-stars span, .m-review span { color: #E8A317; letter-spacing: 1px; font-size: 13px; }
+.m-stars small { color: var(--bz-leaf); font-weight: 700; font-size: 11px; }
+.m-actions { display: flex; gap: 8px; margin-top: 10px; }
+.m-actions span { padding: 5px 11px; border-radius: 999px; border: 1px solid var(--bz-line-2); color: var(--bz-pri); font-weight: 600; font-size: 11px; }
+.m-review { display: flex; gap: 10px; margin: 0 16px 16px; padding: 10px 12px; border-radius: 12px; background: var(--bz-sun-soft); }
+.m-avatar { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--bz-leaf-2); color: #fff; }
+.m-avatar .icon { width: 15px; height: 15px; }
+.m-review p { font-size: 11.5px; }
+.bz-row-visual .mock-maps { width: min(100%, 380px); }
+.bz-duo .mock-maps { width: min(100%, 400px); }
+
 /* the restaurant's code on Foodidu, found from Google */
 .m-serp { display: grid; gap: 12px; }
 .m-search { display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid var(--bz-line); border-radius: 999px; padding: 10px 16px; font-size: 13px; color: var(--bz-ink-2); box-shadow: 0 12px 24px -16px rgba(58, 40, 13, .4); }
@@ -306,6 +335,20 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .bz-foot a, .bz-foot button { color: #E9DCC0; text-decoration: none; background: none; border: 0; padding: 0; font-size: .95rem; }
 .bz-foot a:hover, .bz-foot button:hover { color: #fff; text-decoration: underline; }
 .bz-foot-bottom { margin-top: 36px; padding-top: 20px; border-top: 1px solid rgba(255, 241, 204, .15); font-size: .88rem; }
+
+/* WhatsApp: next to the form, in the footer, a floating button, and under the QR tool's link field */
+.bz-wa { margin-top: 22px; background: var(--bz-leaf); color: #fff; }
+.bz-wa:hover { background: #3F6A18; }
+.bz-wa .icon, .bz-foot-wa .icon, .qr-nomenu .icon { width: 20px; height: 20px; }
+.bz-foot-wa { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; font-weight: 700; color: var(--bz-sun) !important; }
+.bz-float-wa { position: fixed; z-index: 60; bottom: 18px; inset-inline-end: 18px; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--bz-leaf); color: #fff; box-shadow: 0 12px 26px -10px rgba(58, 40, 13, .6); transition: transform .18s var(--ease); }
+.bz-float-wa:hover { transform: translateY(-2px) scale(1.04); }
+.bz-float-wa .icon { width: 30px; height: 30px; }
+.qr-nomenu { display: flex; gap: 8px; align-items: flex-start; margin-top: 6px; padding: 10px 12px; border-radius: 10px; background: var(--bz-leaf-soft); font-size: .9rem; color: var(--bz-ink); }
+.qr-nomenu .icon { flex: none; margin-top: 2px; color: var(--bz-leaf); }
+.qr-nomenu a { font-weight: 700; color: var(--bz-leaf); }
+@media print { .bz-float-wa { display: none; } }
 
 /* ---------- the free QR code tool (/business/qr-menu-generator/) ---------- */
 .qr-head { padding-block: clamp(24px, 4vw, 44px) 8px; }

@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Foodidu Business art</title>
+<link rel="stylesheet" href="/__static/css/site.css">
+<style>
+  body { padding: 24px; font-family: "Readex Pro", system-ui, sans-serif; background: #fff; }
+  #out img { max-width: 420px; margin: 8px; border: 1px solid #ddd; vertical-align: top; }
+  #log { white-space: pre-wrap; font: 12px/1.5 monospace; }
+</style>
+</head>
+<body>
+<!-- Dev-only: open http://localhost:5000/__tools/biz-art.html and press the button.
+     Writes the Foodidu Business share images (static/img/og/biz-*.png, used by tools/build.pl) and the social post + story
+     for the free QR tool (banners/business/, not in git). The QR codes in them are real and open the free tool. -->
+<h1>Foodidu Business art</h1>
+<p><button id="go">Make the images</button></p>
+<pre id="log"></pre>
+<div id="out"></div>
+<script src="/__static/js/qr.js"></script>
+<script src="/__static/js/art.js"></script>
+<script>
+const DEEP = "#3A280D", BROWN = "#543A14", LEAF2 = "#7EB143";
+const TOOL = { en: "https://foodidu.com/business/qr-menu-generator/", ar: "https://foodidu.com/ar/business/qr-menu-generator/" };
+const COPY = {
+  en: {
+    home: ["Tools that grow your restaurant", "A QR menu, a loyalty program and your own ordering website. Start free."],
+    "qr-menu-generator": ["Free QR code for your menu", "Paste your menu link and print a table card in seconds. No sign-up."],
+    "qr-menu": ["A digital QR menu for your restaurant", "Photos and prices in Arabic and English. Update it with no reprinting."],
+    "loyalty-program": ["A loyalty program that brings customers back", "Points or a digital stamp card on your customers' phones."],
+    "restaurant-website": ["Your own ordering website and app", "Customers order from you directly, for delivery or pickup."],
+    "google-maps": ["Your restaurant on Google Maps", "A complete profile and a “Rate us” card for real reviews from your customers."],
+    rateWord: "RATE US", rateScan: "Rate us on Google", rateTable: "★★★★★",
+    free: "FREE", word: "MENU", scan: "Scan for the menu", table: "Table 7", rest: "Your restaurant", card: "Loyalty card", left: "3 more stamps to a free drink",
+    pts: "320 points", order: "Order online", url: "yourrestaurant.com", webH: "Hot and fresh, to your door",
+    post: ["Make a QR code for your menu, free", "No online menu yet? We can make it for you."], site: "foodidu.com/business", wa: "WhatsApp 010 9919 1074"
+  },
+  ar: {
+    home: ["أدوات تكبّر مطعمك", "منيو QR، وبرنامج ولاء، وموقع طلبات باسمك. ابدأ مجاناً."],
+    "qr-menu-generator": ["اعمل كود QR لمنيو مطعمك مجاناً", "حط لينك المنيو واطبع كارت الترابيزة في ثواني، من غير تسجيل."],
+    "qr-menu": ["منيو إلكتروني QR لمطعمك", "بالصور والأسعار بالعربي والإنجليزي، وتعدّله من غير طباعة."],
+    "loyalty-program": ["برنامج ولاء يرجّع عملاءك", "نقاط أو كارت أختام إلكتروني على موبايل عميلك."],
+    "restaurant-website": ["موقع وتطبيق طلبات باسم مطعمك", "العميل يطلب منك مباشرة، توصيل أو استلام."],
+    "google-maps": ["مطعمك على جوجل ماب", "صفحة كاملة، وكارت «قيّمنا» لتقييمات حقيقية من عملاءك."],
+    rateWord: "قيّمنا", rateScan: "قيّمنا على جوجل", rateTable: "★★★★★",
+    free: "مجاناً", word: "منيو", scan: "امسح الكود وشوف المنيو", table: "ترابيزة 7", rest: "مطعمك", card: "كارت الولاء", left: "باقي 3 أختام على مشروب ببلاش",
+    pts: "320 نقطة", order: "اطلب أونلاين", url: "yourrestaurant.com", webH: "سخن وطازة لحد باب بيتك",
+    post: ["اعمل كود QR لمنيو مطعمك مجاناً", "معندكش منيو أونلاين؟ إحنا نعملهولك."], site: "foodidu.com/business", wa: "WhatsApp 010 9919 1074"
+  }
+};
+const font = (w, s, fam = "'Readex Pro'") => `${w} ${s}px ${fam}`;
+const shadow = (x, blur, y, a = .3) => { x.shadowColor = `rgba(58,40,13,${a})`; x.shadowBlur = blur; x.shadowOffsetY = y; };
+const noShadow = (x) => { x.shadowColor = "transparent"; x.shadowBlur = 0; x.shadowOffsetY = 0; };
+function lines(x, text, maxW, size, fam, w, maxLines, min) {   // shrink until it fits in maxLines
+  let s = size, L;
+  for (;;) { x.font = font(w, s, fam); L = wrap(x, text, maxW); if (L.length <= maxLines || s <= min) return { L, s }; s -= 4; }
+}
+function qrPath(q, x0, y0, side) {   // one path for all dark modules (no hairlines between them)
+  const n = q.size + 8, m = side / n, p = new Path2D();
+  for (let r = 0; r < q.size; r++) for (let c = 0; c < q.size; c++) if (q.mod[r][c]) p.rect(x0 + (c + 4) * m, y0 + (r + 4) * m, m + .02, m + .02);
+  return p;
+}
+
+// ---------- pieces ----------
+// The table stand card (same design as the free tool): w wide, 1.4 w tall, centred on cx, cy
+function stand(x, l, cx, cy, w, rot, style = "sun", rate = false) {
+  const T = rate ? { ...COPY[l], word: COPY[l].rateWord, scan: COPY[l].rateScan, table: COPY[l].rateTable } : COPY[l], rtl = l === "ar", h = w * 1.4, sun = style === "sun";
+  x.save(); x.translate(cx, cy); x.rotate(rot); x.translate(-w / 2, -h / 2);
+  shadow(x, 40, 18, .35); x.fillStyle = sun ? SUN : "#fff"; rr(x, 0, 0, w, h, w * .07); x.fill(); noShadow(x);
+  // "Menu" up the start side
+  x.save(); x.translate(rtl ? w * .885 : w * .115, h * .5); x.rotate(-Math.PI / 2);
+  x.fillStyle = sun ? BROWN : SUN; x.font = font(400, w * .2, "Lalezar"); x.textAlign = "center"; x.textBaseline = "middle"; x.direction = rtl ? "rtl" : "ltr";
+  x.fillText(T.word, 0, 0); x.restore();
+  const cx2 = rtl ? w * .415 : w * .585, fs = w * .6, fx = cx2 - fs / 2, fy = h * .17;
+  x.fillStyle = DEEP; x.textAlign = "center"; x.direction = rtl ? "rtl" : "ltr";
+  x.font = font(700, w * .07); x.fillText(T.rest, cx2, h * .12);
+  x.fillStyle = "#fff"; rr(x, fx, fy, fs, fs, fs * .08); x.fill();
+  // corner brackets
+  const g = w * .025, L = fs * .16;
+  x.strokeStyle = BROWN; x.lineWidth = w * .017; x.lineCap = "round"; x.lineJoin = "round";
+  const x0 = fx - g, y0 = fy - g, x1 = fx + fs + g, y1 = fy + fs + g;
+  x.beginPath();
+  x.moveTo(x0, y0 + L); x.lineTo(x0, y0); x.lineTo(x0 + L, y0); x.moveTo(x1 - L, y0); x.lineTo(x1, y0); x.lineTo(x1, y0 + L);
+  x.moveTo(x0, y1 - L); x.lineTo(x0, y1); x.lineTo(x0 + L, y1); x.moveTo(x1 - L, y1); x.lineTo(x1, y1); x.lineTo(x1, y1 - L);
+  x.stroke();
+  x.fillStyle = DEEP; x.fill(qrPath(QR(l), fx + fs * .04, fy + fs * .04, fs * .92));
+  x.font = font(700, w * .055); x.fillStyle = DEEP; x.fillText(T.scan, cx2, fy + fs + h * .09);
+  const pw = w * .38, ph = w * .1, py = fy + fs + h * .12;
+  x.fillStyle = sun ? BROWN : SUN; rr(x, cx2 - pw / 2, py, pw, ph, ph / 2); x.fill();
+  x.fillStyle = sun ? SUN : DEEP; x.font = font(700, w * .045); x.textBaseline = "middle"; x.fillText(T.table, cx2, py + ph / 2 + 1); x.textBaseline = "alphabetic";
+  x.restore();
+}
+// The loyalty stamp card: w wide, 0.62 w tall
+function stamps(x, l, cx, cy, w, rot) {
+  const T = COPY[l], rtl = l === "ar", h = w * .62;
+  x.save(); x.translate(cx, cy); x.rotate(rot); x.translate(-w / 2, -h / 2);
+  shadow(x, 44, 20, .45);
+  const gr = x.createLinearGradient(0, 0, w, h); gr.addColorStop(0, "#6B4A1C"); gr.addColorStop(1, DEEP);
+  x.fillStyle = gr; rr(x, 0, 0, w, h, w * .07); x.fill(); noShadow(x);
+  x.direction = rtl ? "rtl" : "ltr"; x.textAlign = rtl ? "right" : "left";
+  const sx = rtl ? w - w * .07 : w * .07, ex = rtl ? w * .07 : w - w * .07;
+  x.fillStyle = "rgba(255,246,224,.8)"; x.font = font(500, w * .04); x.fillText(T.card, sx, h * .16);
+  x.textAlign = rtl ? "left" : "right"; x.fillStyle = SUN; x.font = font(700, w * .05); x.fillText(T.rest, ex, h * .16);
+  const cols = 5, gap = w * .03, d = (w * .86 - gap * (cols - 1)) / cols;
+  for (let i = 0; i < 10; i++) {
+    const col = i % cols, row = Math.floor(i / cols), k = rtl ? cols - 1 - col : col;
+    const ccx = w * .07 + k * (d + gap) + d / 2, ccy = h * .28 + row * (d + gap * .8) + d / 2;
+    x.beginPath(); x.arc(ccx, ccy, d / 2, 0, Math.PI * 2);
+    if (i < 7) { x.fillStyle = SUN; x.fill(); x.strokeStyle = DEEP; x.lineWidth = d * .1; x.beginPath(); x.moveTo(ccx - d * .2, ccy); x.lineTo(ccx - d * .05, ccy + d * .15); x.lineTo(ccx + d * .22, ccy - d * .14); x.stroke(); }
+    else if (i === 9) { x.fillStyle = LEAF2; x.fill(); x.fillStyle = "#fff"; x.font = font(700, d * .5); x.textAlign = "center"; x.textBaseline = "middle"; x.fillText("★", ccx, ccy + 1); x.textBaseline = "alphabetic"; }
+    else { x.setLineDash([d * .12, d * .1]); x.strokeStyle = "rgba(255,241,204,.55)"; x.lineWidth = 2; x.stroke(); x.setLineDash([]); }
+  }
+  x.textAlign = rtl ? "right" : "left"; x.fillStyle = "rgba(255,246,224,.92)"; x.font = font(500, w * .038); x.fillText(T.left, sx, h * .92);
+  x.textAlign = rtl ? "left" : "right"; x.fillStyle = SUN; x.font = font(700, w * .045); x.fillText(T.pts, ex, h * .92);
+  x.restore();
+}
+// An ordering website in a browser window: w wide, 0.7 w tall
+function browser(x, l, cx, cy, w, rot) {
+  const T = COPY[l], rtl = l === "ar", h = w * .7;
+  x.save(); x.translate(cx, cy); x.rotate(rot); x.translate(-w / 2, -h / 2);
+  shadow(x, 40, 18, .3); x.fillStyle = "#fff"; rr(x, 0, 0, w, h, w * .04); x.fill(); noShadow(x);
+  x.fillStyle = "#F6EEDC"; rr(x, 0, 0, w, h * .11, [w * .04, w * .04, 0, 0]); x.fill();
+  for (let i = 0; i < 3; i++) { x.fillStyle = LINE; x.beginPath(); x.arc(w * .04 + i * w * .03, h * .055, w * .009, 0, Math.PI * 2); x.fill(); }
+  x.fillStyle = "#fff"; rr(x, w * .15, h * .025, w * .8, h * .06, h * .03); x.fill();
+  x.fillStyle = "#8A7350"; x.font = font(400, w * .028); x.textAlign = "left"; x.direction = "ltr"; x.fillText(T.url, w * .17, h * .068);
+  const hx = w * .04, hy = h * .15, hw = w * .92, hh = h * .42;
+  const gr = x.createLinearGradient(hx, hy, hx + hw, hy + hh); gr.addColorStop(0, SUN4); gr.addColorStop(1, "#FFE4A1");
+  x.fillStyle = gr; rr(x, hx, hy, hw, hh, w * .03); x.fill();
+  x.direction = rtl ? "rtl" : "ltr"; x.textAlign = rtl ? "right" : "left";
+  const tx = rtl ? hx + hw - w * .04 : hx + w * .04;
+  x.fillStyle = DEEP; x.font = font(700, w * .05); x.fillText(T.webH, tx, hy + hh * .36);
+  const bw = w * .28, bh = hh * .24, bx = rtl ? tx - bw : tx;
+  x.fillStyle = BROWN; rr(x, bx, hy + hh * .58, bw, bh, bh * .3); x.fill();
+  x.fillStyle = SUN; x.textAlign = "center"; x.font = font(700, w * .032); x.textBaseline = "middle"; x.fillText(T.order, bx + bw / 2, hy + hh * .58 + bh / 2 + 1); x.textBaseline = "alphabetic";
+  const cols = ["#FFE9D6", SUN4, "#EAF3DC"], tw = (hw - w * .04) / 3;
+  for (let i = 0; i < 3; i++) {
+    const ix = hx + i * (tw + w * .02), iy = hy + hh + h * .05;
+    x.strokeStyle = "#EFDFBA"; x.lineWidth = 2; rr(x, ix, iy, tw, h * .3, w * .025); x.stroke();
+    x.fillStyle = cols[i]; rr(x, ix + w * .015, iy + w * .015, tw - w * .03, h * .15, w * .02); x.fill();
+    x.fillStyle = "#EFDFBA"; rr(x, ix + w * .015, iy + h * .2, tw * .6, h * .03, 4); x.fill();
+  }
+  x.restore();
+}
+function didu(x, img, cx, cy, size, flip) {
+  x.save(); x.translate(cx, cy); if (flip) x.scale(-1, 1);
+  x.shadowColor = "rgba(58,40,13,.25)"; x.shadowBlur = 16; x.shadowOffsetY = 10;
+  x.drawImage(img, -size / 2, -size / 2, size, size); x.restore();
+}
+function badge(x, text, cx, cy, r, rot) {
+  x.save(); x.translate(cx, cy); x.rotate(rot);
+  shadow(x, 18, 8, .3); x.fillStyle = LEAF2; x.beginPath(); x.arc(0, 0, r, 0, Math.PI * 2); x.fill(); noShadow(x);
+  x.fillStyle = "#fff"; x.textAlign = "center"; x.textBaseline = "middle"; x.font = font(700, r * .42); x.fillText(text, 0, 2);
+  x.restore();
+}
+function brandRow(x, l, logo, bx, by, lw, align) {   // the Foodidu logo + a "Business" tag
+  const lh = lw * 304 / 767, tagW = lw * .52, tagH = lw * .19, gap = lw * .06, total = lw + gap + tagW;
+  let x0 = align === "center" ? bx - total / 2 : align === "right" ? bx - total : bx;
+  const logoX = l === "ar" ? x0 + tagW + gap : x0, tagX = l === "ar" ? x0 : x0 + lw + gap;
+  x.drawImage(logo, logoX, by, lw, lh);
+  x.fillStyle = BROWN; rr(x, tagX, by + (lh - tagH) / 2, tagW, tagH, tagH * .3); x.fill();
+  x.fillStyle = SUN; x.font = font(700, tagH * .52); x.textAlign = "center"; x.textBaseline = "middle"; x.direction = "ltr";
+  x.fillText("Business", tagX + tagW / 2, by + lh / 2 + 1); x.textBaseline = "alphabetic";
+}
+let QRS = {};
+const QR = (l) => QRS[l] || (QRS[l] = FoodiduQR.encode(TOOL[l]));
+
+// ---------- 1200 x 630 share images ----------
+function og(kind, l, A) {
+  const W = 1200, H = 630, c = canvas(W, H), x = c.getContext("2d"), rtl = l === "ar", T = COPY[l];
+  x.fillStyle = CREAM; x.fillRect(0, 0, W, H);
+  const vx = rtl ? 320 : 880;
+  const glow = x.createRadialGradient(vx, 300, 20, vx, 300, 420); glow.addColorStop(0, "rgba(255,209,92,.7)"); glow.addColorStop(1, "rgba(255,209,92,0)");
+  x.fillStyle = glow; x.fillRect(0, 0, W, H);
+  x.strokeStyle = "rgba(228,207,158,.45)"; x.lineWidth = 1;
+  for (let gx = 0; gx <= W; gx += 44) { x.beginPath(); x.moveTo(gx + .5, 0); x.lineTo(gx + .5, H); x.stroke(); }
+  for (let gy = 0; gy <= H; gy += 44) { x.beginPath(); x.moveTo(0, gy + .5); x.lineTo(W, gy + .5); x.stroke(); }
+  // text side
+  const colX = rtl ? W - 64 : 64, colW = 560;
+  brandRow(x, l, A.logo, colX, 52, 190, rtl ? "right" : "left");
+  x.direction = rtl ? "rtl" : "ltr"; x.textAlign = rtl ? "right" : "left"; x.fillStyle = DEEP;
+  const t = lines(x, T[kind][0], colW, 68, "'Readex Pro'", 700, 3, 48), lh = t.s * (rtl ? 1.4 : 1.12);
+  let y = 200 + t.s * .9;
+  x.font = font(700, t.s); for (const ln of t.L) { x.fillText(ln, colX, y); y += lh; }
+  x.fillStyle = "#6B522C"; x.font = font(400, 30);
+  y += 8; for (const ln of wrap(x, T[kind][1], colW).slice(0, 3)) { x.fillText(ln, colX, y); y += 44; }
+  x.fillStyle = BROWN; x.font = font(700, 24); x.direction = "ltr"; x.textAlign = rtl ? "right" : "left"; x.fillText(T.site, colX, H - 48);
+  // picture side; Didu stands on the outer edge, pointing in
+  const outer = rtl ? -1 : 1, flipDidu = !rtl;   // didu-point points right in the file
+  if (kind === "home") {
+    stamps(x, l, vx + outer * 40, 400, 360, outer * .06);
+    stand(x, l, vx - outer * 70, 270, 230, -outer * .07);
+    didu(x, A.point, vx + outer * 210, 230, 170, flipDidu);
+  } else if (kind === "loyalty-program") {
+    stamps(x, l, vx - outer * 20, 300, 450, -outer * .05);
+    didu(x, A.party, vx + outer * 190, 500, 180, false);
+  } else if (kind === "restaurant-website") {
+    browser(x, l, vx - outer * 20, 300, 470, -outer * .03);
+    didu(x, A.point, vx + outer * 215, 500, 170, flipDidu);
+  } else if (kind === "google-maps") {
+    stand(x, l, vx - outer * 30, 315, 300, -outer * .05, "white", true);
+    didu(x, A.point, vx + outer * 190, 480, 180, flipDidu);
+  } else {   // the QR tool and the QR menu
+    stand(x, l, vx - outer * 30, 315, 300, -outer * .05);
+    didu(x, A.point, vx + outer * 190, 480, 180, flipDidu);
+    if (kind === "qr-menu-generator") badge(x, T.free, vx + outer * 150, 110, 62, outer * .15);
+  }
+  return c;
+}
+
+// ---------- social post (1080 x 1080) and story (1080 x 1920) for the free tool ----------
+function social(l, A, story) {
+  const W = 1080, H = story ? 1920 : 1080, c = canvas(W, H), x = c.getContext("2d"), rtl = l === "ar", T = COPY[l];
+  x.fillStyle = SUN; x.fillRect(0, 0, W, H);
+  x.globalAlpha = .55; for (let py = 0; py < H; py += 406) for (let px = 0; px < W; px += 187) x.drawImage(A.pattern, px, py - 60, 187, 406); x.globalAlpha = 1;
+  const top = story ? 270 : 64;   // stories: keep clear of the top 250 px and bottom 330 px that the apps cover
+  brandRow(x, l, A.logo, W / 2, top, story ? 230 : 200, "center");
+  x.direction = rtl ? "rtl" : "ltr"; x.textAlign = "center"; x.fillStyle = DEEP;
+  const t = lines(x, T.post[0], W - 160, story ? 104 : 88, "Lalezar", 400, 2, 56), lh = t.s * (rtl ? 1.25 : 1.05);
+  let y = top + (story ? 200 : 160) + t.s * .8;
+  x.font = font(400, t.s, "Lalezar"); for (const ln of t.L) { x.fillText(ln, W / 2, y); y += lh; }
+  const cw = story ? 350 : 255, ccy = y + (story ? 10 : -10) + cw * .7;   // the card sits between the title and the band
+  stand(x, l, W / 2, ccy, cw, rtl ? .03 : -.03, "white");
+  const outer = rtl ? -1 : 1;
+  didu(x, A.point, W / 2 + outer * (cw * .5 + 100), ccy + cw * .3, story ? 210 : 170, !rtl);
+  badge(x, T.free, W / 2 - outer * (cw * .5 + 40), ccy - cw * .55, story ? 82 : 66, -outer * .15);
+  // the offer to make the menu, on a brown band
+  const bh = story ? 190 : 150, by = story ? H - 330 - bh - 20 : H - bh - 40;
+  x.fillStyle = BROWN; rr(x, 60, by, W - 120, bh, 36); x.fill();
+  x.fillStyle = SUN; x.font = font(700, story ? 44 : 38); x.fillText(T.post[1], W / 2, by + bh * .45);
+  x.fillStyle = "#F3E6C8"; x.font = font(600, story ? 32 : 28); x.direction = "ltr"; x.fillText(T.wa + "   ·   " + T.site, W / 2, by + bh * .78);
+  return c;
+}
+
+document.getElementById("go").onclick = async () => {
+  try {
+    for (const f of ["400 92px Lalezar", "700 40px 'Readex Pro'", "400 30px 'Readex Pro'", "600 30px 'Readex Pro'"]) { await document.fonts.load(f); await document.fonts.load(f, "منيو كود"); }
+    const A = { logo: await load("/__static/img/foodidu-logo.svg"), point: await load("/__static/img/mascot/didu-point.svg"), party: await load("/__static/img/mascot/didu-party.svg"), pattern: await load("/__static/img/pattern.svg") };
+    for (const l of ["en", "ar"]) {
+      for (const k of ["home", "qr-menu-generator", "qr-menu", "loyalty-program", "restaurant-website", "google-maps"]) await save(`static/img/og/biz-${k}-${l}.png`, og(k, l, A), "image/png");
+      await save(`banners/business/qr-tool-post-${l}.png`, social(l, A, false), "image/png");
+      await save(`banners/business/qr-tool-story-${l}.png`, social(l, A, true), "image/png");
+    }
+    log("DONE");
+  } catch (e) { log("ERROR " + e.message); console.error(e); }
+};
+</script>
+</body>
+</html>

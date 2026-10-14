@@ -1,5 +1,6 @@
 {
   "_help": "Foodidu Business (foodidu.com/business/ and /ar/business/): the landing page and one page per service, built by tools/build.pl. Keep every promise here something we can deliver; no prices are written (plans say 'monthly plan' or 'quote'). The application form saves the chosen services and plan inside the description.",
+  "whatsapp": { "number": "201099191074", "display": "010 9919 1074" },
   "seo": {
     "en": {
       "title": "Foodidu Business: QR Menu, Loyalty Program & Restaurant Website",
@@ -12,8 +13,8 @@
   },
   "h1": { "en": "Everything your restaurant needs, in one place", "ar": "كل أدوات مطعمك في مكان واحد" },
   "lede": {
-    "en": "A QR menu, a loyalty program that brings customers back, an ordering website and app under your own name, and visibility in front of people looking for deals on Foodidu. Start free with an exclusive promo code for Foodidu users.",
-    "ar": "منيو QR، وبرنامج ولاء يعيد عملاءك مرة بعد مرة، وموقع وتطبيق طلبات باسم مطعمك، وظهور أمام الباحثين عن العروض على Foodidu. ابدأ مجاناً بكود خصم حصري لعملاء Foodidu."
+    "en": "A QR menu, a loyalty program that brings customers back, an ordering website and app under your own name, your restaurant on Google Maps with real reviews, and visibility on Foodidu. Start free with an exclusive promo code for Foodidu users.",
+    "ar": "منيو QR، وبرنامج ولاء يرجّع عملاءك، وموقع وتطبيق طلبات باسم مطعمك، ومطعمك على جوجل ماب بتقييمات حقيقية، وظهور أمام الباحثين عن العروض على Foodidu. ابدأ مجاناً بكود خصم حصري لعملاء Foodidu."
   },
   "journey": {
     "title": { "en": "From a first order to a regular customer", "ar": "من أول طلب لحد ما يبقى زبون دائم" },
@@ -342,6 +343,113 @@
       ]
     },
     {
+      "key": "google-maps",
+      "icon": "pin",
+      "name": { "en": "Google Maps & reviews", "ar": "جوجل ماب والتقييمات" },
+      "short": {
+        "en": "Your restaurant on Google Maps with photos, hours and menu, and a “Rate us” card that brings real reviews from your customers.",
+        "ar": "مطعمك على جوجل ماب بالصور والمواعيد والمنيو، وكارت «قيّمنا» يجيبلك تقييمات حقيقية من عملاءك."
+      },
+      "seo": {
+        "en": {
+          "title": "Add Your Restaurant to Google Maps & Get More Real Reviews",
+          "description": "We add your restaurant to Google Maps or complete your profile with photos, hours and menu, and give you a QR card that brings real reviews from customers."
+        },
+        "ar": {
+          "title": "إضافة مطعمك على جوجل ماب وزيادة تقييماتك الحقيقية",
+          "description": "نضيف مطعمك على جوجل ماب أو نكمّل صفحتك بالصور والمواعيد والمنيو، ونديك كارت QR يجيبلك تقييمات حقيقية من عملاءك."
+        }
+      },
+      "h1": { "en": "Your restaurant on Google Maps, with real reviews", "ar": "مطعمك على جوجل ماب، بتقييمات حقيقية" },
+      "lede": {
+        "en": "When people look for food near them, they open Google Maps. We make sure your restaurant shows up with the right details, and help your happy customers leave a review.",
+        "ar": "لما الناس تدوّر على أكل قريب منها بتفتح جوجل ماب. إحنا نتأكد إن مطعمك بيظهر ببيانات صح، ونساعد عملاءك المبسوطين يكتبوا تقييم."
+      },
+      "about": {
+        "title": { "en": "Why Google Maps matters for a restaurant", "ar": "ليه جوجل ماب مهم للمطعم؟" },
+        "text": [
+          {
+            "en": "Many people choose where to eat from the map: they compare the rating, the photos and the opening hours, then call or ask for directions. A missing or half-empty profile sends them to the restaurant next door.",
+            "ar": "ناس كتير بتختار هتاكل فين من الخريطة: بتقارن التقييم والصور والمواعيد، وبعدين تتصل أو تطلب الاتجاهات. ولو صفحتك مش موجودة أو ناقصة، بيروحوا للمطعم اللي جنبك."
+          },
+          {
+            "en": "We only work with real reviews from real customers. Bought or written reviews break Google's rules: Google removes them and can suspend the whole profile, so we never write them.",
+            "ar": "إحنا بنشتغل بالتقييمات الحقيقية من العملاء الحقيقيين بس. التقييمات المشتراة أو المكتوبة ضد قواعد جوجل: جوجل بيمسحها وممكن يوقف الصفحة كلها، عشان كده عمرنا ما بنكتبها."
+          }
+        ]
+      },
+      "features": [
+        {
+          "title": { "en": "On the map", "ar": "على الخريطة" },
+          "text": {
+            "en": "We add your restaurant to Google Maps, or help you claim and verify the profile you already have.",
+            "ar": "نضيف مطعمك على جوجل ماب، أو نساعدك تثبت ملكيتك للصفحة اللي موجودة."
+          }
+        },
+        {
+          "title": { "en": "A complete profile", "ar": "صفحة كاملة" },
+          "text": { "en": "Photos, opening hours, phone, menu link, delivery and the right categories.", "ar": "صور، ومواعيد، وتليفون، ولينك المنيو، والتوصيل، والتصنيف الصح." }
+        },
+        {
+          "title": { "en": "A “Rate us” card", "ar": "كارت «قيّمنا»" },
+          "text": { "en": "A QR code on your tables that opens your Google review page directly.", "ar": "كود QR على الترابيزات بيفتح صفحة التقييم بتاعتك على جوجل على طول." }
+        },
+        {
+          "title": { "en": "Real reviews only", "ar": "تقييمات حقيقية بس" },
+          "text": { "en": "Happy customers write the reviews themselves; no bought or fake reviews, ever.", "ar": "العملاء المبسوطين بيكتبوا التقييم بنفسهم، ومن غير أي تقييمات مشتراة أو متألفة." }
+        },
+        {
+          "title": { "en": "Replies to reviews", "ar": "الرد على التقييمات" },
+          "text": { "en": "Ready replies in Arabic and English, for the good reviews and the bad ones.", "ar": "ردود جاهزة بالعربي والإنجليزي، للتقييمات الحلوة والوحشة." }
+        },
+        {
+          "title": { "en": "Your offers on Google", "ar": "عروضك على جوجل" },
+          "text": { "en": "Post your offers and your Foodidu promo code on your Google profile.", "ar": "انشر عروضك وكود خصمك على Foodidu في صفحتك على جوجل." }
+        }
+      ],
+      "steps": [
+        {
+          "title": { "en": "Send us your details", "ar": "ابعتلنا بياناتك" },
+          "text": { "en": "Your restaurant's name, address, phone, hours and a few photos.", "ar": "اسم المطعم، والعنوان، والتليفون، والمواعيد، وشوية صور." }
+        },
+        {
+          "title": { "en": "We set up your profile", "ar": "نجهّز صفحتك" },
+          "text": { "en": "We add or complete your Google Maps profile and help you verify it.", "ar": "نضيف أو نكمّل صفحتك على جوجل ماب ونساعدك تثبتها." }
+        },
+        {
+          "title": { "en": "Customers rate you", "ar": "العملاء يقيّموك" },
+          "text": { "en": "Put the “Rate us” card on your tables and reply to every review.", "ar": "حط كارت «قيّمنا» على الترابيزات، ورد على كل تقييم." }
+        }
+      ],
+      "faq": [
+        {
+          "q": { "en": "Do you write reviews for my restaurant?", "ar": "بتكتبوا تقييمات لمطعمي؟" },
+          "a": {
+            "en": "No. Fake or bought reviews break Google's rules and can get your profile suspended. We help your real customers leave reviews.",
+            "ar": "لأ. التقييمات المتألفة أو المشتراة ضد قواعد جوجل، وممكن توقف صفحتك. إحنا بنساعد عملاءك الحقيقيين يكتبوا تقييم."
+          }
+        },
+        {
+          "q": { "en": "Can you guarantee a top spot on Google Maps?", "ar": "تقدروا تضمنوا إني أطلع أول واحد على جوجل ماب؟" },
+          "a": {
+            "en": "No one can guarantee that. A complete profile, good photos and steady real reviews help you show up more often.",
+            "ar": "محدش يقدر يضمن ده. الصفحة الكاملة والصور الحلوة والتقييمات الحقيقية المستمرة بتخليك تظهر أكتر."
+          }
+        },
+        {
+          "q": { "en": "My restaurant is already on Google Maps. Can you help?", "ar": "مطعمي موجود على جوجل ماب بالفعل، تقدروا تساعدوا؟" },
+          "a": {
+            "en": "Yes. We help you claim the profile, fix the details and add photos, the menu and your offers.",
+            "ar": "أيوه. نساعدك تثبت ملكيتك للصفحة، ونصلّح البيانات، ونضيف الصور والمنيو وعروضك."
+          }
+        },
+        {
+          "q": { "en": "Can I make the “Rate us” card myself?", "ar": "أقدر أعمل كارت «قيّمنا» بنفسي؟" },
+          "a": { "en": "Yes, with our free QR tool: paste your Google review link instead of your menu link.", "ar": "أيوه، بأداة الـ QR المجانية: حط لينك التقييم بتاعك على جوجل بدل لينك المنيو." }
+        }
+      ]
+    },
+    {
       "key": "visibility",
       "icon": "target",
       "page": false,
@@ -388,6 +496,7 @@
       "features": [
         { "en": "Everything in Starter", "ar": "كل مميزات الأساسية" },
         { "en": "A loyalty program with points or stamps", "ar": "برنامج ولاء بالنقاط أو كارت الأختام" },
+        { "en": "Your Google Maps profile and a “Rate us” card", "ar": "صفحتك على جوجل ماب وكارت «قيّمنا»" },
         { "en": "A QR menu in your design, with your photos", "ar": "منيو QR بتصميمك وصور أصنافك" },
         { "en": "Priority in the featured spot on Foodidu", "ar": "أولوية في المساحة المميزة على Foodidu" },
         { "en": "A monthly report of views and code copies", "ar": "تقرير شهري بزيارات ونسخ كودك" }
@@ -486,6 +595,10 @@
       {
         "title": { "en": "Keep it easy to scan", "ar": "خليه سهل يتقري" },
         "text": { "en": "A dark code on a light background scans best; avoid shiny lamination over the code.", "ar": "الكود الغامق على خلفية فاتحة بيتقري أحسن، وابعد عن التغليف اللامع فوق الكود." }
+      },
+      {
+        "title": { "en": "Use it for Google reviews too", "ar": "استخدمه لتقييمات جوجل كمان" },
+        "text": { "en": "Paste your Google review link to make a “Rate us” card for your tables.", "ar": "حط لينك التقييم بتاعك على جوجل واعمل كارت «قيّمنا» للترابيزات." }
       }
     ],
     "faq": [
