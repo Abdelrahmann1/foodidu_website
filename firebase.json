@@ -156,7 +156,15 @@
       { "source": "/hurryapp-promocode", "destination": "/HurryApp-PromoCode/", "type": 301 },
       { "source": "/hurryapp-promocode/", "destination": "/HurryApp-PromoCode/", "type": 301 },
       { "source": "/ar/hurryapp-promocode", "destination": "/ar/HurryApp-PromoCode/", "type": 301 },
-      { "source": "/ar/hurryapp-promocode/", "destination": "/ar/HurryApp-PromoCode/", "type": 301 }
+      { "source": "/ar/hurryapp-promocode/", "destination": "/ar/HurryApp-PromoCode/", "type": 301 },
+      { "source": "/klay-deli-promocode", "destination": "/Klay-Deli-PromoCode/", "type": 301 },
+      { "source": "/klay-deli-promocode/", "destination": "/Klay-Deli-PromoCode/", "type": 301 },
+      { "source": "/ar/klay-deli-promocode", "destination": "/ar/Klay-Deli-PromoCode/", "type": 301 },
+      { "source": "/ar/klay-deli-promocode/", "destination": "/ar/Klay-Deli-PromoCode/", "type": 301 },
+      { "source": "/bf-burger-promocode", "destination": "/BF-Burger-PromoCode/", "type": 301 },
+      { "source": "/bf-burger-promocode/", "destination": "/BF-Burger-PromoCode/", "type": 301 },
+      { "source": "/ar/bf-burger-promocode", "destination": "/ar/BF-Burger-PromoCode/", "type": 301 },
+      { "source": "/ar/bf-burger-promocode/", "destination": "/ar/BF-Burger-PromoCode/", "type": 301 }
     ],
     "headers": [
       {

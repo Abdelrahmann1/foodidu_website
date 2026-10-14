@@ -916,6 +916,103 @@
       }
     },
     {
+      "key": "klay-deli",
+      "slug": "Klay-Deli-PromoCode",
+      "name": { "en": "Klay Deli", "ar": "كلاي ديلي" },
+      "logo": "klay-deli.webp",
+      "code": "",
+      "noCode": true,
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "firstOrder": true,
+      "featured": false,
+      "url": "https://www.orderklaydeli.com/",
+      "urlLabel": { "en": "Order from Klay Deli", "ar": "اطلب من كلاي ديلي" },
+      "lastVerified": "2026-10-14",
+      "badge": { "en": ["20%", "off"], "ar": ["20%", "خصم"] },
+      "offer": { "en": "20% off your first order when you sign up", "ar": "خصم 20% على أول أوردر لما تسجّل" },
+      "terms": {
+        "en": "Sign up on orderklaydeli.com and get 20% off your first online order; log in to claim it. No code needed.",
+        "ar": "سجّل في موقع كلاي ديلي واحصل على خصم 20% على أول أوردر أونلاين، وسجّل دخولك عشان يتطبّق. بدون كود."
+      },
+      "where": { "en": "the Klay Deli website", "ar": "موقع كلاي ديلي" },
+      "steps": {
+        "en": [
+          ["Open the Klay Deli website", "Go to orderklaydeli.com and choose delivery or pickup."],
+          ["Sign up and log in", "Create your account and log in to claim the 20% off."],
+          ["Order", "The discount applies to your first order, no code needed."]
+        ],
+        "ar": [
+          ["افتح موقع كلاي ديلي", "ادخل على orderklaydeli.com واختر توصيل أو استلام."],
+          ["سجّل وادخل بحسابك", "اعمل حساب وسجّل دخولك عشان يتطبّق خصم الـ 20%."],
+          ["اطلب", "الخصم على أول أوردر، بدون كود."]
+        ]
+      },
+      "about": {
+        "en": "Klay is an everyday deli in Egypt serving salads, focaccia sandwiches, warm bowls and coffee, for delivery or pickup from its website.",
+        "ar": "كلاي ديلي مكان أكل يومي في مصر، فيه سلطات وساندويتشات فوكاتشيا وبولز سخنة وقهوة، توصيل أو استلام من موقعه."
+      },
+      "seo": {
+        "en": {
+          "title": "Klay Deli Offer: 20% Off Your First Order Online",
+          "description": "Klay Deli offer in Egypt: sign up on their website and get 20% off your first order of salads, focaccia sandwiches and coffee. No promo code needed."
+        },
+        "ar": {
+          "title": "خصم كلاي ديلي: 20% على أول أوردر لما تسجّل",
+          "description": "عرض كلاي ديلي في مصر: سجّل في موقعهم واحصل على خصم 20% على أول أوردر من السلطات وساندويتشات الفوكاتشيا والقهوة، بدون كود خصم."
+        }
+      }
+    },
+    {
+      "key": "bf-burger",
+      "slug": "BF-Burger-PromoCode",
+      "name": { "en": "B&F Burger & Fries", "ar": "بي آند إف برجر" },
+      "logo": "bf-burger.webp",
+      "code": "",
+      "noCode": true,
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "firstOrder": true,
+      "featured": false,
+      "url": "https://burgerandfries.prepit.app/",
+      "urlLabel": { "en": "Order from B&F", "ar": "اطلب من B&F" },
+      "badge": { "en": ["20%", "off"], "ar": ["20%", "خصم"] },
+      "offer": { "en": "20% off your first order when you create an account", "ar": "خصم 20% على أول أوردر لما تعمل حساب" },
+      "terms": {
+        "en": "Create your first B&F account on their website and get 20% off your first order, from B&F's official post. No code needed.",
+        "ar": "اعمل أول حساب لك على موقع B&F واحصل على خصم 20% على أول أوردر، حسب بوست B&F الرسمي. بدون كود."
+      },
+      "where": { "en": "the B&F website", "ar": "موقع B&F" },
+      "steps": {
+        "en": [
+          ["Open the B&F website", "Go to burgerandfries.prepit.app and choose delivery or pickup."],
+          ["Create your account", "Sign up for your first B&F account."],
+          ["Order", "20% off your first order, no code needed."]
+        ],
+        "ar": [
+          ["افتح موقع B&F", "ادخل على burgerandfries.prepit.app واختر توصيل أو استلام."],
+          ["اعمل حسابك", "سجّل أول حساب لك على B&F."],
+          ["اطلب", "خصم 20% على أول أوردر، بدون كود."]
+        ]
+      },
+      "about": {
+        "en": "B&F (Burger & Fries) is a smash burger restaurant in Egypt: classic, truffle and Oklahoma smashburgers from 180 EGP, plus chicken sandwiches, fries and shakes. Order from its website.",
+        "ar": "بي آند إف (Burger & Fries) مطعم سماش برجر في مصر: كلاسيك وترافل وأوكلاهوما سماش برجر تبدأ من 180 جنيه، وساندويتشات فراخ وبطاطس وشيكس. اطلب من موقعه."
+      },
+      "seo": {
+        "en": {
+          "title": "B&F Burger Offer: 20% Off Your First Smashburger Order",
+          "description": "B&F Burger & Fries offer in Egypt: create an account on their website and get 20% off your first smashburger order, no promo code needed. Burgers from 180 EGP."
+        },
+        "ar": {
+          "title": "خصم B&F برجر: 20% على أول أوردر لما تعمل حساب",
+          "description": "عرض B&F برجر في مصر: اعمل حساب على موقعهم واحصل على خصم 20% على أول أوردر سماش برجر، بدون كود خصم. البرجر يبدأ من 180 جنيه."
+        }
+      }
+    },
+    {
       "key": "lavania",
       "slug": "Lavania-PromoCode",
       "name": { "en": "Lavania", "ar": "لافانيا" },
