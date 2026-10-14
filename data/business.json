@@ -154,7 +154,7 @@
       },
       "seo": {
         "en": {
-          "title": "Free QR Code Menu for Restaurants & Cafés in Egypt",
+          "title": "Digital QR Menu for Restaurants & Cafés in Egypt",
           "description": "Make a QR code menu for your restaurant or café: customers scan and see your dishes with photos and prices in Arabic and English. A basic menu is free."
         },
         "ar": {
@@ -435,5 +435,86 @@
         "ar": "فريقنا بيتواصل معاك يراجع طلبك ويتفق معاك على التفاصيل، وبعدها نجهّز أدواتك وصفحتك."
       }
     }
-  ]
+  ],
+  "tool": {
+    "name": { "en": "Free QR code menu generator", "ar": "مولّد كود QR للمنيو مجاناً" },
+    "seo": {
+      "en": {
+        "title": "Free QR Code Menu Generator: Make a Menu QR Code",
+        "description": "Paste your restaurant menu link and get a QR code ready to print for your tables. Free, no sign-up: download it as an image or print table cards."
+      },
+      "ar": {
+        "title": "اعمل كود QR للمنيو مجاناً: مولّد باركود منيو للمطاعم",
+        "description": "حط لينك منيو مطعمك أو الكافيه وخد كود QR جاهز للطباعة على الترابيزات، مجاناً ومن غير تسجيل. نزّله صورة أو اطبعه كروت للترابيزات."
+      }
+    },
+    "h1": { "en": "Make a QR code for your menu, free", "ar": "اعمل كود QR لمنيو مطعمك مجاناً" },
+    "lede": {
+      "en": "Paste your menu link and get a QR code with a table card ready to print, in seconds and with no sign-up.",
+      "ar": "حط لينك المنيو بتاعك، وخد كود QR وكارت ترابيزة جاهزين للطباعة، في ثواني ومن غير تسجيل."
+    },
+    "steps": [
+      {
+        "title": { "en": "Paste your menu link", "ar": "حط لينك المنيو" },
+        "text": {
+          "en": "Your website, a PDF on Google Drive, your Instagram page or your page on a delivery app.",
+          "ar": "موقعك، أو ملف PDF على Google Drive، أو صفحة الإنستجرام، أو صفحتك على تطبيق توصيل."
+        }
+      },
+      {
+        "title": { "en": "Add your name and table", "ar": "اكتب اسمك ورقم الترابيزة" },
+        "text": { "en": "Pick the card style and the code colour; the preview changes as you type.", "ar": "اختار شكل الكارت ولون الكود، والمعاينة بتتغير وأنت بتكتب." }
+      },
+      {
+        "title": { "en": "Download or print", "ar": "نزّل أو اطبع" },
+        "text": { "en": "Download the card or the code as an image, or print four cards on one A4 page.", "ar": "نزّل الكارت أو الكود صورة، أو اطبع 4 كروت في ورقة A4 واحدة." }
+      }
+    ],
+    "tips": [
+      {
+        "title": { "en": "Test before printing", "ar": "جرّب قبل الطباعة" },
+        "text": { "en": "Scan the code with two different phones and make sure your menu opens.", "ar": "امسح الكود بموبايلين مختلفين واتأكد إن المنيو بيفتح." }
+      },
+      {
+        "title": { "en": "Print it big enough", "ar": "اطبعه بحجم كفاية" },
+        "text": { "en": "Keep the code at least 3 cm wide, and bigger if it hangs on a wall.", "ar": "خلي الكود 3 سم على الأقل، وأكبر لو هيتعلق على حيطة." }
+      },
+      {
+        "title": { "en": "Use a link that will not change", "ar": "استخدم لينك مش هيتغير" },
+        "text": { "en": "The code always opens the same link. If you move your menu, you need a new code.", "ar": "الكود بيفتح نفس اللينك على طول. لو نقلت المنيو لمكان تاني هتحتاج كود جديد." }
+      },
+      {
+        "title": { "en": "Keep it easy to scan", "ar": "خليه سهل يتقري" },
+        "text": { "en": "A dark code on a light background scans best; avoid shiny lamination over the code.", "ar": "الكود الغامق على خلفية فاتحة بيتقري أحسن، وابعد عن التغليف اللامع فوق الكود." }
+      }
+    ],
+    "faq": [
+      {
+        "q": { "en": "Is the QR code really free?", "ar": "الكود مجاني فعلاً؟" },
+        "a": { "en": "Yes. Make as many codes as you want, with no sign-up and no mark on the code itself.", "ar": "أيوه. اعمل أكواد قد ما تحب، من غير تسجيل ومن غير أي علامة على الكود نفسه." }
+      },
+      {
+        "q": { "en": "Does the code expire?", "ar": "الكود بينتهي؟" },
+        "a": { "en": "No. Your link is stored inside the code itself, so it works as long as your link works.", "ar": "لأ. اللينك متسجل جوه الكود نفسه، فهيفضل شغال طول ما اللينك بتاعك شغال." }
+      },
+      {
+        "q": { "en": "Can I change the link later?", "ar": "أقدر أغيّر اللينك بعدين؟" },
+        "a": {
+          "en": "Not on the same code: a new link needs a new code. With a Foodidu QR menu, you change the menu and the code stays the same.",
+          "ar": "مش على نفس الكود: اللينك الجديد محتاج كود جديد. مع منيو QR من Foodidu بتغيّر المنيو والكود يفضل زي ما هو."
+        }
+      },
+      {
+        "q": { "en": "Do you keep my link?", "ar": "بتحتفظوا باللينك بتاعي؟" },
+        "a": { "en": "No. The code is made in your browser and your link is not sent to us.", "ar": "لأ. الكود بيتعمل في المتصفح عندك، واللينك مبيتبعتلناش." }
+      },
+      {
+        "q": { "en": "Which link should I use for my menu?", "ar": "أستخدم أنهي لينك للمنيو؟" },
+        "a": {
+          "en": "Any link that opens your menu: your website, a PDF on Google Drive shared with anyone who has the link, or your Instagram page.",
+          "ar": "أي لينك بيفتح المنيو: موقعك، أو ملف PDF على Google Drive متاح لأي حد معاه اللينك، أو صفحة الإنستجرام."
+        }
+      }
+    ]
+  }
 }
