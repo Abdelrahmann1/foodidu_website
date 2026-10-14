@@ -857,9 +857,14 @@ a.store:hover { background: #000; transform: translateY(-2px); }
 .pick b { display: block; font-size: 1.05rem; }
 .pick span { color: var(--ink-2); }
 .pick .btn { flex: none; }
+.pick > div { flex: 1; min-width: 0; }
+.pick-ic { flex: none; display: grid; place-items: center; width: 60px; height: 60px; border-radius: 16px; border: 2px solid var(--line); background: var(--sun-4); color: var(--ink); }
+.pick-ic .icon { width: 30px; height: 30px; stroke-width: 1.8; }
+.pk-coffee { background: #F4E6D7; } .pk-milk { background: #E6F0FA; } .pk-rice { background: #FFF1CC; } .pk-oil { background: #FFF4C2; }
+.pk-flour { background: #F6EEDC; } .pk-drop { background: #E1F3FA; } .pk-roll { background: #F3EFE8; } .pk-bottle { background: #E5F4EA; }
 .picks.grid2 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); }
 .pk-note { margin: 0 0 14px; }
-@media (max-width: 560px) { .pick { flex-direction: column; align-items: stretch; } }
+@media (max-width: 560px) { .pick { flex-wrap: wrap; } .pick > div { flex: 1 1 calc(100% - 80px); } .pick .btn { flex: 1 1 100%; justify-content: center; } }
 .how b { display: block; font-size: 1.05rem; }
 .how span { color: var(--ink-2); }
 .note { margin-top: 18px; font-size: .88rem; color: var(--ink-2); padding: 14px 16px; border-radius: 14px; background: var(--sun-4); }

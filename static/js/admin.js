@@ -15,7 +15,8 @@ window.FoodiduAdmin = (() => {
   const REST_KEYS = ["key", "slug", "name", "logo", "category", "region", "menu", "website", "phone", "cuisine", "lastChecked", "validUntil", "about", "seo", "offers"];
   const POST_KEYS = ["key", "slug", "status", "published", "updated", "seasonEnd", "brands", "seo", "h1", "lede", "body", "faq"];
   const DEAL_KEYS = ["id", "brand", "name", "logo", "icon", "region", "url", "featured", "days", "title", "details", "source", "sourceLabel", "lastChecked"];
-  const PICK_KEYS = ["asin", "name", "note"];
+  const PICK_KEYS = ["asin", "icon", "name", "note"];
+  const PICK_ICONS = [["coffee","قهوة"],["milk","لبن"],["rice","رز"],["oil","زيت"],["flour","دقيق"],["drop","مياه وفلاتر"],["roll","ورق ولفافات"],["bottle","زجاجة"]];
   let REPO = "", root = null, token = null;
   const S = { loaded: false, base: null, data: {}, dirty: new Set(), blobs: {}, deletes: new Set(), baseFiles: new Set(), changes: [], logos: {}, tab: "brands", view: null };
   const deployBox = document.createElement("div");
@@ -692,12 +693,13 @@ window.FoodiduAdmin = (() => {
     const p = asin && S.data.picks.items.find((x) => x.asin === asin), isNew = !p;
     const f = {
       link: text("لينك المنتج على أمازون مصر", { req: true, dir: "ltr", ph: "https://www.amazon.eg/.../dp/B0XXXXXXXX", hint: "انسخ لينك صفحة المنتج من amazon.eg. لو اللينك قصير (amzn.to) افتحه الأول وانسخ اللينك الطويل من المتصفح. الـ tag بتاعك بيتحط لوحده." }),
+      icon: select("الأيقونة", PICK_ICONS, { hint: "رسمة صغيرة جنب المنتج (صور أمازون نفسها مسموحة بس عن طريق الـ API بتاعهم)." }),
       name: bi("اسم المنتج", { req: true, hint: "اسم قصير وواضح، زي: سماعة Anker Soundcore R50i." }),
       note: bi("ليه بترشحه", { req: true, area: true, hint: "سطر من رأيك أو تجربتك. من غير أسعار: أمازون بتمنع كتابة السعر بالإيد لأنه بيتغير." })
     };
-    if (p) { f.link.set(`${S.data.picks.store}/dp/${p.asin}`); f.name.set(p.name); f.note.set(p.note); }
+    if (p) { f.link.set(`${S.data.picks.store}/dp/${p.asin}`); f.icon.set(p.icon); f.name.set(p.name); f.note.set(p.note); }
     return editor(isNew ? "منتج جديد من أمازون" : `تعديل ${p.name.ar}`, f, async () => {
-      const v = collect(f), next = ordered({ asin: asinOf(v.link), name: v.name, note: v.note }, PICK_KEYS);
+      const v = collect(f), next = ordered({ asin: asinOf(v.link), icon: v.icon, name: v.name, note: v.note }, PICK_KEYS);
       const arr = S.data.picks.items;
       if (arr.some((x) => x.asin === next.asin && x !== p)) throw new Error("المنتج ده موجود في القايمة قبل كده.");
       if (!isNew && same(next, p, PICK_KEYS)) return false;

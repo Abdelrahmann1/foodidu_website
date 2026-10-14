@@ -61,6 +61,7 @@ my $PICKS = -f $PK_FILE ? JSON::PP->new->utf8->decode(slurp($PK_FILE, 1)) : { it
 for my $p (@{ $PICKS->{items} }) {
   die "data/amazon-picks.json: \"" . ($p->{asin} // '') . "\" is not an Amazon product ID (10 capital letters or digits)\n" unless ($p->{asin} // '') =~ /^[A-Z0-9]{10}$/;
   for my $k (qw(name note)) { die "data/amazon-picks.json: $p->{asin} needs \"$k\" in English and Arabic\n" unless $p->{$k}{en} && $p->{$k}{ar} }
+  die "data/amazon-picks.json: $p->{asin} has an unknown icon \"$p->{icon}\"\n" if $p->{icon} && $p->{icon} !~ /^(?:coffee|milk|rice|oil|flour|drop|roll|bottle)$/;
 }
 my @DAYS = qw(sat sun mon tue wed thu fri);   # Egyptian week starts on Saturday
 my %DAYI = map { ($DAYS[$_] => $_) } 0 .. $#DAYS;
@@ -402,6 +403,14 @@ sub fresh { my $ymd = shift or return 0; my ($y, $m, $d) = split /-/, $ymd; my $
 
 # ------------------------------------------------------------------ icons
 my %ICON = (
+  pk_coffee => '<path d="M4 9h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9Z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3c-.7 1.1.7 1.9 0 3M12 3c-.7 1.1.7 1.9 0 3"/><path d="M3 22h14"/>',
+  pk_milk   => '<path d="M8 2h8v3l2 3.5V21a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V8.5L8 5V2Z"/><path d="M6 8.5h12M8 5h8"/><path d="M9.5 15c1.6-1.3 3.4-1.3 5 0"/>',
+  pk_rice   => '<path d="M3 12h18a9 9 0 0 1-18 0Z"/><path d="M6.5 12c0-3 2.4-5 5.5-5s5.5 2 5.5 5"/><path d="M10 9.5v.01M13 8.8v.01M15 10.3v.01M8.8 11v.01"/>',
+  pk_oil    => '<path d="M10 2h4v3l2 3v12a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V8l2-3V2Z"/><path d="M8 10.5h8"/><path d="M12 13c-1.1 1.4-1.7 2.2-1.7 3a1.7 1.7 0 0 0 3.4 0c0-.8-.6-1.6-1.7-3Z"/>',
+  pk_flour  => '<path d="M7 4h10l-1.5 3.2C17.7 9 19 12 19 15.5A5.5 5.5 0 0 1 13.5 21h-3A5.5 5.5 0 0 1 5 15.5C5 12 6.3 9 8.5 7.2L7 4Z"/><path d="M8.5 7.2h7"/><path d="M12 18v-6"/><path d="M12 14.5c-1.6 0-2.6-1-2.6-2.6 1.6 0 2.6 1 2.6 2.6Zm0 0c1.6 0 2.6-1 2.6-2.6-1.6 0-2.6 1-2.6 2.6Z"/>',
+  pk_drop   => '<path d="M12 3c-3.6 4.3-6 7.6-6 10.6a6 6 0 0 0 12 0C18 10.6 15.6 7.3 12 3Z"/><path d="M9.3 14.2A2.7 2.7 0 0 0 12 16.9"/>',
+  pk_roll   => '<ellipse cx="6.5" cy="12" rx="3" ry="6.5"/><path d="M6.5 5.5H18a3 6.5 0 0 1 0 13H6.5"/><circle cx="6.5" cy="12" r="1"/>',
+  pk_bottle => '<path d="M10 2h4v2.5a3 3 0 0 1 2 2.8V20a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V7.3a3 3 0 0 1 2-2.8V2Z"/><path d="M8 11h8M8 16h8"/>',
   copy     => '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',
   check    => '<path d="M20 6 9 17l-5-5"/>',
   arrow    => '<path d="M5 12h14M13 5l7 7-7 7"/>',
@@ -886,7 +895,7 @@ sub rest_card {
 # Amazon picks (data/amazon-picks.json): the full list on the Amazon page, the first four on the home page under the featured banners.
 sub pick_list {
   my ($l, $cls, @items) = @_;
-  '<ul class="picks' . ($cls ? " $cls" : '') . '">' . join('', map { '<li class="pick"><div><b>' . esc($_->{name}{$l}) . '</b><span>' . esc($_->{note}{$l}) . '</span></div><a class="btn btn-leaf" href="'
+  '<ul class="picks' . ($cls ? " $cls" : '') . '">' . join('', map { '<li class="pick"><span class="pick-ic pk-' . ($_->{icon} // 'bag') . '" aria-hidden="true">' . icon($_->{icon} ? "pk_$_->{icon}" : 'bag') . '</span><div><b>' . esc($_->{name}{$l}) . '</b><span>' . esc($_->{note}{$l}) . '</span></div><a class="btn btn-leaf" href="'
     . esc("$PICKS->{store}/dp/$_->{asin}?tag=$PICKS->{tag}") . qq{" rel="nofollow sponsored noopener" target="_blank" data-track="brand_link_click" data-brand="$PICKS->{brand}">} . T($l, 'pk_go') . ' ' . icon('external') . '</a></li>' } @items) . '</ul>';
 }
 sub picks_home {

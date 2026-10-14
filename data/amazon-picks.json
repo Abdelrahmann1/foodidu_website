@@ -6,6 +6,7 @@
   "items": [
     {
       "asin": "B08WJKZF75",
+      "icon": "coffee",
       "name": { "en": "Nescafé Classic Instant Coffee, 200 g pouch", "ar": "نسكافيه كلاسيك قهوة سريعة التحضير، كيس 200 جرام" },
       "note": {
         "en": "An economy pouch that lasts the whole house a while, and one of the best-selling coffees on Amazon Egypt.",
@@ -14,16 +15,19 @@
     },
     {
       "asin": "B0CVW9DPCB",
+      "icon": "milk",
       "name": { "en": "Juhayna Full Cream Milk, 6 × 1 L", "ar": "لبن جهينة كامل الدسم، 6 علب × 1 لتر" },
       "note": { "en": "Six 1-litre cartons delivered to your door, among Amazon Egypt's top grocery sellers.", "ar": "6 لترات بتوصل لحد باب البيت، ومن الأكثر مبيعاً في البقالة على أمازون مصر." }
     },
     {
       "asin": "B00FFE8TDG",
+      "icon": "rice",
       "name": { "en": "Al Doha Egyptian Rice, 1 kg", "ar": "أرز الضحى المصري، 1 كيلو" },
       "note": { "en": "Egyptian rice for everyday cooking and stuffed vegetables, with thousands of top reviews.", "ar": "أرز مصري للطبيخ اليومي والمحشي، وعليه آلاف التقييمات العالية." }
     },
     {
       "asin": "B07G86SNYJ",
+      "icon": "oil",
       "name": { "en": "Helwa Mixed Cooking Oil, 4.5 L", "ar": "زيت حلوة خليط، 4.5 لتر" },
       "note": {
         "en": "A big bottle for frying and cooking, delivered so you don't carry it home from the supermarket.",
@@ -32,11 +36,13 @@
     },
     {
       "asin": "B018SJBUIA",
+      "icon": "flour",
       "name": { "en": "Al Doha Egyptian Flour, 1 kg", "ar": "دقيق الضحى المصري، 1 كيلو" },
       "note": { "en": "For dough, sweets and home baking, one of the best-rated groceries on Amazon Egypt.", "ar": "للعجين والحلويات والخبيز في البيت، ومن أعلى البقالة تقييماً على أمازون مصر." }
     },
     {
       "asin": "B0848Y82N8",
+      "icon": "drop",
       "name": { "en": "Tank Power Water Filter Cartridges, 6-month pack", "ar": "شمعات فلتر مياه تانك باور، عبوة 6 شهور" },
       "note": {
         "en": "Cartridges for Tank water filters: six months of cleaner drinking water, and a kitchen best seller.",
@@ -45,11 +51,13 @@
     },
     {
       "asin": "B07G8KWL8G",
+      "icon": "roll",
       "name": { "en": "Sanita Cooking & Baking Paper, 30 cm × 10 m", "ar": "ورق زبدة سانيتا للطبخ والخبيز، 30 سم × 10 متر" },
       "note": { "en": "For the oven and the air fryer, so food doesn't stick to the tray.", "ar": "للفرن والإير فراير، عشان الأكل ما يلزقش في الصينية." }
     },
     {
       "asin": "B0DDYCL1JP",
+      "icon": "bottle",
       "name": { "en": "Tank Tritan Water Bottle, 800 ml", "ar": "زجاجة مياه تانك تريتان، 800 مل" },
       "note": { "en": "BPA-free and leakproof, for work, the gym or school.", "ar": "خالية من BPA ومقفولة كويس ضد التسريب، للشغل والجيم والمدرسة." }
     }
