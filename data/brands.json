@@ -978,6 +978,7 @@
       "featured": false,
       "url": "https://burgerandfries.prepit.app/",
       "urlLabel": { "en": "Order from B&F", "ar": "اطلب من B&F" },
+      "lastVerified": "2026-10-14",
       "badge": { "en": ["20%", "off"], "ar": ["20%", "خصم"] },
       "offer": { "en": "20% off your first order when you create an account", "ar": "خصم 20% على أول أوردر لما تعمل حساب" },
       "terms": {
