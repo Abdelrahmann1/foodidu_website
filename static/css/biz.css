@@ -99,7 +99,8 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .bz-duo .mock-card { width: min(100%, 380px); transform: rotate(-3deg); }
 [dir="rtl"] .bz-duo .mock-card { transform: rotate(3deg); }
 .bz-duo .mock-web { width: 100%; }
-.bz-duo .bz-didu { width: 120px; bottom: -36px; inset-inline-start: -10px; }
+.bz-duo .bz-didu { width: 120px; bottom: -36px; inset-inline-start: -56px; }
+@media (max-width: 900px) { .bz-duo .bz-didu { inset-inline-start: -6px; } }
 .bz-duo.n2 .bz-didu { bottom: 0; }
 .bz-ic-xl { width: 140px; height: 140px; border-radius: 32px; display: grid; place-items: center; background: var(--bz-sun-soft); color: var(--bz-pri); }
 .bz-ic-xl .icon { width: 64px; height: 64px; }
@@ -337,6 +338,15 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .bz-foot-bottom { margin-top: 36px; padding-top: 20px; border-top: 1px solid rgba(255, 241, 204, .15); font-size: .88rem; }
 
 /* WhatsApp: next to the form, in the footer, a floating button, and under the QR tool's link field */
+.bz-waghost { background: #fff; color: var(--bz-leaf); border-color: var(--bz-leaf-2); }
+.bz-waghost:hover { border-color: var(--bz-leaf); background: var(--bz-leaf-soft); }
+.bz-waghost .icon { width: 20px; height: 20px; }
+.bz-head-wa { display: inline-flex; align-items: center; gap: 6px; min-height: 42px; padding: 0 12px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: .92rem; color: var(--bz-leaf); border: 1.5px solid var(--bz-leaf-2); background: #fff; white-space: nowrap; }
+.bz-head-wa:hover { background: var(--bz-leaf-soft); }
+.bz-head-wa .icon { width: 20px; height: 20px; }
+.biz .nav-extra .bz-wa { margin-top: 0; }
+@media (max-width: 1300px) { .bz-head-wa bdi { display: none; } .bz-head-wa { padding: 0 10px; } }
+@media (max-width: 600px) { .bz-head-wa { display: none; } }   /* phones have the floating button */
 .bz-wa { margin-top: 22px; background: var(--bz-leaf); color: #fff; }
 .bz-wa:hover { background: #3F6A18; }
 .bz-wa .icon, .bz-foot-wa .icon, .qr-nomenu .icon { width: 20px; height: 20px; }

@@ -491,6 +491,10 @@ ul, ol { margin: 0; padding: 0; }
 .band p { margin-top: 10px; max-width: 36em; color: #F3E6C8; }
 .band .face { width: 200px; height: auto; transform: rotate(-4deg); filter: drop-shadow(0 6px 0 rgba(0, 0, 0, .3)); }
 .band .btn { margin-top: 22px; }
+.band .band-wa { margin-inline-start: 10px; }
+.band-wa .icon, .foot-wa .icon { width: 1.15em; height: 1.15em; }
+.foot-wa { display: inline-flex; align-items: center; gap: 6px; }
+@media (max-width: 520px) { .band .band-wa { margin-inline-start: 0; margin-top: 10px; } }
 @media (max-width: 700px) { .band { grid-template-columns: minmax(0, 1fr); } .band .face { width: 150px; grid-row: 1; } }
 
 /* app section: centred header (logo, title, store buttons on one line) + sticker-style feature cards */

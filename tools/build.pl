@@ -168,7 +168,7 @@ my %S = (
   ft_label => 'Featured offer', ft_sponsored => 'Sponsored', ft_until => 'until {date}',
   ft_rest_title => '{name} offers: save up to {p}%', ft_rest_text => '{n} on the menu from {min} EGP', ft_rest_cta => 'See the offers',
   ft_code_title => '{name} promo code', ft_code_cta => 'Get the code',
-  band_title => 'Own a restaurant or food brand?', band_text => 'A QR menu, a loyalty program, your own ordering website, and your promo code in front of people who are about to order. Start free.', band_btn => 'Discover Foodidu Business',
+  band_title => 'Own a restaurant or food brand?', band_text => 'A QR menu, a loyalty program, your own ordering website, your restaurant on Google Maps, and your promo code in front of people who are about to order. Start free.', band_btn => 'Discover Foodidu Business',
   faq_eyebrow => 'FAQ', faq_title => 'Questions, answered',
   # codes page
   c_title => 'All Promo Codes: Restaurants, Groceries & Shopping',
@@ -231,6 +231,7 @@ my %S = (
   qr_band_title => 'Free: make a QR code for your menu', qr_band_text => 'Paste your menu link and print a table card in seconds, with no sign-up.', qr_band_btn => 'Make my code', qr_js_word => 'MENU',
   qr_js_table => 'Table {n}', qr_js_bad => 'Enter a full link, like https://instagram.com/yourpage', qr_js_long => 'This link is too long for a QR code. Use a shorter link.', qr_js_sample => 'This is an example. Paste your menu link to make your code.',
   qr_js_ready => 'Your code is ready. Scan it with your phone to test it before printing.', qr_js_credit => 'Foodidu Business',
+  biz_nav_maps => 'Google Maps', foot_biz_wa => 'Restaurants, WhatsApp us:', biz_wa_msg_maps => 'Hi Foodidu Business, I would like to put my restaurant on Google Maps.',
   biz_wa_btn => 'Chat with us on WhatsApp', biz_wa_float => 'Chat with Foodidu Business on WhatsApp',
   biz_wa_msg_info => 'Hi Foodidu Business, I would like to know more about your services for my restaurant.', biz_wa_msg_menu => 'Hi Foodidu Business, I would like an online menu for my restaurant.',
   qr_nomenu => 'No menu link yet? <a href="{wa}" target="_blank" rel="noopener" data-track="business_whatsapp_click">Chat with us on WhatsApp</a> and we will make your online menu.',
@@ -326,7 +327,7 @@ my %S = (
   ft_label => 'عرض مميز', ft_sponsored => 'إعلان', ft_until => 'حتى {date}',
   ft_rest_title => 'عروض {name}: وفّر حتى <bdi>{p}%</bdi>', ft_rest_text => '{n} من المنيو تبدأ من {min} جنيه', ft_rest_cta => 'شوف العروض',
   ft_code_title => 'كود خصم {name}', ft_code_cta => 'خد الكود',
-  band_title => 'عندك مطعم أو براند أكل؟', band_text => 'منيو QR، وبرنامج ولاء، وموقع طلبات باسمك، وكود خصمك أمام أشخاص على وشك الطلب. ابدأ مجاناً.', band_btn => 'اكتشف Foodidu Business',
+  band_title => 'عندك مطعم أو براند أكل؟', band_text => 'منيو QR، وبرنامج ولاء، وموقع طلبات باسمك، ومطعمك على جوجل ماب، وكود خصمك أمام أشخاص على وشك الطلب. ابدأ مجاناً.', band_btn => 'اكتشف Foodidu Business',
   faq_eyebrow => 'أسئلة شائعة', faq_title => 'عندك سؤال؟',
   c_title => 'كل أكواد الخصم والكوبونات: مطاعم وبقالة وتسوق أونلاين',
   c_desc => 'تصفّح كل أكواد خصم Foodidu في قائمة واحدة: مطاعم مثل كنتاكي وبيتزا هت، وتطبيقات بقالة مثل رابيت وبريدفاست، ونون للتسوق أونلاين.',
@@ -386,6 +387,7 @@ my %S = (
   qr_band_title => 'مجاناً: اعمل كود QR لمنيو مطعمك', qr_band_text => 'حط لينك المنيو واطبع كارت الترابيزة في ثواني، من غير تسجيل.', qr_band_btn => 'اعمل الكود بتاعي', qr_js_word => 'منيو',
   qr_js_table => 'ترابيزة {n}', qr_js_bad => 'اكتب لينك كامل، زي https://instagram.com/yourpage', qr_js_long => 'اللينك ده طويل على الكود. استخدم لينك أقصر.', qr_js_sample => 'ده مثال. حط لينك المنيو بتاعك عشان يتعمل كودك.',
   qr_js_ready => 'كودك جاهز. امسحه بموبايلك وجرّبه قبل الطباعة.', qr_js_credit => 'Foodidu Business',
+  biz_nav_maps => 'جوجل ماب', foot_biz_wa => 'للمطاعم، كلمنا واتساب:', biz_wa_msg_maps => 'أهلاً Foodidu Business، عايز أضيف مطعمي على جوجل ماب.',
   biz_wa_btn => 'كلمنا على واتساب', biz_wa_float => 'كلّم Foodidu Business على واتساب',
   biz_wa_msg_info => 'أهلاً Foodidu Business، عايز أعرف أكتر عن خدماتكم لمطعمي.', biz_wa_msg_menu => 'أهلاً Foodidu Business، عايز منيو إلكتروني لمطعمي.',
   qr_nomenu => 'معندكش لينك للمنيو؟ <a href="{wa}" target="_blank" rel="noopener" data-track="business_whatsapp_click">كلمنا واتساب</a> ونعملّك منيو إلكتروني.',
@@ -578,9 +580,9 @@ sub search_form {
   . qq{<button class="btn btn-ink" type="submit">} . T($l, 'search_btn') . '</button></div>'
   . qq{<ul class="search-results" id="search-results" role="listbox" hidden></ul></form>};
 }
-sub band {
-  my ($l) = @_;
-  qq{<section class="wrap section-tight"><div class="band"><div><h2>} . T($l, 'band_title') . '</h2><p>' . T($l, 'band_text') . qq{</p><a class="btn btn-sun" href="} . path_for($l, '/business/') . '">' . T($l, 'band_btn') . ' ' . icon('arrow', 'flip') . qq{</a></div><img class="face" src="$LOGO" alt="" width="200" height="79" loading="lazy"></div></section>};
+sub band {   # the restaurants band; $wa: + a WhatsApp button (home page only)
+  my ($l, $wa) = @_;
+  qq{<section class="wrap section-tight"><div class="band"><div><h2>} . T($l, 'band_title') . '</h2><p>' . T($l, 'band_text') . qq{</p><a class="btn btn-sun" href="} . path_for($l, '/business/') . '">' . T($l, 'band_btn') . ' ' . icon('arrow', 'flip') . '</a>' . ($wa ? biz_wa_link($l, 'info', 'btn btn-leaf band-wa', T($l, 'biz_wa_btn')) : '') . qq{</div><img class="face" src="$LOGO" alt="" width="200" height="79" loading="lazy"></div></section>};
 }
 # Follow the WhatsApp channel: a card in the brand page sidebar ($side), or a strip above the partner band
 sub wa_cta {
@@ -679,14 +681,17 @@ sub biz_chrome {
   my ($l, $key, $lang_link) = @_;
   my $b = path_for($l, '/business/');
   my @svc = grep { $_->{page} // 1 } @{ $BIZ->{services} };
-  my $svc_page = $key =~ m{^/business/[^/]+/$} && $key ne '/business/qr-menu-generator/';
+  my $maps = grep { $_->{key} eq 'google-maps' } @svc;
+  my $svc_page = $key =~ m{^/business/[^/]+/$} && $key ne '/business/qr-menu-generator/' && !($maps && $key eq '/business/google-maps/');
   my $nav = qq{<a class="nav-desk" href="$b#services"} . ($svc_page ? ' aria-current="page"' : '') . '><span class="nav-ic">' . icon('store') . '</span><span>' . T($l, 'biz_nav_services') . '</span>' . icon('arrow', 'nav-go flip') . '</a>'
+    . ($maps ? '<a class="nav-desk" href="' . path_for($l, '/business/google-maps/') . '"' . ($key eq '/business/google-maps/' ? ' aria-current="page"' : '') . '><span class="nav-ic">' . icon('pin') . '</span><span>' . T($l, 'biz_nav_maps') . '</span>' . icon('arrow', 'nav-go flip') . '</a>' : '')
     . join('', map { my $p = "/business/$_->{key}/"; '<a class="nav-svc" href="' . path_for($l, $p) . '"' . ($key eq $p ? ' aria-current="page"' : '') . '><span class="nav-ic">' . icon($_->{icon}) . '</span><span>' . esc($_->{name}{$l}) . '</span>' . icon('arrow', 'nav-go flip') . '</a>' } @svc)
     . ($BIZ->{tool} ? '<a href="' . path_for($l, '/business/qr-menu-generator/') . '"' . ($key eq '/business/qr-menu-generator/' ? ' aria-current="page"' : '') . '><span class="nav-ic">' . icon('qr') . '</span><span>' . T($l, 'qr_nav') . '</span>' . icon('arrow', 'nav-go flip') . '</a>' : '')
     . qq{<a href="$b#plans"><span class="nav-ic">} . icon('tag') . '</span><span>' . T($l, 'biz_nav_plans') . '</span>' . icon('arrow', 'nav-go flip') . '</a>'
-    . qq{<div class="nav-extra"><a class="bz-btn bz-pri" href="$b#join">} . T($l, 'biz_start') . ' ' . icon('arrow', 'flip') . '</a></div>';
+    . qq{<div class="nav-extra"><a class="bz-btn bz-pri" href="$b#join">} . T($l, 'biz_start') . ' ' . icon('arrow', 'flip') . '</a>' . biz_wa_link($l, 'info', 'bz-btn bz-wa', T($l, 'biz_wa_btn')) . '</div>';
   my $logo = qq{<a class="bz-logo" href="$b" aria-label="Foodidu Business"><img src="$LOGO" alt="Foodidu" width="106" height="42"><span>Business</span></a>};
   my $header = qq{<header class="site-header bz-header"><div class="wrap header-in">$logo<nav class="nav" id="site-nav" aria-label="Foodidu Business">$nav</nav><div class="nav-backdrop" data-nav-close hidden></div>$lang_link}
+    . ($BIZ->{whatsapp} ? '<a class="bz-head-wa" href="' . biz_wa($l, 'info') . '" target="_blank" rel="noopener" data-track="business_whatsapp_click" aria-label="' . T($l, 'biz_wa_float') . '">' . icon('whatsapp') . '<bdi dir="ltr">' . esc($BIZ->{whatsapp}{display}) . '</bdi></a>' : '')
     . qq{<a class="bz-btn bz-pri bz-head-cta" href="$b#join">} . T($l, 'biz_start') . '</a>'
     . '<button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="' . T($l, 'menu') . '">' . icon('menu', 'i-menu') . icon('close', 'i-close') . '</button></div></header>';
   my $wa = $BIZ->{whatsapp} ? biz_wa_link($l, 'info', 'bz-foot-wa', T($l, 'biz_wa_btn') . ': <bdi dir="ltr">' . esc($BIZ->{whatsapp}{display}) . '</bdi>') : '';
@@ -829,6 +834,7 @@ $a{body}
 <li><a href="@{[ path_for($l, '/business/') ]}">Foodidu Business</a></li>
 @{[ $BIZ ? join '', map { '<li><a href="' . path_for($l, "/business/$_->{key}/") . '">' . esc($_->{name}{$l}) . '</a></li>' } grep { $_->{page} // 1 } @{ $BIZ->{services} } : '' ]}
 @{[ $BIZ && $BIZ->{tool} ? '<li><a href="' . path_for($l, '/business/qr-menu-generator/') . '">' . esc($BIZ->{tool}{name}{$l}) . '</a></li>' : '' ]}
+@{[ $BIZ && $BIZ->{whatsapp} ? qq{<li><a href="https://wa.me/$BIZ->{whatsapp}{number}" target="_blank" rel="noopener" data-track="business_whatsapp_click">} . T($l, 'foot_biz_wa') . ' <bdi dir="ltr">' . esc($BIZ->{whatsapp}{display}) . '</bdi></a></li>' : '' ]}
 <li><a href="@{[ path_for($l, '/privacy-policy/') ]}">@{[ T($l, 'privacy') ]}</a></li>
 <li><a href="@{[ path_for($l, '/terms-and-conditions/') ]}">@{[ T($l, 'terms') ]}</a></li>
 <li><button type="button" data-cookie-settings>@{[ T($l, 'cookie_settings') ]}</button></li>
@@ -1169,7 +1175,7 @@ for my $l (@LANGS) {
 </section>
 @{[ app_section($l) ]}
 @{[ blog_home($l) ]}
-@{[ band($l) ]}
+@{[ band($l, 1) ]}
 <section class="wrap section-tight two-col" aria-labelledby="faq-title">
 <div><p class="eyebrow">@{[ T($l, 'faq_eyebrow') ]}</p><h2 class="h2" id="faq-title">@{[ T($l, 'faq_title') ]}</h2></div>
 @{[ faq_html(@qa) ]}
@@ -1601,12 +1607,13 @@ HTML
     my $has_page = sub { $_[0]{page} // 1 };
     my $num = sub { $l eq 'ar' ? (qw(١ ٢ ٣ ٤ ٥ ٦))[$_[0] - 1] : $_[0] };
     my %row_mock = ('loyalty-program' => 'card', 'qr-menu' => 'stand', 'restaurant-website' => 'web', 'google-maps' => 'maps', visibility => 'ticket');
-    my $btns = '<div class="bz-btns"><a class="bz-btn bz-pri" href="' . $burl . '#join">' . T($l, 'biz_start') . ' ' . icon('arrow', 'flip') . '</a><a class="bz-btn bz-ghost" href="' . $burl . '#plans">' . T($l, 'biz_plans_btn') . '</a></div>';
+    my $btns = sub { '<div class="bz-btns"><a class="bz-btn bz-pri" href="' . $burl . '#join">' . T($l, 'biz_start') . ' ' . icon('arrow', 'flip') . '</a><a class="bz-btn bz-ghost" href="' . $burl . '#plans">' . T($l, 'biz_plans_btn') . '</a>'
+      . biz_wa_link($l, $_[0] // 'info', 'bz-btn bz-waghost', T($l, 'biz_wa_btn')) . '</div>' };
     my $ticks = sub { '<ul class="bz-ticks">' . join('', map { '<li>' . icon('check') . '<span>' . T($l, $_) . '</span></li>' } @_) . '</ul>' };
     my $hero = sub {
-      my ($crumbs, $pill, $h1, $lede, $visual) = @_;
+      my ($crumbs, $pill, $h1, $lede, $visual, $what) = @_;
       '<section class="bz-hero"><div class="wrap bz-hero-in"><div class="bz-copy">' . crumbs_html($l, $crumbs) . '<p class="bz-pill"><span class="dot" aria-hidden="true"></span>' . esc($pill) . '</p>'
-      . '<h1>' . esc($h1) . '</h1><p class="bz-lede">' . esc($lede) . "</p>$btns" . $ticks->(qw(biz_tick1 biz_tick2 biz_tick3))
+      . '<h1>' . esc($h1) . '</h1><p class="bz-lede">' . esc($lede) . '</p>' . $btns->($what) . $ticks->(qw(biz_tick1 biz_tick2 biz_tick3))
       . qq{</div><div class="bz-visual">$visual</div></div></section>};
     };
     my $head = sub { my ($id, $eyebrow, $title, $sub) = @_; '<div class="bz-head">' . ($eyebrow ? qq{<p class="bz-eyebrow">$eyebrow</p>} : '') . qq{<h2 id="$id">$title</h2>} . ($sub ? "<p>$sub</p>" : '') . '</div>' };
@@ -1696,7 +1703,7 @@ HTML
         '<li><span class="bz-ic">' . icon($o->{icon}) . '</span><h3>' . ($has_page->($o) ? '<a href="' . $surl->($o) . '">' . esc($o->{name}{$l}) . '</a>' : esc($o->{name}{$l})) . '</h3><p>' . esc($o->{short}{$l}) . '</p></li>' } grep { $_ ne $s } @svc) . '</ul>';
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $s->{faq} };
       my $band = $s->{key} eq 'qr-menu' && $toolband ? qq{<section class="bz-sec" style="padding-top:0"><div class="wrap">$toolband</div></section>} : '';
-      my $body = $hero->($crumbs, $s->{name}{$l}, $s->{h1}{$l}, $s->{lede}{$l}, $visual) . $about . $band . <<"HTML";
+      my $body = $hero->($crumbs, $s->{name}{$l}, $s->{h1}{$l}, $s->{lede}{$l}, $visual, { 'google-maps' => 'maps', 'qr-menu' => 'menu' }->{$s->{key}}) . $about . $band . <<"HTML";
 <section class="bz-sec bz-alt" aria-labelledby="feat-title"><div class="wrap">
 @{[ $head->('feat-title', esc($s->{name}{$l}), T($l, 'biz_feats_title')) ]}
 $feats
