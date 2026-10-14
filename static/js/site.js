@@ -293,6 +293,10 @@
   /* ---------- partner application form ---------- */
   var vform = document.getElementById("vendor-application-form");
   if (vform && DATA.formUrl) {
+    // "Choose this plan" on a plan card picks it in the form
+    document.querySelectorAll("[data-plan]").forEach(function (a) {
+      a.addEventListener("click", function () { var s = document.getElementById("f-plan"); if (s) s.value = a.getAttribute("data-plan"); });
+    });
     vform.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!vform.reportValidity()) return;
@@ -301,8 +305,14 @@
       var label = btn.textContent;
       btn.disabled = true; btn.textContent = T.sending || "Sending…";
       status.hidden = true;
-      var data = {};
-      new FormData(vform).forEach(function (v, k) { data[k] = String(v).trim(); });
+      var data = {}, fd = new FormData(vform);
+      fd.forEach(function (v, k) { data[k] = String(v).trim(); });
+      // Foodidu Business: the chosen services and plan go at the top of the description (the saved fields are fixed by firestore.rules)
+      var services = fd.getAll("services"), plan = vform.querySelector("#f-plan");
+      var extra = (services.length ? (vform.querySelector(".checks legend").textContent.trim() + ": " + services.join("، ")) + "\n" : "")
+        + (plan && plan.value ? (vform.querySelector('label[for="f-plan"]').textContent.trim() + ": " + plan.options[plan.selectedIndex].text) + "\n" : "");
+      delete data.services; delete data.plan;
+      if (extra) data.description = extra + (data.description ? "\n" + data.description : "");
       data.language = doc.lang;
       var body = new URLSearchParams();
       Object.keys(data).forEach(function (k) { body.append(k, data[k]); });

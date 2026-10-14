@@ -1,0 +1,364 @@
+{
+  "_help": "Foodidu Business (foodidu.com/business/ and /ar/business/): the landing page and one page per service, built by tools/build.pl. Keep every promise here something we can deliver; no prices are written (plans say 'monthly plan' or 'quote'). The application form saves the chosen services and plan inside the description.",
+  "seo": {
+    "en": {
+      "title": "Foodidu Business: QR Menu, Loyalty Program & Restaurant Website",
+      "description": "A QR menu, a loyalty program that brings customers back, your own ordering website and app, and visibility on Foodidu, all in one place. Start free."
+    },
+    "ar": {
+      "title": "Foodidu Business: منيو QR وبرنامج ولاء وموقع لمطعمك",
+      "description": "كل أدوات مطعمك في مكان واحد: منيو QR، وبرنامج ولاء يعيد عملاءك، وموقع وتطبيق طلبات باسمك، وظهور على Foodidu. ابدأ مجاناً بكود خصم حصري."
+    }
+  },
+  "h1": { "en": "Everything your restaurant needs, in one place", "ar": "كل أدوات مطعمك في مكان واحد" },
+  "lede": {
+    "en": "A QR menu, a loyalty program that brings customers back, an ordering website and app under your own name, and visibility in front of people looking for deals on Foodidu. Start free with an exclusive promo code for Foodidu users.",
+    "ar": "منيو QR، وبرنامج ولاء يعيد عملاءك مرة بعد مرة، وموقع وتطبيق طلبات باسم مطعمك، وظهور أمام الباحثين عن العروض على Foodidu. ابدأ مجاناً بكود خصم حصري لعملاء Foodidu."
+  },
+  "journey": {
+    "title": { "en": "From a first order to a regular customer", "ar": "من أول طلب لحد ما يبقى زبون دائم" },
+    "steps": [
+      {
+        "title": { "en": "Foodidu brings the customer", "ar": "Foodidu يجيب العميل" },
+        "text": {
+          "en": "Your promo code reaches people who are about to order, on Foodidu, in Google and on our WhatsApp channel.",
+          "ar": "كود خصمك يظهر لأشخاص على وشك الطلب، على Foodidu وفي جوجل وفي قناتنا على واتساب."
+        }
+      },
+      {
+        "title": { "en": "Your QR menu makes ordering easy", "ar": "منيو QR يسهّل الطلب" },
+        "text": { "en": "The customer scans the code on the table and sees your dishes with photos and prices.", "ar": "العميل يمسح الكود على الترابيزة ويشوف أصنافك بالصور والأسعار." }
+      },
+      {
+        "title": { "en": "Loyalty brings them back", "ar": "برنامج الولاء يرجّعه" },
+        "text": {
+          "en": "Every visit earns points or a stamp, and the reward brings them back to you instead of somewhere else.",
+          "ar": "كل زيارة عليها نقاط أو ختم، والمكافأة ترجّعه لك بدل ما يروح لغيرك."
+        }
+      }
+    ]
+  },
+  "services": [
+    {
+      "key": "loyalty-program",
+      "icon": "gift",
+      "featured": true,
+      "name": { "en": "Loyalty program", "ar": "برنامج الولاء" },
+      "short": {
+        "en": "Points or a digital stamp card that rewards the customers who come back, and shows you who your regulars are.",
+        "ar": "نقاط أو كارت أختام إلكتروني يكافئ العملاء اللي بيرجعوا، ويعرّفك مين زبائنك الدائمين."
+      },
+      "seo": {
+        "en": {
+          "title": "Restaurant Loyalty Program: Points & Digital Stamp Cards",
+          "description": "A loyalty program for your restaurant or café: points or a digital stamp card that rewards returning customers and turns Foodidu first-timers into regulars."
+        },
+        "ar": {
+          "title": "برنامج ولاء للمطاعم: نقاط وكارت أختام لعملائك",
+          "description": "برنامج ولاء لمطعمك أو الكافيه: نقاط أو كارت أختام إلكتروني يكافئ العملاء اللي بيرجعوا، ويحوّل اللي جه بكود خصم من Foodidu لزبون دائم."
+        }
+      },
+      "h1": { "en": "A loyalty program that brings customers back", "ar": "برنامج ولاء يرجّع عملاءك" },
+      "lede": {
+        "en": "The customer who came once with a promo code should come back every time. Points or a digital stamp card on their phone, with rewards you choose.",
+        "ar": "العميل اللي جه مرة بكود خصم، خليه يرجع كل مرة. نقاط أو كارت أختام إلكتروني على موبايل العميل، ومكافآت أنت اللي بتحددها."
+      },
+      "features": [
+        {
+          "title": { "en": "Points or stamps", "ar": "نقاط أو أختام" },
+          "text": { "en": "Pick what suits you: points for every pound spent, or a stamp with every order.", "ar": "اختار النظام اللي يناسبك: نقاط على كل جنيه، أو ختم مع كل طلب." }
+        },
+        {
+          "title": { "en": "No paper cards", "ar": "من غير كروت ورق" },
+          "text": { "en": "The card lives on the customer's phone, so it is never lost or forgotten.", "ar": "الكارت على موبايل العميل، فمش بيضيع ولا بيتنسى." }
+        },
+        {
+          "title": { "en": "Rewards you decide", "ar": "مكافآت بتحددها أنت" },
+          "text": { "en": "A free drink, a discount or a meal after a number of visits: you set the rules.", "ar": "مشروب ببلاش، أو خصم، أو وجبة بعد عدد زيارات معين: أنت اللي بتحدد." }
+        },
+        {
+          "title": { "en": "Know your regulars", "ar": "اعرف زبائنك الدائمين" },
+          "text": { "en": "See who comes back most and send them special offers.", "ar": "شوف مين بيرجع أكتر، وابعتلهم عروض خاصة." }
+        },
+        {
+          "title": { "en": "The next step after your Foodidu code", "ar": "الخطوة اللي بعد كود Foodidu" },
+          "text": {
+            "en": "New customers arrive with your promo code; loyalty brings them back without a discount every time.",
+            "ar": "العميل الجديد بييجي بكود خصمك، والولاء بيرجّعه من غير خصم كل مرة."
+          }
+        },
+        {
+          "title": { "en": "Works across your branches", "ar": "شغال في كل فروعك" },
+          "text": { "en": "Points and stamps add up from any of your branches.", "ar": "النقاط والأختام بتتجمع من أي فرع من فروعك." }
+        }
+      ],
+      "steps": [
+        {
+          "title": { "en": "Choose the reward", "ar": "اختار المكافأة" },
+          "text": { "en": "Tell us what your regulars get and after how many visits.", "ar": "قولّنا الزبون الدائم ياخد إيه وبعد كام زيارة." }
+        },
+        {
+          "title": { "en": "We set it up", "ar": "نجهّز البرنامج" },
+          "text": { "en": "We prepare the program with your name and colours, ready for your counter and tables.", "ar": "نجهّز البرنامج باسمك وألوانك، جاهز للكاشير والترابيزات." }
+        },
+        {
+          "title": { "en": "Customers collect and come back", "ar": "العميل يجمّع ويرجع" },
+          "text": { "en": "Every visit counts, and the reward gives them a reason to choose you again.", "ar": "كل زيارة بتتحسب، والمكافأة بتديله سبب يختارك تاني." }
+        }
+      ],
+      "faq": [
+        {
+          "q": { "en": "What is the difference between a loyalty program and a promo code?", "ar": "إيه الفرق بين برنامج الولاء وكود الخصم؟" },
+          "a": {
+            "en": "A promo code brings a new customer for the first time; a loyalty program rewards the customer who comes back, so they keep choosing you.",
+            "ar": "كود الخصم بيجيب عميل جديد لأول مرة، وبرنامج الولاء بيكافئ العميل اللي بيرجع، فيفضل يختارك."
+          }
+        },
+        {
+          "q": { "en": "Can I choose the rewards?", "ar": "أقدر أحدد المكافآت؟" },
+          "a": { "en": "Yes. You decide the reward and when the customer gets it, and you can change it later.", "ar": "أيوه. أنت اللي بتحدد المكافأة وإمتى العميل ياخدها، وتقدر تغيّرها بعدين." }
+        },
+        {
+          "q": { "en": "Which plan includes the loyalty program?", "ar": "برنامج الولاء في أنهي باقة؟" },
+          "a": { "en": "The Growth and Pro plans.", "ar": "في باقة النمو والباقة الاحترافية." }
+        }
+      ]
+    },
+    {
+      "key": "qr-menu",
+      "icon": "qr",
+      "name": { "en": "QR menu", "ar": "منيو QR" },
+      "short": {
+        "en": "An online menu behind a QR code on every table, with photos and prices you can change any time without reprinting.",
+        "ar": "منيو أونلاين بكود QR على كل ترابيزة، بالصور والأسعار، تعدّله في أي وقت من غير طباعة."
+      },
+      "seo": {
+        "en": {
+          "title": "QR Menu for Restaurants & Cafés in Egypt",
+          "description": "A QR menu for your restaurant or café: customers scan the code and see your dishes with photos and prices in Arabic and English. Update it with no reprinting."
+        },
+        "ar": {
+          "title": "منيو QR للمطاعم والكافيهات: منيو إلكتروني بالصور",
+          "description": "منيو QR لمطعمك أو الكافيه: العميل يمسح الكود ويشوف الأصناف بالصور والأسعار بالعربي والإنجليزي، وأي تعديل يظهر على طول من غير طباعة."
+        }
+      },
+      "h1": { "en": "A QR menu for your restaurant", "ar": "منيو QR لمطعمك" },
+      "lede": {
+        "en": "An online menu with photos and prices that opens on any phone by scanning a code on the table. Update it any time, with no new printing every time a price changes.",
+        "ar": "منيو إلكتروني بالصور والأسعار، بيفتح على أي موبايل بمسح كود على الترابيزة. حدّثه في أي وقت، من غير طباعة منيو جديد كل ما السعر يتغير."
+      },
+      "features": [
+        {
+          "title": { "en": "Photos and prices", "ar": "بالصور والأسعار" },
+          "text": { "en": "Every dish with its photo, description and price, in clear sections.", "ar": "كل صنف بصورته ووصفه وسعره، في أقسام واضحة." }
+        },
+        {
+          "title": { "en": "Arabic and English", "ar": "بالعربي والإنجليزي" },
+          "text": { "en": "Customers pick the language they are comfortable with.", "ar": "العميل يختار اللغة اللي تريّحه." }
+        },
+        {
+          "title": { "en": "Instant updates", "ar": "تحديث فوري" },
+          "text": { "en": "Any change to the menu shows on every table right away, with no reprinting.", "ar": "أي تعديل في المنيو بيظهر على كل الترابيزات على طول، من غير طباعة." }
+        },
+        {
+          "title": { "en": "A QR code for every table", "ar": "كود QR لكل ترابيزة" },
+          "text": { "en": "Stickers or stands for your tables, counter and printed menu.", "ar": "ستيكر أو ستاند للترابيزات والكاشير والمنيو المطبوع." }
+        },
+        {
+          "title": { "en": "No app needed", "ar": "من غير تطبيق" },
+          "text": { "en": "Any phone with a camera opens the menu, with nothing to download.", "ar": "أي موبايل بكاميرا بيفتح المنيو، من غير تحميل أي حاجة." }
+        },
+        {
+          "title": { "en": "Your offers at the top", "ar": "عروضك في أول المنيو" },
+          "text": { "en": "Show your current offers and your Foodidu promo code at the top of the menu.", "ar": "اعرض عروضك وكود خصمك على Foodidu في أول المنيو." }
+        }
+      ],
+      "steps": [
+        {
+          "title": { "en": "Send us your menu", "ar": "ابعتلنا المنيو" },
+          "text": { "en": "Photos of your dishes and prices, or your printed menu.", "ar": "صور الأصناف والأسعار، أو المنيو المطبوع." }
+        },
+        {
+          "title": { "en": "We build the menu and the code", "ar": "نجهّز المنيو والكود" },
+          "text": { "en": "We set up the menu in Arabic and English and make your QR code.", "ar": "نجهّز المنيو بالعربي والإنجليزي ونعمل كود الـ QR بتاعك." }
+        },
+        {
+          "title": { "en": "Put the code on your tables", "ar": "حط الكود على الترابيزات" },
+          "text": { "en": "Print the code, and your customers see the menu on their phones.", "ar": "اطبع الكود، وعملاءك يشوفوا المنيو من موبايلاتهم." }
+        }
+      ],
+      "faq": [
+        {
+          "q": { "en": "Do customers need an app?", "ar": "العميل محتاج تطبيق؟" },
+          "a": { "en": "No. They scan the code with the phone camera and the menu opens in the browser.", "ar": "لأ. بيمسح الكود بكاميرا الموبايل والمنيو بيفتح في المتصفح." }
+        },
+        {
+          "q": { "en": "Can I change prices later?", "ar": "أقدر أغيّر الأسعار بعدين؟" },
+          "a": { "en": "Yes, any time, and the change shows on every table at once.", "ar": "أيوه في أي وقت، والتعديل بيظهر على كل الترابيزات على طول." }
+        },
+        {
+          "q": { "en": "Is the QR menu free?", "ar": "منيو QR مجاني؟" },
+          "a": {
+            "en": "A basic QR menu is part of the free Starter plan; a menu in your own design with your photos is in the Growth plan.",
+            "ar": "المنيو الأساسي ضمن الباقة الأساسية المجانية، والمنيو بتصميمك وصورك في باقة النمو."
+          }
+        }
+      ]
+    },
+    {
+      "key": "restaurant-website",
+      "icon": "phone",
+      "name": { "en": "Ordering website & app", "ar": "موقع وتطبيق طلبات" },
+      "short": { "en": "An ordering website and app under your restaurant's name, so customers order from you directly.", "ar": "موقع طلبات وتطبيق باسم مطعمك، والعميل يطلب منك مباشرة." },
+      "seo": {
+        "en": {
+          "title": "Restaurant Website & Ordering App Under Your Own Name",
+          "description": "An ordering website and mobile app for your restaurant, with your name, logo and domain: customers order directly from you, for delivery or pickup."
+        },
+        "ar": {
+          "title": "عمل موقع وتطبيق طلبات لمطعمك باسمك",
+          "description": "موقع طلبات وتطبيق موبايل لمطعمك باسمك وشعارك ودومينك: العميل يطلب منك مباشرة، توصيل أو استلام، ومنيوك وبرنامج الولاء في مكان واحد."
+        }
+      },
+      "h1": { "en": "An ordering website and app under your name", "ar": "موقع وتطبيق طلبات باسم مطعمك" },
+      "lede": {
+        "en": "Customers order from you directly, for delivery or pickup, on a website and app with your logo and colours. Your customers and orders stay with you.",
+        "ar": "العميل يطلب منك مباشرة، توصيل أو استلام، من موقع وتطبيق بشعارك وألوانك. وعملاءك وطلباتك بيفضلوا معاك."
+      },
+      "features": [
+        {
+          "title": { "en": "Your own domain", "ar": "بدومينك الخاص" },
+          "text": { "en": "A website with your restaurant's name, menu and online ordering, on phones and computers.", "ar": "موقع باسم مطعمك، فيه المنيو والطلب أونلاين، على الموبايل والكمبيوتر." }
+        },
+        {
+          "title": { "en": "A mobile app", "ar": "تطبيق موبايل" },
+          "text": { "en": "An app with your logo for Android and iPhone.", "ar": "تطبيق بشعار مطعمك لأندرويد وآيفون." }
+        },
+        {
+          "title": { "en": "Delivery and pickup", "ar": "توصيل واستلام" },
+          "text": { "en": "Customers choose delivery or pickup from the branch.", "ar": "العميل يختار التوصيل أو يستلم من الفرع." }
+        },
+        {
+          "title": { "en": "Your customers stay yours", "ar": "عملاءك ليك" },
+          "text": { "en": "Orders and customer details stay with you, not with a middleman app.", "ar": "بيانات الطلبات والعملاء عندك، مش عند تطبيق وسيط." }
+        },
+        {
+          "title": { "en": "One menu, one loyalty program", "ar": "منيو واحد وولاء واحد" },
+          "text": { "en": "The same menu and loyalty points on the website, the app and in the branch.", "ar": "نفس المنيو ونقاط الولاء في الموقع والتطبيق والفرع." }
+        },
+        {
+          "title": { "en": "Found on Google", "ar": "يظهر في جوجل" },
+          "text": { "en": "Pages ready for Google, so people find you when they search for your name.", "ar": "صفحات مجهزة لجوجل، عشان الناس تلاقيك لما تدوّر على اسمك." }
+        }
+      ],
+      "steps": [
+        {
+          "title": { "en": "Agree on the look", "ar": "نتفق على الشكل" },
+          "text": { "en": "Your logo, colours, menu and the order types you want.", "ar": "شعارك وألوانك ومنيوك وأنواع الطلب اللي عايزها." }
+        },
+        {
+          "title": { "en": "We build the website and app", "ar": "نبني الموقع والتطبيق" },
+          "text": { "en": "We set up ordering, your domain and the app, and you review them before launch.", "ar": "نجهّز الطلب أونلاين والدومين والتطبيق، وتراجعهم قبل الإطلاق." }
+        },
+        {
+          "title": { "en": "You start taking orders", "ar": "تبدأ تستقبل طلبات" },
+          "text": { "en": "Customers order from you directly, and we help you announce it.", "ar": "العملاء يطلبوا منك مباشرة، وإحنا نساعدك تعلن عنه." }
+        }
+      ],
+      "faq": [
+        {
+          "q": { "en": "Can I start with the website only?", "ar": "أقدر أبدأ بالموقع بس؟" },
+          "a": { "en": "Yes. Start with the website and add the app or the loyalty program whenever you want.", "ar": "أيوه. ابدأ بالموقع، وزوّد التطبيق أو برنامج الولاء وقت ما تحب." }
+        },
+        {
+          "q": { "en": "Do I get my own domain?", "ar": "هيبقى ليا دومين خاص؟" },
+          "a": { "en": "Yes, in the Pro plan, with your restaurant's name.", "ar": "أيوه في الباقة الاحترافية، باسم مطعمك." }
+        },
+        {
+          "q": { "en": "Does it show my menu and offers?", "ar": "هيعرض المنيو والعروض بتاعتي؟" },
+          "a": { "en": "Yes, the same menu as your QR menu, with your offers and loyalty rewards.", "ar": "أيوه، نفس منيو الـ QR، ومعاه عروضك ومكافآت الولاء." }
+        }
+      ]
+    },
+    {
+      "key": "visibility",
+      "icon": "target",
+      "page": false,
+      "name": { "en": "Visibility on Foodidu", "ar": "ظهور على Foodidu" },
+      "short": {
+        "en": "A page for your restaurant and your promo code on Foodidu, in Google, on our WhatsApp channel and our social pages.",
+        "ar": "صفحة لمطعمك وكود خصمك على Foodidu، تظهر في جوجل وفي قناتنا على واتساب وصفحاتنا على السوشيال."
+      }
+    }
+  ],
+  "plans": [
+    {
+      "key": "starter",
+      "name": { "en": "Starter", "ar": "الأساسية" },
+      "price": { "en": "Free", "ar": "مجاناً" },
+      "note": { "en": "For an exclusive promo code for Foodidu users", "ar": "مقابل كود خصم حصري لعملاء Foodidu" },
+      "features": [
+        { "en": "Your restaurant's page and promo code on Foodidu, in Arabic and English", "ar": "صفحة مطعمك وكودك على Foodidu بالعربي والإنجليزي" },
+        { "en": "A basic QR menu", "ar": "منيو QR أساسي" },
+        { "en": "A spot on the Foodidu WhatsApp channel", "ar": "ظهور في قناة Foodidu على واتساب" },
+        { "en": "The “Find our code on Foodidu” badge for your website and pages", "ar": "شارة «كودنا على Foodidu» لموقعك وصفحاتك" }
+      ]
+    },
+    {
+      "key": "growth",
+      "featured": true,
+      "name": { "en": "Growth", "ar": "النمو" },
+      "price": { "en": "Monthly plan", "ar": "اشتراك شهري" },
+      "note": { "en": "Priced by your restaurant's size and branches", "ar": "حسب حجم مطعمك وعدد فروعه" },
+      "features": [
+        { "en": "Everything in Starter", "ar": "كل مميزات الأساسية" },
+        { "en": "A loyalty program with points or stamps", "ar": "برنامج ولاء بالنقاط أو كارت الأختام" },
+        { "en": "A QR menu in your design, with your photos", "ar": "منيو QR بتصميمك وصور أصنافك" },
+        { "en": "Priority in the featured spot on Foodidu", "ar": "أولوية في المساحة المميزة على Foodidu" },
+        { "en": "A monthly report of views and code copies", "ar": "تقرير شهري بزيارات ونسخ كودك" }
+      ]
+    },
+    {
+      "key": "pro",
+      "name": { "en": "Pro", "ar": "الاحترافية" },
+      "price": { "en": "Custom quote", "ar": "عرض سعر" },
+      "note": { "en": "For restaurants and chains that want everything under their name", "ar": "لمطاعم وسلاسل عايزة كل حاجة باسمها" },
+      "features": [
+        { "en": "Everything in Growth", "ar": "كل مميزات النمو" },
+        { "en": "An ordering website with your own domain", "ar": "موقع طلبات باسم مطعمك ودومين خاص" },
+        { "en": "A mobile app for your restaurant", "ar": "تطبيق موبايل لمطعمك" },
+        { "en": "Help with setup and staff training", "ar": "مساعدة في الإعداد وتدريب فريقك" }
+      ]
+    }
+  ],
+  "faq": [
+    {
+      "q": { "en": "Is the Starter plan really free?", "ar": "هل الباقة الأساسية مجانية فعلاً؟" },
+      "a": {
+        "en": "Yes. All we need is an exclusive promo code for Foodidu users; you choose the discount and its terms, and we show it on your restaurant's page.",
+        "ar": "أيوه. كل المطلوب كود خصم حصري لعملاء Foodidu، تحدد أنت نسبته وشروطه، ونعرضه على صفحة مطعمك."
+      }
+    },
+    {
+      "q": { "en": "Why is the loyalty program so important?", "ar": "ليه برنامج الولاء مهم؟" },
+      "a": {
+        "en": "Bringing a new customer costs more than keeping one. A loyalty program rewards the customers who come back, so the people your Foodidu code brings in become regulars.",
+        "ar": "إنك تجيب عميل جديد بيكلّف أكتر من إنك تحافظ على عميل عندك. برنامج الولاء بيكافئ اللي بيرجعوا، فاللي جه بكود Foodidu يبقى زبون دائم."
+      }
+    },
+    {
+      "q": { "en": "Can I start with one service only?", "ar": "أقدر أبدأ بخدمة واحدة بس؟" },
+      "a": {
+        "en": "Yes. Pick the services you need in the form; we start with them and you add the rest whenever you like.",
+        "ar": "أيوه. اختار الخدمات اللي محتاجها في الفورم، نبدأ بيها، وتزوّد الباقي وقت ما تحب."
+      }
+    },
+    {
+      "q": { "en": "What happens after I apply?", "ar": "إيه اللي بيحصل بعد ما أقدّم؟" },
+      "a": {
+        "en": "Our team contacts you to go over your request and agree on the details, then we prepare your tools and your page.",
+        "ar": "فريقنا بيتواصل معاك يراجع طلبك ويتفق معاك على التفاصيل، وبعدها نجهّز أدواتك وصفحتك."
+      }
+    }
+  ]
+}

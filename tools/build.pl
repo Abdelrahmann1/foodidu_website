@@ -81,6 +81,8 @@ my @FO;   # first-order codes, filled once the brands are loaded (used by the fo
 my $FEAT = -f $FT_FILE ? JSON::PP->new->utf8->decode(slurp($FT_FILE, 1)) : {};
 my $HOME_FILE = "$ROOT/data/home.json";
 my $HOME = -f $HOME_FILE ? JSON::PP->new->utf8->decode(slurp($HOME_FILE, 1)) : {};
+my $BIZ_FILE = "$ROOT/data/business.json";
+my $BIZ = -f $BIZ_FILE ? JSON::PP->new->utf8->decode(slurp($BIZ_FILE, 1)) : undef;   # Foodidu Business: /business/ and its service pages
 my $BLOG_FILE = "$ROOT/data/blog.json";
 my @POSTS = -f $BLOG_FILE ? @{ JSON::PP->new->utf8->decode(slurp($BLOG_FILE, 1))->{posts} // [] } : ();
 my @PUB = sort { $b->{published} cmp $a->{published} } grep { ($_->{status} // '') eq 'published' } @POSTS;   # published articles, newest first
@@ -166,7 +168,7 @@ my %S = (
   ft_label => 'Featured offer', ft_sponsored => 'Sponsored', ft_until => 'until {date}',
   ft_rest_title => '{name} offers: save up to {p}%', ft_rest_text => '{n} on the menu from {min} EGP', ft_rest_cta => 'See the offers',
   ft_code_title => '{name} promo code', ft_code_cta => 'Get the code',
-  band_title => 'Own a restaurant or food brand?', band_text => 'Put your promo code in front of people who are about to order. Apply in two minutes and our team will get in touch.', band_btn => 'Partner with Foodidu',
+  band_title => 'Own a restaurant or food brand?', band_text => 'A QR menu, a loyalty program, your own ordering website, and your promo code in front of people who are about to order. Start free.', band_btn => 'Discover Foodidu Business',
   faq_eyebrow => 'FAQ', faq_title => 'Questions, answered',
   # codes page
   c_title => 'All Promo Codes: Restaurants, Groceries & Shopping',
@@ -206,26 +208,19 @@ my %S = (
   b_h1_multi => '{name} promo codes', b_side_codes => 'Your {name} codes', b_st1p_multi => 'Tap “Copy code” next to the code you want to use.',
   b_a1_multi => '{name} codes on Foodidu: {list}.', checked_short => 'Checked {date}', h_fact_checked => 'Checked {date}', h_fact_checked_n => '{n} codes checked {date}',
   cat_def_restaurants => 'restaurant', cat_def_groceries => 'grocery', cat_def_shopping => 'shopping',
-  # partners
-  p_title => "Partner with Foodidu: Promote Your Restaurant's Offers",
-  p_desc => 'Own a restaurant, café or food brand in Egypt? Apply to list your promo code on Foodidu and reach people who are about to order.',
-  p_h1 => 'Partner with Foodidu',
-  p_lede => 'Own a restaurant, café, cloud kitchen or food brand? List your promo code on Foodidu and reach people who are looking for a deal right before they order.',
-  p_cta => 'Apply now', p_v_eyebrow => 'Why partner', p_v_title => 'Get in front of hungry customers',
-  p_v1 => 'Reach ready-to-order customers', p_v1p => "People visit Foodidu when they're about to order and want a better price. Your offer is in front of them at that moment.",
-  p_v2 => 'Your own brand page', p_v2p => "A dedicated page for your code in Arabic and English, built to show up when people search for your brand's promo code.",
-  p_v3 => 'You set the offer', p_v3p => 'Choose the discount, the conditions and how long it runs. Tell us when it changes and we update it.',
-  p_how_title => 'How it works', p_s1 => 'Apply', p_s1p => 'Fill in the short form below.', p_s2 => 'We talk', p_s2p => 'Our team reviews your application and contacts you.', p_s3 => 'Go live', p_s3p => 'Your code and brand page go live on Foodidu.',
-  p_form_title => 'Apply to become a partner', p_form_sub => 'Fields marked * are required.',
+  # Foodidu Business (/business/)
+  biz_start => 'Start free', biz_plans_btn => 'See the plans', biz_join => 'Apply now',
+  biz_svc_eyebrow => 'Our services', biz_svc_title => 'Tools that grow your restaurant', biz_main_tag => 'Brings customers back',
+  biz_journey_eyebrow => 'How the tools work together', biz_plans_eyebrow => 'Plans', biz_plans_title => 'Start free, grow when you are ready',
+  biz_plans_sub => 'Pick a plan in the form and our team will get back to you with the details and the right price for your restaurant.', biz_plan_tag => 'Includes loyalty', biz_plan_cta => 'Choose this plan',
+  biz_form_title => 'Tell us about your restaurant', biz_feats_title => 'What you get', biz_how_title => 'How we start', biz_other_title => 'More tools for your restaurant',
+  biz_cta_title => 'Ready to grow your restaurant?', biz_cta_text => 'Start free with an exclusive promo code for Foodidu users, and add the tools you need when you need them.',
+  p_form_sub => 'Fields marked * are required.', f_services => 'Services you are interested in', f_plan => 'Plan', f_plan_ph => 'Not sure yet',
   f_business => 'Business name', f_contact => 'Contact person', f_contact_hint => 'Arabic or English letters only.', f_phone => 'Phone number', f_email => 'Email address',
   f_location => 'Business location', f_location_ph => 'e.g. Nasr City, Cairo', f_type => 'Business type', f_type_ph => 'Select business type',
   f_restaurant => 'Restaurant', f_cafe => 'Café', f_cloud => 'Cloud kitchen', f_truck => 'Food truck', f_bakery => 'Bakery', f_other => 'Other',
   f_desc => 'Tell us about your business', f_desc_ph => 'Your cuisine, branches and the offer you have in mind', f_web => 'Website or social page (optional)',
   f_submit => 'Send application', f_privacy => 'We only use these details to review your application.',
-  p_q1 => 'What kind of businesses can apply?', p_a1 => 'Restaurants, cafés, cloud kitchens, food trucks, bakeries and other food businesses.',
-  p_q2 => 'Do I need a website?', p_a2 => 'No. Your phone number and location are enough to apply. Add your website or social page if you have one.',
-  p_q3 => 'Can I change my offer later?', p_a3 => "Yes. Tell us when your offer changes and we'll update your code and page.",
-  p_q4 => 'Can my restaurant appear at the top of the home page?', p_a4 => 'Yes. The “Featured offer” spot right under the home page header shows one partner at a time. Mention it in your application and we will send you the details.',
   # legal
   pr_seo => 'Foodidu Privacy Policy: How We Use Your Data',
   pr_title => 'Privacy Policy', pr_desc => 'How Foodidu collects, uses and protects your information, which services we use, and the choices you have about cookies and your data.',
@@ -237,7 +232,7 @@ my %S = (
   q2 => 'Is Foodidu free?', a2 => "Yes. You don't need an account. Copy any code and use it directly in the brand's app or website.",
   q3 => 'How do I use a promo code?', a3 => "Tap Copy on the code, open the brand's app or website, add your order to the cart and paste the code in the promo code field at checkout.",
   q4 => "Why didn't a code work?", a4 => 'Most codes have conditions, such as first order only or a minimum order amount, and brands can change or end offers at any time. Check the conditions on the code page and make sure you typed it exactly.',
-  q5 => 'How can my restaurant appear on Foodidu?', a5 => 'Fill in the <a href="{partners}">partner application</a> and our team will contact you.',
+  q5 => 'How can my restaurant appear on Foodidu?', a5 => 'Start free on <a href="{partners}">Foodidu Business</a>: send us an exclusive promo code for Foodidu users and our team will contact you.',
  },
  ar => {
   skip => 'تخطَّ إلى المحتوى', home => 'الرئيسية', menu => 'القائمة', mainnav => 'القائمة الرئيسية',
@@ -312,7 +307,7 @@ my %S = (
   ft_label => 'عرض مميز', ft_sponsored => 'إعلان', ft_until => 'حتى {date}',
   ft_rest_title => 'عروض {name}: وفّر حتى <bdi>{p}%</bdi>', ft_rest_text => '{n} من المنيو تبدأ من {min} جنيه', ft_rest_cta => 'شوف العروض',
   ft_code_title => 'كود خصم {name}', ft_code_cta => 'خد الكود',
-  band_title => 'عندك مطعم أو براند أكل؟', band_text => 'اعرض كود الخصم الخاص بك أمام أشخاص على وشك الطلب. قدّم في دقيقتين وسيتواصل معك فريقنا.', band_btn => 'انضم لشركاء Foodidu',
+  band_title => 'عندك مطعم أو براند أكل؟', band_text => 'منيو QR، وبرنامج ولاء، وموقع طلبات باسمك، وكود خصمك أمام أشخاص على وشك الطلب. ابدأ مجاناً.', band_btn => 'اكتشف Foodidu Business',
   faq_eyebrow => 'أسئلة شائعة', faq_title => 'عندك سؤال؟',
   c_title => 'كل أكواد الخصم والكوبونات: مطاعم وبقالة وتسوق أونلاين',
   c_desc => 'تصفّح كل أكواد خصم Foodidu في قائمة واحدة: مطاعم مثل كنتاكي وبيتزا هت، وتطبيقات بقالة مثل رابيت وبريدفاست، ونون للتسوق أونلاين.',
@@ -350,25 +345,18 @@ my %S = (
   b_h1_multi => 'أكواد خصم {name}', b_side_codes => 'أكواد {name}', b_st1p_multi => 'اضغط «انسخ الكود» بجانب الكود الذي تريد استخدامه.',
   b_a1_multi => 'أكواد {name} على Foodidu: {list}.', checked_short => 'تم التحقق في {date}', h_fact_checked => 'تم التحقق {date}', h_fact_checked_n => '{n} كود اتحقق منه في {date}',
   cat_def_restaurants => 'المطاعم', cat_def_groceries => 'البقالة', cat_def_shopping => 'التسوق أونلاين',
-  p_title => 'انضم لشركاء Foodidu: اعرض عروض مطعمك',
-  p_desc => 'عندك مطعم أو كافيه أو براند أكل في مصر؟ قدّم الآن لعرض كود الخصم الخاص بك على Foodidu والوصول لأشخاص على وشك الطلب.',
-  p_h1 => 'انضم لشركاء Foodidu',
-  p_lede => 'عندك مطعم أو كافيه أو مطبخ سحابي أو براند أكل؟ اعرض كود الخصم الخاص بك على Foodidu، ووصّل عرضك لأشخاص يبحثون عن خصم قبل أن يطلبوا مباشرة.',
-  p_cta => 'قدّم الآن', p_v_eyebrow => 'لماذا تنضم', p_v_title => 'اظهر أمام عملاء جائعين',
-  p_v1 => 'عملاء جاهزون للطلب', p_v1p => 'يزور الناس Foodidu عندما يكونون على وشك الطلب ويبحثون عن سعر أفضل، فيظهر عرضك أمامهم في هذه اللحظة.',
-  p_v2 => 'صفحة خاصة لعلامتك', p_v2p => 'صفحة مخصصة لكودك بالعربية والإنجليزية، مصمَّمة لتظهر عندما يبحث الناس عن كود خصم علامتك.',
-  p_v3 => 'أنت تحدد العرض', p_v3p => 'اختر نسبة الخصم والشروط ومدة العرض، وأخبرنا عند أي تغيير لنحدّثه.',
-  p_how_title => 'كيف تعمل الشراكة', p_s1 => 'قدّم', p_s1p => 'املأ النموذج القصير بالأسفل.', p_s2 => 'نتواصل معك', p_s2p => 'يراجع فريقنا طلبك ويتواصل معك.', p_s3 => 'انطلق', p_s3p => 'ينطلق كودك وصفحة علامتك على Foodidu.',
-  p_form_title => 'قدّم طلب الشراكة', p_form_sub => 'الحقول المميزة بـ * مطلوبة.',
+  biz_start => 'ابدأ مجاناً', biz_plans_btn => 'شوف الباقات', biz_join => 'قدّم دلوقتي',
+  biz_svc_eyebrow => 'خدماتنا', biz_svc_title => 'أدوات تكبّر مطعمك', biz_main_tag => 'يرجّع عملاءك',
+  biz_journey_eyebrow => 'إزاي الأدوات بتكمّل بعض', biz_plans_eyebrow => 'الباقات', biz_plans_title => 'ابدأ مجاناً، وكبّر لما تكون جاهز',
+  biz_plans_sub => 'اختار الباقة في الفورم، وفريقنا يتواصل معاك بالتفاصيل والسعر المناسب لمطعمك.', biz_plan_tag => 'فيها برنامج الولاء', biz_plan_cta => 'اختار الباقة دي',
+  biz_form_title => 'احكيلنا عن مطعمك', biz_feats_title => 'هتاخد إيه', biz_how_title => 'إزاي بنبدأ', biz_other_title => 'أدوات تانية لمطعمك',
+  biz_cta_title => 'جاهز تكبّر مطعمك؟', biz_cta_text => 'ابدأ مجاناً بكود خصم حصري لعملاء Foodidu، وزوّد الأدوات اللي محتاجها وقت ما تحتاجها.',
+  p_form_sub => 'الحقول المميزة بـ * مطلوبة.', f_services => 'الخدمات اللي تهمك', f_plan => 'الباقة', f_plan_ph => 'لسه مش متأكد',
   f_business => 'اسم النشاط', f_contact => 'اسم المسؤول', f_contact_hint => 'حروف عربية أو إنجليزية فقط.', f_phone => 'رقم الهاتف', f_email => 'البريد الإلكتروني',
   f_location => 'موقع النشاط', f_location_ph => 'مثال: مدينة نصر، القاهرة', f_type => 'نوع النشاط', f_type_ph => 'اختر نوع النشاط',
   f_restaurant => 'مطعم', f_cafe => 'كافيه', f_cloud => 'مطبخ سحابي', f_truck => 'عربة طعام', f_bakery => 'مخبز', f_other => 'أخرى',
   f_desc => 'أخبرنا عن نشاطك', f_desc_ph => 'نوع الأكل والفروع والعرض الذي تفكر فيه', f_web => 'الموقع الإلكتروني أو صفحة السوشيال (اختياري)',
   f_submit => 'أرسل الطلب', f_privacy => 'نستخدم هذه البيانات لمراجعة طلبك فقط.',
-  p_q1 => 'ما أنواع الأنشطة التي يمكنها التقديم؟', p_a1 => 'المطاعم والكافيهات والمطابخ السحابية وعربات الطعام والمخابز وأي نشاط طعام آخر.',
-  p_q2 => 'هل أحتاج إلى موقع إلكتروني؟', p_a2 => 'لا. رقم الهاتف والموقع كافيان للتقديم، وأضف موقعك أو صفحة السوشيال إن وُجدت.',
-  p_q3 => 'هل يمكنني تغيير العرض لاحقاً؟', p_a3 => 'نعم، أخبرنا عند تغيير عرضك وسنحدّث الكود والصفحة.',
-  p_q4 => 'هل يمكن أن يظهر مطعمي أعلى الصفحة الرئيسية؟', p_a4 => 'نعم. مساحة «عرض مميز» أسفل واجهة الصفحة الرئيسية مباشرة تعرض شريكاً واحداً في كل مرة. اذكر ذلك في طلبك وسنرسل لك التفاصيل.',
   pr_seo => 'سياسة الخصوصية في Foodidu: كيف نستخدم بياناتك',
   pr_title => 'سياسة الخصوصية', pr_desc => 'تعرّف على كيفية جمع Foodidu لمعلوماتك واستخدامها وحمايتها، والخدمات التي نستخدمها، وخياراتك بشأن ملفات تعريف الارتباط وبياناتك.',
   te_seo => 'الشروط والأحكام لاستخدام موقع Foodidu',
@@ -378,7 +366,7 @@ my %S = (
   q2 => 'هل Foodidu مجاني؟', a2 => 'نعم، لا تحتاج إلى حساب. انسخ أي كود واستخدمه مباشرة في تطبيق أو موقع العلامة التجارية.',
   q3 => 'كيف أستخدم كود الخصم؟', a3 => 'اضغط «انسخ» على الكود، وافتح تطبيق أو موقع العلامة التجارية، وأضف طلبك إلى السلة، ثم الصق الكود في خانة كود الخصم أو البرومو كود عند الدفع.',
   q4 => 'لماذا لم يعمل الكود؟', a4 => 'معظم الأكواد لها شروط مثل أول طلب فقط أو حد أدنى لقيمة الطلب، ويمكن للعلامات التجارية تغيير العروض أو إنهاؤها في أي وقت. راجع الشروط في صفحة الكود وتأكد أنك كتبته كما هو تماماً.',
-  q5 => 'كيف يظهر مطعمي على Foodidu؟', a5 => 'املأ <a href="{partners}">نموذج طلب الشراكة</a> وسيتواصل معك فريقنا.',
+  q5 => 'كيف يظهر مطعمي على Foodidu؟', a5 => 'ابدأ مجاناً عبر <a href="{partners}">Foodidu Business</a>: أرسل لنا كود خصم حصرياً لعملاء Foodidu وسيتواصل معك فريقنا.',
  },
 );
 my @MONTHS_EN = qw(January February March April May June July August September October November December);
@@ -403,6 +391,7 @@ sub fresh { my $ymd = shift or return 0; my ($y, $m, $d) = split /-/, $ymd; my $
 
 # ------------------------------------------------------------------ icons
 my %ICON = (
+  qr       => '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM21 14v.01M14 21h.01M17.5 21H21v-3.5"/>',
   pk_coffee => '<path d="M4 9h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9Z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3c-.7 1.1.7 1.9 0 3M12 3c-.7 1.1.7 1.9 0 3"/><path d="M3 22h14"/>',
   pk_milk   => '<path d="M8 2h8v3l2 3.5V21a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V8.5L8 5V2Z"/><path d="M6 8.5h12M8 5h8"/><path d="M9.5 15c1.6-1.3 3.4-1.3 5 0"/>',
   pk_rice   => '<path d="M3 12h18a9 9 0 0 1-18 0Z"/><path d="M6.5 12c0-3 2.4-5 5.5-5s5.5 2 5.5 5"/><path d="M10 9.5v.01M13 8.8v.01M15 10.3v.01M8.8 11v.01"/>',
@@ -550,7 +539,7 @@ sub search_form {
 }
 sub band {
   my ($l) = @_;
-  qq{<section class="wrap section-tight"><div class="band"><div><h2>} . T($l, 'band_title') . '</h2><p>' . T($l, 'band_text') . qq{</p><a class="btn btn-sun" href="} . path_for($l, '/partners/') . '">' . T($l, 'band_btn') . ' ' . icon('arrow', 'flip') . qq{</a></div><img class="face" src="$LOGO" alt="" width="200" height="79" loading="lazy"></div></section>};
+  qq{<section class="wrap section-tight"><div class="band"><div><h2>} . T($l, 'band_title') . '</h2><p>' . T($l, 'band_text') . qq{</p><a class="btn btn-sun" href="} . path_for($l, '/business/') . '">' . T($l, 'band_btn') . ' ' . icon('arrow', 'flip') . qq{</a></div><img class="face" src="$LOGO" alt="" width="200" height="79" loading="lazy"></div></section>};
 }
 # Follow the WhatsApp channel: a card in the brand page sidebar ($side), or a strip above the partner band
 sub wa_cta {
@@ -622,7 +611,7 @@ sub layout {
   my @nav = (
     [T($l, 'nav_codes'), $codes, 'codes', 'tag'], (@DDEALS ? [T($l, 'dd_nav'), path_for($l, '/day-deals/'), 'daydeals', 'calendar'] : ()),
     [T($l, 'nav_rest'), "$codes#restaurants", '', 'fork'], [T($l, 'nav_groc'), "$codes#groceries", '', 'basket'],
-    [T($l, 'nav_shop'), "$codes#shopping", '', 'bag'], (@PUB ? [T($l, 'blog_nav'), path_for($l, '/blog/'), 'blog', 'menubook'] : ()), [T($l, 'nav_partner'), path_for($l, '/partners/'), 'partners', 'store'],
+    [T($l, 'nav_shop'), "$codes#shopping", '', 'bag'], (@PUB ? [T($l, 'blog_nav'), path_for($l, '/blog/'), 'blog', 'menubook'] : ()), [T($l, 'nav_partner'), path_for($l, '/business/'), 'business', 'store'],
   );
   my $nav = join '', map { qq{<a href="$_->[1]"} . ($_->[2] && ($a{nav} // '') eq $_->[2] ? ' aria-current="page"' : '') . '><span class="nav-ic">' . icon($_->[3]) . "</span><span>$_->[0]</span>" . icon('arrow', 'nav-go flip') . '</a>' } @nav;
   my $other_label = $other eq 'ar' ? 'العربية' : 'English';
@@ -703,7 +692,7 @@ $a{body}
 @{[ @DDEALS ? '<li><a href="' . path_for($l, '/day-deals/') . '">' . T($l, 'dd_nav') . '</a></li>' : '' ]}
 @{[ @PUB ? '<li><a href="' . path_for($l, '/blog/') . '">' . T($l, 'blog_h1') . '</a></li>' : '' ]}
 @{[ join '', map { '<li><a href="' . rest_url($_, $l) . '">' . Te($l, 'ro_h1', name => $_->{name}{$l}) . '</a></li>' } @RESTS ]}
-<li><a href="@{[ path_for($l, '/partners/') ]}">@{[ T($l, 'nav_partner') ]}</a></li>
+<li><a href="@{[ path_for($l, '/business/') ]}">Foodidu Business</a></li>
 <li><a href="@{[ path_for($l, '/privacy-policy/') ]}">@{[ T($l, 'privacy') ]}</a></li>
 <li><a href="@{[ path_for($l, '/terms-and-conditions/') ]}">@{[ T($l, 'terms') ]}</a></li>
 <li><button type="button" data-cookie-settings>@{[ T($l, 'cookie_settings') ]}</button></li>
@@ -975,7 +964,7 @@ for my $l (@LANGS) {
     push @facts, [shield => T($l, $NCHECKED < $NCODES ? 'h_fact_checked_n' : 'h_fact_checked', n => $NCHECKED, date => month_year($l, $VERIFIED[0]))] if $ALL_FRESH && @VERIFIED;
     push @facts, [gift => T($l, 'h_fact_free')];
     my $facts = join '', map { '<li>' . icon($_->[0]) . "<span>$_->[1]</span></li>" } @facts;
-    my @qa = map { [T($l, "q$_"), T($l, "a$_", partners => path_for($l, '/partners/'))] } 1 .. 5;
+    my @qa = map { [T($l, "q$_"), T($l, "a$_", partners => path_for($l, '/business/'))] } 1 .. 5;
     my $body = <<"HTML";
 <section class="hero">
 <div class="wrap hero-grid">
@@ -1455,41 +1444,60 @@ HTML
       ld => [ faq_ld(@qa) ], lastmod => (sort grep { $_ } $b->{lastVerified}, $DATA_DATE, (@bdd ? $DD_DATE : ()))[-1]);
   }
 
-  # ---------- partners
-  {
-    my @qa = map { [T($l, "p_q$_"), T($l, "p_a$_")] } 1 .. 4;
-    my $req = ' <span class="req" aria-hidden="true">*</span>';
-    my $opts = join '', map { qq{<option value="$_->[0]">} . T($l, $_->[1]) . '</option>' } (['restaurant', 'f_restaurant'], ['cafe', 'f_cafe'], ['cloud-kitchen', 'f_cloud'], ['food-truck', 'f_truck'], ['bakery', 'f_bakery'], ['other', 'f_other']);
-    my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'p_h1'), path_for($l, '/partners/')]];
-    my $body = <<"HTML";
-<section class="page-hero">
-<div class="wrap">
-@{[ crumbs_html($l, $crumbs) ]}
-<h1>@{[ T($l, 'p_h1') ]}</h1>
-<p class="lede">@{[ T($l, 'p_lede') ]}</p>
-<p style="margin-top:24px"><a class="btn btn-ink" href="#apply">@{[ T($l, 'p_cta') ]} @{[ icon('arrow', 'flip') ]}</a></p>
-</div>
+  # ---------- Foodidu Business (data/business.json): /business/ and one page per service; /partners/ redirects here
+  if ($BIZ) {
+    my $burl = path_for($l, '/business/');
+    my @svc = @{ $BIZ->{services} };
+    my $surl = sub { path_for($l, "/business/$_[0]{key}/") };
+    my $has_page = sub { $_[0]{page} // 1 };
+    my $num = sub { $l eq 'ar' ? (qw(١ ٢ ٣ ٤ ٥ ٦))[$_[0] - 1] : $_[0] };
+    my $hero = sub {   # the dark Foodidu Business hero, with the two buttons to the plans and the form
+      my ($crumbs, $h1, $lede) = @_;
+      '<section class="page-hero biz-hero"><div class="wrap">' . crumbs_html($l, $crumbs) . '<p class="eyebrow">Foodidu Business</p><h1>' . esc($h1) . '</h1><p class="lede">' . esc($lede) . '</p>'
+      . '<p class="biz-btns"><a class="btn btn-sun" href="' . $burl . '#join">' . T($l, 'biz_start') . ' ' . icon('arrow', 'flip') . '</a><a class="btn btn-line" href="' . $burl . '#plans">' . T($l, 'biz_plans_btn') . '</a></p></div></section>'
+      . '<div class="scallop biz-scallop" aria-hidden="true"></div>';
+    };
+    my $svc_cards = sub {
+      my @list = @_;
+      '<ul class="svcs">' . join('', map { my $s = $_;
+        '<li class="svc' . ($s->{featured} ? ' svc-main' : '') . '">' . ($s->{featured} ? '<span class="svc-tag">' . T($l, 'biz_main_tag') . '</span>' : '')
+        . '<span class="ic">' . icon($s->{icon}) . '</span><h3>' . ($has_page->($s) ? '<a href="' . $surl->($s) . '">' . esc($s->{name}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : esc($s->{name}{$l})) . '</h3>'
+        . '<p>' . esc($s->{short}{$l}) . '</p></li>' } @list) . '</ul>';
+    };
+    my $cta = '<section class="wrap section-tight"><div class="band biz-cta"><div><h2>' . T($l, 'biz_cta_title') . '</h2><p>' . T($l, 'biz_cta_text') . '</p><a class="btn btn-sun" href="' . $burl . '#join">' . T($l, 'biz_join') . ' ' . icon('arrow', 'flip') . '</a></div>'
+      . '<img class="face" src="/img/mascot/didu-point.svg" alt="" width="200" height="200" loading="lazy"></div></section>';
+
+    # the landing page
+    {
+      my $crumbs = [[T($l, 'home'), path_for($l, '/')], ['Foodidu Business', $burl]];
+      my $journey = '<ol class="journey">' . join('', map { my $i = $_; my $st = $BIZ->{journey}{steps}[$i];
+        '<li><span class="num" aria-hidden="true">' . $num->($i + 1) . '</span><h3>' . esc($st->{title}{$l}) . '</h3><p>' . esc($st->{text}{$l}) . '</p></li>' } 0 .. $#{ $BIZ->{journey}{steps} }) . '</ol>';
+      my $plans = '<ul class="plans">' . join('', map { my $p = $_;
+        '<li class="plan' . ($p->{featured} ? ' plan-main' : '') . '">' . ($p->{featured} ? '<span class="svc-tag">' . T($l, 'biz_plan_tag') . '</span>' : '')
+        . '<h3>' . esc($p->{name}{$l}) . '</h3><p class="plan-price">' . esc($p->{price}{$l}) . '</p><p class="plan-note">' . esc($p->{note}{$l}) . '</p>'
+        . '<ul class="plan-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{$l}) . '</span></li>' } @{ $p->{features} }) . '</ul>'
+        . '<a class="btn ' . ($p->{featured} ? 'btn-sun' : 'btn-ink') . '" href="#join" data-plan="' . $p->{key} . '">' . T($l, 'biz_plan_cta') . '</a></li>' } @{ $BIZ->{plans} }) . '</ul>';
+      my $req = ' <span class="req" aria-hidden="true">*</span>';
+      my $opts = join '', map { qq{<option value="$_->[0]">} . T($l, $_->[1]) . '</option>' } (['restaurant', 'f_restaurant'], ['cafe', 'f_cafe'], ['cloud-kitchen', 'f_cloud'], ['food-truck', 'f_truck'], ['bakery', 'f_bakery'], ['other', 'f_other']);
+      my $svc_checks = join '', map { '<label class="check"><input type="checkbox" name="services" value="' . esc($_->{name}{$l}) . '"' . ($_->{featured} ? ' checked' : '') . '><span>' . esc($_->{name}{$l}) . '</span></label>' } @svc;
+      my $plan_opts = '<option value="">' . T($l, 'f_plan_ph') . '</option>' . join('', map { '<option value="' . $_->{key} . '">' . esc($_->{name}{$l}) . ' · ' . esc($_->{price}{$l}) . '</option>' } @{ $BIZ->{plans} });
+      my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $BIZ->{faq} };
+      my $body = $hero->($crumbs, $BIZ->{h1}{$l}, $BIZ->{lede}{$l}) . <<"HTML";
+<section class="wrap section-tight" aria-labelledby="svc-title">
+<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'biz_svc_eyebrow') ]}</p><h2 class="h2" id="svc-title">@{[ T($l, 'biz_svc_title') ]}</h2></div></div>
+@{[ $svc_cards->(@svc) ]}
 </section>
-<div class="scallop" aria-hidden="true"></div>
-<section class="wrap section-tight" aria-labelledby="val-title">
-<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'p_v_eyebrow') ]}</p><h2 class="h2" id="val-title">@{[ T($l, 'p_v_title') ]}</h2></div></div>
-<ul class="values">
-<li><span class="ic">@{[ icon('target') ]}</span><h3>@{[ T($l, 'p_v1') ]}</h3><p>@{[ T($l, 'p_v1p') ]}</p></li>
-<li><span class="ic">@{[ icon('page') ]}</span><h3>@{[ T($l, 'p_v2') ]}</h3><p>@{[ T($l, 'p_v2p') ]}</p></li>
-<li><span class="ic">@{[ icon('sliders') ]}</span><h3>@{[ T($l, 'p_v3') ]}</h3><p>@{[ T($l, 'p_v3p') ]}</p></li>
-</ul>
+<section class="wrap section-tight" aria-labelledby="journey-title">
+<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'biz_journey_eyebrow') ]}</p><h2 class="h2" id="journey-title">@{[ esc($BIZ->{journey}{title}{$l}) ]}</h2></div></div>
+$journey
 </section>
-<section class="wrap section-tight" aria-labelledby="phow-title">
-<div class="section-head"><h2 class="h2" id="phow-title">@{[ T($l, 'p_how_title') ]}</h2></div>
-<ol class="steps">
-<li class="step"><span class="num" aria-hidden="true">@{[ $l eq 'ar' ? '١' : '1' ]}</span><h3>@{[ T($l, 'p_s1') ]}</h3><p>@{[ T($l, 'p_s1p') ]}</p></li>
-<li class="step"><span class="num" aria-hidden="true">@{[ $l eq 'ar' ? '٢' : '2' ]}</span><h3>@{[ T($l, 'p_s2') ]}</h3><p>@{[ T($l, 'p_s2p') ]}</p></li>
-<li class="step"><span class="num" aria-hidden="true">@{[ $l eq 'ar' ? '٣' : '3' ]}</span><h3>@{[ T($l, 'p_s3') ]}</h3><p>@{[ T($l, 'p_s3p') ]}</p></li>
-</ol>
+<section class="wrap section-tight" id="plans" aria-labelledby="plans-title">
+<div class="section-head"><div><p class="eyebrow">@{[ T($l, 'biz_plans_eyebrow') ]}</p><h2 class="h2" id="plans-title">@{[ T($l, 'biz_plans_title') ]}</h2><p class="section-sub">@{[ T($l, 'biz_plans_sub') ]}</p></div></div>
+$plans
 </section>
-<section class="wrap section-tight" id="apply" aria-labelledby="form-title">
+<section class="wrap section-tight" id="join" aria-labelledby="form-title">
 <div class="form-card">
-<h2 class="h2" id="form-title">@{[ T($l, 'p_form_title') ]}</h2>
+<h2 class="h2" id="form-title">@{[ T($l, 'biz_form_title') ]}</h2>
 <p class="section-sub" style="margin-bottom:24px">@{[ T($l, 'p_form_sub') ]}</p>
 <form id="vendor-application-form" novalidate>
 <div class="form-grid">
@@ -1499,7 +1507,9 @@ HTML
 <div class="field"><label for="f-email">@{[ T($l, 'f_email') ]}$req</label><input id="f-email" name="email" type="email" required maxlength="200" autocomplete="email"></div>
 <div class="field"><label for="f-location">@{[ T($l, 'f_location') ]}$req</label><input id="f-location" name="location" required maxlength="300" placeholder="@{[ T($l, 'f_location_ph') ]}"></div>
 <div class="field"><label for="f-type">@{[ T($l, 'f_type') ]}$req</label><select id="f-type" name="businessType" required><option value="">@{[ T($l, 'f_type_ph') ]}</option>$opts</select></div>
-<div class="field full"><label for="f-desc">@{[ T($l, 'f_desc') ]}</label><textarea id="f-desc" name="description" maxlength="3000" placeholder="@{[ T($l, 'f_desc_ph') ]}"></textarea></div>
+<fieldset class="field full checks"><legend>@{[ T($l, 'f_services') ]}</legend>$svc_checks</fieldset>
+<div class="field full"><label for="f-plan">@{[ T($l, 'f_plan') ]}</label><select id="f-plan" name="plan">$plan_opts</select></div>
+<div class="field full"><label for="f-desc">@{[ T($l, 'f_desc') ]}</label><textarea id="f-desc" name="description" maxlength="2500" placeholder="@{[ T($l, 'f_desc_ph') ]}"></textarea></div>
 <div class="field full"><label for="f-web">@{[ T($l, 'f_web') ]}</label><input id="f-web" name="website" maxlength="500" inputmode="url" autocomplete="url"></div>
 </div>
 <div class="form-foot"><button class="btn btn-ink" type="submit">@{[ T($l, 'f_submit') ]}</button><small>@{[ T($l, 'f_privacy') ]} <a href="@{[ path_for($l, '/privacy-policy/') ]}">@{[ T($l, 'privacy') ]}</a></small></div>
@@ -1507,13 +1517,49 @@ HTML
 </form>
 </div>
 </section>
-<section class="wrap section-tight two-col" aria-labelledby="pfaq-title">
-<div><p class="eyebrow">@{[ T($l, 'faq_eyebrow') ]}</p><h2 class="h2" id="pfaq-title">@{[ T($l, 'faq_title') ]}</h2></div>
+<section class="wrap section-tight two-col" aria-labelledby="bfaq-title">
+<div><p class="eyebrow">@{[ T($l, 'faq_eyebrow') ]}</p><h2 class="h2" id="bfaq-title">@{[ T($l, 'faq_title') ]}</h2></div>
 @{[ faq_html(@qa) ]}
 </section>
 HTML
-    layout(lang => $l, key => '/partners/', title => T($l, 'p_title') . ' | Foodidu', desc => T($l, 'p_desc'), body => $body, nav => 'partners',
-      crumbs => $crumbs, og => "/img/og/partners-$l.png", ld => [ faq_ld(@qa) ], fd => { formUrl => $FORM_URL });
+      layout(lang => $l, key => '/business/', title => $BIZ->{seo}{$l}{title}, desc => $BIZ->{seo}{$l}{description}, body => $body, nav => 'business', lastmod => mdate($BIZ_FILE),
+        crumbs => $crumbs, og => "/img/og/partners-$l.png", fd => { formUrl => $FORM_URL },
+        ld => [ { '@type' => 'ItemList', name => 'Foodidu Business', itemListElement => [ map { my $i = $_; { '@type' => 'ListItem', position => $i + 1, name => $svc[$i]{name}{$l}, ($has_page->($svc[$i]) ? (url => absu($surl->($svc[$i]))) : ()) } } 0 .. $#svc ] }, faq_ld(@qa) ]);
+    }
+
+    # one page per service
+    for my $s (grep { $has_page->($_) } @svc) {
+      my $url = $surl->($s);
+      my $crumbs = [[T($l, 'home'), path_for($l, '/')], ['Foodidu Business', $burl], [$s->{name}{$l}, $url]];
+      my $feats = '<ul class="feats">' . join('', map { '<li>' . icon('check') . '<div><h3>' . esc($_->{title}{$l}) . '</h3><p>' . esc($_->{text}{$l}) . '</p></div></li>' } @{ $s->{features} }) . '</ul>';
+      my $steps = '<ol class="steps">' . join('', map { my $i = $_; my $st = $s->{steps}[$i];
+        '<li class="step"><span class="num" aria-hidden="true">' . $num->($i + 1) . '</span><h3>' . esc($st->{title}{$l}) . '</h3><p>' . esc($st->{text}{$l}) . '</p></li>' } 0 .. $#{ $s->{steps} }) . '</ol>';
+      my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $s->{faq} };
+      my $body = $hero->($crumbs, $s->{h1}{$l}, $s->{lede}{$l}) . <<"HTML";
+<section class="wrap section-tight" aria-labelledby="feat-title">
+<div class="section-head"><div><p class="eyebrow">@{[ esc($s->{name}{$l}) ]}</p><h2 class="h2" id="feat-title">@{[ T($l, 'biz_feats_title') ]}</h2></div></div>
+$feats
+</section>
+<section class="wrap section-tight" aria-labelledby="how-title">
+<div class="section-head"><div><h2 class="h2" id="how-title">@{[ T($l, 'biz_how_title') ]}</h2></div></div>
+$steps
+</section>
+<section class="wrap section-tight" aria-labelledby="more-title">
+<div class="section-head"><div><p class="eyebrow">Foodidu Business</p><h2 class="h2" id="more-title">@{[ T($l, 'biz_other_title') ]}</h2></div></div>
+@{[ $svc_cards->(grep { $_ ne $s } @svc) ]}
+</section>
+$cta
+<section class="wrap section-tight two-col" aria-labelledby="sfaq-title">
+<div><p class="eyebrow">@{[ T($l, 'faq_eyebrow') ]}</p><h2 class="h2" id="sfaq-title">@{[ T($l, 'faq_title') ]}</h2></div>
+@{[ faq_html(@qa) ]}
+</section>
+HTML
+      my $t = $s->{seo}{$l}{title};
+      layout(lang => $l, key => "/business/$s->{key}/", title => (length($t) + 10 <= 65 ? "$t | Foodidu" : $t), desc => $s->{seo}{$l}{description}, body => $body, nav => 'business', lastmod => mdate($BIZ_FILE),
+        crumbs => $crumbs, og => "/img/og/partners-$l.png",
+        ld => [ { '@type' => 'Service', name => $s->{name}{$l}, serviceType => $s->{name}{en}, description => $s->{seo}{$l}{description}, url => absu($url),
+          provider => { '@id' => "$SITE/#org" }, areaServed => { '@type' => 'Country', name => 'Egypt' } }, faq_ld(@qa) ]);
+    }
   }
 
   # ---------- legal

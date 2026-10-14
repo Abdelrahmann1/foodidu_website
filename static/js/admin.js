@@ -9,7 +9,7 @@ window.FoodiduAdmin = (() => {
   const FILES = { brands: "data/brands.json", rests: "data/restaurant-offers.json", deals: "data/day-deals.json", featured: "data/featured.json", home: "data/home.json", blog: "data/blog.json", picks: "data/amazon-picks.json", firebase: "firebase.json" };
   const DAYS = [["sat", "السبت"], ["sun", "الأحد"], ["mon", "الاتنين"], ["tue", "التلات"], ["wed", "الأربع"], ["thu", "الخميس"], ["fri", "الجمعة"]];
   const ICONS = [["fork", "مطاعم"], ["pizza", "بيتزا"], ["basket", "بقالة"], ["bag", "تسوق"], ["gift", "هدية"], ["tag", "خصم"]];
-  const RESERVED = ["ar", "en", "promo-codes", "partners", "day-deals", "privacy-policy", "terms-and-conditions", "dashboard", "blog", "first-order-promo-codes", "img", "css", "js", "pages", "components", "404"];
+  const RESERVED = ["ar", "en", "promo-codes", "partners", "business", "day-deals", "privacy-policy", "terms-and-conditions", "dashboard", "blog", "first-order-promo-codes", "img", "css", "js", "pages", "components", "404"];
   // key order in the JSON files, so a saved entry looks like the ones written by hand
   const BRAND_KEYS = ["key", "slug", "name", "logo", "code", "noCode", "category", "region", "regionLabel", "exclusive", "firstOrder", "featured", "priority", "url", "urlLabel", "lastVerified", "badge", "offer", "terms", "where", "steps", "moreCodes", "about", "seo"];
   const REST_KEYS = ["key", "slug", "name", "logo", "category", "region", "menu", "website", "phone", "cuisine", "lastChecked", "validUntil", "about", "seo", "offers"];
