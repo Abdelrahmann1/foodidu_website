@@ -1,5 +1,6 @@
 /* Foodidu Business hero: a 30-second explainer of the services, drawn on <canvas class="biz-anim" data-lang="ar|en">.
-   The customer's journey: Foodidu brings the customer (promo code) -> QR menu on the table -> online orders under your name
+   The customer's journey: Foodidu brings the customer (promo code) -> QR menu on the table (a group order, a suggestion that
+   completes the order) -> online orders under your name
    -> loyalty stamps bring them back -> real reviews on Google Maps -> everything in one place.
    Plays when on screen, loops, pauses off screen, has a pause button; reduced motion shows the last scene.
    canvas.bizAnim = { draw(t, bg), seek(t), play(), pause(), duration } (tools/anim-video.html records it to MP4). */
@@ -11,13 +12,13 @@
   var TXT = {
     en: { stepOf: "Step {n} of {t}", scenes: ["Foodidu brings the customer", "A QR menu on every table", "Online orders under your name", "Loyalty brings them back", "Real reviews on Google Maps", "Everything your restaurant needs"],
       search: "burger promo code", rest: "Your restaurant", offer: "20% off your first order", code: "YOUR CODE", copy: "Copy code", copied: "Copied",
-      scan: "Scan for the menu", items: [["Classic burger", "EGP 145"], ["Margherita pizza", "EGP 180"], ["Mint lemonade", "EGP 55"]], open: "Open now",
+      group: "Group order (3)", upQ: "Add fries + a drink?", upP: "+ EGP 15", upAdd: "Add", upDone: "Added ✓", scan: "Scan for the menu", items: [["Classic burger", "EGP 145"], ["Margherita pizza", "EGP 180"], ["Mint lemonade", "EGP 55"]], open: "Open now",
       url: "yourrestaurant.com", webH: "Hot and fresh, to your door", order: "Order online", newOrder: "New order", twoItems: "2 items · delivery",
       card: "Loyalty card", reward: "Reward: a free drink", real: "Real reviews", place: "Restaurant · Open now", review: "Great food and fast service!", dir: "Directions",
       final: "Everything your restaurant needs", finalSub: "QR menu · loyalty · ordering · Google Maps" },
     ar: { stepOf: "الخطوة {n} من {t}", scenes: ["Foodidu يجيب العميل", "منيو QR على كل ترابيزة", "طلبات أونلاين باسمك", "برنامج ولاء يرجّعه", "تقييمات حقيقية على جوجل ماب", "كل أدوات مطعمك في مكان واحد"],
       search: "كود خصم مطعم", rest: "مطعمك", offer: "خصم 20% على أول طلب", code: "كودك هنا", copy: "انسخ الكود", copied: "اتنسخ",
-      scan: "امسح الكود وشوف المنيو", items: [["برجر كلاسيك", "145 ج.م"], ["بيتزا مارجريتا", "180 ج.م"], ["ليمون نعناع", "55 ج.م"]], open: "مفتوح دلوقتي",
+      group: "طلب جماعي (٣)", upQ: "تضيف بطاطس ومشروب؟", upP: "+15 ج.م", upAdd: "أضف", upDone: "اتضاف ✓", scan: "امسح الكود وشوف المنيو", items: [["برجر كلاسيك", "145 ج.م"], ["بيتزا مارجريتا", "180 ج.م"], ["ليمون نعناع", "55 ج.م"]], open: "مفتوح دلوقتي",
       url: "yourrestaurant.com", webH: "سخن وطازة لحد باب بيتك", order: "اطلب أونلاين", newOrder: "طلب جديد", twoItems: "صنفين · توصيل",
       card: "كارت الولاء", reward: "مكافأة: مشروب ببلاش", real: "تقييمات حقيقية", place: "مطعم · مفتوح دلوقتي", review: "الأكل جميل والخدمة سريعة!", dir: "الاتجاهات",
       final: "كل أدوات مطعمك في مكان واحد", finalSub: "منيو QR · ولاء · طلبات · جوجل ماب" }
@@ -156,6 +157,29 @@
             x.fillStyle = cols[i]; rr(tx, iy + 16, 64, 64, 14); x.fill(); text(ems[i], tx + 32, iy + 60, 30, 400, C.deep);
             text(L.items[i][0], rtl ? tx - 16 : tx + 80, iy + 46, 22, 700, C.deep, rtl ? "right" : "left");
             text(L.items[i][1], rtl ? tx - 16 : tx + 80, iy + 76, 20, 600, C.leaf, rtl ? "right" : "left");
+            x.globalAlpha = Math.min(a, 1);
+          }
+          var gp = easeOut(prog(t, 9.3, .4));
+          if (gp > 0) {   // friends at the table order together
+            var gw = rtl ? 150 : 172, gx = rtl ? sx + 22 : sx + sw - 22 - gw, gy = sy + 208;
+            x.globalAlpha = Math.min(a, 1) * gp;
+            x.fillStyle = C.leafSoft; rr(gx, gy, gw, 42, 21); x.fill();
+            text(L.group, gx + gw / 2, gy + 28, 18, 700, C.leaf);
+            x.globalAlpha = Math.min(a, 1);
+          }
+          var up = easeOut(prog(t, 9.8, .5));
+          if (up > 0) {   // the menu suggests what completes the order, and the customer adds it
+            var uw = sw - 32, uh = 134, ux = sx + 16, uy = sy + sh - 22 - uh + (1 - up) * 190, tx2 = rtl ? ux + uw - 22 : ux + 22, al = rtl ? "right" : "left", done = t > 10.9;
+            x.globalAlpha = Math.min(a, 1) * up;
+            shadow(30, 14, .35); x.fillStyle = C.leafSoft; rr(ux, uy, uw, uh, 22); x.fill(); noShadow();
+            x.strokeStyle = C.leaf2; x.lineWidth = 3; x.setLineDash([10, 8]); rr(ux, uy, uw, uh, 22); x.stroke(); x.setLineDash([]);
+            text(L.upQ, tx2, uy + 46, 23, 700, C.deep, al);
+            text(L.upP, tx2, uy + 98, 22, 700, C.leaf, al);
+            var bw = done ? 128 : 92, bx2 = rtl ? ux + 20 : ux + uw - 20 - bw, by2 = uy + uh - 66, pr = t > 10.7 && t < 10.9 ? .92 : 1;
+            x.save(); x.translate(bx2 + bw / 2, by2 + 24); x.scale(pr, pr);
+            x.fillStyle = C.leaf; rr(-bw / 2, -24, bw, 48, 14); x.fill();
+            text(done ? L.upDone : L.upAdd, 0, 8, 20, 700, "#fff");
+            x.restore();
             x.globalAlpha = Math.min(a, 1);
           }
         }
