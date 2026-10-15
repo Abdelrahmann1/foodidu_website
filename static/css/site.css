@@ -67,7 +67,7 @@ ul, ol { margin: 0; padding: 0; }
 .skip { position: absolute; inset-inline-start: 12px; top: -60px; z-index: 100; background: var(--ink); color: var(--sun); padding: 10px 16px; border-radius: 10px; font-weight: 700; }
 .skip:focus { top: 12px; }
 .wrap { width: min(100% - 2 * var(--gutter), var(--wrap)); margin-inline: auto; }
-.icon { width: 1.25em; height: 1.25em; flex: none; }
+.icon { width: 1.25em; height: 1.25em; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }   /* line icons: <use> of the page's symbols (tools/build.pl icon()) */
 [dir="rtl"] .flip { transform: scaleX(-1); }
 [dir="ltr"] .code, .code { direction: ltr; unicode-bidi: isolate; }
 

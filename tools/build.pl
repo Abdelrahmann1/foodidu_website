@@ -483,7 +483,9 @@ my %ICON = (
   whatsapp => '<path d="M3.5 20.5 4.8 16.3A8.5 8.5 0 1 1 8 19.6Z"/><path fill="currentColor" stroke="none" d="M9.1 7.6c.3 0 .5.1.6.4l.8 1.8c.1.3 0 .6-.2.8l-.6.6c.6 1.3 1.6 2.3 2.9 2.9l.6-.6c.2-.2.5-.3.8-.2l1.8.8c.3.1.4.3.4.6v.4c0 1-1 1.9-2 1.8-3.6-.4-6.5-3.3-6.9-6.9-.1-1 .8-2 1.8-2Z"/>',
   linkedin => '<path fill="currentColor" stroke="none" d="M4 9h4v12H4zM6 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm4 6h3.8v1.7c.6-1 1.9-2 3.9-2 4 0 4.3 2.6 4.3 6V21h-4v-5.5c0-1.5 0-3.3-2-3.3s-2.3 1.5-2.3 3.2V21H10z"/>',
 );
-sub icon { my ($n, $cls) = @_; $cls = $cls ? " $cls" : ''; qq{<svg class="icon$cls" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">$ICON{$n}</svg>} }
+# An icon points at its <symbol>; layout() puts each page's symbols in once (a page was carrying the same paths dozens of times)
+sub icon { my ($n, $cls) = @_; die "unknown icon \"$n\"
+" unless $ICON{$n}; $cls = $cls ? " $cls" : ''; qq{<svg class="icon$cls" viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-$n"/></svg>} }   # stroke and fill come from .icon in site.css
 
 # ------------------------------------------------------------------ static assets (fingerprinted css/js)
 remove_tree($OUT) if -d $OUT;
@@ -868,6 +870,12 @@ HTML
     my $js = join '', map { qq{\n<script src="$_" defer></script>} } @{ $a{scripts} // [] };
     $html =~ s{(<script src="[^"]+" defer></script>)}{$1$js} if $js;
   }
+  # the icons this page uses, once each, right after <body> (icon() only points at them)
+  my %seen; my @used = grep { $ICON{$_} && !$seen{$_}++ } $html =~ /#ic-([A-Za-z0-9_]+)/g;
+  my $sprite = '<svg class="sprite" width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">' . join('', map { qq{<symbol id="ic-$_" viewBox="0 0 24 24">$ICON{$_}</symbol>} } @used) . '</svg>';
+  $html =~ s{(<body[^>]*>)}{$1
+$sprite} or die "no <body> in $key
+";
   my $file = $a{file} // "$OUT" . path_for($l, $key) . 'index.html';
   spit($file, $html);
   push @PAGES, { key => $key, lang => $l, lastmod => ($a{lastmod} // $DATA_DATE) } unless $a{noindex};
