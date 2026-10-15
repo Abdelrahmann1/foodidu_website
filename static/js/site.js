@@ -336,6 +336,38 @@
     });
   }
 
+  /* ---------- Foodidu Business: sections rise in as they scroll into view; the "on this page" bar follows the reading ---------- */
+  if (document.body.classList.contains("biz")) {
+    if ("IntersectionObserver" in window && !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+      // sections hide only once the observer has run (so a page that never renders, or a crawler, sees everything);
+      // the ones already on screen are marked in the same pass, before they could flash
+      var riseFirst = true;
+      var rise = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); rise.unobserve(e.target); } });
+        if (riseFirst) { riseFirst = false; doc.classList.add("js-reveal"); }
+      }, { rootMargin: "0px 0px -8% 0px" });
+      window.addEventListener("beforeprint", function () { document.querySelectorAll(".bz-sec, .bz-row").forEach(function (el) { el.classList.add("in"); }); });
+      document.querySelectorAll(".bz-sec, .bz-row").forEach(function (el) { rise.observe(el); });
+    }
+    var tocLinks = Array.prototype.slice.call(document.querySelectorAll(".bz-toc a"));
+    if (tocLinks.length) {
+      var tocTargets = tocLinks.map(function (a) { return document.getElementById(a.getAttribute("href").slice(1)); });
+      var tocCur = -2, tocBusy = false;
+      var spy = function () {
+        tocBusy = false;
+        var cur = -1;
+        tocTargets.forEach(function (el, i) { if (el && el.getBoundingClientRect().top <= 180) cur = i; });
+        if (cur === tocCur) return;
+        tocCur = cur;
+        tocLinks.forEach(function (a, i) { if (i === cur) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current"); });
+        var bar = tocLinks[0].closest("ol");
+        if (cur >= 0 && bar.scrollWidth > bar.clientWidth) tocLinks[cur].scrollIntoView({ block: "nearest", inline: "center" });
+      };
+      window.addEventListener("scroll", function () { if (!tocBusy) { tocBusy = true; setTimeout(spy, 60); } }, { passive: true });
+      spy();
+    }
+  }
+
   /* ---------- analytics: Clarity always (deferred), Google Analytics only after consent ---------- */
   var FIREBASE = {
     apiKey: "AIzaSyCvKDqPjERac1yh0O4BcARsuag6hNN9_1A",

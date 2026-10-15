@@ -232,6 +232,7 @@ my %S = (
   qr_js_table => 'Table {n}', qr_js_bad => 'Enter a full link, like https://instagram.com/yourpage', qr_js_long => 'This link is too long for a QR code. Use a shorter link.', qr_js_sample => 'This is an example. Paste your menu link to make your code.',
   qr_js_ready => 'Your code is ready. Scan it with your phone to test it before printing.', qr_js_credit => 'Foodidu Business',
   anim_alt => 'Animation: how Foodidu Business helps a restaurant, from a promo code on Foodidu to a QR menu, online orders, loyalty stamps and real reviews on Google Maps', anim_play => 'Play the animation', anim_pause => 'Pause the animation',
+  biz_toc_label => 'On this page', biz_toc_svc => 'Services', biz_toc_how => 'How it works', biz_toc_plans => 'Plans', biz_toc_join => 'Apply', biz_toc_faq => 'FAQ',
   biz_nav_maps => 'Google Maps', foot_biz_wa => 'Restaurants, WhatsApp us:', biz_wa_msg_maps => 'Hi Foodidu Business, I would like to put my restaurant on Google Maps.',
   biz_wa_btn => 'Chat with us on WhatsApp', biz_wa_float => 'Chat with Foodidu Business on WhatsApp',
   biz_wa_msg_info => 'Hi Foodidu Business, I would like to know more about your services for my restaurant.', biz_wa_msg_menu => 'Hi Foodidu Business, I would like an online menu for my restaurant.',
@@ -389,6 +390,7 @@ my %S = (
   qr_js_table => 'ترابيزة {n}', qr_js_bad => 'اكتب لينك كامل، زي https://instagram.com/yourpage', qr_js_long => 'اللينك ده طويل على الكود. استخدم لينك أقصر.', qr_js_sample => 'ده مثال. حط لينك المنيو بتاعك عشان يتعمل كودك.',
   qr_js_ready => 'كودك جاهز. امسحه بموبايلك وجرّبه قبل الطباعة.', qr_js_credit => 'Foodidu Business',
   anim_alt => 'أنيميشن: إزاي Foodidu Business بيساعد المطعم، من كود خصم على Foodidu لمنيو QR وطلبات أونلاين وأختام ولاء وتقييمات حقيقية على جوجل ماب', anim_play => 'شغّل الأنيميشن', anim_pause => 'وقّف الأنيميشن',
+  biz_toc_label => 'في الصفحة دي', biz_toc_svc => 'الخدمات', biz_toc_how => 'إزاي بتشتغل', biz_toc_plans => 'الباقات', biz_toc_join => 'قدّم', biz_toc_faq => 'أسئلة',
   biz_nav_maps => 'جوجل ماب', foot_biz_wa => 'للمطاعم، كلمنا واتساب:', biz_wa_msg_maps => 'أهلاً Foodidu Business، عايز أضيف مطعمي على جوجل ماب.',
   biz_wa_btn => 'كلمنا على واتساب', biz_wa_float => 'كلّم Foodidu Business على واتساب',
   biz_wa_msg_info => 'أهلاً Foodidu Business، عايز أعرف أكتر عن خدماتكم لمطعمي.', biz_wa_msg_menu => 'أهلاً Foodidu Business، عايز منيو إلكتروني لمطعمي.',
@@ -1619,12 +1621,13 @@ HTML
       . '<h1>' . esc($h1) . '</h1><p class="bz-lede">' . esc($lede) . '</p>' . $btns->($what) . $ticks->(qw(biz_tick1 biz_tick2 biz_tick3))
       . qq{</div><div class="bz-visual">$visual</div></div></section>};
     };
-    my $head = sub { my ($id, $eyebrow, $title, $sub) = @_; '<div class="bz-head">' . ($eyebrow ? qq{<p class="bz-eyebrow">$eyebrow</p>} : '') . qq{<h2 id="$id">$title</h2>} . ($sub ? "<p>$sub</p>" : '') . '</div>' };
+    my $head = sub { my ($id, $eyebrow, $title, $sub, $n) = @_; '<div class="bz-head">' . ($eyebrow ? '<p class="bz-eyebrow">' . ($n ? qq{<span class="n" aria-hidden="true">$n</span>} : '') . "$eyebrow</p>" : '') . qq{<h2 id="$id">$title</h2>} . ($sub ? "<p>$sub</p>" : '') . '</div>' };
     my $steps = sub {
       '<ol class="bz-steps">' . join('', map { my $i = $_; my $st = $_[0][$i];
         '<li><span class="bz-num" aria-hidden="true">' . $num->($i + 1) . '</span><h3>' . esc($st->{title}{$l}) . '</h3><p>' . esc($st->{text}{$l}) . '</p></li>' } 0 .. $#{ $_[0] }) . '</ol>';
     };
-    my $faq = sub { my ($id, @qa) = @_; qq{<section class="bz-sec" aria-labelledby="$id"><div class="wrap bz-faq">} . $head->($id, T($l, 'faq_eyebrow'), T($l, 'faq_title')) . faq_html(@qa) . '</div></section>' };
+    my $faq = sub { my ($id, @qa) = @_; my $n = ref $qa[0] ? '' : shift @qa;   # optional section number first
+      qq{<section class="bz-sec" id="faq" aria-labelledby="$id"><div class="wrap bz-faq">} . $head->($id, T($l, 'faq_eyebrow'), T($l, 'faq_title'), '', $n) . faq_html(@qa) . '</div></section>' };
     my $toolband = $BIZ->{tool} ? '<div class="bz-toolband"><img src="/img/mascot/didu-point.svg" alt="" width="110" height="110" loading="lazy"><div><h2>' . T($l, 'qr_band_title') . '</h2><p>' . T($l, 'qr_band_text') . '</p></div>'
       . '<a class="bz-btn bz-pri" href="' . path_for($l, '/business/qr-menu-generator/') . '">' . T($l, 'qr_band_btn') . ' ' . icon('arrow', 'flip') . '</a></div>' : '';
     my $cta = '<section class="bz-sec"><div class="wrap"><div class="bz-cta"><div><h2>' . T($l, 'biz_cta_title') . '</h2><p>' . T($l, 'biz_cta_text') . '</p></div><img src="/img/mascot/didu-party.svg" alt="" width="130" height="130" loading="lazy"><a class="bz-btn bz-sunbtn" href="' . $burl . '#join">' . T($l, 'biz_join') . ' ' . icon('arrow', 'flip') . '</a></div></div></section>';
@@ -1650,22 +1653,25 @@ HTML
       my $svc_checks = join '', map { '<label class="check"><input type="checkbox" name="services" value="' . esc($_->{name}{$l}) . '"' . ($_->{featured} ? ' checked' : '') . '><span>' . esc($_->{name}{$l}) . '</span></label>' } @svc;
       my $plan_opts = '<option value="">' . T($l, 'f_plan_ph') . '</option>' . join('', map { '<option value="' . $_->{key} . '">' . esc($_->{name}{$l}) . ' · ' . esc($_->{price}{$l}) . '</option>' } @{ $BIZ->{plans} });
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $BIZ->{faq} };
-      my $body = $hero->($crumbs, T($l, 'biz_pill'), $BIZ->{h1}{$l}, $BIZ->{lede}{$l}, $stage) . <<"HTML";
+      my @toc = (['services', 'biz_toc_svc'], ['how', 'biz_toc_how'], ['plans', 'biz_toc_plans'], ['join', 'biz_toc_join'], ['faq', 'biz_toc_faq']);
+      my $toc = '<nav class="bz-toc" aria-label="' . T($l, 'biz_toc_label') . '"><div class="wrap"><ol>'
+        . join('', map { '<li><a href="#' . $toc[$_][0] . '"><span class="n" aria-hidden="true">' . $num->($_ + 1) . '</span>' . T($l, $toc[$_][1]) . '</a></li>' } 0 .. $#toc) . '</ol></div></nav>';
+      my $body = $hero->($crumbs, T($l, 'biz_pill'), $BIZ->{h1}{$l}, $BIZ->{lede}{$l}, $stage) . $toc . <<"HTML";
 <section class="bz-sec" id="services" aria-labelledby="svc-title"><div class="wrap">
-@{[ $head->('svc-title', T($l, 'biz_svc_eyebrow'), T($l, 'biz_svc_title')) ]}
+@{[ $head->('svc-title', T($l, 'biz_svc_eyebrow'), T($l, 'biz_svc_title'), '', $num->(1)) ]}
 <div class="bz-rows">$rows</div>
 @{[ $toolband ? qq{<div style="margin-top:clamp(44px,7vw,88px)">$toolband</div>} : '' ]}
 </div></section>
-<section class="bz-sec bz-alt" aria-labelledby="journey-title"><div class="wrap">
-@{[ $head->('journey-title', T($l, 'biz_journey_eyebrow'), esc($BIZ->{journey}{title}{$l})) ]}
+<section class="bz-sec bz-alt" id="how" aria-labelledby="journey-title"><div class="wrap">
+@{[ $head->('journey-title', T($l, 'biz_journey_eyebrow'), esc($BIZ->{journey}{title}{$l}), '', $num->(2)) ]}
 @{[ $steps->($BIZ->{journey}{steps}) ]}
 </div></section>
 <section class="bz-sec" id="plans" aria-labelledby="plans-title"><div class="wrap">
-@{[ $head->('plans-title', T($l, 'biz_plans_eyebrow'), T($l, 'biz_plans_title'), T($l, 'biz_plans_sub')) ]}
+@{[ $head->('plans-title', T($l, 'biz_plans_eyebrow'), T($l, 'biz_plans_title'), T($l, 'biz_plans_sub'), $num->(3)) ]}
 $plans
 </div></section>
 <section class="bz-sec bz-alt" id="join" aria-labelledby="form-title"><div class="wrap bz-join">
-<div class="bz-join-copy"><p class="bz-eyebrow">Foodidu Business</p><h2 id="form-title">@{[ T($l, 'biz_form_title') ]}</h2><p>@{[ T($l, 'biz_form_text') ]}</p>@{[ $ticks->(qw(biz_form_t1 biz_form_t2 biz_form_t3)) ]}@{[ biz_wa_link($l, 'info', 'bz-btn bz-wa', T($l, 'biz_wa_btn')) ]}<img src="/img/mascot/didu.svg" alt="" width="150" height="150" loading="lazy"></div>
+<div class="bz-join-copy"><p class="bz-eyebrow"><span class="n" aria-hidden="true">@{[ $num->(4) ]}</span>Foodidu Business</p><h2 id="form-title">@{[ T($l, 'biz_form_title') ]}</h2><p>@{[ T($l, 'biz_form_text') ]}</p>@{[ $ticks->(qw(biz_form_t1 biz_form_t2 biz_form_t3)) ]}@{[ biz_wa_link($l, 'info', 'bz-btn bz-wa', T($l, 'biz_wa_btn')) ]}<img src="/img/mascot/didu.svg" alt="" width="150" height="150" loading="lazy"></div>
 <div class="form-card">
 <p class="bz-form-sub">@{[ T($l, 'p_form_sub') ]}</p>
 <form id="vendor-application-form" novalidate>
@@ -1686,7 +1692,7 @@ $plans
 </form>
 </div>
 </div></section>
-@{[ $faq->('bfaq-title', @qa) ]}
+@{[ $faq->('bfaq-title', $num->(5), @qa) ]}
 HTML
       layout(lang => $l, key => '/business/', title => $BIZ->{seo}{$l}{title}, desc => $BIZ->{seo}{$l}{description}, body => $body, skin => 'biz', lastmod => mdate($BIZ_FILE), scripts => [asset('/js/biz-anim.js')],
         crumbs => $crumbs, og => "/img/og/biz-home-$l.png", fd => { formUrl => $FORM_URL },
