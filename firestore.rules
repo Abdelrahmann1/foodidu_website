@@ -38,16 +38,18 @@ service cloud.firestore {
       allow read, update, delete: if false;
     }
 
-    // Partner applications from /partners/ (a second copy next to the Google Sheet).
+    // Requests from Foodidu Business (/business/: the full form, or the quick form in the hero with only name, person and
+    // phone); a second copy next to the Google Sheet.
     match /vendorApplications/{id} {
       allow create: if request.resource.data.keys().hasOnly(['businessName', 'contactPerson', 'phone', 'email', 'location',
             'businessType', 'description', 'website', 'language', 'page', 'createdAt'])
-        && request.resource.data.keys().hasAll(['businessName', 'contactPerson', 'phone', 'email', 'location', 'businessType', 'language', 'createdAt'])
+        && request.resource.data.keys().hasAll(['businessName', 'contactPerson', 'phone', 'language', 'createdAt'])
         && str(request.resource.data.businessName, 200) && request.resource.data.businessName.size() > 0
         && str(request.resource.data.contactPerson, 200) && request.resource.data.contactPerson.size() > 0
         && str(request.resource.data.phone, 40) && request.resource.data.phone.size() > 0
-        && str(request.resource.data.email, 200) && request.resource.data.email.matches('.+@.+')
-        && str(request.resource.data.location, 300) && str(request.resource.data.businessType, 60)
+        && (!('email' in request.resource.data) || (str(request.resource.data.email, 200) && request.resource.data.email.matches('.+@.+')))
+        && (!('location' in request.resource.data) || str(request.resource.data.location, 300))
+        && (!('businessType' in request.resource.data) || str(request.resource.data.businessType, 60))
         && (!('description' in request.resource.data) || str(request.resource.data.description, 3000))
         && (!('website' in request.resource.data) || str(request.resource.data.website, 500))
         && request.resource.data.language in ['en', 'ar']

@@ -521,8 +521,8 @@
       head("applications", "طلبات الشراكة", `${docs.length} طلب · نسخة من كل طلب بتروح كمان لشيت Vendor Requests.`),
       docs.length ? el("p", null, el("button", { class: "dash-btn ghost", type: "button", onclick: csv, text: "تحميل الطلبات CSV" })) : null,
       table([{ label: "التاريخ", get: fmt }, { label: "النشاط", get: (d) => d.businessName }, { label: "المسؤول", get: (d) => d.contactPerson },
-        { label: "تليفون", get: (d) => el("a", { href: "tel:" + d.phone, class: "ltr", text: d.phone }) }, { label: "إيميل", get: (d) => el("a", { href: "mailto:" + d.email, class: "ltr", text: d.email }) },
-        { label: "المكان", get: (d) => d.location }, { label: "النوع", get: (d) => d.businessType }, { label: "تفاصيل", get: (d) => d.description || "–" }], docs, { empty: "مفيش طلبات شراكة لسه." }));
+        { label: "تليفون", get: (d) => el("a", { href: "tel:" + d.phone, class: "ltr", text: d.phone }) }, { label: "إيميل", get: (d) => d.email ? el("a", { href: "mailto:" + d.email, class: "ltr", text: d.email }) : "–" },
+        { label: "المكان", get: (d) => d.location || "–" }, { label: "النوع", get: (d) => d.businessType || "–" },   // the quick form only sends name, person and phone { label: "تفاصيل", get: (d) => d.description || "–" }], docs, { empty: "مفيش طلبات شراكة لسه." }));
   }
 
   /* ---------- 6. tools & links ---------- */

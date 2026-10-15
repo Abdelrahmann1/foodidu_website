@@ -290,7 +290,32 @@
     });
   }
 
-  /* ---------- partner application form ---------- */
+  /* ---------- Foodidu Business request forms: the full one (#join) and the quick one in the hero ---------- */
+  // Two independent copies, so a request is never lost: the Google Sheet (Apps Script) and Firestore (see firestore.rules).
+  function sendLead(form, status, data, kind) {
+    var btn = form.querySelector('button[type="submit"]'), label = btn.textContent;
+    btn.disabled = true; btn.textContent = T.sending || "Sending…";
+    status.hidden = true;
+    data.language = doc.lang;
+    var body = new URLSearchParams();
+    Object.keys(data).forEach(function (k) { body.append(k, data[k]); });
+    var toSheet = fetch(DATA.formUrl, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() })
+      .then(function (r) { if (!r.ok) throw new Error("sheet " + r.status); });
+    var toDb = withTimeout(loadCore().then(function (db) {
+      return db.collection("vendorApplications").add(Object.assign({}, data, { page: location.pathname, createdAt: window.firebase.firestore.FieldValue.serverTimestamp() }));
+    }), 15000);
+    settle([toSheet, toDb]).then(function (ok) {
+      if (ok[0] || ok[1]) {
+        status.className = "form-status ok"; status.textContent = T.formOk || "Thanks!";
+        form.reset();
+        track("vendor_application_submitted", { form: kind, saved_to: [ok[0] ? "sheet" : "", ok[1] ? "firestore" : ""].filter(Boolean).join("+") });
+      } else {
+        status.className = "form-status err"; status.textContent = T.formErr || "Something went wrong.";
+      }
+      status.hidden = false;
+      btn.disabled = false; btn.textContent = label; status.focus();
+    });
+  }
   var vform = document.getElementById("vendor-application-form");
   if (vform && DATA.formUrl) {
     // "Choose this plan" on a plan card picks it in the form
@@ -300,39 +325,26 @@
     vform.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!vform.reportValidity()) return;
-      var btn = vform.querySelector('button[type="submit"]');
-      var status = document.getElementById("form-status");
-      var label = btn.textContent;
-      btn.disabled = true; btn.textContent = T.sending || "Sending…";
-      status.hidden = true;
       var data = {}, fd = new FormData(vform);
       fd.forEach(function (v, k) { data[k] = String(v).trim(); });
-      // Foodidu Business: the chosen services and plan go at the top of the description (the saved fields are fixed by firestore.rules)
+      // the chosen services and plan go at the top of the description (the saved fields are fixed by firestore.rules)
       var services = fd.getAll("services"), plan = vform.querySelector("#f-plan");
       var extra = (services.length ? (vform.querySelector(".checks legend").textContent.trim() + ": " + services.join("، ")) + "\n" : "")
         + (plan && plan.value ? (vform.querySelector('label[for="f-plan"]').textContent.trim() + ": " + plan.options[plan.selectedIndex].text) + "\n" : "");
       delete data.services; delete data.plan;
       if (extra) data.description = extra + (data.description ? "\n" + data.description : "");
-      data.language = doc.lang;
-      var body = new URLSearchParams();
-      Object.keys(data).forEach(function (k) { body.append(k, data[k]); });
-      // Two independent copies, so an application is never lost: the Google Sheet (Apps Script) and Firestore.
-      var toSheet = fetch(DATA.formUrl, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() })
-        .then(function (r) { if (!r.ok) throw new Error("sheet " + r.status); });
-      var toDb = withTimeout(loadCore().then(function (db) {
-        return db.collection("vendorApplications").add(Object.assign({}, data, { page: location.pathname, createdAt: window.firebase.firestore.FieldValue.serverTimestamp() }));
-      }), 15000);
-      settle([toSheet, toDb]).then(function (ok) {
-        if (ok[0] || ok[1]) {
-          status.className = "form-status ok"; status.textContent = T.formOk || "Thanks!";
-          vform.reset();
-          track("vendor_application_submitted", { saved_to: [ok[0] ? "sheet" : "", ok[1] ? "firestore" : ""].filter(Boolean).join("+") });
-        } else {
-          status.className = "form-status err"; status.textContent = T.formErr || "Something went wrong.";
-        }
-        status.hidden = false;
-        btn.disabled = false; btn.textContent = label; status.focus();
-      });
+      sendLead(vform, document.getElementById("form-status"), data, "full");
+    });
+  }
+  var qform = document.getElementById("quick-lead-form");
+  if (qform && DATA.formUrl) {
+    qform.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!qform.reportValidity()) return;
+      var data = {};
+      new FormData(qform).forEach(function (v, k) { data[k] = String(v).trim(); });
+      data.description = DATA.quickNote || "Quick request from the top of the page: please call me.";
+      sendLead(qform, document.getElementById("quick-status"), data, "quick");
     });
   }
 

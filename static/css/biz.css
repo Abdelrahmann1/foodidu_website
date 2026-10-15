@@ -457,6 +457,7 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .bz-guide li { counter-increment: g; position: relative; padding: 22px 22px 22px 76px; border-radius: 18px; border: 1px solid var(--bz-line); background: var(--bz-bg); }
 [dir="rtl"] .bz-guide li { padding: 22px 76px 22px 22px; }
 .bz-guide li::before { content: counter(g); position: absolute; top: 20px; inset-inline-start: 20px; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--bz-sun); color: var(--bz-pri-2); font-weight: 700; }
+.bz-guide.two { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
 .bz-guide h3 { font-size: 1.1rem; line-height: 1.35; }
 .bz-guide p { margin-top: 6px; color: var(--bz-ink-2); font-size: .97rem; }
 /* phones: the titles sit in the middle */
@@ -529,3 +530,26 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
   .qr-row { grid-template-columns: minmax(0, 1fr); }
   .bz-toolband img { width: 76px; }
 }
+
+/* ---------- the quick request in the hero: name, contact, phone ---------- */
+.bz-quick { margin-top: 26px; padding: 18px; border-radius: 20px; background: #fff; border: 1px solid var(--bz-line); box-shadow: 0 24px 48px -34px rgba(58, 40, 13, .55); }
+.bz-quick-t { font-weight: 700; color: var(--bz-pri-2); margin-bottom: 12px; }
+.bz-quick-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.bz-quick .field input { min-height: 48px; padding: 10px 14px; }
+.bz-quick .bz-btn { width: 100%; min-height: 48px; }
+.bz-quick .form-status { margin-top: 12px; }
+.bz-quick-alt { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin-top: 12px; font-size: .93rem; }
+.bz-quick-alt a { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--bz-pri); text-underline-offset: 3px; }
+.bz-quick-alt .bz-quick-wa { color: var(--bz-leaf); text-decoration: none; }
+.bz-quick-wa .icon { width: 18px; height: 18px; }
+@media (max-width: 900px) { .bz-quick { order: 6; margin-top: 20px; } }
+@media (max-width: 520px) { .bz-quick-row { grid-template-columns: minmax(0, 1fr); } .bz-quick { padding: 14px; } }
+@media (max-width: 700px) { .bz-quick-t { text-align: center; } .bz-quick-alt { justify-content: center; } }
+
+/* ---------- the pages per kind of place, linked under the services at a glance ---------- */
+.bz-glance:has(+ .bz-aud) { margin-bottom: 18px; }
+.bz-aud { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: clamp(44px, 7vw, 80px); color: var(--bz-ink-2); font-weight: 600; }
+.bz-aud a { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; border: 1.5px solid var(--bz-line-2); background: #fff; color: var(--bz-pri-2); font-weight: 700; text-decoration: none; transition: border-color .18s; }
+.bz-aud a:hover { border-color: var(--bz-pri); }
+.bz-aud .icon { width: 18px; height: 18px; color: var(--bz-pri); }
+@media (max-width: 700px) { .bz-aud { justify-content: center; } .bz-aud > span { width: 100%; text-align: center; } }

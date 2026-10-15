@@ -1,5 +1,5 @@
 {
-  "_help": "Foodidu Business (foodidu.com/business/ and /ar/business/): the landing page and one page per service, built by tools/build.pl. Keep every promise here something we can deliver; no prices are written (plans say 'monthly plan' or 'quote'). The application form saves the chosen services and plan inside the description.",
+  "_help": "Foodidu Business (foodidu.com/business/ and /ar/business/): the landing page and one page per service, built by tools/build.pl. Keep every promise here something we can deliver; no prices are written (plans say 'monthly plan' or 'quote'). The application form saves the chosen services and plan inside the description. \"org.gbp\": the Google Business Profile link of Foodidu Business (empty until it is verified); it goes into the structured data as sameAs. \"audiences\": one page per kind of place (/business/<key>/), each tool names a service key.",
   "whatsapp": { "number": "201099191074", "display": "010 9919 1074" },
   "seo": {
     "en": {
@@ -690,6 +690,13 @@
       }
     },
     {
+      "q": { "en": "What is in the monthly report?", "ar": "إيه اللي في التقرير الشهري؟" },
+      "a": {
+        "en": "How many people opened your restaurant's page on Foodidu and how many copied your code, so you can see what your code brings in.",
+        "ar": "عدد الناس اللي فتحوا صفحة مطعمك على Foodidu، وعدد مرات نسخ كودك، عشان تشوف الكود بيجيبلك إيه."
+      }
+    },
+    {
       "q": { "en": "Can I start with one service only?", "ar": "أقدر أبدأ بخدمة واحدة بس؟" },
       "a": {
         "en": "Yes. Pick the services you need in the form; we start with them and you add the rest whenever you like.",
@@ -831,5 +838,207 @@
       }
     ],
     "search": "qr باركود barcode code generator واتساب"
-  }
+  },
+  "org": { "gbp": "" },
+  "quick": {
+    "title": { "en": "Start free: leave your details and we will call you", "ar": "ابدأ مجاناً: سيب بياناتك وهنكلّمك" },
+    "button": { "en": "Call me", "ar": "كلّموني" },
+    "note": { "en": "Quick request from the top of the Foodidu Business page: please call me.", "ar": "طلب سريع من أول صفحة Foodidu Business: كلّموني." }
+  },
+  "audiences": [
+    {
+      "key": "cafes",
+      "icon": "pk_coffee",
+      "visual": ["phone", "stand"],
+      "name": { "en": "For cafés", "ar": "للكافيهات" },
+      "seo": {
+        "en": {
+          "title": "Café Marketing: QR Menu & Loyalty Stamp Card for Cafés",
+          "description": "Marketing tools for cafés in Egypt: a QR menu on every table, a stamp card that brings regulars back, Google Maps with real reviews, and your code on Foodidu."
+        },
+        "ar": {
+          "title": "تسويق الكافيهات: منيو باركود وبرنامج ولاء للكافيه",
+          "description": "أدوات تسويق للكافيهات في مصر: منيو باركود QR على الترابيزات، وكارت أختام يرجّع الزبون كل يوم، وصفحة على جوجل ماب بتقييمات حقيقية، وظهور على Foodidu."
+        }
+      },
+      "h1": { "en": "Café marketing that turns today's customer into a regular", "ar": "تسويق الكافيه: زبون النهارده يبقى زبون كل يوم" },
+      "lede": {
+        "en": "A café lives on customers who come back: the morning coffee, the evening hangout, the meeting with friends. Foodidu Business gives you the tools that turn a first visit into a habit.",
+        "ar": "الكافيه بيعيش على الزبون اللي بيرجع: قهوة الصبح، وقعدة بالليل، ومقابلة مع الصحاب. وFoodidu Business بيديلك الأدوات اللي بتحوّل أول زيارة لعادة."
+      },
+      "why": {
+        "title": { "en": "What makes a café different", "ar": "إيه اللي بيفرّق الكافيه" },
+        "items": [
+          {
+            "title": { "en": "Small, frequent orders", "ar": "طلبات صغيرة ومتكررة" },
+            "text": {
+              "en": "The average order is small, so the real profit is a customer who comes back several times a week.",
+              "ar": "متوسط الطلب صغير، فالمكسب الحقيقي في زبون بيرجع كذا مرة في الأسبوع."
+            }
+          },
+          {
+            "title": { "en": "Customers sit at the table", "ar": "الزبون قاعد على الترابيزة" },
+            "text": {
+              "en": "They have time to browse, so a menu with photos is the place to show desserts and extras.",
+              "ar": "عنده وقت يتفرج على المنيو، فالمنيو بالصور فرصة تعرض الحلويات والإضافات."
+            }
+          },
+          {
+            "title": { "en": "Drinks change with the season", "ar": "المشروبات بتتغير مع الموسم" },
+            "text": { "en": "New drinks and price changes should not mean a new printed menu every time.", "ar": "المشروبات الجديدة وتغيير الأسعار ميبقاش معناهم منيو مطبوع جديد كل مرة." }
+          },
+          {
+            "title": { "en": "People pick cafés on the map", "ar": "الناس بتختار الكافيه من الخريطة" },
+            "text": { "en": "Before going out they compare ratings and photos on Google Maps.", "ar": "قبل ما يخرجوا بيقارنوا التقييمات والصور على جوجل ماب." }
+          }
+        ]
+      },
+      "tools": [
+        {
+          "service": "loyalty-program",
+          "text": {
+            "en": "A stamp card: the tenth coffee is free. The simplest system and the one that works best in cafés, and customers always see how many stamps are left.",
+            "ar": "كارت أختام: القهوة العاشرة ببلاش. أبسط نظام وأنجحه في الكافيهات، والزبون دايماً شايف فاضله كام ختم."
+          }
+        },
+        {
+          "service": "qr-menu",
+          "text": {
+            "en": "A QR menu with photos on every table: add seasonal drinks and change prices in a minute.",
+            "ar": "منيو QR بالصور على كل ترابيزة: تضيف المشروبات الموسمية وتغيّر الأسعار في دقيقة."
+          }
+        },
+        {
+          "service": "google-maps",
+          "text": {
+            "en": "A complete profile with photos and hours, and a “Rate us” card by the counter so happy customers review you.",
+            "ar": "صفحة كاملة بالصور والمواعيد، وكارت «قيّمنا» جنب الكاشير عشان الزبون المبسوط يقيّمك."
+          }
+        }
+      ],
+      "faq": [
+        {
+          "q": { "en": "Points or stamps for a café?", "ar": "نقاط ولا أختام للكافيه؟" },
+          "a": {
+            "en": "Usually stamps: café orders cost about the same, and customers understand a stamp card at first sight.",
+            "ar": "غالباً الأختام، لأن طلبات الكافيه أسعارها متقاربة، والزبون بيفهم كارت الأختام من أول مرة."
+          }
+        },
+        {
+          "q": { "en": "I have a small café. Can I start with one tool?", "ar": "عندي كافيه صغير، ينفع أبدأ بأداة واحدة؟" },
+          "a": {
+            "en": "Yes. Start with the stamp card or the QR menu and add the rest later. The Starter plan is free for an exclusive promo code for Foodidu users.",
+            "ar": "أيوه. ابدأ بكارت الأختام أو منيو QR وزوّد الباقي بعدين. والباقة الأساسية مجانية مقابل كود خصم حصري لعملاء Foodidu."
+          }
+        },
+        {
+          "q": { "en": "How do I get customers to review my café on Google?", "ar": "إزاي أخلّي الزباين يقيّموا الكافيه على جوجل؟" },
+          "a": {
+            "en": "Put a “Rate us” QR card on the tables and the counter and ask happy customers kindly. Do not offer a gift for a review: Google's rules forbid it.",
+            "ar": "حط كارت «قيّمنا» بكود QR على الترابيزات والكاشير، واطلب من الزبون المبسوط بلطف. ومتعرضش هدية مقابل التقييم، لأن قواعد جوجل بتمنع ده."
+          }
+        }
+      ],
+      "search": "كافيه كافيهات تسويق كافيهات منيو كافيه برنامج ولاء للكافيهات cafe coffee shop marketing"
+    },
+    {
+      "key": "cloud-kitchens",
+      "icon": "fork",
+      "visual": ["web"],
+      "name": { "en": "For cloud kitchens", "ar": "للمطابخ السحابية" },
+      "seo": {
+        "en": {
+          "title": "Cloud Kitchen Marketing in Egypt: Own Ordering & Loyalty",
+          "description": "Tools for cloud kitchens in Egypt: an ordering website and app under your name, loyalty for repeat orders, Google Maps without a public address, and a Foodidu code."
+        },
+        "ar": {
+          "title": "تسويق المطابخ السحابية في مصر: موقع طلبات وولاء",
+          "description": "أدوات للمطابخ السحابية في مصر: موقع وتطبيق طلبات باسمك، وبرنامج ولاء للطلبات المتكررة، وصفحة على جوجل ماب من غير عنوان ظاهر، وكود خصم على Foodidu."
+        }
+      },
+      "h1": { "en": "Tools for cloud kitchens: more orders under your own name", "ar": "أدوات للمطابخ السحابية: طلبات أكتر باسمك انت" },
+      "lede": {
+        "en": "A cloud kitchen has no dining room and no sign, so customers only see you inside delivery apps. Foodidu Business helps you build your own name and get direct orders.",
+        "ar": "المطبخ السحابي من غير صالة ولا يافطة، يعني العميل مش بيشوفك غير جوه تطبيقات التوصيل. وFoodidu Business بيساعدك تبني اسمك وتجيب طلبات مباشرة."
+      },
+      "why": {
+        "title": { "en": "What makes a cloud kitchen different", "ar": "إيه اللي بيفرّق المطبخ السحابي" },
+        "items": [
+          {
+            "title": { "en": "No dining room, no sign", "ar": "مفيش صالة ولا يافطة" },
+            "text": { "en": "Customers only know you from the apps, so you need a name and a page of your own.", "ar": "العميل بيعرفك من التطبيقات بس، فمحتاج يبقى ليك اسم وصفحة باسمك." }
+          },
+          {
+            "title": { "en": "Every app order pays a commission", "ar": "كل طلب من تطبيق عليه عمولة" },
+            "text": { "en": "A direct order from a customer who already knows you keeps more of the order value with you.", "ar": "الطلب المباشر من عميل يعرفك بيخلّي جزء أكبر من قيمة الطلب ليك." }
+          },
+          {
+            "title": { "en": "Customers do not walk past you", "ar": "العميل مش بيعدّي عليك" },
+            "text": {
+              "en": "With no place to pass by, customers need a reason to remember you: points, rewards and offers.",
+              "ar": "من غير مكان يعدّي عليه، العميل محتاج سبب يفتكرك: نقاط ومكافآت وعروض."
+            }
+          },
+          {
+            "title": { "en": "An address not meant for visitors", "ar": "عنوان مش معمول للزوار" },
+            "text": {
+              "en": "You can show up on Google Maps as a business that delivers to areas, without showing the address.",
+              "ar": "تقدر تظهر على جوجل ماب كنشاط بيوصّل لمناطق، من غير ما العنوان يظهر."
+            }
+          }
+        ]
+      },
+      "tools": [
+        {
+          "service": "restaurant-website",
+          "text": {
+            "en": "An ordering website and app under your name: a customer who tried you on an app can order from you directly next time.",
+            "ar": "موقع وتطبيق طلبات باسمك: العميل اللي جرّبك على تطبيق يقدر يطلب منك مباشرة المرة الجاية."
+          }
+        },
+        {
+          "service": "loyalty-program",
+          "text": {
+            "en": "Points on every online order and a reward after a number of orders, so customers keep choosing you.",
+            "ar": "نقاط على كل طلب أونلاين ومكافأة بعد عدد طلبات، عشان العميل يفضل يختارك."
+          }
+        },
+        {
+          "service": "google-maps",
+          "text": {
+            "en": "A Google Maps profile as a delivery business for your areas, with the address hidden and real reviews.",
+            "ar": "صفحة على جوجل ماب كنشاط توصيل لمناطقك، من غير ما العنوان يظهر، وبتقييمات حقيقية."
+          }
+        },
+        {
+          "service": "visibility",
+          "text": { "en": "Your promo code on Foodidu, in front of people who are about to order.", "ar": "كود خصم مطبخك على Foodidu، قدام ناس على وشك يطلبوا." }
+        }
+      ],
+      "faq": [
+        {
+          "q": { "en": "Can a cloud kitchen show up on Google Maps?", "ar": "المطبخ السحابي ينفع يظهر على جوجل ماب؟" },
+          "a": {
+            "en": "Yes, as a business that delivers to areas, with the address hidden. Google asks you to verify the business first.",
+            "ar": "أيوه، كنشاط بيوصّل لمناطق والعنوان بيفضل مخفي. وجوجل بيطلب توثيق النشاط الأول."
+          }
+        },
+        {
+          "q": { "en": "Why an ordering website when I am already on the apps?", "ar": "ليه أعمل موقع طلبات وأنا موجود على التطبيقات؟" },
+          "a": {
+            "en": "For direct orders with no commission, and so your customers' details stay with you. The apps bring new customers; your website lets them order from you directly afterwards.",
+            "ar": "عشان الطلبات المباشرة من غير عمولة، وعشان بيانات عملاءك تبقى عندك. التطبيقات بتجيب العميل الجديد، والموقع بيخلّيه يطلب منك مباشرة بعد كده."
+          }
+        },
+        {
+          "q": { "en": "Points or stamps for a cloud kitchen?", "ar": "نقاط ولا أختام للمطبخ السحابي؟" },
+          "a": {
+            "en": "Usually points: order values differ a lot, and customers collect on every online order.",
+            "ar": "غالباً النقاط، لأن قيمة الطلبات بتختلف كتير، والعميل بيجمّع على كل طلب أونلاين."
+          }
+        }
+      ],
+      "search": "مطبخ سحابي مطابخ سحابية cloud kitchen dark kitchen delivery marketing تسويق مطبخ"
+    }
+  ]
 }
