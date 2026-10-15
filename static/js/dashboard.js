@@ -510,6 +510,11 @@
     }
     const when = (d) => (d.createdAt && d.createdAt.toDate ? d.createdAt.toDate() : null);
     const fmt = (d) => { const w = when(d); return w ? `${w.getDate()} ${MONTHS[w.getMonth()]} ${w.getFullYear()}` : "–"; };
+    // per page: all, last 30 days, and how many came from the quick form (it has no email)
+    const since = Date.now() - 30 * 864e5, src = {};
+    docs.forEach((d) => { const k = d.page || "–", r = src[k] || (src[k] = { page: k, all: 0, d30: 0, quick: 0 }); const w = when(d);
+      r.all++; if (w && w.getTime() >= since) r.d30++; if (!d.email) r.quick++; });
+    const bySource = Object.values(src).sort((a, b) => b.d30 - a.d30 || b.all - a.all);
     const csv = () => {
       const cols = ["createdAt", "businessName", "contactPerson", "phone", "email", "location", "businessType", "website", "language", "page", "description"];
       const q = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
@@ -520,6 +525,9 @@
     sec.replaceChildren(
       head("applications", "طلبات الشراكة", `${docs.length} طلب · نسخة من كل طلب بتروح كمان لشيت Vendor Requests.`),
       docs.length ? el("p", null, el("button", { class: "dash-btn ghost", type: "button", onclick: csv, text: "تحميل الطلبات CSV" })) : null,
+      docs.length ? el("h3", { text: "الطلبات جت منين" }) : null,
+      docs.length ? table([{ label: "الصفحة", get: (r) => el("span", { class: "ltr", text: r.page }) }, { label: "آخر 30 يوم", get: (r) => num(r.d30) }, { label: "الكل", get: (r) => num(r.all) },
+        { label: "سريع", get: (r) => num(r.quick) }, { label: "كامل", get: (r) => num(r.all - r.quick) }], bySource) : null,
       table([{ label: "التاريخ", get: fmt }, { label: "النشاط", get: (d) => d.businessName }, { label: "المسؤول", get: (d) => d.contactPerson },
         { label: "تليفون", get: (d) => el("a", { href: "tel:" + d.phone, class: "ltr", text: d.phone }) }, { label: "إيميل", get: (d) => d.email ? el("a", { href: "mailto:" + d.email, class: "ltr", text: d.email }) : "–" },
         { label: "المكان", get: (d) => d.location || "–" }, { label: "النوع", get: (d) => d.businessType || "–" },

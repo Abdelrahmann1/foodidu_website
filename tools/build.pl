@@ -1693,7 +1693,7 @@ HTML
         '<li class="bz-plan' . ($p->{featured} ? ' bz-plan-main' : '') . '">' . ($p->{featured} ? '<span class="bz-tag">' . T($l, 'biz_plan_tag') . '</span>' : '')
         . '<h3>' . esc($p->{name}{$l}) . '</h3><p class="bz-price">' . esc($p->{price}{$l}) . '</p><p class="bz-note">' . esc($p->{note}{$l}) . '</p>'
         . '<ul class="bz-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{$l}) . '</span></li>' } @{ $p->{features} }) . '</ul>'
-        . '<a class="bz-btn ' . ($p->{featured} ? 'bz-pri' : 'bz-ghost') . '" href="#join" data-plan="' . $p->{key} . '">' . T($l, 'biz_plan_cta') . '</a></li>' } @{ $BIZ->{plans} }) . '</ul>';
+        . '<a class="bz-btn ' . ($p->{featured} ? 'bz-pri' : 'bz-ghost') . '" href="#join" data-track="business_plan_click" data-plan="' . $p->{key} . '">' . T($l, 'biz_plan_cta') . '</a></li>' } @{ $BIZ->{plans} }) . '</ul>';
       my $req = ' <span class="req" aria-hidden="true">*</span>';
       my $opts = join '', map { qq{<option value="$_->[0]">} . T($l, $_->[1]) . '</option>' } (['restaurant', 'f_restaurant'], ['cafe', 'f_cafe'], ['cloud-kitchen', 'f_cloud'], ['food-truck', 'f_truck'], ['bakery', 'f_bakery'], ['other', 'f_other']);
       my $svc_checks = join '', map { '<label class="check"><input type="checkbox" name="services" value="' . esc($_->{name}{$l}) . '"' . ($_->{featured} ? ' checked' : '') . '><span>' . esc($_->{name}{$l}) . '</span></label>' } @svc;

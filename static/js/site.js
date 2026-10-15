@@ -61,13 +61,14 @@
      send that event with their data-brand / data-store / data-deal / data-sponsored and where on the page they sit.
      data-track-view="event" sends once when at least half of the element has been on screen. */
   function placement(el) {
-    return el.closest(".site-header") ? "header" : el.closest(".site-footer") ? "footer" : el.closest(".feat-slot") ? "featured"
-      : el.closest(".hero") ? "home_hero" : el.closest(".page-hero") ? "page_top" : el.closest(".side") ? "sidebar"
+    return el.closest(".site-header") ? "header" : el.closest(".site-footer, .bz-foot") ? "footer" : el.closest(".feat-slot") ? "featured"
+      : el.closest(".bz-float-wa") ? "floating_button" : el.closest(".bz-plans") ? "plans" : el.closest("#join") ? "form_section"
+      : el.closest(".hero") ? "home_hero" : el.closest(".page-hero, .bz-hero") ? "page_top" : el.closest(".side") ? "sidebar"
       : el.closest(".app-band, .band") ? "app_section" : "page";
   }
   function trackParams(el) {
     var p = { placement: placement(el) };
-    ["brand", "store", "deal", "sponsored"].forEach(function (k) { var v = el.getAttribute("data-" + k); if (v) p[k] = v; });
+    ["brand", "store", "deal", "sponsored", "plan"].forEach(function (k) { var v = el.getAttribute("data-" + k); if (v) p[k] = v; });
     if (el.host && el.host !== location.host) p.link_domain = el.host;
     return p;
   }
@@ -292,7 +293,7 @@
 
   /* ---------- Foodidu Business request forms: the full one (#join) and the quick one in the hero ---------- */
   // Two independent copies, so a request is never lost: the Google Sheet (Apps Script) and Firestore (see firestore.rules).
-  function sendLead(form, status, data, kind) {
+  function sendLead(form, status, data, kind, extra) {
     var btn = form.querySelector('button[type="submit"]'), label = btn.textContent;
     btn.disabled = true; btn.textContent = T.sending || "Sending…";
     status.hidden = true;
@@ -308,7 +309,7 @@
       if (ok[0] || ok[1]) {
         status.className = "form-status ok"; status.textContent = T.formOk || "Thanks!";
         form.reset();
-        track("vendor_application_submitted", { form: kind, saved_to: [ok[0] ? "sheet" : "", ok[1] ? "firestore" : ""].filter(Boolean).join("+") });
+        track("vendor_application_submitted", Object.assign({ form: kind, business_type: data.businessType || "", saved_to: [ok[0] ? "sheet" : "", ok[1] ? "firestore" : ""].filter(Boolean).join("+") }, extra));
       } else {
         status.className = "form-status err"; status.textContent = T.formErr || "Something went wrong.";
       }
@@ -331,12 +332,17 @@
       var services = fd.getAll("services"), plan = vform.querySelector("#f-plan");
       var extra = (services.length ? (vform.querySelector(".checks legend").textContent.trim() + ": " + services.join("، ")) + "\n" : "")
         + (plan && plan.value ? (vform.querySelector('label[for="f-plan"]').textContent.trim() + ": " + plan.options[plan.selectedIndex].text) + "\n" : "");
+      var chosen = plan && plan.value ? plan.value : "";
       delete data.services; delete data.plan;
       if (extra) data.description = extra + (data.description ? "\n" + data.description : "");
-      sendLead(vform, document.getElementById("form-status"), data, "full");
+      sendLead(vform, document.getElementById("form-status"), data, "full", { plan: chosen });
     });
   }
   var qform = document.getElementById("quick-lead-form");
+  // started vs sent: the first time someone types in a form, once per page view
+  [[vform, "full"], [qform, "quick"]].forEach(function (f) {
+    if (f[0]) f[0].addEventListener("focusin", function start() { f[0].removeEventListener("focusin", start); track("business_form_start", { form: f[1] }); });
+  });
   if (qform && DATA.formUrl) {
     qform.addEventListener("submit", function (e) {
       e.preventDefault();

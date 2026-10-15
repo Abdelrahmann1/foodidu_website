@@ -77,9 +77,13 @@ Story layouts keep text out of the top 250 px and bottom 330 px that Instagram a
 | `day_deal_source_click` | `deal` | Clicks to a deal's official source. |
 | `app_download_click` | `store` | Google Play button clicks. |
 | `search`, `search_no_results` | `search_term` | What people look for; no-result searches are brands worth signing up. |
-| `vendor_application_submitted` | `saved_to` | Partner applications (`sheet`, `firestore` or both). |
+| `vendor_application_submitted` | `form`, `business_type`, `plan`, `saved_to` | Foodidu Business requests: `form` is `full` (the form at #join) or `quick` (the hero form); `saved_to` is `sheet`, `firestore` or both. |
+| `business_form_start` | `form` | Someone started typing in a business form; compare with the requests sent. |
+| `business_whatsapp_click` | `placement` | WhatsApp clicks on the business pages (`header`, `page_top`, `floating_button`, `form_section`, `footer`, …). |
+| `business_plan_click` | `plan` | "Choose this plan" clicks. |
+| `qr_tool_download` | `kind` | The free QR tool: `card`, `code` or `print`. |
 
-One-time setup in Google Analytics (Admin > Data display > Custom definitions > Create custom dimension, scope Event): add `brand`, `placement`, `code`, `sponsored`, `store`, `deal`, `search_term`. Then mark `promo_code_copied` as a key event (Admin > Events). A partner's monthly number: Explore > Free form, rows `brand`, values `Event count`, filter `Event name = promo_code_copied`.
+One-time setup in Google Analytics (Admin > Data display > Custom definitions > Create custom dimension, scope Event): add `brand`, `placement`, `code`, `sponsored`, `store`, `deal`, `search_term`, `form`, `business_type`, `plan`, `kind`. Then mark `promo_code_copied`, `vendor_application_submitted` and `business_whatsapp_click` as key events (Admin > Events; an event is listed there after it happens once). The dashboard also counts the requests per page from Firestore. A partner's monthly number: Explore > Free form, rows `brand`, values `Event count`, filter `Event name = promo_code_copied`.
 
 **Firestore** keeps three collections, written by `static/js/site.js`: `cookieConsent`, `userSessions` and `vendorApplications` (every partner application, also sent to the Google Sheet, so none is lost). `firestore.rules` lets browsers add those records in the exact shape the site sends and never read anything back; read them in Firebase console > Firestore. Deploy rule changes with `firebase deploy --only firestore:rules`.
 
