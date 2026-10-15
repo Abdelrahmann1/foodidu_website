@@ -232,7 +232,6 @@ my %S = (
   qr_js_table => 'Table {n}', qr_js_bad => 'Enter a full link, like https://instagram.com/yourpage', qr_js_long => 'This link is too long for a QR code. Use a shorter link.', qr_js_sample => 'This is an example. Paste your menu link to make your code.',
   qr_js_ready => 'Your code is ready. Scan it with your phone to test it before printing.', qr_js_credit => 'Foodidu Business',
   anim_alt => 'Animation: how Foodidu Business helps a restaurant, from a promo code on Foodidu to a QR menu, online orders, loyalty stamps and real reviews on Google Maps', anim_play => 'Play the animation', anim_pause => 'Pause the animation',
-  biz_toc_label => 'On this page', biz_toc_svc => 'Services', biz_toc_how => 'How it works', biz_toc_plans => 'Plans', biz_toc_join => 'Apply', biz_toc_faq => 'FAQ',
   biz_nav_maps => 'Google Maps', foot_biz_wa => 'Restaurants, WhatsApp us:', biz_wa_msg_maps => 'Hi Foodidu Business, I would like to put my restaurant on Google Maps.',
   biz_wa_btn => 'Chat with us on WhatsApp', biz_wa_float => 'Chat with Foodidu Business on WhatsApp',
   biz_wa_msg_info => 'Hi Foodidu Business, I would like to know more about your services for my restaurant.', biz_wa_msg_menu => 'Hi Foodidu Business, I would like an online menu for my restaurant.',
@@ -390,7 +389,6 @@ my %S = (
   qr_js_table => 'ترابيزة {n}', qr_js_bad => 'اكتب لينك كامل، زي https://instagram.com/yourpage', qr_js_long => 'اللينك ده طويل على الكود. استخدم لينك أقصر.', qr_js_sample => 'ده مثال. حط لينك المنيو بتاعك عشان يتعمل كودك.',
   qr_js_ready => 'كودك جاهز. امسحه بموبايلك وجرّبه قبل الطباعة.', qr_js_credit => 'Foodidu Business',
   anim_alt => 'أنيميشن: إزاي Foodidu Business بيساعد المطعم، من كود خصم على Foodidu لمنيو QR وطلبات أونلاين وأختام ولاء وتقييمات حقيقية على جوجل ماب', anim_play => 'شغّل الأنيميشن', anim_pause => 'وقّف الأنيميشن',
-  biz_toc_label => 'في الصفحة دي', biz_toc_svc => 'الخدمات', biz_toc_how => 'إزاي بتشتغل', biz_toc_plans => 'الباقات', biz_toc_join => 'قدّم', biz_toc_faq => 'أسئلة',
   biz_nav_maps => 'جوجل ماب', foot_biz_wa => 'للمطاعم، كلمنا واتساب:', biz_wa_msg_maps => 'أهلاً Foodidu Business، عايز أضيف مطعمي على جوجل ماب.',
   biz_wa_btn => 'كلمنا على واتساب', biz_wa_float => 'كلّم Foodidu Business على واتساب',
   biz_wa_msg_info => 'أهلاً Foodidu Business، عايز أعرف أكتر عن خدماتكم لمطعمي.', biz_wa_msg_menu => 'أهلاً Foodidu Business، عايز منيو إلكتروني لمطعمي.',
@@ -1636,7 +1634,7 @@ HTML
     {
       my $crumbs = [[T($l, 'home'), path_for($l, '/')], ['Foodidu Business', $burl]];
       my $stage = qq{<div class="bz-anim"><canvas class="biz-anim" data-lang="$l" width="1080" height="1080" role="img" aria-label="} . T($l, 'anim_alt') . '"></canvas>'
-        . '<button class="anim-btn" type="button" aria-pressed="false" data-play="' . T($l, 'anim_play') . '" data-pause="' . T($l, 'anim_pause') . '" aria-label="' . T($l, 'anim_play') . '">' . icon('play', 'i-play') . icon('pause', 'i-pause') . '</button></div>';   # the 30 s services explainer (static/js/biz-anim.js)
+        . '<button class="anim-btn" type="button" aria-pressed="false" data-play="' . T($l, 'anim_play') . '" data-pause="' . T($l, 'anim_pause') . '" aria-label="' . T($l, 'anim_play') . '">' . icon('play', 'i-play') . icon('pause', 'i-pause') . '</button><p class="anim-cap" aria-hidden="true"></p></div>';   # the 30 s services explainer (static/js/biz-anim.js); the caption shows the scene title on phones
       my $rows = join '', map { my $s = $_; my $k = $row_mock{$s->{key}};
         '<article class="bz-row' . ($s->{featured} ? ' bz-row-main' : '') . '"><div class="bz-row-copy">' . ($s->{featured} ? '<span class="bz-tag">' . T($l, 'biz_main_tag') . '</span>' : '')
         . '<span class="bz-ic">' . icon($s->{icon}) . '</span><h3>' . esc($s->{name}{$l}) . '</h3><p>' . esc($s->{short}{$l}) . '</p>'
@@ -1653,10 +1651,7 @@ HTML
       my $svc_checks = join '', map { '<label class="check"><input type="checkbox" name="services" value="' . esc($_->{name}{$l}) . '"' . ($_->{featured} ? ' checked' : '') . '><span>' . esc($_->{name}{$l}) . '</span></label>' } @svc;
       my $plan_opts = '<option value="">' . T($l, 'f_plan_ph') . '</option>' . join('', map { '<option value="' . $_->{key} . '">' . esc($_->{name}{$l}) . ' · ' . esc($_->{price}{$l}) . '</option>' } @{ $BIZ->{plans} });
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $BIZ->{faq} };
-      my @toc = (['services', 'biz_toc_svc'], ['how', 'biz_toc_how'], ['plans', 'biz_toc_plans'], ['join', 'biz_toc_join'], ['faq', 'biz_toc_faq']);
-      my $toc = '<nav class="bz-toc" aria-label="' . T($l, 'biz_toc_label') . '"><div class="wrap"><ol>'
-        . join('', map { '<li><a href="#' . $toc[$_][0] . '"><span class="n" aria-hidden="true">' . $num->($_ + 1) . '</span>' . T($l, $toc[$_][1]) . '</a></li>' } 0 .. $#toc) . '</ol></div></nav>';
-      my $body = $hero->($crumbs, T($l, 'biz_pill'), $BIZ->{h1}{$l}, $BIZ->{lede}{$l}, $stage) . $toc . <<"HTML";
+      my $body = $hero->($crumbs, T($l, 'biz_pill'), $BIZ->{h1}{$l}, $BIZ->{lede}{$l}, $stage) . <<"HTML";
 <section class="bz-sec" id="services" aria-labelledby="svc-title"><div class="wrap">
 @{[ $head->('svc-title', T($l, 'biz_svc_eyebrow'), T($l, 'biz_svc_title'), '', $num->(1)) ]}
 <div class="bz-rows">$rows</div>

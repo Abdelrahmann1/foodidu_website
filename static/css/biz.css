@@ -246,17 +246,7 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .bz-link:hover { text-decoration-color: var(--bz-pri); }
 .bz-link .icon { width: 18px; height: 18px; }
 
-/* section to section: the "on this page" bar, numbered titles, scalloped edges, sections that rise in */
-html:has(body.biz) { scroll-padding-top: 150px; }
-.bz-toc { position: sticky; top: 72px; z-index: 30; background: rgba(255, 249, 235, .94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-block: 1px solid var(--bz-line); }
-.bz-toc ol { list-style: none; display: flex; gap: 6px; padding: 10px 0; overflow-x: auto; scrollbar-width: none; }
-.bz-toc ol::-webkit-scrollbar { display: none; }
-.bz-toc a { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px 8px 10px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: .95rem; color: var(--bz-ink-2); white-space: nowrap; transition: background-color .2s, color .2s; }
-[dir="rtl"] .bz-toc a { padding: 8px 10px 8px 16px; }
-.bz-toc a:hover { background: var(--bz-sun-soft); color: var(--bz-ink); }
-.bz-toc .n { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--bz-line); color: var(--bz-ink); font-size: .8rem; font-weight: 700; transition: background-color .2s, color .2s; }
-.bz-toc a[aria-current="true"] { background: var(--bz-pri); color: var(--bz-sun); }
-.bz-toc a[aria-current="true"] .n { background: var(--bz-sun); color: var(--bz-pri-2); }
+/* section to section: numbered titles, scalloped edges, sections that rise in */
 .bz-head h2, .bz-join-copy h2 { font-size: clamp(2rem, 4.4vw, 3.2rem); }
 .bz-head h2::after, .bz-join-copy h2::after { content: ""; display: block; width: 84px; height: 6px; margin-top: 16px; border-radius: 6px; background: var(--bz-sun-2); }
 .bz-eyebrow .n { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--bz-pri); color: var(--bz-sun); font-size: .9rem; }
@@ -439,6 +429,27 @@ html:has(body.biz) { scroll-padding-top: 150px; }
   body.biz > *:not(.qr-print) { display: none !important; }
   .qr-print { display: grid !important; grid-template-columns: 1fr 1fr; gap: 8mm; justify-items: center; }
   .qr-print svg { width: 88mm; height: auto; break-inside: avoid; }
+}
+
+/* titles break into even lines */
+.bz-hero h1, .bz-head h2, .bz-join-copy h2, .bz-row-copy h3, .bz-cta h2 { text-wrap: balance; }
+/* the animation's scene title as text under it, on phones (static/js/biz-anim.js fills it) */
+.anim-cap { display: none; }
+@media (max-width: 700px) {
+  .anim-cap { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; margin: 4px 16px 0; padding: 10px 16px; border-radius: 16px;
+    background: #fff; border: 1px solid var(--bz-line); box-shadow: 0 10px 24px -18px rgba(58, 40, 13, .5); font-weight: 700; font-size: 1.15rem; line-height: 1.35; color: var(--bz-pri-2); text-align: center; }
+  .anim-cap .n { flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--bz-pri); color: var(--bz-sun); font-size: .95rem; }
+  .anim-cap.final { background: var(--bz-leaf); border-color: var(--bz-leaf); color: #fff; }
+  .anim-cap.swap { animation: capIn .45s var(--ease); }
+  .bz-anim .anim-btn { top: 6px; bottom: auto; }   /* the top of the picture is free on phones (no title there) */
+}
+@keyframes capIn { from { opacity: 0; transform: translateY(8px); } }
+/* phones: title, then the picture, then the text and buttons */
+@media (max-width: 900px) {
+  .bz-hero-in { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+  .bz-copy { display: contents; }
+  .bz-hero .crumbs { order: 1; } .bz-pill { order: 2; align-self: flex-start; } .bz-hero h1 { order: 3; }
+  .bz-visual { order: 4; margin-top: 18px; } .bz-lede { order: 5; } .bz-btns { order: 6; } .bz-ticks { order: 7; }
 }
 
 /* ---------- phones and tablets ---------- */

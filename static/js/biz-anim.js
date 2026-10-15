@@ -326,7 +326,8 @@
       var last = SC.length - 1;
       // the title of the part on screen, large at the top once its chapter card has gone
       var ta = Math.min(prog(t, SC[cur][0] + .75, .35), cur === last ? 1 : 1 - prog(t, SC[cur][1] - .45, .3));
-      if (ta > 0) {
+      if (cur !== lastScene) { lastScene = cur; if (sceneCb) sceneCb(cur, L.scenes[cur], cur === last); }
+      if (ta > 0 && !noTitle) {
         x.save(); x.globalAlpha = ta; x.translate(0, (1 - easeOut(ta)) * -24);
         x.font = "700 50px " + F; var label = L.scenes[cur], pw = x.measureText(label).width + (cur < last ? 150 : 90), ty = 92;
         shadow(26, 10, .22); x.fillStyle = cur < last ? "#fff" : C.leaf; rr(S / 2 - pw / 2, ty - 50, pw, 100, 50); x.fill(); noShadow();
@@ -372,13 +373,15 @@
       if (f > 0) { if (bg) { x.fillStyle = bg; x.globalAlpha = f; x.fillRect(0, 0, S, S); x.globalAlpha = 1; } else { x.globalCompositeOperation = "destination-out"; x.fillStyle = "rgba(0,0,0," + f + ")"; x.fillRect(0, 0, S, S); x.globalCompositeOperation = "source-over"; } }
     }
 
-    var t0 = 0, at = 0, playing = false, raf = 0;
+    var t0 = 0, at = 0, playing = false, raf = 0, noTitle = false, sceneCb = null, lastScene = -1;
     function tick(now) { if (!playing) return; at = ((now - t0) / 1000) % T; draw(at); raf = requestAnimationFrame(tick); }
     var api = {
       draw: draw, duration: T,
       play: function () { if (playing) return; playing = true; t0 = performance.now() - at * 1000; raf = requestAnimationFrame(tick); cv.dispatchEvent(new Event("anim-state")); },
       pause: function () { playing = false; cancelAnimationFrame(raf); cv.dispatchEvent(new Event("anim-state")); },
       seek: function (s) { at = clamp(s, 0, T); draw(at); },
+      noTitle: function (v) { noTitle = !!v; if (!playing) draw(at); },   // the page shows the scene title itself
+      onScene: function (fn) { sceneCb = fn; lastScene = -1; },
       get playing() { return playing; }
     };
     cv.bizAnim = api;
@@ -389,7 +392,19 @@
   function init() {
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     document.querySelectorAll("canvas.biz-anim").forEach(function (cv) {
-      var a = Anim(cv), btn = cv.parentNode.querySelector(".anim-btn"), userPaused = reduce;
+      var a = Anim(cv), btn = cv.parentNode.querySelector(".anim-btn"), cap = cv.parentNode.querySelector(".anim-cap"), userPaused = reduce;
+      if (cap && window.matchMedia) {   // phones: the scene title as large text under the animation
+        var mq = window.matchMedia("(max-width: 700px)"), fit = function () { a.noTitle(mq.matches); };
+        if (mq.addEventListener) mq.addEventListener("change", fit); else if (mq.addListener) mq.addListener(fit);
+        fit();
+        a.onScene(function (i, title, final) {
+          cap.textContent = "";
+          if (!final) { var n = document.createElement("span"); n.className = "n"; n.textContent = String(i + 1); cap.appendChild(n); }
+          cap.appendChild(document.createTextNode(title));
+          cap.classList.toggle("final", final);
+          cap.classList.remove("swap"); void cap.offsetWidth; cap.classList.add("swap");
+        });
+      }
       a.seek(reduce ? 29.2 : 0);
       if (document.fonts && document.fonts.load) Promise.all([document.fonts.load("54px Lalezar", "Foodidu"), document.fonts.load("700 40px 'Readex Pro'", "منيو menu")]).then(function () { if (!a.playing) a.seek(reduce ? 29.2 : 0); });
       var sync = function () { if (!btn) return; btn.setAttribute("aria-pressed", a.playing ? "true" : "false"); btn.setAttribute("aria-label", btn.getAttribute(a.playing ? "data-pause" : "data-play")); };
