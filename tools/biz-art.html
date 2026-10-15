@@ -13,9 +13,11 @@
 <body>
 <!-- Dev-only: open http://localhost:5000/__tools/biz-art.html and press the button.
      Writes the Foodidu Business share images (static/img/og/biz-*.png, used by tools/build.pl) and the social post + story
-     for the free QR tool (banners/business/, not in git). The QR codes in them are real and open the free tool. -->
+     for the free QR tool (banners/business/, not in git). The QR codes in them are real and open the free tool.
+     "Google Business Profile images": logo 720x720 (safe inside the round crop), cover 1080x608 (the message stays in the
+     middle, which every crop keeps), and a post picture 1200x900 for each service, in banners/business/gbp/. -->
 <h1>Foodidu Business art</h1>
-<p><button id="go">Make the images</button></p>
+<p><button id="go">Make the images</button> <button id="gbp">Google Business Profile images</button></p>
 <pre id="log"></pre>
 <div id="out"></div>
 <script src="/__static/js/qr.js"></script>
@@ -34,7 +36,9 @@ const COPY = {
     rateWord: "RATE US", rateScan: "Rate us on Google", rateTable: "★★★★★",
     free: "FREE", word: "MENU", scan: "Scan for the menu", table: "Table 7", rest: "Your restaurant", card: "Loyalty card", left: "3 more stamps to a free drink",
     pts: "320 points", order: "Order online", url: "yourrestaurant.com", webH: "Hot and fresh, to your door",
-    post: ["Make a QR code for your menu, free", "No online menu yet? We can make it for you."], site: "foodidu.com/business", wa: "WhatsApp 010 9919 1074"
+    post: ["Make a QR code for your menu, free", "No online menu yet? We can make it for you."], site: "foodidu.com/business", wa: "WhatsApp 010 9919 1074",
+    final: "Everything your restaurant needs, in one place", services: "QR menu · Loyalty program · Ordering website · Google Maps",
+    real: "Real reviews", review: "Great food and fast service!", place: "Restaurant · Open now"
   },
   ar: {
     home: ["أدوات تكبّر مطعمك", "منيو QR، وبرنامج ولاء، وموقع طلبات باسمك. ابدأ مجاناً."],
@@ -46,7 +50,9 @@ const COPY = {
     rateWord: "قيّمنا", rateScan: "قيّمنا على جوجل", rateTable: "★★★★★",
     free: "مجاناً", word: "منيو", scan: "امسح الكود وشوف المنيو", table: "ترابيزة 7", rest: "مطعمك", card: "كارت الولاء", left: "باقي 3 أختام على مشروب ببلاش",
     pts: "320 نقطة", order: "اطلب أونلاين", url: "yourrestaurant.com", webH: "سخن وطازة لحد باب بيتك",
-    post: ["اعمل كود QR لمنيو مطعمك مجاناً", "معندكش منيو أونلاين؟ إحنا نعملهولك."], site: "foodidu.com/business", wa: "WhatsApp 010 9919 1074"
+    post: ["اعمل كود QR لمنيو مطعمك مجاناً", "معندكش منيو أونلاين؟ إحنا نعملهولك."], site: "foodidu.com/business", wa: "WhatsApp 010 9919 1074",
+    final: "كل أدوات مطعمك في مكان واحد", services: "منيو QR · برنامج ولاء · موقع طلبات · جوجل ماب",
+    real: "تقييمات حقيقية", review: "الأكل جميل والخدمة سريعة!", place: "مطعم · مفتوح دلوقتي"
   }
 };
 const font = (w, s, fam = "'Readex Pro'") => `${w} ${s}px ${fam}`;
@@ -231,6 +237,104 @@ function social(l, A, story) {
   x.fillStyle = "#F3E6C8"; x.font = font(600, story ? 32 : 28); x.direction = "ltr"; x.fillText(T.wa + "   ·   " + T.site, W / 2, by + bh * .78);
   return c;
 }
+
+// ---------- Google Business Profile ----------
+// A restaurant on a map with its rating and a review: w wide, 0.86 w tall
+function mapCard(x, l, cx, cy, w, rot) {
+  const T = COPY[l], rtl = l === "ar", h = w * .86, mh = h * .46;
+  x.save(); x.translate(cx, cy); x.rotate(rot); x.translate(-w / 2, -h / 2);
+  shadow(x, 44, 20, .35); x.fillStyle = "#fff"; rr(x, 0, 0, w, h, w * .05); x.fill(); noShadow(x);
+  x.save(); rr(x, 0, 0, w, mh, [w * .05, w * .05, 0, 0]); x.clip();
+  x.fillStyle = "#EEF3E6"; x.fillRect(0, 0, w, mh);
+  x.fillStyle = "#D8EBC4"; rr(x, w * .06, mh * .1, w * .24, mh * .32, 18); x.fill();
+  x.fillStyle = "#DCEAF6"; rr(x, w * .66, mh * .62, w * .28, mh * .26, 16); x.fill();
+  x.fillStyle = "#fff"; x.save(); x.translate(w / 2, mh * .6); x.rotate(-.12); x.fillRect(-w, -w * .022, w * 2, w * .044); x.restore();
+  x.save(); x.translate(w * .36, mh * .5); x.rotate(.25); x.fillRect(-w * .018, -h, w * .036, h * 2); x.restore();
+  x.fillStyle = "#FFE4A1"; x.save(); x.translate(w * .74, mh * .5); x.rotate(-.1); x.fillRect(-w * .014, -h, w * .028, h * 2); x.restore();
+  x.restore();
+  // the pin
+  const px = w / 2, py = mh * .5, r = w * .065;
+  x.fillStyle = "rgba(84,58,20,.18)"; x.beginPath(); x.ellipse(px, py + r * 2.1, r * .9, r * .28, 0, 0, Math.PI * 2); x.fill();
+  x.fillStyle = BROWN; x.beginPath(); x.arc(px, py - r * .4, r, Math.PI, 0); x.lineTo(px, py + r * 1.9); x.closePath(); x.fill();
+  x.beginPath(); x.arc(px, py - r * .4, r, 0, Math.PI); x.fill();
+  x.fillStyle = SUN; x.beginPath(); x.arc(px, py - r * .4, r * .45, 0, Math.PI * 2); x.fill();
+  // name, stars, place, a review
+  x.direction = rtl ? "rtl" : "ltr"; x.textAlign = rtl ? "right" : "left";
+  const tx = rtl ? w - w * .06 : w * .06;
+  x.fillStyle = DEEP; x.font = font(700, w * .06); x.fillText(T.rest, tx, mh + h * .12);
+  x.font = font(400, w * .05); x.fillStyle = "#E8A317"; x.fillText("★★★★★", tx, mh + h * .21);
+  x.fillStyle = "#4A7A1E"; x.font = font(700, w * .036); x.fillText(T.real, rtl ? tx - w * .3 : tx + w * .3, mh + h * .205);
+  x.fillStyle = "#8A7350"; x.font = font(500, w * .034); x.fillText(T.place, tx, mh + h * .28);
+  x.fillStyle = SUN4; rr(x, w * .05, mh + h * .33, w * .9, h * .14, 16); x.fill();
+  x.fillStyle = DEEP; x.font = font(600, w * .036); x.fillText(rtl ? "«" + T.review + "»" : "“" + T.review + "”", tx, mh + h * .415);
+  x.restore();
+}
+function gbpBg(x, W, H, glowX, glowY) {
+  x.fillStyle = CREAM; x.fillRect(0, 0, W, H);
+  const g = x.createRadialGradient(glowX, glowY, 20, glowX, glowY, Math.max(W, H) * .5); g.addColorStop(0, "rgba(255,209,92,.65)"); g.addColorStop(1, "rgba(255,209,92,0)");
+  x.fillStyle = g; x.fillRect(0, 0, W, H);
+  x.strokeStyle = "rgba(228,207,158,.45)"; x.lineWidth = 1;
+  for (let gx = 0; gx <= W; gx += 44) { x.beginPath(); x.moveTo(gx + .5, 0); x.lineTo(gx + .5, H); x.stroke(); }
+  for (let gy = 0; gy <= H; gy += 44) { x.beginPath(); x.moveTo(0, gy + .5); x.lineTo(W, gy + .5); x.stroke(); }
+}
+// Logo 720 x 720: everything inside the round crop
+function gbpLogo(A) {
+  const S = 720, c = canvas(S, S), x = c.getContext("2d");
+  x.fillStyle = SUN; x.fillRect(0, 0, S, S);
+  x.globalAlpha = .28; for (let py = 0; py < S; py += 406) for (let px = 0; px < S; px += 187) x.drawImage(A.pattern, px, py - 40, 187, 406); x.globalAlpha = 1;
+  const lw = 470, lh = lw * 304 / 767;
+  x.drawImage(A.logo, (S - lw) / 2, 300 - lh / 2, lw, lh);
+  x.fillStyle = BROWN; rr(x, S / 2 - 150, 430, 300, 84, 24); x.fill();
+  x.fillStyle = SUN; x.font = font(700, 46); x.textAlign = "center"; x.textBaseline = "middle"; x.direction = "ltr"; x.fillText("Business", S / 2, 474); x.textBaseline = "alphabetic";
+  return c;
+}
+// Cover 1080 x 608: the message in the middle, pictures on the sides (fine if a crop cuts them)
+function gbpCover(l, A) {
+  const W = 1080, H = 608, c = canvas(W, H), x = c.getContext("2d"), rtl = l === "ar", T = COPY[l];
+  gbpBg(x, W, H, W / 2, H / 2);
+  stand(x, l, 100, 340, 165, -.08);
+  stamps(x, l, W - 125, 370, 240, .07);
+  brandRow(x, l, A.logo, W / 2, 70, 200, "center");
+  x.direction = rtl ? "rtl" : "ltr"; x.textAlign = "center"; x.fillStyle = DEEP;
+  const t = lines(x, T.final, 560, 56, "'Readex Pro'", 700, 2, 40), lh = t.s * (rtl ? 1.35 : 1.12);
+  let y = 250 + t.s * .4;
+  x.font = font(700, t.s); for (const ln of t.L) { x.fillText(ln, W / 2, y); y += lh; }
+  x.fillStyle = "#6B522C"; x.font = font(600, 24); x.fillText(T.services, W / 2, y + 6);
+  x.fillStyle = BROWN; rr(x, W / 2 - 250, H - 116, 500, 64, 32); x.fill();
+  x.fillStyle = SUN; x.font = font(700, 24); x.direction = "ltr"; x.fillText(T.site + "   ·   " + T.wa.replace("WhatsApp ", ""), W / 2, H - 76);
+  return c;
+}
+// Post picture 1200 x 900 for one service
+function gbpPost(kind, l, A) {
+  const W = 1200, H = 900, c = canvas(W, H), x = c.getContext("2d"), rtl = l === "ar", T = COPY[l], outer = rtl ? -1 : 1;
+  gbpBg(x, W, H, W / 2, 560);
+  brandRow(x, l, A.logo, W / 2, 46, 180, "center");
+  x.direction = rtl ? "rtl" : "ltr"; x.textAlign = "center"; x.fillStyle = DEEP;
+  const t = lines(x, T[kind][0], 1000, 62, "'Readex Pro'", 700, 2, 44), lh = t.s * (rtl ? 1.35 : 1.12);
+  let y = 200 + t.s * .4;
+  x.font = font(700, t.s); for (const ln of t.L) { x.fillText(ln, W / 2, y); y += lh; }
+  x.fillStyle = "#6B522C"; x.font = font(500, 28); x.fillText(T[kind][1], W / 2, y + 2);
+  const vy = 560;
+  if (kind === "loyalty-program") { stamps(x, l, W / 2, vy, 520, -outer * .04); didu(x, A.party, W / 2 + outer * 340, vy + 70, 190, false); }
+  else if (kind === "google-maps") { mapCard(x, l, W / 2, vy - 10, 470, -outer * .03); didu(x, A.point, W / 2 + outer * 330, vy + 80, 180, !rtl); }
+  else if (kind === "qr-menu-generator") { stand(x, l, W / 2, vy, 230, -outer * .04, "white"); badge(x, T.free, W / 2 - outer * 200, vy - 150, 64, -outer * .15); didu(x, A.point, W / 2 + outer * 250, vy + 70, 180, !rtl); }
+  else { stand(x, l, W / 2, vy, 230, -outer * .04); didu(x, A.point, W / 2 + outer * 250, vy + 70, 180, !rtl); }
+  x.fillStyle = BROWN; rr(x, W / 2 - 330, H - 96, 660, 64, 32); x.fill();
+  x.fillStyle = SUN; x.textAlign = "center"; x.font = font(700, 25); x.direction = "ltr"; x.fillText(T.site + "   ·   " + T.wa, W / 2, H - 55);
+  return c;
+}
+document.getElementById("gbp").onclick = async () => {
+  try {
+    for (const f of ["400 92px Lalezar", "700 40px 'Readex Pro'", "400 30px 'Readex Pro'", "500 30px 'Readex Pro'", "600 30px 'Readex Pro'"]) { await document.fonts.load(f); await document.fonts.load(f, "منيو كود"); }
+    const A = { logo: await load("/__static/img/foodidu-logo.svg"), point: await load("/__static/img/mascot/didu-point.svg"), party: await load("/__static/img/mascot/didu-party.svg"), pattern: await load("/__static/img/pattern.svg") };
+    await save("banners/business/gbp/logo.png", gbpLogo(A), "image/png");
+    for (const l of ["ar", "en"]) {
+      await save("banners/business/gbp/cover-" + l + ".png", gbpCover(l, A), "image/png");
+      for (const k of ["qr-menu", "loyalty-program", "google-maps", "qr-menu-generator"]) await save("banners/business/gbp/post-" + k + "-" + l + ".png", gbpPost(k, l, A), "image/png");
+    }
+    log("DONE gbp");
+  } catch (e) { log("ERROR " + e.message); console.error(e); }
+};
 
 document.getElementById("go").onclick = async () => {
   try {
