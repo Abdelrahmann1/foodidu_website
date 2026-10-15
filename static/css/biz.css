@@ -554,9 +554,22 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .bz-aud .icon { width: 18px; height: 18px; color: var(--bz-pri); }
 @media (max-width: 700px) { .bz-aud { justify-content: center; } .bz-aud > span { width: 100%; text-align: center; } }
 
-/* ---------- features that are coming, under what you get (always labelled "coming soon") ---------- */
-.bz-soon { margin-top: clamp(40px, 6vw, 64px); }
-.bz-soon .bz-feats li { border-style: dashed; border-color: var(--bz-line-2); background: #fff; padding-top: 30px; }
-.bz-soon .bz-tag { position: absolute; top: -12px; inset-inline-start: 20px; margin: 0; background: var(--bz-sun); color: var(--bz-pri-2); }
-.bz-soon-cta { margin-top: 20px; }
-@media (max-width: 700px) { .bz-soon-cta { text-align: center; } }
+/* ---------- the newest features of a service: first on its page, and under its row on the landing page ---------- */
+.bz-hl { margin-bottom: clamp(48px, 7vw, 80px); padding: clamp(20px, 3vw, 32px); border-radius: 24px; background: var(--bz-sun-soft); border: 1.5px solid var(--bz-sun-2); }
+.bz-hl .bz-feats li { background: #fff; padding-top: 30px; }
+.bz-hl .bz-tag { position: absolute; top: -12px; inset-inline-start: 20px; margin: 0; background: var(--bz-leaf); color: #fff; }
+.bz-hl-cta { margin-top: 20px; }
+.bz-hl-cta .bz-wa { margin-top: 0; }
+@media (max-width: 700px) { .bz-hl-cta { text-align: center; } }
+.bz-new { list-style: none; display: grid; justify-items: start; gap: 8px; margin-top: 16px; }
+.bz-new li { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 14px; background: #fff; border: 1.5px solid var(--bz-sun-2); font-weight: 700; color: var(--bz-pri-2); }
+.bz-new .icon { width: 18px; height: 18px; color: var(--bz-pri); }
+.bz-new-tag { flex: none; padding: 2px 9px; border-radius: 999px; background: var(--bz-leaf); color: #fff; font-size: .75rem; }
+@media (max-width: 700px) { .bz-new { width: fit-content; margin-inline: auto; text-align: start; } }
+/* the phone picture: group order at the top, a suggestion under the first dish */
+.m-group { margin-inline-start: auto; display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 999px; background: var(--bz-leaf-soft); color: var(--bz-leaf); font-size: 10px; font-weight: 700; white-space: nowrap; }
+.m-group .icon { width: 12px; height: 12px; }
+.m-items .m-up { border: 1.5px dashed var(--bz-leaf-2); background: var(--bz-leaf-soft); }
+.m-up > .icon { flex: none; width: 30px; height: 30px; padding: 7px; border-radius: 10px; background: #fff; color: var(--bz-leaf); }
+.m-up small { color: var(--bz-leaf); font-weight: 700; }
+.m-up > span { flex: none; padding: 5px 10px; border-radius: 9px; background: var(--bz-leaf); color: #fff; font-weight: 700; font-size: 11px; }

@@ -213,7 +213,7 @@ my %S = (
   biz_svc_eyebrow => 'Our services', biz_svc_title => 'Tools that grow your restaurant', biz_main_tag => 'Brings customers back',
   biz_journey_eyebrow => 'How the tools work together', biz_plans_eyebrow => 'Plans', biz_plans_title => 'Start free, grow when you are ready',
   biz_plans_sub => 'Pick a plan in the form and our team will get back to you with the details and the right price for your restaurant.', biz_plan_tag => 'Includes loyalty', biz_plan_cta => 'Choose this plan',
-  biz_form_title => 'Tell us about your restaurant', biz_feats_title => 'What you get', biz_soon => 'Coming soon', biz_how_title => 'How we start', biz_other_title => 'More tools for your restaurant',
+  biz_form_title => 'Tell us about your restaurant', biz_feats_title => 'What you get', biz_new => 'New', biz_how_title => 'How we start', biz_other_title => 'More tools for your restaurant',
   biz_cta_title => 'Ready to grow your restaurant?', biz_cta_text => 'Start free with an exclusive promo code for Foodidu users, and add the tools you need when you need them.',
   biz_pill => 'For restaurants and cafés in Egypt', biz_tick1 => 'Start free', biz_tick2 => 'Arabic and English', biz_tick3 => 'Nothing for customers to download',
   biz_more => 'Learn more', biz_nav_plans => 'Plans', biz_nav_services => 'Services', biz_form_text => 'Tell us what your restaurant needs. Our team reviews every request and gets back to you with the next steps.',
@@ -235,7 +235,7 @@ my %S = (
   biz_aud_lead => 'Made for your kind of place:', biz_aud_tools => 'What Foodidu Business gives you', biz_aud_more => 'More from Foodidu Business', biz_all_svc => 'All the services',
   biz_nav_maps => 'Google Maps', foot_biz_wa => 'Restaurants, WhatsApp us:', biz_wa_msg_maps => 'Hi Foodidu Business, I would like to put my restaurant on Google Maps.',
   biz_wa_btn => 'Chat with us on WhatsApp', biz_wa_float => 'Chat with Foodidu Business on WhatsApp',
-  biz_wa_msg_info => 'Hi Foodidu Business, I would like to know more about your services for my restaurant.', biz_wa_msg_menu => 'Hi Foodidu Business, I would like an online menu for my restaurant.', biz_wa_msg_soon => 'Hi Foodidu Business, please tell me when the menu suggestions and group order are ready.',
+  biz_wa_msg_info => 'Hi Foodidu Business, I would like to know more about your services for my restaurant.', biz_wa_msg_menu => 'Hi Foodidu Business, I would like an online menu for my restaurant.',
   qr_nomenu => 'No menu link yet? <a href="{wa}" target="_blank" rel="noopener" data-track="business_whatsapp_click">Chat with us on WhatsApp</a> and we will make your online menu.',
   p_form_sub => 'Fields marked * are required.', f_services => 'Services you are interested in', f_plan => 'Plan', f_plan_ph => 'Not sure yet',
   f_business => 'Business name', f_contact => 'Contact person', f_contact_hint => 'Arabic or English letters only.', f_phone => 'Phone number', f_email => 'Email address',
@@ -371,7 +371,7 @@ my %S = (
   biz_svc_eyebrow => 'خدماتنا', biz_svc_title => 'أدوات تكبّر مطعمك', biz_main_tag => 'يرجّع عملاءك',
   biz_journey_eyebrow => 'إزاي الأدوات بتكمّل بعض', biz_plans_eyebrow => 'الباقات', biz_plans_title => 'ابدأ مجاناً، وكبّر لما تكون جاهز',
   biz_plans_sub => 'اختار الباقة في الفورم، وفريقنا يتواصل معاك بالتفاصيل والسعر المناسب لمطعمك.', biz_plan_tag => 'فيها برنامج الولاء', biz_plan_cta => 'اختار الباقة دي',
-  biz_form_title => 'احكيلنا عن مطعمك', biz_feats_title => 'هتاخد إيه', biz_soon => 'قريباً', biz_how_title => 'إزاي بنبدأ', biz_other_title => 'أدوات تانية لمطعمك',
+  biz_form_title => 'احكيلنا عن مطعمك', biz_feats_title => 'هتاخد إيه', biz_new => 'جديد', biz_how_title => 'إزاي بنبدأ', biz_other_title => 'أدوات تانية لمطعمك',
   biz_cta_title => 'جاهز تكبّر مطعمك؟', biz_cta_text => 'ابدأ مجاناً بكود خصم حصري لعملاء Foodidu، وزوّد الأدوات اللي محتاجها وقت ما تحتاجها.',
   biz_pill => 'للمطاعم والكافيهات في مصر', biz_tick1 => 'ابدأ مجاناً', biz_tick2 => 'بالعربي والإنجليزي', biz_tick3 => 'من غير تطبيق للعميل',
   biz_more => 'اعرف أكتر', biz_nav_plans => 'الباقات', biz_nav_services => 'الخدمات', biz_form_text => 'قولّنا مطعمك محتاج إيه. فريقنا بيراجع كل طلب ويرجعلك بالخطوات الجاية.',
@@ -393,7 +393,7 @@ my %S = (
   biz_aud_lead => 'حسب نوع مكانك:', biz_aud_tools => 'Foodidu Business هيقدّملك إيه', biz_aud_more => 'كمان من Foodidu Business', biz_all_svc => 'كل الخدمات',
   biz_nav_maps => 'جوجل ماب', foot_biz_wa => 'للمطاعم، كلمنا واتساب:', biz_wa_msg_maps => 'أهلاً Foodidu Business، عايز أضيف مطعمي على جوجل ماب.',
   biz_wa_btn => 'كلمنا على واتساب', biz_wa_float => 'كلّم Foodidu Business على واتساب',
-  biz_wa_msg_info => 'أهلاً Foodidu Business، عايز أعرف أكتر عن خدماتكم لمطعمي.', biz_wa_msg_menu => 'أهلاً Foodidu Business، عايز منيو إلكتروني لمطعمي.', biz_wa_msg_soon => 'أهلاً Foodidu Business، بلّغوني لما الاقتراحات الذكية والطلب الجماعي في المنيو يجهزوا.',
+  biz_wa_msg_info => 'أهلاً Foodidu Business، عايز أعرف أكتر عن خدماتكم لمطعمي.', biz_wa_msg_menu => 'أهلاً Foodidu Business، عايز منيو إلكتروني لمطعمي.',
   qr_nomenu => 'معندكش لينك للمنيو؟ <a href="{wa}" target="_blank" rel="noopener" data-track="business_whatsapp_click">كلمنا واتساب</a> ونعملّك منيو إلكتروني.',
   p_form_sub => 'الحقول المميزة بـ * مطلوبة.', f_services => 'الخدمات اللي تهمك', f_plan => 'الباقة', f_plan_ph => 'لسه مش متأكد',
   f_business => 'اسم النشاط', f_contact => 'اسم المسؤول', f_contact_hint => 'حروف عربية أو إنجليزية فقط.', f_phone => 'رقم الهاتف', f_email => 'البريد الإلكتروني',
@@ -625,13 +625,13 @@ my %BZM = (
     word => 'MENU', cur => 'EGP {n}', card => 'Loyalty card', left => '3 more stamps to a free drink', pts => '320 points', stamp => '+1 stamp', table => 'Table 7', scan => 'Scan for the menu',
     url => 'yourrestaurant.com', web_h => 'Hot and fresh, straight to your door', del => 'Delivery', pick => 'Pickup', order => 'Order online',
     place => 'Restaurant · Open now', dir => 'Directions', call => 'Call', menu2 => 'Menu', real => 'Real reviews', review => 'Great food and fast service!',
-    tk_on => 'Now on Foodidu', tk_offer => '20% off your first order', tk_code => 'YOUR CODE', tk_copy => 'Copy code', search => 'your restaurant promo code' },
+    tk_on => 'Now on Foodidu', tk_offer => '20% off your first order', tk_code => 'YOUR CODE', tk_copy => 'Copy code', search => 'your restaurant promo code', group => 'Group order (3)', up_q => 'Add fries + a drink?', up_p => '+ EGP 15', up_btn => 'Add' },
   ar => { rest => 'مطعمك', open => 'مفتوح دلوقتي', offer => 'النهارده: مشروب ببلاش مع أي وجبة', cats => ['الكل', 'برجر', 'بيتزا', 'مشروبات'],
     items => [['burger', 'برجر كلاسيك', 'لحم، شيدر، صوص البيت', 145], ['pizza', 'بيتزا مارجريتا', 'طماطم، موتزاريلا، ريحان', 180], ['drink', 'ليمون نعناع', 'فريش وسكره خفيف', 55], ['cake', 'تشيز كيك', 'فراولة أو لوتس', 90]],
     word => 'منيو', cur => '{n} ج.م', card => 'كارت الولاء', left => 'باقي 3 أختام على مشروب ببلاش', pts => '320 نقطة', stamp => '+1 ختم', table => 'ترابيزة 7', scan => 'امسح الكود وشوف المنيو',
     url => 'yourrestaurant.com', web_h => 'سخن وطازة لحد باب بيتك', del => 'توصيل', pick => 'استلام', order => 'اطلب أونلاين',
     place => 'مطعم · مفتوح دلوقتي', dir => 'الاتجاهات', call => 'اتصال', menu2 => 'المنيو', real => 'تقييمات حقيقية', review => 'الأكل جميل والخدمة سريعة!',
-    tk_on => 'دلوقتي على Foodidu', tk_offer => 'خصم 20% على أول طلب', tk_code => 'كودك هنا', tk_copy => 'انسخ الكود', search => 'كود خصم مطعمك' },
+    tk_on => 'دلوقتي على Foodidu', tk_offer => 'خصم 20% على أول طلب', tk_code => 'كودك هنا', tk_copy => 'انسخ الكود', search => 'كود خصم مطعمك', group => 'طلب جماعي (٣)', up_q => 'تضيف بطاطس ومشروب؟', up_p => '+15 ج.م', up_btn => 'أضف' },
 );
 my %FOOD = (
   burger => '<path d="M4 11c0-3.3 3.6-6 8-6s8 2.7 8 6Z"/><path d="M3 14h18"/><path d="M4 17h16v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-1Z"/>',
@@ -647,10 +647,11 @@ sub biz_mock {
   my $th = sub { qq{<span class="m-th m-$_[0]">} . food_ic($_[0]) . '</span>' };
   my %html = (
     phone => sub {
-      '<div class="m-phone"><div class="m-screen"><div class="m-top"><span class="m-logo">' . icon('fork') . "</span><div><b>$m->{rest}</b><small><i></i>$m->{open}</small></div></div>"
+      '<div class="m-phone"><div class="m-screen"><div class="m-top"><span class="m-logo">' . icon('fork') . "</span><div><b>$m->{rest}</b><small><i></i>$m->{open}</small></div><span class=\"m-group\">" . icon('basket') . "$m->{group}</span></div>"
       . '<p class="m-offer">' . icon('gift') . "<span>$m->{offer}</span></p>"
       . '<div class="m-chips">' . join('', map { '<span' . ($_ == 0 ? ' class="on"' : '') . ">$m->{cats}[$_]</span>" } 0 .. 3) . '</div>'
-      . '<ul class="m-items">' . join('', map { '<li>' . $th->($_->[0]) . "<div><b>$_->[1]</b><small>$_->[2]</small></div><em>" . $price->($_->[3]) . '</em></li>' } @{ $m->{items} }) . '</ul></div></div>';
+      . '<ul class="m-items">' . join('', map { '<li>' . $th->($_->[0]) . "<div><b>$_->[1]</b><small>$_->[2]</small></div><em>" . $price->($_->[3]) . '</em></li>'
+          . ($_ == $m->{items}[0] ? '<li class="m-up">' . icon('plus') . "<div><b>$m->{up_q}</b><small>$m->{up_p}</small></div><span>$m->{up_btn}</span></li>" : '') } @{ $m->{items} }[0 .. 2]) . '</ul></div></div>';
     },
     card => sub {
       "<div class=\"m-card\"><div class=\"m-card-top\"><span>$m->{card}</span><b>$m->{rest}</b></div><ol class=\"m-stamps\">"
@@ -1641,7 +1642,7 @@ HTML
     my $surl = sub { path_for($l, "/business/$_[0]{key}/") };
     my $has_page = sub { $_[0]{page} // 1 };
     my $num = sub { $l eq 'ar' ? (qw(١ ٢ ٣ ٤ ٥ ٦))[$_[0] - 1] : $_[0] };
-    my %row_mock = ('loyalty-program' => 'card', 'qr-menu' => 'stand', 'restaurant-website' => 'web', 'google-maps' => 'maps', visibility => 'ticket');
+    my %row_mock = ('loyalty-program' => 'card', 'qr-menu' => 'phone', 'restaurant-website' => 'web', 'google-maps' => 'maps', visibility => 'ticket');
     my $btns = sub { '<div class="bz-btns"><a class="bz-btn bz-pri" href="' . $burl . '#join">' . T($l, 'biz_start') . ' ' . icon('arrow', 'flip') . '</a><a class="bz-btn bz-ghost" href="' . $burl . '#plans">' . T($l, 'biz_plans_btn') . '</a>'
       . biz_wa_link($l, $_[0] // 'info', 'bz-btn bz-waghost', T($l, 'biz_wa_btn')) . '</div>' };
     my $ticks = sub { '<ul class="bz-ticks">' . join('', map { '<li>' . icon('check') . '<span>' . T($l, $_) . '</span></li>' } @_) . '</ul>' };
@@ -1685,6 +1686,7 @@ HTML
         '<article class="bz-row' . ($s->{featured} ? ' bz-row-main' : '') . '" id="svc-' . $s->{key} . '"><div class="bz-row-copy">' . ($s->{featured} ? '<span class="bz-tag">' . T($l, 'biz_main_tag') . '</span>' : '')
         . '<div class="bz-ttl"><span class="bz-ic">' . icon($s->{icon}) . '</span><h3>' . esc($s->{name}{$l}) . '</h3></div><p>' . esc($s->{short}{$l}) . '</p>'
         . ($s->{features} ? '<ul class="bz-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{title}{$l}) . '</span></li>' } @{ $s->{features} }[0 .. 2]) . '</ul>' : '')
+        . ($s->{highlight} ? '<ul class="bz-new">' . join('', map { '<li><span class="bz-new-tag">' . T($l, 'biz_new') . '</span>' . icon($_->{icon}) . '<span>' . esc($_->{title}{$l}) . '</span></li>' } @{ $s->{highlight}{items} }) . '</ul>' : '')
         . ($has_page->($s) ? '<a class="bz-link" href="' . $surl->($s) . '">' . T($l, 'biz_more') . ': ' . esc($s->{name}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : '')
         . '</div>' . ($k ? '<div class="bz-row-visual">' . biz_mock($l, $k) . '</div>' : '') . '</article>' } @svc;
       my $plans = '<ul class="bz-plans">' . join('', map { my $p = $_;
@@ -1757,17 +1759,17 @@ HTML
       my $feats = '<ul class="bz-feats">' . join('', map { '<li><div class="bz-ttl"><span class="bz-ic">' . icon('check') . '</span><h3>' . esc($_->{title}{$l}) . '</h3></div><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $s->{features} }) . '</ul>';
       my $others = '<ul class="bz-cards">' . join('', map { my $o = $_;
         '<li><div class="bz-ttl"><span class="bz-ic">' . icon($o->{icon}) . '</span><h3>' . ($has_page->($o) ? '<a href="' . $surl->($o) . '">' . esc($o->{name}{$l}) . '</a>' : esc($o->{name}{$l})) . '</h3></div><p>' . esc($o->{short}{$l}) . '</p></li>' } grep { $_ ne $s } @svc) . '</ul>';
-      # features that are not built yet: always labelled "coming soon", never listed with what you get
-      my $soon = $s->{soon} ? '<div class="bz-soon">' . $head->('soon-title', T($l, 'biz_soon'), esc($s->{soon}{title}{$l}), esc($s->{soon}{intro}{$l}))
-        . '<ul class="bz-feats">' . join('', map { '<li><span class="bz-tag">' . T($l, 'biz_soon') . '</span><div class="bz-ttl"><span class="bz-ic">' . icon($_->{icon}) . '</span><h3>' . esc($_->{title}{$l}) . '</h3></div><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $s->{soon}{items} }) . '</ul>'
-        . '<p class="bz-soon-cta">' . biz_wa_link($l, 'soon', 'bz-btn bz-waghost', esc($s->{soon}{cta}{$l})) . '</p></div>' : '';
+      # the newest features, first and marked "new"
+      my $hl = $s->{highlight} ? '<div class="bz-hl">' . $head->('hl-title', T($l, 'biz_new'), esc($s->{highlight}{title}{$l}), esc($s->{highlight}{intro}{$l}))
+        . '<ul class="bz-feats">' . join('', map { '<li><span class="bz-tag">' . T($l, 'biz_new') . '</span><div class="bz-ttl"><span class="bz-ic">' . icon($_->{icon}) . '</span><h3>' . esc($_->{title}{$l}) . '</h3></div><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $s->{highlight}{items} }) . '</ul>'
+        . '<p class="bz-hl-cta">' . biz_wa_link($l, 'menu', 'bz-btn bz-wa', esc($s->{highlight}{cta}{$l})) . '</p></div>' : '';
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $s->{faq} };
       my $band = $s->{key} eq 'qr-menu' && $toolband ? qq{<section class="bz-sec" style="padding-top:0"><div class="wrap">$toolband</div></section>} : '';
       my $body = $hero->($crumbs, $s->{name}{$l}, $s->{h1}{$l}, $s->{lede}{$l}, $visual, { 'google-maps' => 'maps', 'qr-menu' => 'menu' }->{$s->{key}}) . $about . $guide . $band . <<"HTML";
 <section class="bz-sec bz-alt" aria-labelledby="feat-title"><div class="wrap">
+$hl
 @{[ $head->('feat-title', esc($s->{name}{$l}), T($l, 'biz_feats_title')) ]}
 $feats
-$soon
 </div></section>
 <section class="bz-sec" aria-labelledby="how-title"><div class="wrap">
 @{[ $head->('how-title', '', T($l, 'biz_how_title')) ]}

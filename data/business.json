@@ -184,23 +184,23 @@
       "icon": "qr",
       "name": { "en": "QR code menu", "ar": "منيو إلكتروني QR" },
       "short": {
-        "en": "An online menu behind a QR code on every table, with photos and prices you can change any time without reprinting.",
-        "ar": "منيو أونلاين بكود QR على كل ترابيزة، بالصور والأسعار، تعدّله في أي وقت من غير طباعة."
+        "en": "A QR menu with photos and prices on every table that suggests what completes each order, with group orders and split bills.",
+        "ar": "منيو QR بالصور والأسعار على كل ترابيزة، بيقترح على الزبون اللي يكمّل طلبه، وفيه طلب جماعي بتقسيم الحساب."
       },
       "seo": {
         "en": {
           "title": "Digital QR Menu for Restaurants & Cafés in Egypt",
-          "description": "Make a QR code menu for your restaurant or café: customers scan and see your dishes with photos and prices in Arabic and English. A basic menu is free."
+          "description": "A QR code menu for your restaurant or café: photos and prices in Arabic and English, suggestions that complete each order, and group orders with split bills."
         },
         "ar": {
           "title": "منيو إلكتروني باركود QR مجاني للمطاعم والكافيهات",
-          "description": "اعمل منيو إلكتروني بباركود QR لمطعمك أو الكافيه: العميل يمسح الكود ويشوف الأصناف بالصور والأسعار بالعربي والإنجليزي. المنيو الأساسي مجاني."
+          "description": "اعمل منيو إلكتروني بباركود QR لمطعمك أو الكافيه: بالصور والأسعار بالعربي والإنجليزي، واقتراحات تكمّل الطلب، وطلب جماعي بتقسيم الحساب. وفيه منيو أساسي مجاني."
         }
       },
       "h1": { "en": "A QR code menu for your restaurant or café", "ar": "منيو إلكتروني بباركود QR لمطعمك أو الكافيه" },
       "lede": {
-        "en": "An online menu with photos and prices that opens on any phone by scanning a code on the table. Update it any time, with no new printing every time a price changes.",
-        "ar": "منيو إلكتروني بالصور والأسعار، بيفتح على أي موبايل بمسح كود على الترابيزة. حدّثه في أي وقت، من غير طباعة منيو جديد كل ما السعر يتغير."
+        "en": "An online menu with photos and prices that opens on any phone by scanning a code on the table. Update it any time, with no new printing every time a price changes. It suggests what goes with each dish, and friends at one table can order together and split the bill.",
+        "ar": "منيو إلكتروني بالصور والأسعار، بيفتح على أي موبايل بمسح كود على الترابيزة. حدّثه في أي وقت، من غير طباعة منيو جديد كل ما السعر يتغير. وبيقترح على الزبون اللي يكمّل طلبه، والشلة على ترابيزة واحدة تقدر تطلب مع بعض وتقسّم الحساب."
       },
       "about": {
         "title": { "en": "What is a QR code menu?", "ar": "يعني إيه منيو إلكتروني QR؟" },
@@ -297,6 +297,20 @@
           "a": { "en": "No. They scan the code with the phone camera and the menu opens in the browser.", "ar": "لأ. بيمسح الكود بكاميرا الموبايل والمنيو بيفتح في المتصفح." }
         },
         {
+          "q": { "en": "How does the menu suggest extras?", "ar": "إزاي المنيو بيقترح على الزبون؟" },
+          "a": {
+            "en": "You choose, for each dish, the extras that go with it and their price, like fries and a drink with a burger. When a customer picks the dish, the menu offers the suggestion; they add it with one tap or carry on without it.",
+            "ar": "انت بتحدد لكل صنف الإضافات اللي تكمّله وسعرها، زي بطاطس ومشروب مع البرجر. لما الزبون يختار الصنف، المنيو يعرض عليه الاقتراح، ويضيفه بضغطة أو يكمّل من غيره."
+          }
+        },
+        {
+          "q": { "en": "How does the group order work?", "ar": "الطلب الجماعي بيشتغل إزاي؟" },
+          "a": {
+            "en": "One person at the table taps “Group order” and shares a link or QR code. Everyone adds their dishes from their own phone to the same order, and the menu splits the bill so each person sees what they owe. Nobody needs to install an app.",
+            "ar": "واحد من الترابيزة يدوس «طلب جماعي» ويشارك لينك أو QR مع صحابه. كل واحد يضيف أطباقه من موبايله في نفس الطلب، والمنيو بيقسّم الحساب وكل واحد يعرف عليه كام. ومحدش محتاج ينزّل تطبيق."
+          }
+        },
+        {
           "q": { "en": "Can I change prices later?", "ar": "أقدر أغيّر الأسعار بعدين؟" },
           "a": { "en": "Yes, any time, and the change shows on every table at once.", "ar": "أيوه في أي وقت، والتعديل بيظهر على كل الترابيزات على طول." }
         },
@@ -320,13 +334,10 @@
           "a": { "en": "On every table, at the counter, on the door and on your delivery bags.", "ar": "على كل ترابيزة، وعلى الكاشير، وعلى الباب، وعلى أكياس التوصيل." }
         }
       ],
-      "search": "qr باركود منيو menu",
-      "soon": {
-        "title": { "en": "Coming soon to the Foodidu menu", "ar": "جاي قريباً في منيو Foodidu" },
-        "intro": {
-          "en": "Two features we are adding to the menu. Want them for your restaurant? Tell us and we will let you know as soon as they are ready.",
-          "ar": "ميزتين بنضيفهم للمنيو. عايزهم لمطعمك؟ قولنا ونبلّغك أول ما يجهزوا."
-        },
+      "search": "qr باركود منيو menu منيو ذكي طلب جماعي تقسيم الحساب group order split bill",
+      "highlight": {
+        "title": { "en": "A menu that sells more: two new features", "ar": "منيو بيبيع أكتر: ميزتين جداد" },
+        "intro": { "en": "Two features in the Foodidu menu that customers notice from the first order.", "ar": "ميزتين في منيو Foodidu زباينك هيحسّوا بيهم من أول طلب." },
         "items": [
           {
             "icon": "plus",
@@ -345,7 +356,7 @@
             }
           }
         ],
-        "cta": { "en": "Tell me when it is ready", "ar": "بلّغوني أول ما تجهز" }
+        "cta": { "en": "I want this menu for my restaurant", "ar": "عايز المنيو ده لمطعمي" }
       }
     },
     {
@@ -930,8 +941,8 @@
         {
           "service": "qr-menu",
           "text": {
-            "en": "A QR menu with photos on every table: add seasonal drinks and change prices in a minute.",
-            "ar": "منيو QR بالصور على كل ترابيزة: تضيف المشروبات الموسمية وتغيّر الأسعار في دقيقة."
+            "en": "A QR menu with photos on every table: add seasonal drinks and change prices in a minute. With the group order, everyone in the group orders from their own phone and knows their share of the bill.",
+            "ar": "منيو QR بالصور على كل ترابيزة: تضيف المشروبات الموسمية وتغيّر الأسعار في دقيقة. ومع الطلب الجماعي، كل واحد في الشلة يطلب من موبايله ويعرف حسابه."
           }
         },
         {
