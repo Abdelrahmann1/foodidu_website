@@ -1637,7 +1637,7 @@ HTML
         . '<button class="anim-btn" type="button" aria-pressed="false" data-play="' . T($l, 'anim_play') . '" data-pause="' . T($l, 'anim_pause') . '" aria-label="' . T($l, 'anim_play') . '">' . icon('play', 'i-play') . icon('pause', 'i-pause') . '</button><p class="anim-cap" aria-hidden="true"></p></div>';   # the 30 s services explainer (static/js/biz-anim.js); the caption shows the scene title on phones
       my $rows = join '', map { my $s = $_; my $k = $row_mock{$s->{key}};
         '<article class="bz-row' . ($s->{featured} ? ' bz-row-main' : '') . '"><div class="bz-row-copy">' . ($s->{featured} ? '<span class="bz-tag">' . T($l, 'biz_main_tag') . '</span>' : '')
-        . '<span class="bz-ic">' . icon($s->{icon}) . '</span><h3>' . esc($s->{name}{$l}) . '</h3><p>' . esc($s->{short}{$l}) . '</p>'
+        . '<div class="bz-ttl"><span class="bz-ic">' . icon($s->{icon}) . '</span><h3>' . esc($s->{name}{$l}) . '</h3></div><p>' . esc($s->{short}{$l}) . '</p>'
         . ($s->{features} ? '<ul class="bz-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{title}{$l}) . '</span></li>' } @{ $s->{features} }[0 .. 2]) . '</ul>' : '')
         . ($has_page->($s) ? '<a class="bz-link" href="' . $surl->($s) . '">' . T($l, 'biz_more') . ': ' . esc($s->{name}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : '')
         . '</div>' . ($k ? '<div class="bz-row-visual">' . biz_mock($l, $k) . '</div>' : '') . '</article>' } @svc;
@@ -1703,9 +1703,9 @@ HTML
       my $visual = $m ? '<div class="bz-duo n' . scalar(@$m) . '">' . join('', map { biz_mock($l, $_) } @$m) . '<img class="bz-didu at-start" src="/img/mascot/didu-point.svg" alt="" width="120" height="120"></div>' : '<span class="bz-ic bz-ic-xl">' . icon($s->{icon}) . '</span>';
       my $about = $s->{about} ? qq{<section class="bz-sec" aria-labelledby="about-title"><div class="wrap bz-about"><h2 id="about-title">} . esc($s->{about}{title}{$l}) . '</h2><div>'
         . join('', map { '<p>' . esc($_->{$l}) . '</p>' } @{ $s->{about}{text} }) . '</div></div></section>' : '';
-      my $feats = '<ul class="bz-feats">' . join('', map { '<li><span class="bz-ic">' . icon('check') . '</span><h3>' . esc($_->{title}{$l}) . '</h3><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $s->{features} }) . '</ul>';
+      my $feats = '<ul class="bz-feats">' . join('', map { '<li><div class="bz-ttl"><span class="bz-ic">' . icon('check') . '</span><h3>' . esc($_->{title}{$l}) . '</h3></div><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $s->{features} }) . '</ul>';
       my $others = '<ul class="bz-cards">' . join('', map { my $o = $_;
-        '<li><span class="bz-ic">' . icon($o->{icon}) . '</span><h3>' . ($has_page->($o) ? '<a href="' . $surl->($o) . '">' . esc($o->{name}{$l}) . '</a>' : esc($o->{name}{$l})) . '</h3><p>' . esc($o->{short}{$l}) . '</p></li>' } grep { $_ ne $s } @svc) . '</ul>';
+        '<li><div class="bz-ttl"><span class="bz-ic">' . icon($o->{icon}) . '</span><h3>' . ($has_page->($o) ? '<a href="' . $surl->($o) . '">' . esc($o->{name}{$l}) . '</a>' : esc($o->{name}{$l})) . '</h3></div><p>' . esc($o->{short}{$l}) . '</p></li>' } grep { $_ ne $s } @svc) . '</ul>';
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $s->{faq} };
       my $band = $s->{key} eq 'qr-menu' && $toolband ? qq{<section class="bz-sec" style="padding-top:0"><div class="wrap">$toolband</div></section>} : '';
       my $body = $hero->($crumbs, $s->{name}{$l}, $s->{h1}{$l}, $s->{lede}{$l}, $visual, { 'google-maps' => 'maps', 'qr-menu' => 'menu' }->{$s->{key}}) . $about . $band . <<"HTML";
@@ -1737,7 +1737,7 @@ HTML
       my $crumbs = [[T($l, 'home'), path_for($l, '/')], ['Foodidu Business', $burl], [$tl->{name}{$l}, $turl]];
       my @colors = (['#3A280D', 'qr_c_brown'], ['#111111', 'qr_c_black'], ['#2F5310', 'qr_c_green'], ['#B42318', 'qr_c_red'], ['#1D4ED8', 'qr_c_blue']);
       my $colors = join '', map { my $i = $_; '<label style="background:' . $colors[$i][0] . '" title="' . T($l, $colors[$i][1]) . '"><input type="radio" name="qr-color" value="' . $colors[$i][0] . '"' . ($i == 0 ? ' checked' : '') . '><span class="sr-only">' . T($l, $colors[$i][1]) . '</span></label>' } 0 .. $#colors;
-      my $tips = '<ul class="bz-feats">' . join('', map { '<li><span class="bz-ic">' . icon('check') . '</span><h3>' . esc($_->{title}{$l}) . '</h3><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $tl->{tips} }) . '</ul>';
+      my $tips = '<ul class="bz-feats">' . join('', map { '<li><div class="bz-ttl"><span class="bz-ic">' . icon('check') . '</span><h3>' . esc($_->{title}{$l}) . '</h3></div><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $tl->{tips} }) . '</ul>';
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $tl->{faq} };
       my $req = ' <span class="req" aria-hidden="true">*</span>';
       my $body = <<"HTML";
