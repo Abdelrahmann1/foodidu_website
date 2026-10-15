@@ -543,6 +543,19 @@
           "badge": { "en": ["10%", "cashback"], "ar": ["10%", "كاش باك"] },
           "offer": { "en": "10% cashback on every order", "ar": "كاش باك 10% على كل طلب" },
           "terms": { "en": "10% cashback on all orders from the website or app. It applies by itself.", "ar": "كاش باك 10% على كل الطلبات من الموقع أو التطبيق، ويُطبَّق تلقائياً." }
+        },
+        {
+          "code": "",
+          "noCode": true,
+          "badge": { "en": ["580 EGP", "bundle"], "ar": ["580 جنيه", "باندل"] },
+          "offer": {
+            "en": "Everything is Mix bundle: 2 double burgers (200 g) + 2 loaded fries + 2 colas for 580 EGP instead of 710",
+            "ar": "باندل Everything is Mix: 2 دبل برجر 200 جم + 2 لوديد فرايز + 2 كولا بـ 580 جنيه بدل 710"
+          },
+          "terms": {
+            "en": "Double American Truck (200 g), Double So Classic (200 g), 2 Loaded Fries and 2 colas for 580 EGP instead of 710 EGP. Order from any branch, the website or app, or delivery on 19887.",
+            "ar": "دبل أمريكان تراك 200 جم ودبل سو كلاسيك 200 جم و2 لوديد فرايز و2 كولا بـ 580 جنيه بدل 710 جنيه. اطلب من أقرب فرع أو من الموقع أو التطبيق أو دليفري على 19887."
+          }
         }
       ],
       "where": { "en": "the Just Smash website or app", "ar": "موقع أو تطبيق جست سماش" },
