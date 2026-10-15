@@ -220,7 +220,7 @@ my %S = (
   biz_form_t1 => 'No commitment', biz_form_t2 => 'Start with one service', biz_form_t3 => 'Add more whenever you like',
   biz_foot_blurb => 'Tools for restaurants and cafés in Egypt: a QR menu, a loyalty program, an ordering website and visibility on Foodidu.', biz_foot_svc => 'Services', biz_foot_main => 'Promo codes on Foodidu',
   biz_mock_menu => 'Example: a QR menu on a phone', biz_mock_card => 'Example: a digital loyalty card', biz_mock_stand => 'Example: a QR code on a table', biz_mock_web => 'Example: an ordering website', biz_mock_tk => 'Example: a promo code on Foodidu', biz_mock_maps => 'Example: a restaurant on Google Maps',
-  qr_nav => 'Free QR code', qr_pill => 'Free tool', qr_link => 'Your menu link', qr_link_hint => 'Your website, a PDF on Google Drive, your Instagram page or your page on a delivery app.',
+  qr_nav => 'Free QR code', qr_pill => 'Free tool', qr_link => 'Your menu link or any link', qr_link_hint => 'A website, a PDF on Google Drive, a Facebook or Instagram page, or a WhatsApp number like 01012345678.', biz_search_o => 'QR menu, loyalty, ordering website and Google Maps for restaurants',
   qr_name => 'Restaurant name', qr_name_ph => 'Your restaurant', qr_table => 'Table number', qr_text => 'Text under the code',
   qr_text_def => 'Scan for the menu', qr_style => 'Card style', qr_style_sun => 'Foodidu yellow', qr_style_white => 'Simple white',
   qr_color => 'Code colour', qr_c_brown => 'Brown', qr_c_black => 'Black', qr_c_green => 'Green',
@@ -377,7 +377,7 @@ my %S = (
   biz_form_t1 => 'من غير أي التزام', biz_form_t2 => 'ابدأ بخدمة واحدة', biz_form_t3 => 'وزوّد الباقي وقت ما تحب',
   biz_foot_blurb => 'أدوات للمطاعم والكافيهات في مصر: منيو QR، وبرنامج ولاء، وموقع طلبات، وظهور على Foodidu.', biz_foot_svc => 'الخدمات', biz_foot_main => 'أكواد الخصم على Foodidu',
   biz_mock_menu => 'مثال: منيو QR على الموبايل', biz_mock_card => 'مثال: كارت ولاء إلكتروني', biz_mock_stand => 'مثال: كود QR على الترابيزة', biz_mock_web => 'مثال: موقع طلبات', biz_mock_tk => 'مثال: كود خصم على Foodidu', biz_mock_maps => 'مثال: مطعم على جوجل ماب',
-  qr_nav => 'كود QR مجاني', qr_pill => 'أداة مجانية', qr_link => 'لينك المنيو', qr_link_hint => 'موقعك، أو ملف PDF على Google Drive، أو صفحة الإنستجرام، أو صفحتك على تطبيق توصيل.',
+  qr_nav => 'كود QR مجاني', qr_pill => 'أداة مجانية', qr_link => 'لينك المنيو أو أي لينك', qr_link_hint => 'موقع، أو ملف PDF على Google Drive، أو صفحة فيسبوك أو إنستجرام، أو رقم واتساب زي 01012345678.', biz_search_o => 'منيو QR وولاء وموقع طلبات وجوجل ماب للمطاعم',
   qr_name => 'اسم المطعم', qr_name_ph => 'مطعمك', qr_table => 'رقم الترابيزة', qr_text => 'الجملة اللي تحت الكود',
   qr_text_def => 'امسح الكود وشوف المنيو', qr_style => 'شكل الكارت', qr_style_sun => 'أصفر Foodidu', qr_style_white => 'أبيض بسيط',
   qr_color => 'لون الكود', qr_c_brown => 'بني', qr_c_black => 'أسود', qr_c_green => 'أخضر',
@@ -881,10 +881,20 @@ sub offers_of {
     lastVerified => (exists $_->{lastVerified} ? $_->{lastVerified} : $b->{lastVerified}) } } grep { !$_->{until} || $_->{until} ge $TODAY } @{ $b->{moreCodes} // [] });   # "until": gone after that day
 }
 sub offers_text { my ($b, $l) = @_; join ' · ', map { $_->{offer}{$l} } offers_of($b) }
-sub search_index {
-  my ($l) = @_;
+sub search_index {   # $biz: + the Foodidu Business pages (home page only: the codes page is at its size limit)
+  my ($l, $biz) = @_;
   [ (map { my $b = $_; { n => $b->{name}{$l}, s => join(' ', $b->{name}{en}, $b->{name}{ar}, map { $_->{code} } offers_of($b)), u => brand_url($b, $l), l => logo_src($b), o => offers_text($b, $l) } } @BRANDS),
-    (map { my $r = $_; { n => $r->{name}{$l}, s => join(' ', $r->{name}{en}, $r->{name}{ar}, $r->{key}), u => rest_url($r, $l), l => logo_src($r), o => noffers($l, scalar @{ $r->{offers} }) . ' · ' . T($l, 'ro_from', min => fmt_n(rest_min($r))) } } @RESTS) ];
+    (map { my $r = $_; { n => $r->{name}{$l}, s => join(' ', $r->{name}{en}, $r->{name}{ar}, $r->{key}), u => rest_url($r, $l), l => logo_src($r), o => noffers($l, scalar @{ $r->{offers} }) . ' · ' . T($l, 'ro_from', min => fmt_n(rest_min($r))) } } @RESTS),
+    ($BIZ && $biz ? biz_search($l) : ()) ];
+}
+# Foodidu Business in the site search: the landing page, each service page and the free QR tool (their "search" words in business.json)
+sub biz_search {
+  my ($l) = @_;
+  my $ic = sub { "/img/biz/ic-$_[0].svg" };
+  ({ n => 'Foodidu Business', s => 'business بيزنس للمطاعم restaurant', u => path_for($l, '/business/'), l => $ic->('store'), o => T($l, 'biz_search_o') },
+   (map { { n => $_->{name}{$l}, s => join(' ', $_->{name}{en}, $_->{name}{ar}, $_->{search} // ''), u => path_for($l, "/business/$_->{key}/"), l => $ic->($_->{icon}), o => '' } } grep { $_->{page} // 1 } @{ $BIZ->{services} }),
+   ($BIZ->{tool} ? { n => $BIZ->{tool}{name}{$l}, s => join(' ', $BIZ->{tool}{name}{en}, $BIZ->{tool}{name}{ar}, $BIZ->{tool}{search} // ''), u => path_for($l, '/business/qr-menu-generator/'), l => $ic->('qr'), o => '' } : ()));
+
 }
 my %BYKEY = map { ($_->{key} => $_) } @BRANDS;
 sub count_cat { my $c = shift; my @o = map { offers_of($_) } grep { $_->{category} eq $c } @BRANDS; scalar @o }
@@ -1188,7 +1198,7 @@ HTML
       ld => [ faq_ld(@qa), { '@type' => 'MobileApplication', name => 'Foodidu', alternateName => 'فوديدو', operatingSystem => 'Android',
         applicationCategory => 'LifestyleApplication', installUrl => $PLAY_URL, url => $PLAY_URL, description => strip_tags(T($l, 'app_sub')),
         publisher => { '@id' => "$SITE/#org" }, offers => { '@type' => 'Offer', price => '0', priceCurrency => 'EGP' } } ],
-      fd => { brands => search_index($l) }, og => "/img/og/home-$l.png");
+      fd => { brands => search_index($l, 1) }, og => "/img/og/home-$l.png");
   }
 
   # ---------- all codes
@@ -1705,6 +1715,8 @@ HTML
       my $crumbs = [[T($l, 'home'), path_for($l, '/')], ['Foodidu Business', $burl], [$s->{name}{$l}, $url]];
       my $m = $hero_mock{$s->{key}};
       my $visual = $m ? '<div class="bz-duo n' . scalar(@$m) . '">' . join('', map { biz_mock($l, $_) } @$m) . '<img class="bz-didu at-start" src="/img/mascot/didu-point.svg" alt="" width="120" height="120"></div>' : '<span class="bz-ic bz-ic-xl">' . icon($s->{icon}) . '</span>';
+      my $guide = $s->{guide} ? qq{<section class="bz-sec bz-alt" aria-labelledby="guide-title"><div class="wrap">} . $head->('guide-title', esc($s->{name}{$l}), esc($s->{guide}{title}{$l}), esc($s->{guide}{intro}{$l}))
+        . '<ol class="bz-guide">' . join('', map { '<li><h3>' . esc($_->{title}{$l}) . '</h3><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $s->{guide}{items} }) . '</ol></div></section>' : '';
       my $about = $s->{about} ? qq{<section class="bz-sec" aria-labelledby="about-title"><div class="wrap bz-about"><h2 id="about-title">} . esc($s->{about}{title}{$l}) . '</h2><div>'
         . join('', map { '<p>' . esc($_->{$l}) . '</p>' } @{ $s->{about}{text} }) . '</div></div></section>' : '';
       my $feats = '<ul class="bz-feats">' . join('', map { '<li><div class="bz-ttl"><span class="bz-ic">' . icon('check') . '</span><h3>' . esc($_->{title}{$l}) . '</h3></div><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $s->{features} }) . '</ul>';
@@ -1712,7 +1724,7 @@ HTML
         '<li><div class="bz-ttl"><span class="bz-ic">' . icon($o->{icon}) . '</span><h3>' . ($has_page->($o) ? '<a href="' . $surl->($o) . '">' . esc($o->{name}{$l}) . '</a>' : esc($o->{name}{$l})) . '</h3></div><p>' . esc($o->{short}{$l}) . '</p></li>' } grep { $_ ne $s } @svc) . '</ul>';
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $s->{faq} };
       my $band = $s->{key} eq 'qr-menu' && $toolband ? qq{<section class="bz-sec" style="padding-top:0"><div class="wrap">$toolband</div></section>} : '';
-      my $body = $hero->($crumbs, $s->{name}{$l}, $s->{h1}{$l}, $s->{lede}{$l}, $visual, { 'google-maps' => 'maps', 'qr-menu' => 'menu' }->{$s->{key}}) . $about . $band . <<"HTML";
+      my $body = $hero->($crumbs, $s->{name}{$l}, $s->{h1}{$l}, $s->{lede}{$l}, $visual, { 'google-maps' => 'maps', 'qr-menu' => 'menu' }->{$s->{key}}) . $about . $guide . $band . <<"HTML";
 <section class="bz-sec bz-alt" aria-labelledby="feat-title"><div class="wrap">
 @{[ $head->('feat-title', esc($s->{name}{$l}), T($l, 'biz_feats_title')) ]}
 $feats
@@ -1771,7 +1783,9 @@ HTML
 @{[ $head->('how-title', esc($tl->{name}{$l}), T($l, 'qr_how_title')) ]}
 @{[ $steps->($tl->{steps}) ]}
 </div></section>
-<section class="bz-sec" aria-labelledby="tips-title"><div class="wrap">
+@{[ $tl->{uses} ? qq{<section class="bz-sec" aria-labelledby="uses-title"><div class="wrap">} . $head->('uses-title', '', esc($tl->{uses}{title}{$l}))
+  . '<ul class="bz-feats">' . join('', map { '<li><div class="bz-ttl"><span class="bz-ic">' . icon('qr') . '</span><h3>' . esc($_->{title}{$l}) . '</h3></div><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $tl->{uses}{items} }) . '</ul></div></section>' : '' ]}
+<section class="bz-sec bz-alt" aria-labelledby="tips-title"><div class="wrap">
 @{[ $head->('tips-title', '', T($l, 'qr_tips_title')) ]}
 $tips
 </div></section>

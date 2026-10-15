@@ -3,11 +3,11 @@
   "whatsapp": { "number": "201099191074", "display": "010 9919 1074" },
   "seo": {
     "en": {
-      "title": "Foodidu Business: QR Menu, Loyalty Program & Restaurant Website",
+      "title": "QR Menu, Loyalty Program & Restaurant Website | Foodidu Business",
       "description": "A QR menu, a loyalty program that brings customers back, your own ordering website and app, and visibility on Foodidu, all in one place. Start free."
     },
     "ar": {
-      "title": "Foodidu Business: منيو إلكتروني QR وبرنامج ولاء للمطاعم",
+      "title": "منيو إلكتروني QR وبرنامج ولاء للمطاعم | Foodidu Business",
       "description": "كل أدوات مطعمك في مكان واحد: منيو إلكتروني QR، وبرنامج ولاء العملاء، وموقع وتطبيق طلبات باسمك، وظهور على Foodidu. ابدأ مجاناً بكود خصم حصري."
     }
   },
@@ -77,6 +77,32 @@
           }
         ]
       },
+      "guide": {
+        "title": { "en": "Reward ideas that work in restaurants and cafés", "ar": "أفكار مكافآت بتنجح في المطاعم والكافيهات" },
+        "intro": { "en": "Keep the reward simple and close enough that customers feel they can reach it:", "ar": "خلي المكافأة بسيطة وقريبة، عشان العميل يحس إنه يقدر يوصلها:" },
+        "items": [
+          {
+            "title": { "en": "A free drink after a few visits", "ar": "مشروب ببلاش بعد كام زيارة" },
+            "text": { "en": "The classic stamp card: 8 to 10 visits works well for cafés.", "ar": "كارت الأختام المعروف: من 8 لـ 10 زيارات بتنفع جداً مع الكافيهات." }
+          },
+          {
+            "title": { "en": "A free side with the next order", "ar": "صنف جانبي ببلاش مع الطلب الجاي" },
+            "text": { "en": "Fries, a dessert or a drink: cheap for you, nice for the customer.", "ar": "بطاطس أو حلو أو مشروب: تكلفته قليلة عليك وحلو عند العميل." }
+          },
+          {
+            "title": { "en": "A birthday treat", "ar": "هدية في عيد الميلاد" },
+            "text": { "en": "A discount or a dessert on the customer's birthday brings them back with friends.", "ar": "خصم أو حلو في عيد ميلاد العميل بيرجّعه ومعاه صحابه." }
+          },
+          {
+            "title": { "en": "Double points on quiet days", "ar": "نقاط مضاعفة في الأيام الهادية" },
+            "text": { "en": "Bring customers on the days your tables are empty.", "ar": "جيب العملاء في الأيام اللي الترابيزات فيها فاضية." }
+          },
+          {
+            "title": { "en": "A welcome-back reward", "ar": "مكافأة على الزيارة التانية" },
+            "text": { "en": "A small reward for coming back within a week turns a first visit into a habit.", "ar": "مكافأة صغيرة لو العميل رجع خلال أسبوع بتحوّل أول زيارة لعادة." }
+          }
+        ]
+      },
       "features": [
         {
           "title": { "en": "Points or stamps", "ar": "نقاط أو أختام" },
@@ -142,8 +168,16 @@
         {
           "q": { "en": "Which plan includes the loyalty program?", "ar": "برنامج الولاء في أنهي باقة؟" },
           "a": { "en": "The Growth and Pro plans.", "ar": "في باقة النمو والباقة الاحترافية." }
+        },
+        {
+          "q": { "en": "Points or stamps: which is better?", "ar": "نقاط ولا أختام: أنهي أحسن؟" },
+          "a": {
+            "en": "Stamps are simpler for cafés and small repeat orders; points suit restaurants where order values vary a lot.",
+            "ar": "الأختام أبسط للكافيهات والطلبات الصغيرة المتكررة، والنقاط أنسب للمطاعم اللي قيمة الطلب فيها بتفرق كتير."
+          }
         }
-      ]
+      ],
+      "search": "ولاء loyalty نقاط اختام"
     },
     {
       "key": "qr-menu",
@@ -182,6 +216,31 @@
           {
             "en": "On Foodidu Business, a basic QR menu is free in the Starter plan, in exchange for an exclusive promo code for Foodidu users. A menu in your own design, with photos of your dishes, is part of the Growth plan.",
             "ar": "على Foodidu Business، المنيو الأساسي مجاني في الباقة الأساسية، مقابل كود خصم حصري لعملاء Foodidu. والمنيو بتصميمك وصور أصنافك في باقة النمو."
+          }
+        ]
+      },
+      "guide": {
+        "title": { "en": "Make a QR menu yourself in 4 steps", "ar": "اعمل منيو QR بنفسك في 4 خطوات" },
+        "intro": { "en": "If your menu is already online, you can have a code on your tables today:", "ar": "لو المنيو بتاعك أونلاين، تقدر يبقى عندك كود على الترابيزات النهارده:" },
+        "items": [
+          {
+            "title": { "en": "Put your menu online", "ar": "حط المنيو أونلاين" },
+            "text": { "en": "A page on your website, or a PDF on Google Drive shared with anyone who has the link.", "ar": "صفحة على موقعك، أو ملف PDF على Google Drive متاح لأي حد معاه اللينك." }
+          },
+          {
+            "title": { "en": "Make the code with our free tool", "ar": "اعمل الكود بأداتنا المجانية" },
+            "text": { "en": "Paste the link, add your name and table number, and download the card.", "ar": "حط اللينك، واكتب اسم المطعم ورقم الترابيزة، ونزّل الكارت." }
+          },
+          {
+            "title": { "en": "Print and test", "ar": "اطبع وجرّب" },
+            "text": {
+              "en": "Keep the code at least 3 cm wide and scan it with two different phones before printing many.",
+              "ar": "خلي الكود 3 سم على الأقل، وامسحه بموبايلين مختلفين قبل ما تطبع كمية."
+            }
+          },
+          {
+            "title": { "en": "Place it where people wait", "ar": "حطه في الأماكن اللي الناس بتستنى فيها" },
+            "text": { "en": "On the tables, the counter, the door and your delivery bags.", "ar": "على الترابيزات، والكاشير، والباب، وأكياس التوصيل." }
           }
         ]
       },
@@ -251,8 +310,17 @@
         {
           "q": { "en": "Does it work for cafés too?", "ar": "ينفع للكافيهات؟" },
           "a": { "en": "Yes. It works for cafés, restaurants, bakeries, cloud kitchens and food trucks.", "ar": "أيوه. بيناسب الكافيهات والمطاعم والمخابز والمطابخ السحابية وعربيات الأكل." }
+        },
+        {
+          "q": { "en": "Does a digital menu need internet?", "ar": "المنيو الإلكتروني محتاج إنترنت؟" },
+          "a": { "en": "Yes. The customer opens it on their phone, so they need mobile data or your Wi-Fi.", "ar": "أيوه. العميل بيفتحه من موبايله، فمحتاج نت على الموبايل أو الواي فاي بتاع المطعم." }
+        },
+        {
+          "q": { "en": "Where should I put the QR code?", "ar": "أحط كود الـ QR فين؟" },
+          "a": { "en": "On every table, at the counter, on the door and on your delivery bags.", "ar": "على كل ترابيزة، وعلى الكاشير، وعلى الباب، وعلى أكياس التوصيل." }
         }
-      ]
+      ],
+      "search": "qr باركود منيو menu"
     },
     {
       "key": "restaurant-website",
@@ -284,6 +352,32 @@
           {
             "en": "Your website also shows up on Google when people search for your restaurant's name, with your menu, branches and offers in one place.",
             "ar": "وكمان موقعك بيظهر في جوجل لما الناس تدوّر على اسم مطعمك، وفيه المنيو والفروع والعروض في مكان واحد."
+          }
+        ]
+      },
+      "guide": {
+        "title": { "en": "What your restaurant website needs", "ar": "إيه اللي لازم يكون في موقع مطعمك" },
+        "intro": { "en": "A good restaurant website answers what customers want in a few seconds:", "ar": "موقع المطعم الكويس بيجاوب العميل على اللي عايزه في ثواني:" },
+        "items": [
+          {
+            "title": { "en": "The menu with prices and photos", "ar": "المنيو بالأسعار والصور" },
+            "text": { "en": "The first thing most visitors look for.", "ar": "أول حاجة أغلب الزوار بيدوّروا عليها." }
+          },
+          {
+            "title": { "en": "A clear order button", "ar": "زرار طلب واضح" },
+            "text": { "en": "Delivery or pickup, on every page and easy to tap on a phone.", "ar": "توصيل أو استلام، في كل صفحة وسهل تدوس عليه من الموبايل." }
+          },
+          {
+            "title": { "en": "Hours, address and map", "ar": "المواعيد والعنوان والخريطة" },
+            "text": { "en": "So nobody arrives to a closed door.", "ar": "عشان محدش ييجي ويلاقي المكان مقفول." }
+          },
+          {
+            "title": { "en": "Phone and WhatsApp", "ar": "التليفون والواتساب" },
+            "text": { "en": "For bookings, big orders and questions.", "ar": "للحجز والطلبات الكبيرة والأسئلة." }
+          },
+          {
+            "title": { "en": "Your offers and promo code", "ar": "عروضك وكود الخصم" },
+            "text": { "en": "Give visitors a reason to order now.", "ar": "ادي الزائر سبب يطلب دلوقتي." }
           }
         ]
       },
@@ -339,8 +433,16 @@
         {
           "q": { "en": "Does it show my menu and offers?", "ar": "هيعرض المنيو والعروض بتاعتي؟" },
           "a": { "en": "Yes, the same menu as your QR menu, with your offers and loyalty rewards.", "ar": "أيوه، نفس منيو الـ QR، ومعاه عروضك ومكافآت الولاء." }
+        },
+        {
+          "q": { "en": "Will my website show up on Google?", "ar": "موقعي هيظهر في جوجل؟" },
+          "a": {
+            "en": "We build the pages so Google can read them well. Showing up in results takes time, and no one can guarantee a position.",
+            "ar": "بنجهّز الصفحات عشان جوجل يقدر يقراها كويس. الظهور في النتايج بياخد وقت، ومحدش يقدر يضمن ترتيب."
+          }
         }
-      ]
+      ],
+      "search": "موقع website تطبيق app"
     },
     {
       "key": "google-maps",
@@ -375,6 +477,51 @@
           {
             "en": "We only work with real reviews from real customers. Bought or written reviews break Google's rules: Google removes them and can suspend the whole profile, so we never write them.",
             "ar": "إحنا بنشتغل بالتقييمات الحقيقية من العملاء الحقيقيين بس. التقييمات المشتراة أو المكتوبة ضد قواعد جوجل: جوجل بيمسحها وممكن يوقف الصفحة كلها، عشان كده عمرنا ما بنكتبها."
+          }
+        ]
+      },
+      "guide": {
+        "title": { "en": "How to add your restaurant to Google Maps", "ar": "إزاي تضيف مطعمك على جوجل ماب" },
+        "intro": {
+          "en": "Adding a business to Google Maps is free. These are the steps, whether you do it yourself or with us:",
+          "ar": "إضافة النشاط على جوجل ماب مجانية. دي الخطوات، سواء هتعملها بنفسك أو معانا:"
+        },
+        "items": [
+          {
+            "title": { "en": "Open Google Business Profile", "ar": "افتح Google Business Profile" },
+            "text": {
+              "en": "Go to business.google.com and sign in with the Google account you will manage the restaurant with.",
+              "ar": "ادخل على business.google.com وسجّل دخول بحساب جوجل اللي هتدير بيه المطعم."
+            }
+          },
+          {
+            "title": { "en": "Write the name exactly as on your sign", "ar": "اكتب الاسم زي اليافطة بالظبط" },
+            "text": { "en": "Then pick the main category, like Restaurant, Café or Bakery.", "ar": "وبعدين اختار التصنيف الأساسي، زي مطعم أو كافيه أو مخبز." }
+          },
+          {
+            "title": { "en": "Put the pin in the right place", "ar": "حط الدبوس في المكان الصح" },
+            "text": {
+              "en": "Mark your entrance on the map. A cloud kitchen can hide its address and set the areas it delivers to.",
+              "ar": "حدد مدخل المطعم على الخريطة. والمطبخ السحابي يقدر يخفي العنوان ويحدد مناطق التوصيل."
+            }
+          },
+          {
+            "title": { "en": "Add your phone and links", "ar": "ضيف التليفون واللينكات" },
+            "text": { "en": "Your phone number, your website or menu link, and your ordering link if you have one.", "ar": "رقم التليفون، ولينك موقعك أو المنيو، ولينك الطلب لو عندك." }
+          },
+          {
+            "title": { "en": "Verify the business", "ar": "وثّق النشاط" },
+            "text": {
+              "en": "Google asks you to verify with one of the ways it offers you, such as a call, a text or a short video of the place. It can take from a few days to a few weeks.",
+              "ar": "جوجل بيطلب توثيق بطريقة من اللي بيعرضها عليك، زي مكالمة أو رسالة أو فيديو قصير للمكان. وده ممكن ياخد من أيام لأسابيع."
+            }
+          },
+          {
+            "title": { "en": "Complete the profile and ask for reviews", "ar": "كمّل الصفحة واطلب تقييمات" },
+            "text": {
+              "en": "Add opening hours, real photos and your menu, then put a “Rate us” card on your tables so happy customers review you.",
+              "ar": "ضيف المواعيد والصور الحقيقية والمنيو، وبعدين حط كارت «قيّمنا» على الترابيزات عشان العملاء المبسوطين يقيّموك."
+            }
           }
         ]
       },
@@ -446,8 +593,20 @@
         {
           "q": { "en": "Can I make the “Rate us” card myself?", "ar": "أقدر أعمل كارت «قيّمنا» بنفسي؟" },
           "a": { "en": "Yes, with our free QR tool: paste your Google review link instead of your menu link.", "ar": "أيوه، بأداة الـ QR المجانية: حط لينك التقييم بتاعك على جوجل بدل لينك المنيو." }
+        },
+        {
+          "q": { "en": "Is adding my restaurant to Google Maps free?", "ar": "إضافة المطعم على جوجل ماب مجانية؟" },
+          "a": {
+            "en": "Yes. A Google Business Profile is free. We charge only if you want us to set it up and manage it for you.",
+            "ar": "أيوه. صفحة النشاط على جوجل مجانية. إحنا بناخد مقابل بس لو عايزنا نجهّزها وندير الصفحة بدالك."
+          }
+        },
+        {
+          "q": { "en": "How long does verification take?", "ar": "التوثيق بياخد وقت قد إيه؟" },
+          "a": { "en": "It depends on the way Google offers you: it can be a few days, sometimes a few weeks.", "ar": "على حسب الطريقة اللي جوجل بيعرضها عليك: ممكن كام يوم، وأحياناً كام أسبوع." }
         }
-      ]
+      ],
+      "search": "google maps جوجل ماب تقييمات reviews"
     },
     {
       "key": "visibility",
@@ -549,18 +708,49 @@
     "name": { "en": "Free QR code menu generator", "ar": "مولّد كود QR للمنيو مجاناً" },
     "seo": {
       "en": {
-        "title": "Free QR Code Menu Generator: Make a Menu QR Code",
-        "description": "Paste your restaurant menu link and get a QR code ready to print for your tables. Free, no sign-up: download it as an image or print table cards."
+        "title": "Free QR Code Generator for Menus & Any Link, No Expiry",
+        "description": "Make a free QR code that never expires for your restaurant menu, any link, a WhatsApp number, a Facebook page or a PDF. Download it or print table cards, no sign-up."
       },
       "ar": {
-        "title": "اعمل كود QR للمنيو مجاناً: مولّد باركود منيو للمطاعم",
-        "description": "حط لينك منيو مطعمك أو الكافيه وخد كود QR جاهز للطباعة على الترابيزات، مجاناً ومن غير تسجيل. نزّله صورة أو اطبعه كروت للترابيزات."
+        "title": "عمل QR Code مجاني للمنيو وأي لينك، مدى الحياة",
+        "description": "اعمل QR Code مجاني ومدى الحياة لمنيو مطعمك، أو أي لينك، أو رقم واتساب، أو صفحة فيسبوك، أو ملف PDF. نزّله صورة أو اطبعه كروت للترابيزات، من غير تسجيل."
       }
     },
-    "h1": { "en": "Make a QR code for your menu, free", "ar": "اعمل كود QR لمنيو مطعمك مجاناً" },
+    "h1": { "en": "Make a free QR code for your menu or any link", "ar": "اعمل QR Code مجاني لمنيو مطعمك أو أي لينك" },
     "lede": {
-      "en": "Paste your menu link and get a QR code with a table card ready to print, in seconds and with no sign-up.",
-      "ar": "حط لينك المنيو بتاعك، وخد كود QR وكارت ترابيزة جاهزين للطباعة، في ثواني ومن غير تسجيل."
+      "en": "Paste your menu link, any link or a WhatsApp number, and get a QR code with a table card ready to print, in seconds and with no sign-up. The code never expires.",
+      "ar": "حط لينك المنيو أو أي لينك أو رقم واتساب، وخد QR Code وكارت ترابيزة جاهزين للطباعة، في ثواني ومن غير تسجيل. والكود مش بينتهي."
+    },
+    "uses": {
+      "title": { "en": "What else can you make a code for?", "ar": "تقدر تعمل كود لإيه كمان؟" },
+      "items": [
+        {
+          "title": { "en": "Your Google reviews", "ar": "تقييماتك على جوجل" },
+          "text": { "en": "Paste your Google review link and print a “Rate us” card.", "ar": "حط لينك التقييم بتاعك على جوجل واطبع كارت «قيّمنا»." }
+        },
+        {
+          "title": { "en": "WhatsApp orders", "ar": "طلبات الواتساب" },
+          "text": { "en": "Type your WhatsApp number, like 01012345678, and the code opens a chat with you.", "ar": "اكتب رقم الواتساب، زي 01012345678، والكود هيفتح شات معاك على طول." }
+        },
+        {
+          "title": { "en": "Your Facebook or Instagram page", "ar": "صفحتك على فيسبوك أو إنستجرام" },
+          "text": { "en": "Paste the page link so customers follow you in one scan.", "ar": "حط لينك الصفحة عشان العملاء يتابعوك بمسحة واحدة." }
+        },
+        {
+          "title": { "en": "A PDF menu or catalogue", "ar": "منيو أو كتالوج PDF" },
+          "text": {
+            "en": "Upload the PDF to Google Drive, share it with anyone who has the link, and paste that link.",
+            "ar": "ارفع الملف على Google Drive، وخليه متاح لأي حد معاه اللينك، وحط اللينك ده."
+          }
+        },
+        {
+          "title": { "en": "Any web link", "ar": "أي لينك" },
+          "text": {
+            "en": "Your website, your delivery app page, a form or a video: if it opens in a browser, it works.",
+            "ar": "موقعك، أو صفحتك على تطبيق توصيل، أو فورم، أو فيديو: أي حاجة بتفتح في المتصفح بتنفع."
+          }
+        }
+      ]
     },
     "steps": [
       {
@@ -607,6 +797,10 @@
         "a": { "en": "Yes. Make as many codes as you want, with no sign-up and no mark on the code itself.", "ar": "أيوه. اعمل أكواد قد ما تحب، من غير تسجيل ومن غير أي علامة على الكود نفسه." }
       },
       {
+        "q": { "en": "Is the code free for life?", "ar": "الكود مجاني مدى الحياة؟" },
+        "a": { "en": "Yes. The link is stored inside the code itself, so it never expires and needs no subscription.", "ar": "أيوه. اللينك متسجل جوه الكود نفسه، فمش بينتهي ومش محتاج اشتراك." }
+      },
+      {
         "q": { "en": "Does the code expire?", "ar": "الكود بينتهي؟" },
         "a": { "en": "No. Your link is stored inside the code itself, so it works as long as your link works.", "ar": "لأ. اللينك متسجل جوه الكود نفسه، فهيفضل شغال طول ما اللينك بتاعك شغال." }
       },
@@ -627,7 +821,15 @@
           "en": "Any link that opens your menu: your website, a PDF on Google Drive shared with anyone who has the link, or your Instagram page.",
           "ar": "أي لينك بيفتح المنيو: موقعك، أو ملف PDF على Google Drive متاح لأي حد معاه اللينك، أو صفحة الإنستجرام."
         }
+      },
+      {
+        "q": { "en": "Can I make a QR code for a WhatsApp number?", "ar": "أقدر أعمل QR Code لرقم واتساب؟" },
+        "a": {
+          "en": "Yes. Type the number, like 01012345678, and the tool turns it into a WhatsApp link that opens a chat with you.",
+          "ar": "أيوه. اكتب الرقم، زي 01012345678، والأداة هتحوّله للينك واتساب بيفتح شات معاك."
+        }
       }
-    ]
+    ],
+    "search": "qr باركود barcode code generator واتساب"
   }
 }

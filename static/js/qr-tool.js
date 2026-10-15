@@ -21,6 +21,12 @@
   function normalise(v) {
     v = v.trim();
     if (!v) return "";
+    var digits = v.replace(/[\s()-]/g, "");
+    if (/^\+?\d{10,15}$/.test(digits)) {   // a phone number: a WhatsApp chat with it (Egyptian 01xxxxxxxxx -> 201xxxxxxxxx)
+      digits = digits.replace(/^\+/, "");
+      if (/^01\d{9}$/.test(digits)) digits = "2" + digits;
+      return "https://wa.me/" + digits;
+    }
     if (!/^[a-z][a-z0-9+.-]*:/i.test(v)) v = "https://" + v;
     try {
       var u = new URL(v);

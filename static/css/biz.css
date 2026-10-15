@@ -452,6 +452,31 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .bz-ttl + p { margin-top: 10px; }
 .bz-row-copy .bz-ttl .bz-ic { width: 52px; height: 52px; border-radius: 14px; }
 
+/* a service page's guide: numbered steps or ideas */
+.bz-guide { list-style: none; counter-reset: g; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+.bz-guide li { counter-increment: g; position: relative; padding: 22px 22px 22px 76px; border-radius: 18px; border: 1px solid var(--bz-line); background: var(--bz-bg); }
+[dir="rtl"] .bz-guide li { padding: 22px 76px 22px 22px; }
+.bz-guide li::before { content: counter(g); position: absolute; top: 20px; inset-inline-start: 20px; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--bz-sun); color: var(--bz-pri-2); font-weight: 700; }
+.bz-guide h3 { font-size: 1.1rem; line-height: 1.35; }
+.bz-guide p { margin-top: 6px; color: var(--bz-ink-2); font-size: .97rem; }
+/* phones: the titles sit in the middle */
+@media (max-width: 700px) {
+  .bz-hero .crumbs ol { justify-content: center; }
+  .bz-pill { align-self: center !important; }
+  .bz-hero h1, .bz-lede, .qr-head h1 { text-align: center; }
+  .bz-ticks { justify-content: center; }
+  .bz-head, .bz-join-copy, .bz-about > h2, .bz-cta { text-align: center; margin-inline: auto; }
+  .bz-head h2::after, .bz-join-copy h2::after { margin-inline: auto; }
+  .bz-join-copy .bz-ticks { align-items: center; }
+  .bz-join-copy img { margin-inline: auto; }
+  .bz-row-copy { text-align: center; }
+  .bz-row-copy .bz-tag { margin-inline: auto; }
+  .bz-row-copy > p { margin-inline: auto; }
+  .bz-row-copy .bz-ttl { justify-content: center; }
+  .bz-row-copy .bz-list { width: fit-content; margin-inline: auto; text-align: start; }
+  .bz-toolband { text-align: center; justify-items: center; grid-template-columns: minmax(0, 1fr); }
+}
+
 /* titles break into even lines */
 .bz-hero h1, .bz-head h2, .bz-join-copy h2, .bz-row-copy h3, .bz-cta h2 { text-wrap: balance; }
 /* the animation's scene title as text under it, on phones (static/js/biz-anim.js fills it) */
