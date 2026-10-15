@@ -553,3 +553,10 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .bz-aud a:hover { border-color: var(--bz-pri); }
 .bz-aud .icon { width: 18px; height: 18px; color: var(--bz-pri); }
 @media (max-width: 700px) { .bz-aud { justify-content: center; } .bz-aud > span { width: 100%; text-align: center; } }
+
+/* ---------- features that are coming, under what you get (always labelled "coming soon") ---------- */
+.bz-soon { margin-top: clamp(40px, 6vw, 64px); }
+.bz-soon .bz-feats li { border-style: dashed; border-color: var(--bz-line-2); background: #fff; padding-top: 30px; }
+.bz-soon .bz-tag { position: absolute; top: -12px; inset-inline-start: 20px; margin: 0; background: var(--bz-sun); color: var(--bz-pri-2); }
+.bz-soon-cta { margin-top: 20px; }
+@media (max-width: 700px) { .bz-soon-cta { text-align: center; } }

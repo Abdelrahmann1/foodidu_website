@@ -213,7 +213,7 @@ my %S = (
   biz_svc_eyebrow => 'Our services', biz_svc_title => 'Tools that grow your restaurant', biz_main_tag => 'Brings customers back',
   biz_journey_eyebrow => 'How the tools work together', biz_plans_eyebrow => 'Plans', biz_plans_title => 'Start free, grow when you are ready',
   biz_plans_sub => 'Pick a plan in the form and our team will get back to you with the details and the right price for your restaurant.', biz_plan_tag => 'Includes loyalty', biz_plan_cta => 'Choose this plan',
-  biz_form_title => 'Tell us about your restaurant', biz_feats_title => 'What you get', biz_how_title => 'How we start', biz_other_title => 'More tools for your restaurant',
+  biz_form_title => 'Tell us about your restaurant', biz_feats_title => 'What you get', biz_soon => 'Coming soon', biz_how_title => 'How we start', biz_other_title => 'More tools for your restaurant',
   biz_cta_title => 'Ready to grow your restaurant?', biz_cta_text => 'Start free with an exclusive promo code for Foodidu users, and add the tools you need when you need them.',
   biz_pill => 'For restaurants and cafés in Egypt', biz_tick1 => 'Start free', biz_tick2 => 'Arabic and English', biz_tick3 => 'Nothing for customers to download',
   biz_more => 'Learn more', biz_nav_plans => 'Plans', biz_nav_services => 'Services', biz_form_text => 'Tell us what your restaurant needs. Our team reviews every request and gets back to you with the next steps.',
@@ -235,7 +235,7 @@ my %S = (
   biz_aud_lead => 'Made for your kind of place:', biz_aud_tools => 'What Foodidu Business gives you', biz_aud_more => 'More from Foodidu Business', biz_all_svc => 'All the services',
   biz_nav_maps => 'Google Maps', foot_biz_wa => 'Restaurants, WhatsApp us:', biz_wa_msg_maps => 'Hi Foodidu Business, I would like to put my restaurant on Google Maps.',
   biz_wa_btn => 'Chat with us on WhatsApp', biz_wa_float => 'Chat with Foodidu Business on WhatsApp',
-  biz_wa_msg_info => 'Hi Foodidu Business, I would like to know more about your services for my restaurant.', biz_wa_msg_menu => 'Hi Foodidu Business, I would like an online menu for my restaurant.',
+  biz_wa_msg_info => 'Hi Foodidu Business, I would like to know more about your services for my restaurant.', biz_wa_msg_menu => 'Hi Foodidu Business, I would like an online menu for my restaurant.', biz_wa_msg_soon => 'Hi Foodidu Business, please tell me when the menu suggestions and group order are ready.',
   qr_nomenu => 'No menu link yet? <a href="{wa}" target="_blank" rel="noopener" data-track="business_whatsapp_click">Chat with us on WhatsApp</a> and we will make your online menu.',
   p_form_sub => 'Fields marked * are required.', f_services => 'Services you are interested in', f_plan => 'Plan', f_plan_ph => 'Not sure yet',
   f_business => 'Business name', f_contact => 'Contact person', f_contact_hint => 'Arabic or English letters only.', f_phone => 'Phone number', f_email => 'Email address',
@@ -371,7 +371,7 @@ my %S = (
   biz_svc_eyebrow => 'خدماتنا', biz_svc_title => 'أدوات تكبّر مطعمك', biz_main_tag => 'يرجّع عملاءك',
   biz_journey_eyebrow => 'إزاي الأدوات بتكمّل بعض', biz_plans_eyebrow => 'الباقات', biz_plans_title => 'ابدأ مجاناً، وكبّر لما تكون جاهز',
   biz_plans_sub => 'اختار الباقة في الفورم، وفريقنا يتواصل معاك بالتفاصيل والسعر المناسب لمطعمك.', biz_plan_tag => 'فيها برنامج الولاء', biz_plan_cta => 'اختار الباقة دي',
-  biz_form_title => 'احكيلنا عن مطعمك', biz_feats_title => 'هتاخد إيه', biz_how_title => 'إزاي بنبدأ', biz_other_title => 'أدوات تانية لمطعمك',
+  biz_form_title => 'احكيلنا عن مطعمك', biz_feats_title => 'هتاخد إيه', biz_soon => 'قريباً', biz_how_title => 'إزاي بنبدأ', biz_other_title => 'أدوات تانية لمطعمك',
   biz_cta_title => 'جاهز تكبّر مطعمك؟', biz_cta_text => 'ابدأ مجاناً بكود خصم حصري لعملاء Foodidu، وزوّد الأدوات اللي محتاجها وقت ما تحتاجها.',
   biz_pill => 'للمطاعم والكافيهات في مصر', biz_tick1 => 'ابدأ مجاناً', biz_tick2 => 'بالعربي والإنجليزي', biz_tick3 => 'من غير تطبيق للعميل',
   biz_more => 'اعرف أكتر', biz_nav_plans => 'الباقات', biz_nav_services => 'الخدمات', biz_form_text => 'قولّنا مطعمك محتاج إيه. فريقنا بيراجع كل طلب ويرجعلك بالخطوات الجاية.',
@@ -393,7 +393,7 @@ my %S = (
   biz_aud_lead => 'حسب نوع مكانك:', biz_aud_tools => 'Foodidu Business هيقدّملك إيه', biz_aud_more => 'كمان من Foodidu Business', biz_all_svc => 'كل الخدمات',
   biz_nav_maps => 'جوجل ماب', foot_biz_wa => 'للمطاعم، كلمنا واتساب:', biz_wa_msg_maps => 'أهلاً Foodidu Business، عايز أضيف مطعمي على جوجل ماب.',
   biz_wa_btn => 'كلمنا على واتساب', biz_wa_float => 'كلّم Foodidu Business على واتساب',
-  biz_wa_msg_info => 'أهلاً Foodidu Business، عايز أعرف أكتر عن خدماتكم لمطعمي.', biz_wa_msg_menu => 'أهلاً Foodidu Business، عايز منيو إلكتروني لمطعمي.',
+  biz_wa_msg_info => 'أهلاً Foodidu Business، عايز أعرف أكتر عن خدماتكم لمطعمي.', biz_wa_msg_menu => 'أهلاً Foodidu Business، عايز منيو إلكتروني لمطعمي.', biz_wa_msg_soon => 'أهلاً Foodidu Business، بلّغوني لما الاقتراحات الذكية والطلب الجماعي في المنيو يجهزوا.',
   qr_nomenu => 'معندكش لينك للمنيو؟ <a href="{wa}" target="_blank" rel="noopener" data-track="business_whatsapp_click">كلمنا واتساب</a> ونعملّك منيو إلكتروني.',
   p_form_sub => 'الحقول المميزة بـ * مطلوبة.', f_services => 'الخدمات اللي تهمك', f_plan => 'الباقة', f_plan_ph => 'لسه مش متأكد',
   f_business => 'اسم النشاط', f_contact => 'اسم المسؤول', f_contact_hint => 'حروف عربية أو إنجليزية فقط.', f_phone => 'رقم الهاتف', f_email => 'البريد الإلكتروني',
@@ -1757,12 +1757,17 @@ HTML
       my $feats = '<ul class="bz-feats">' . join('', map { '<li><div class="bz-ttl"><span class="bz-ic">' . icon('check') . '</span><h3>' . esc($_->{title}{$l}) . '</h3></div><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $s->{features} }) . '</ul>';
       my $others = '<ul class="bz-cards">' . join('', map { my $o = $_;
         '<li><div class="bz-ttl"><span class="bz-ic">' . icon($o->{icon}) . '</span><h3>' . ($has_page->($o) ? '<a href="' . $surl->($o) . '">' . esc($o->{name}{$l}) . '</a>' : esc($o->{name}{$l})) . '</h3></div><p>' . esc($o->{short}{$l}) . '</p></li>' } grep { $_ ne $s } @svc) . '</ul>';
+      # features that are not built yet: always labelled "coming soon", never listed with what you get
+      my $soon = $s->{soon} ? '<div class="bz-soon">' . $head->('soon-title', T($l, 'biz_soon'), esc($s->{soon}{title}{$l}), esc($s->{soon}{intro}{$l}))
+        . '<ul class="bz-feats">' . join('', map { '<li><span class="bz-tag">' . T($l, 'biz_soon') . '</span><div class="bz-ttl"><span class="bz-ic">' . icon($_->{icon}) . '</span><h3>' . esc($_->{title}{$l}) . '</h3></div><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $s->{soon}{items} }) . '</ul>'
+        . '<p class="bz-soon-cta">' . biz_wa_link($l, 'soon', 'bz-btn bz-waghost', esc($s->{soon}{cta}{$l})) . '</p></div>' : '';
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $s->{faq} };
       my $band = $s->{key} eq 'qr-menu' && $toolband ? qq{<section class="bz-sec" style="padding-top:0"><div class="wrap">$toolband</div></section>} : '';
       my $body = $hero->($crumbs, $s->{name}{$l}, $s->{h1}{$l}, $s->{lede}{$l}, $visual, { 'google-maps' => 'maps', 'qr-menu' => 'menu' }->{$s->{key}}) . $about . $guide . $band . <<"HTML";
 <section class="bz-sec bz-alt" aria-labelledby="feat-title"><div class="wrap">
 @{[ $head->('feat-title', esc($s->{name}{$l}), T($l, 'biz_feats_title')) ]}
 $feats
+$soon
 </div></section>
 <section class="bz-sec" aria-labelledby="how-title"><div class="wrap">
 @{[ $head->('how-title', '', T($l, 'biz_how_title')) ]}

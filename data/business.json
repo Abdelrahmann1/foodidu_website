@@ -320,7 +320,33 @@
           "a": { "en": "On every table, at the counter, on the door and on your delivery bags.", "ar": "على كل ترابيزة، وعلى الكاشير، وعلى الباب، وعلى أكياس التوصيل." }
         }
       ],
-      "search": "qr باركود منيو menu"
+      "search": "qr باركود منيو menu",
+      "soon": {
+        "title": { "en": "Coming soon to the Foodidu menu", "ar": "جاي قريباً في منيو Foodidu" },
+        "intro": {
+          "en": "Two features we are adding to the menu. Want them for your restaurant? Tell us and we will let you know as soon as they are ready.",
+          "ar": "ميزتين بنضيفهم للمنيو. عايزهم لمطعمك؟ قولنا ونبلّغك أول ما يجهزوا."
+        },
+        "items": [
+          {
+            "icon": "plus",
+            "title": { "en": "Smart suggestions that complete the order", "ar": "اقتراحات ذكية تكمّل الطلب" },
+            "text": {
+              "en": "When a customer picks a burger, the menu suggests what goes with it: “Add fries and a drink for 15 EGP more?” You choose the suggestions and their prices, and they help raise the value of every order.",
+              "ar": "لما الزبون يختار برجر، المنيو يقترح عليه اللي يكمّله: «تضيف بطاطس ومشروب بـ 15 جنيه زيادة؟». انت اللي بتحدد الاقتراحات وأسعارها، وبتساعدك ترفع قيمة كل طلب."
+            }
+          },
+          {
+            "icon": "basket",
+            "title": { "en": "Group order and split bill", "ar": "طلب جماعي وتقسيم الحساب" },
+            "text": {
+              "en": "One person starts a group order and shares a link or QR code. Friends at the same table add their dishes from their own phones to one shared order, and everyone sees what they owe. Fewer mistakes in big orders, and tables order faster.",
+              "ar": "واحد يبدأ «طلب جماعي» ويشارك لينك أو QR، وصحابه على نفس الترابيزة يضيفوا أطباقهم من موبايلاتهم في طلب واحد، وكل واحد يعرف حسابه. أخطاء أقل في طلبات المجموعات الكبيرة، والترابيزة تطلب أسرع."
+            }
+          }
+        ],
+        "cta": { "en": "Tell me when it is ready", "ar": "بلّغوني أول ما تجهز" }
+      }
     },
     {
       "key": "restaurant-website",
