@@ -1635,8 +1635,11 @@ HTML
       my $crumbs = [[T($l, 'home'), path_for($l, '/')], ['Foodidu Business', $burl]];
       my $stage = qq{<div class="bz-anim"><canvas class="biz-anim" data-lang="$l" width="1080" height="1080" role="img" aria-label="} . T($l, 'anim_alt') . '"></canvas>'
         . '<button class="anim-btn" type="button" aria-pressed="false" data-play="' . T($l, 'anim_play') . '" data-pause="' . T($l, 'anim_pause') . '" aria-label="' . T($l, 'anim_play') . '">' . icon('play', 'i-play') . icon('pause', 'i-pause') . '</button><p class="anim-cap" aria-hidden="true"></p></div>';   # the 30 s services explainer (static/js/biz-anim.js); the caption shows the scene title on phones
+      # all the services at a glance first (icon beside the name), each opening its details below
+      my $glance = '<ul class="bz-glance">' . join('', map { my $s = $_; '<li' . ($s->{featured} ? ' class="main"' : '') . '><a href="#svc-' . $s->{key} . '"><span class="bz-ic">' . icon($s->{icon}) . '</span>'
+        . '<span class="t"><b>' . esc($s->{name}{$l}) . '</b><small>' . esc($s->{short}{$l}) . '</small></span>' . icon('arrow', 'go flip') . '</a></li>' } @svc) . '</ul>';
       my $rows = join '', map { my $s = $_; my $k = $row_mock{$s->{key}};
-        '<article class="bz-row' . ($s->{featured} ? ' bz-row-main' : '') . '"><div class="bz-row-copy">' . ($s->{featured} ? '<span class="bz-tag">' . T($l, 'biz_main_tag') . '</span>' : '')
+        '<article class="bz-row' . ($s->{featured} ? ' bz-row-main' : '') . '" id="svc-' . $s->{key} . '"><div class="bz-row-copy">' . ($s->{featured} ? '<span class="bz-tag">' . T($l, 'biz_main_tag') . '</span>' : '')
         . '<div class="bz-ttl"><span class="bz-ic">' . icon($s->{icon}) . '</span><h3>' . esc($s->{name}{$l}) . '</h3></div><p>' . esc($s->{short}{$l}) . '</p>'
         . ($s->{features} ? '<ul class="bz-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{title}{$l}) . '</span></li>' } @{ $s->{features} }[0 .. 2]) . '</ul>' : '')
         . ($has_page->($s) ? '<a class="bz-link" href="' . $surl->($s) . '">' . T($l, 'biz_more') . ': ' . esc($s->{name}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : '')
@@ -1654,6 +1657,7 @@ HTML
       my $body = $hero->($crumbs, T($l, 'biz_pill'), $BIZ->{h1}{$l}, $BIZ->{lede}{$l}, $stage) . <<"HTML";
 <section class="bz-sec" id="services" aria-labelledby="svc-title"><div class="wrap">
 @{[ $head->('svc-title', T($l, 'biz_svc_eyebrow'), T($l, 'biz_svc_title'), '', $num->(1)) ]}
+$glance
 <div class="bz-rows">$rows</div>
 @{[ $toolband ? qq{<div style="margin-top:clamp(44px,7vw,88px)">$toolband</div>} : '' ]}
 </div></section>
