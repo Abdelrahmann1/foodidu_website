@@ -271,7 +271,7 @@
   function renderGates() {
     gate("visitors", "الزوار", "من Google Analytics.", "سجّل دخول بحساب جوجل اللي عليه Google Analytics بتاع Foodidu عشان تشوف الزوار ونسخ الأكواد والضغطات على كل براند.");
     gate("google", "جوجل", "من Google Search Console.", "سجّل دخول بنفس الحساب اللي عليه Search Console عشان تشوف كلمات البحث وترتيب صفحاتنا.");
-    if (!user) gate("applications", "طلبات الشراكة", "من الفورم في صفحة الشركاء.", "طلبات الشراكة فيها بيانات تواصل، فبتظهر بس لحساب الأدمن بعد تسجيل الدخول.");
+    if (!user) gate("applications", "طلبات الشراكة", "من فورم Foodidu Business (الكامل والسريع).", "طلبات الشراكة فيها بيانات تواصل، فبتظهر بس لحساب الأدمن بعد تسجيل الدخول.");
   }
 
   /* ---------- date range ---------- */
@@ -504,14 +504,14 @@
     const f = await loadFb();
     let docs;
     try { docs = (await f.firestore().collection("vendorApplications").orderBy("createdAt", "desc").limit(200).get()).docs.map((d) => d.data()); } catch (e) {
-      sec.replaceChildren(head("applications", "طلبات الشراكة", "من الفورم في صفحة الشركاء."),
+      sec.replaceChildren(head("applications", "طلبات الشراكة", "من فورم Foodidu Business (الكامل والسريع)."),
         el("p", { class: "dash-note", text: e.code === "permission-denied" ? "الحساب ده مش أدمن، فمش مسموح له يشوف طلبات الشراكة. الأدمن بيتحدد في firestore.rules." : "ما قدرناش نجيب الطلبات: " + e.message }));
       return;
     }
     const when = (d) => (d.createdAt && d.createdAt.toDate ? d.createdAt.toDate() : null);
     const fmt = (d) => { const w = when(d); return w ? `${w.getDate()} ${MONTHS[w.getMonth()]} ${w.getFullYear()}` : "–"; };
     const csv = () => {
-      const cols = ["createdAt", "businessName", "contactPerson", "phone", "email", "location", "businessType", "website", "language", "description"];
+      const cols = ["createdAt", "businessName", "contactPerson", "phone", "email", "location", "businessType", "website", "language", "page", "description"];
       const q = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
       const body = [cols.join(","), ...docs.map((d) => cols.map((c) => q(c === "createdAt" ? (when(d) ? when(d).toISOString() : "") : d[c])).join(","))].join("\r\n");
       const a = el("a", { href: URL.createObjectURL(new Blob(["﻿" + body], { type: "text/csv;charset=utf-8" })), download: `foodidu-partner-applications-${today()}.csv` });
@@ -522,7 +522,8 @@
       docs.length ? el("p", null, el("button", { class: "dash-btn ghost", type: "button", onclick: csv, text: "تحميل الطلبات CSV" })) : null,
       table([{ label: "التاريخ", get: fmt }, { label: "النشاط", get: (d) => d.businessName }, { label: "المسؤول", get: (d) => d.contactPerson },
         { label: "تليفون", get: (d) => el("a", { href: "tel:" + d.phone, class: "ltr", text: d.phone }) }, { label: "إيميل", get: (d) => d.email ? el("a", { href: "mailto:" + d.email, class: "ltr", text: d.email }) : "–" },
-        { label: "المكان", get: (d) => d.location || "–" }, { label: "النوع", get: (d) => d.businessType || "–" },   // the quick form only sends name, person and phone { label: "تفاصيل", get: (d) => d.description || "–" }], docs, { empty: "مفيش طلبات شراكة لسه." }));
+        { label: "المكان", get: (d) => d.location || "–" }, { label: "النوع", get: (d) => d.businessType || "–" },
+        { label: "الصفحة", get: (d) => d.page || "–" }, { label: "تفاصيل", get: (d) => d.description || "–" }], docs, { empty: "مفيش طلبات شراكة لسه." }));   // the quick form sends only name, person and phone
   }
 
   /* ---------- 6. tools & links ---------- */
