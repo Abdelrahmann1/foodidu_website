@@ -458,6 +458,7 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 [dir="rtl"] .bz-guide li { padding: 22px 76px 22px 22px; }
 .bz-guide li::before { content: counter(g); position: absolute; top: 20px; inset-inline-start: 20px; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--bz-sun); color: var(--bz-pri-2); font-weight: 700; }
 .bz-guide.two { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+[dir="rtl"] .bz-guide li::before { content: counter(g, arabic-indic); }
 .bz-guide h3 { font-size: 1.1rem; line-height: 1.35; }
 .bz-guide p { margin-top: 6px; color: var(--bz-ink-2); font-size: .97rem; }
 /* phones: the titles sit in the middle */
@@ -624,10 +625,25 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
   .bz-print, .bz-more-link { text-align: center; }
   .bz-goals img { width: 84px; bottom: -28px; }
 }
-/* "Print the plan": only the 30-day plan on the page */
+/* tables in the guides: menu sizes, and the empty sheet to print */
+.bz-table-wrap { overflow-x: auto; border-radius: 18px; border: 1px solid var(--bz-line); background: #fff; }
+.bz-table { width: 100%; border-collapse: collapse; font-size: .97rem; }
+.bz-table th, .bz-table td { padding: 14px 16px; text-align: start; border-bottom: 1px solid var(--bz-line); vertical-align: top; }
+.bz-table thead th { background: var(--bz-sun-soft); color: var(--bz-pri-2); font-weight: 700; white-space: nowrap; }
+.bz-table tbody th { color: var(--bz-pri-2); white-space: nowrap; }
+.bz-table tbody tr:last-child > * { border-bottom: 0; }
+.bz-sheet td { height: 42px; border-inline-start: 1px solid var(--bz-line); }
+.bz-sheet thead th + th { border-inline-start: 1px solid var(--bz-line-2); }
+.bz-tnote { display: flex; gap: 8px; align-items: flex-start; margin-top: 14px; color: var(--bz-ink-2); font-size: .95rem; }
+.bz-tnote .icon { flex: none; width: 18px; height: 18px; margin-top: 3px; color: var(--bz-leaf); }
+.bz-example { margin-top: 18px; padding: 20px 22px; border-radius: 18px; background: var(--bz-sun-soft); border: 1.5px dashed var(--bz-sun-2); }
+.bz-example h3 { font-size: 1.05rem; color: var(--bz-pri-2); }
+.bz-example ul { margin-top: 8px; padding-inline-start: 20px; display: grid; gap: 6px; color: var(--bz-ink-2); }
+/* "Print": only the section the button belongs to */
 @media print {
-  body.print-plan > :not(main), body.print-plan main > :not(#plan), body.print-plan .bz-print { display: none !important; }
-  body.print-plan #plan { padding: 0; }
-  body.print-plan .bz-weeks { grid-template-columns: 1fr 1fr; }
-  body.print-plan .bz-weeks article { break-inside: avoid; }
+  body.printing > :not(main), body.printing main > :not(.print-target), body.printing .bz-print { display: none !important; }
+  body.printing .print-target { padding: 0 !important; background: #fff !important; }
+  body.printing .bz-weeks { grid-template-columns: 1fr 1fr; }
+  body.printing .bz-weeks article, body.printing tr { break-inside: avoid; }
+  body.printing .bz-table-wrap { overflow: visible; }
 }

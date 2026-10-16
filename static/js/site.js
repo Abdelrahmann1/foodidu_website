@@ -354,13 +354,14 @@
     });
   }
 
-  /* ---------- "Print the plan": prints only that part of the page (body.print-<name>, see biz.css) ---------- */
+  /* ---------- "Print the plan / the sheet": prints only that section of the page (see .printing in biz.css) ---------- */
   document.querySelectorAll("[data-print]").forEach(function (b) {
     b.addEventListener("click", function () {
-      var c = "print-" + b.getAttribute("data-print");
-      var done = function () { document.body.classList.remove(c); window.removeEventListener("afterprint", done); };
-      document.body.classList.add(c); window.addEventListener("afterprint", done);
-      track("business_guide_print", { plan: b.getAttribute("data-print") });
+      var part = document.getElementById(b.getAttribute("data-print"));
+      if (!part) return;
+      var done = function () { document.body.classList.remove("printing"); part.classList.remove("print-target"); window.removeEventListener("afterprint", done); };
+      document.body.classList.add("printing"); part.classList.add("print-target"); window.addEventListener("afterprint", done);
+      track("business_guide_print", { part: part.id });
       window.print();
     });
   });

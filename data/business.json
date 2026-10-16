@@ -1194,188 +1194,6 @@
           "text": { "en": "Customers come back", "ar": "زبون بيرجع تاني" }
         }
       ],
-      "numbers": {
-        "title": { "en": "Before you start: know 3 numbers", "ar": "قبل ما تبدأ: اعرف 3 أرقام" },
-        "intro": { "en": "Every plan starts from where you are now, so that later you can see what worked.", "ar": "أي خطة بتبدأ من انت فين دلوقتي، عشان تشوف بعدين إيه اللي اشتغل." },
-        "items": [
-          {
-            "title": { "en": "Orders per day", "ar": "عدد الطلبات في اليوم" },
-            "text": {
-              "en": "From the till, the delivery apps or even a notebook. Compare the days: which ones are slow?",
-              "ar": "من الكاشير أو التطبيقات أو حتى كشكول. قارن الأيام ببعض: أنهي يوم ضعيف؟"
-            }
-          },
-          {
-            "title": { "en": "Average order value", "ar": "متوسط الفاتورة" },
-            "text": {
-              "en": "Total sales divided by the number of orders. Even a small rise adds up by the end of the month.",
-              "ar": "إجمالي المبيعات على عدد الطلبات. لو زاد ولو شوية، بيفرق كتير آخر الشهر."
-            }
-          },
-          {
-            "title": { "en": "Returning customers", "ar": "الزباين اللي بيرجعوا" },
-            "text": {
-              "en": "Ask “Is this your first order with us?”, or look for repeat phone numbers in your delivery orders.",
-              "ar": "اسأل الزبون «أول مرة تطلب مننا؟»، أو دوّر على أرقام التليفونات المتكررة في طلبات الدليفري."
-            }
-          }
-        ]
-      },
-      "ideas": {
-        "title": { "en": "10 marketing ideas for restaurants", "ar": "10 أفكار تسويقية للمطاعم" },
-        "intro": {
-          "en": "Each idea works on one of the three goals: new customers, bigger orders, or customers who come back.",
-          "ar": "كل فكرة بتشتغل على هدف من التلاتة: زبون جديد، أو طلب أكبر، أو زبون بيرجع."
-        },
-        "items": [
-          {
-            "title": { "en": "Complete your Google Maps profile", "ar": "كمّل صفحتك على جوجل ماب" },
-            "text": {
-              "en": "Many people choose where to eat from the map. Add real photos of your food and your place, correct hours, a working phone number and your menu link.",
-              "ar": "ناس كتير بتختار المطعم من الخريطة. حط صور حقيقية للأكل والمكان، ومواعيد مظبوطة، ورقم تليفون شغال، ولينك المنيو."
-            },
-            "tip": { "en": "Update your hours for holidays and Ramadan, so nobody finds you closed.", "ar": "حدّث المواعيد في الأعياد ورمضان، عشان محدش يروح يلاقيك قافل." },
-            "service": "google-maps"
-          },
-          {
-            "title": { "en": "Ask for reviews at the right moment", "ar": "اطلب التقييم في الوقت الصح" },
-            "text": {
-              "en": "The best time to ask is when a customer tells you they enjoyed the food. Put a “Rate us” QR card on the tables and by the till, and reply calmly to every review, even the bad ones.",
-              "ar": "أحسن وقت تطلب فيه تقييم لما الزبون يقولك إن الأكل عجبه. حط كارت «قيّمنا» بكود QR على الترابيزات وجنب الكاشير، ورد على كل التقييمات بهدوء، حتى السلبية."
-            },
-            "tip": {
-              "en": "Never pay or give gifts for reviews, and never write your own: Google removes them and can penalise the profile.",
-              "ar": "متدفعش ولا تدّي هدايا مقابل التقييم، ومتكتبش تقييمات لنفسك: جوجل بيمسحها وممكن يعاقب الصفحة."
-            },
-            "service": "google-maps"
-          },
-          {
-            "title": { "en": "A menu with photos makes choosing easier", "ar": "منيو بالصور يسهّل الاختيار" },
-            "text": {
-              "en": "Customers order faster when they can see the dish. Use real photos and a short line of ingredients, and put your most profitable dishes at the top.",
-              "ar": "الزبون بيطلب أسرع لما يشوف الصنف. حط صور حقيقية واكتب مكونات كل صنف باختصار، وخلّي الأصناف اللي بتكسب منها أكتر في أول القايمة."
-            },
-            "tip": { "en": "Change prices on a digital menu instead of printing a new one.", "ar": "غيّر الأسعار في المنيو الإلكتروني أول بأول بدل ما تطبع منيو جديد." },
-            "service": "qr-menu"
-          },
-          {
-            "title": { "en": "Suggest what completes the order", "ar": "اقترح اللي يكمّل الطلب" },
-            "text": {
-              "en": "With a burger: fries and a drink for less than buying them separately. With coffee: a dessert. The right suggestion at the right moment grows the order without feeling pushy.",
-              "ar": "مع البرجر: بطاطس ومشروب بسعر أقل من لو اتطلبوا لوحدهم. ومع القهوة: حاجة حلوة. الاقتراح الصح في الوقت الصح بيكبّر الطلب من غير ما الزبون يحس إنك بتزنّ عليه."
-            },
-            "tip": { "en": "Offer 2 or 3 clear combos instead of a long list of deals.", "ar": "اعمل 2 أو 3 كومبو واضحين بدل قايمة عروض طويلة." },
-            "service": "qr-menu"
-          },
-          {
-            "title": { "en": "A first-order offer with its own code", "ar": "عرض لأول طلب بكود خاص" },
-            "text": {
-              "en": "A simple first-order offer helps hesitant customers try you. Give each channel its own code (Facebook, Foodidu, flyers) so you know where every customer came from.",
-              "ar": "عرض بسيط لأول طلب بيشجّع اللي متردد يجرّبك. ادّي كل مكان كود مختلف (فيسبوك، Foodidu، الفلايرز)، فتعرف كل زبون جه منين."
-            },
-            "tip": { "en": "Write a clear end date and clear terms.", "ar": "اكتب مدة العرض وشروطه بوضوح." },
-            "service": "visibility"
-          },
-          {
-            "title": { "en": "A simple loyalty program", "ar": "برنامج ولاء بسيط" },
-            "text": {
-              "en": "A stamp card (the tenth is free) or points on every order. What matters is a clear reward, and customers always seeing how close they are.",
-              "ar": "كارت أختام (العاشرة ببلاش) أو نقاط على كل طلب. المهم إن المكافأة واضحة، والزبون دايماً شايف فاضله قد إيه."
-            },
-            "tip": {
-              "en": "Pick a reward that costs you little and means a lot to customers, like a drink or a dessert.",
-              "ar": "اختار مكافأة تكلفتها عليك قليلة وقيمتها عند الزبون كبيرة، زي مشروب أو حلو."
-            },
-            "service": "loyalty-program"
-          },
-          {
-            "title": { "en": "Make direct ordering easy", "ar": "خلّي الطلب المباشر سهل" },
-            "text": {
-              "en": "Delivery apps bring new customers, but every order pays a commission. Put a WhatsApp number or a direct ordering link on your bags and cards, so customers who like you order straight from you next time.",
-              "ar": "التطبيقات بتجيبلك زباين جداد، بس كل طلب عليه عمولة. حط رقم واتساب أو لينك طلب مباشر على الشنطة والكروت، عشان الزبون اللي حبّك يطلب منك على طول المرة الجاية."
-            },
-            "tip": { "en": "Give direct orders a small perk, like an extra sauce.", "ar": "ادّي الطلب المباشر ميزة صغيرة، زي صوص زيادة." },
-            "service": "restaurant-website"
-          },
-          {
-            "title": { "en": "Content from inside your kitchen", "ar": "محتوى من جوه المطبخ" },
-            "text": {
-              "en": "A short video of your best-selling dish being made, the team during the rush, or a new dish coming out. People respond to real food more than to polished designs.",
-              "ar": "فيديو قصير لتحضير الصنف الأشهر، أو الفريق وقت الزحمة، أو صنف جديد نازل. الناس بتتفاعل مع الأكل الحقيقي أكتر من التصميمات."
-            },
-            "tip": { "en": "Shoot on your phone in daylight, and post regularly rather than a lot at once.", "ar": "صوّر بالموبايل في إضاءة النهار، وانشر بانتظام أحسن من إنك تنشر كتير مرة واحدة." }
-          },
-          {
-            "title": { "en": "Offers for quiet times", "ar": "عروض للأوقات الهادية" },
-            "text": {
-              "en": "Instead of a permanent discount that eats your profit, run offers only on slow days or hours, like weekday lunch or mid-afternoon. You fill empty time without losing money at busy hours.",
-              "ar": "بدل خصم دايم ياكل من مكسبك، اعمل عروض في الأيام أو الساعات الضعيفة بس، زي غدا أيام الأسبوع أو بعد الضهر. كده بتملا وقت فاضي من غير ما تخسر في وقت الزحمة."
-            }
-          },
-          {
-            "title": { "en": "Work with your neighbours", "ar": "اشتغل مع اللي حواليك" },
-            "text": {
-              "en": "Nearby offices, universities and gyms are ready-made customers. Offer them a company lunch menu, or a discount for staff and students who show their card.",
-              "ar": "الشركات والمكاتب والجامعات والجيم اللي حواليك زباين جاهزين. اعرض عليهم منيو غدا للشركات، أو خصم للموظفين والطلبة بالكارنيه."
-            }
-          }
-        ]
-      },
-      "plan": {
-        "title": { "en": "A ready 30-day plan", "ar": "خطة 30 يوم جاهزة" },
-        "intro": { "en": "Print it, or save it as a PDF from the print button, and tick each step off as you go.", "ar": "اطبعها، أو احفظها PDF من زرار الطباعة، وعلّم على كل خطوة لما تخلصها." },
-        "weeks": [
-          {
-            "title": { "en": "Week 1: Set up the basics", "ar": "الأسبوع 1: جهّز الأساس" },
-            "tasks": [
-              { "en": "Write down your 3 numbers: orders per day, average order value, returning customers", "ar": "اكتب أرقامك الـ 3: الطلبات في اليوم، ومتوسط الفاتورة، والزباين اللي بيرجعوا" },
-              { "en": "Complete your Google Maps profile: photos, hours, phone and menu link", "ar": "كمّل صفحة جوجل ماب: صور ومواعيد ورقم ولينك المنيو" },
-              { "en": "Review your menu: real photos, most profitable dishes at the top", "ar": "راجع المنيو: صور حقيقية، والأصناف اللي بتكسب منها فوق" }
-            ]
-          },
-          {
-            "title": { "en": "Week 2: Grow every order", "ar": "الأسبوع 2: كبّر كل طلب" },
-            "tasks": [
-              { "en": "Create 2 or 3 clear combos", "ar": "اعمل 2 أو 3 كومبو واضحين" },
-              { "en": "Train your team to suggest combos and extras", "ar": "درّب الفريق يقترح الكومبو والإضافات" },
-              { "en": "Put “Rate us” cards on the tables and by the till", "ar": "حط كارت «قيّمنا» على الترابيزات وجنب الكاشير" }
-            ]
-          },
-          {
-            "title": { "en": "Week 3: Bring new customers", "ar": "الأسبوع 3: هات زباين جداد" },
-            "tasks": [
-              { "en": "A first-order offer with a different code per channel", "ar": "عرض أول طلب بكود مختلف لكل مكان" },
-              { "en": "Post 3 short videos from your kitchen", "ar": "انشر 3 فيديوهات قصيرة من المطبخ" },
-              { "en": "Talk to a nearby company, office or university", "ar": "كلّم شركة أو مكتب أو جامعة قريبة منك" }
-            ]
-          },
-          {
-            "title": { "en": "Week 4: Bring them back and measure", "ar": "الأسبوع 4: رجّعهم وقيس" },
-            "tasks": [
-              { "en": "Start a stamp card or points", "ar": "ابدأ كارت أختام أو نقاط" },
-              { "en": "Put your direct ordering number on bags and cards", "ar": "حط رقم الطلب المباشر على الشنط والكروت" },
-              { "en": "Compare your numbers with week 1 and keep what worked", "ar": "قارن أرقامك بالأسبوع الأول، وكمّل في اللي اشتغل" }
-            ]
-          }
-        ]
-      },
-      "phrases": {
-        "title": { "en": "Ready lines for your restaurant's posts", "ar": "عبارات جاهزة لإعلانات مطعمك" },
-        "intro": {
-          "en": "Change the dish, the code and the price, and use them in posts, stories and cards in the bag.",
-          "ar": "غيّر اسم الصنف والكود والسعر، واستخدمها في البوستات والستوري والكروت اللي في الشنطة."
-        },
-        "items": [
-          { "en": "Hot and fresh, from our kitchen to your door.", "ar": "سخن وطازة، من مطبخنا لباب بيتك." },
-          { "en": "Tried it once? You'll order it again. [Dish] is back!", "ar": "جربته مرة؟ هتطلبه تاني. [اسم الصنف] رجع!" },
-          { "en": "Lunch is ready. Order now and we'll handle the rest.", "ar": "غداك جاهز. اطلب دلوقتي وإحنا علينا الباقي." },
-          { "en": "Your tenth order is on us. Ask about our stamp card.", "ar": "الطلب العاشر علينا. اسأل على كارت الأختام." },
-          { "en": "First order? Use code [CODE] for [X]% off.", "ar": "أول طلب؟ استخدم كود [الكود] وخد خصم [النسبة]." },
-          { "en": "Something for everyone in the family, on one menu.", "ar": "كل العيلة هتلاقي اللي بتحبه في منيو واحد." },
-          { "en": "A free drink with any meal, today only.", "ar": "مشروب ببلاش مع أي وجبة، النهارده بس." },
-          { "en": "Tell us honestly what you think on Google. We read every word.", "ar": "قولّنا رأيك بصراحة على جوجل. بنقرا كل كلمة." }
-        ]
-      },
       "types": {
         "title": { "en": "Ideas for your kind of place", "ar": "أفكار حسب نوع مكانك" }
       },
@@ -1416,6 +1234,516 @@
         {
           "q": { "en": "Can I save the plan as a PDF?", "ar": "ينفع أحفظ الخطة PDF؟" },
           "a": { "en": "Yes. Click “Print the plan or save it as PDF” and choose “Save as PDF” in the print window.", "ar": "أيوه. دوس «اطبع الخطة أو احفظها PDF» واختار Save as PDF من شاشة الطباعة." }
+        }
+      ],
+      "sections": [
+        {
+          "id": "numbers",
+          "type": "cards",
+          "title": { "en": "Before you start: know 3 numbers", "ar": "قبل ما تبدأ: اعرف 3 أرقام" },
+          "intro": { "en": "Every plan starts from where you are now, so that later you can see what worked.", "ar": "أي خطة بتبدأ من انت فين دلوقتي، عشان تشوف بعدين إيه اللي اشتغل." },
+          "items": [
+            {
+              "title": { "en": "Orders per day", "ar": "عدد الطلبات في اليوم" },
+              "text": {
+                "en": "From the till, the delivery apps or even a notebook. Compare the days: which ones are slow?",
+                "ar": "من الكاشير أو التطبيقات أو حتى كشكول. قارن الأيام ببعض: أنهي يوم ضعيف؟"
+              }
+            },
+            {
+              "title": { "en": "Average order value", "ar": "متوسط الفاتورة" },
+              "text": {
+                "en": "Total sales divided by the number of orders. Even a small rise adds up by the end of the month.",
+                "ar": "إجمالي المبيعات على عدد الطلبات. لو زاد ولو شوية، بيفرق كتير آخر الشهر."
+              }
+            },
+            {
+              "title": { "en": "Returning customers", "ar": "الزباين اللي بيرجعوا" },
+              "text": {
+                "en": "Ask “Is this your first order with us?”, or look for repeat phone numbers in your delivery orders.",
+                "ar": "اسأل الزبون «أول مرة تطلب مننا؟»، أو دوّر على أرقام التليفونات المتكررة في طلبات الدليفري."
+              }
+            }
+          ]
+        },
+        {
+          "id": "ideas",
+          "type": "ideas",
+          "title": { "en": "10 marketing ideas for restaurants", "ar": "10 أفكار تسويقية للمطاعم" },
+          "intro": {
+            "en": "Each idea works on one of the three goals: new customers, bigger orders, or customers who come back.",
+            "ar": "كل فكرة بتشتغل على هدف من التلاتة: زبون جديد، أو طلب أكبر، أو زبون بيرجع."
+          },
+          "items": [
+            {
+              "title": { "en": "Complete your Google Maps profile", "ar": "كمّل صفحتك على جوجل ماب" },
+              "text": {
+                "en": "Many people choose where to eat from the map. Add real photos of your food and your place, correct hours, a working phone number and your menu link.",
+                "ar": "ناس كتير بتختار المطعم من الخريطة. حط صور حقيقية للأكل والمكان، ومواعيد مظبوطة، ورقم تليفون شغال، ولينك المنيو."
+              },
+              "tip": { "en": "Update your hours for holidays and Ramadan, so nobody finds you closed.", "ar": "حدّث المواعيد في الأعياد ورمضان، عشان محدش يروح يلاقيك قافل." },
+              "service": "google-maps"
+            },
+            {
+              "title": { "en": "Ask for reviews at the right moment", "ar": "اطلب التقييم في الوقت الصح" },
+              "text": {
+                "en": "The best time to ask is when a customer tells you they enjoyed the food. Put a “Rate us” QR card on the tables and by the till, and reply calmly to every review, even the bad ones.",
+                "ar": "أحسن وقت تطلب فيه تقييم لما الزبون يقولك إن الأكل عجبه. حط كارت «قيّمنا» بكود QR على الترابيزات وجنب الكاشير، ورد على كل التقييمات بهدوء، حتى السلبية."
+              },
+              "tip": {
+                "en": "Never pay or give gifts for reviews, and never write your own: Google removes them and can penalise the profile.",
+                "ar": "متدفعش ولا تدّي هدايا مقابل التقييم، ومتكتبش تقييمات لنفسك: جوجل بيمسحها وممكن يعاقب الصفحة."
+              },
+              "service": "google-maps"
+            },
+            {
+              "title": { "en": "A menu with photos makes choosing easier", "ar": "منيو بالصور يسهّل الاختيار" },
+              "text": {
+                "en": "Customers order faster when they can see the dish. Use real photos and a short line of ingredients, and put your most profitable dishes at the top.",
+                "ar": "الزبون بيطلب أسرع لما يشوف الصنف. حط صور حقيقية واكتب مكونات كل صنف باختصار، وخلّي الأصناف اللي بتكسب منها أكتر في أول القايمة."
+              },
+              "tip": { "en": "Change prices on a digital menu instead of printing a new one.", "ar": "غيّر الأسعار في المنيو الإلكتروني أول بأول بدل ما تطبع منيو جديد." },
+              "service": "qr-menu"
+            },
+            {
+              "title": { "en": "Suggest what completes the order", "ar": "اقترح اللي يكمّل الطلب" },
+              "text": {
+                "en": "With a burger: fries and a drink for less than buying them separately. With coffee: a dessert. The right suggestion at the right moment grows the order without feeling pushy.",
+                "ar": "مع البرجر: بطاطس ومشروب بسعر أقل من لو اتطلبوا لوحدهم. ومع القهوة: حاجة حلوة. الاقتراح الصح في الوقت الصح بيكبّر الطلب من غير ما الزبون يحس إنك بتزنّ عليه."
+              },
+              "tip": { "en": "Offer 2 or 3 clear combos instead of a long list of deals.", "ar": "اعمل 2 أو 3 كومبو واضحين بدل قايمة عروض طويلة." },
+              "service": "qr-menu"
+            },
+            {
+              "title": { "en": "A first-order offer with its own code", "ar": "عرض لأول طلب بكود خاص" },
+              "text": {
+                "en": "A simple first-order offer helps hesitant customers try you. Give each channel its own code (Facebook, Foodidu, flyers) so you know where every customer came from.",
+                "ar": "عرض بسيط لأول طلب بيشجّع اللي متردد يجرّبك. ادّي كل مكان كود مختلف (فيسبوك، Foodidu، الفلايرز)، فتعرف كل زبون جه منين."
+              },
+              "tip": { "en": "Write a clear end date and clear terms.", "ar": "اكتب مدة العرض وشروطه بوضوح." },
+              "service": "visibility"
+            },
+            {
+              "title": { "en": "A simple loyalty program", "ar": "برنامج ولاء بسيط" },
+              "text": {
+                "en": "A stamp card (the tenth is free) or points on every order. What matters is a clear reward, and customers always seeing how close they are.",
+                "ar": "كارت أختام (العاشرة ببلاش) أو نقاط على كل طلب. المهم إن المكافأة واضحة، والزبون دايماً شايف فاضله قد إيه."
+              },
+              "tip": {
+                "en": "Pick a reward that costs you little and means a lot to customers, like a drink or a dessert.",
+                "ar": "اختار مكافأة تكلفتها عليك قليلة وقيمتها عند الزبون كبيرة، زي مشروب أو حلو."
+              },
+              "service": "loyalty-program"
+            },
+            {
+              "title": { "en": "Make direct ordering easy", "ar": "خلّي الطلب المباشر سهل" },
+              "text": {
+                "en": "Delivery apps bring new customers, but every order pays a commission. Put a WhatsApp number or a direct ordering link on your bags and cards, so customers who like you order straight from you next time.",
+                "ar": "التطبيقات بتجيبلك زباين جداد، بس كل طلب عليه عمولة. حط رقم واتساب أو لينك طلب مباشر على الشنطة والكروت، عشان الزبون اللي حبّك يطلب منك على طول المرة الجاية."
+              },
+              "tip": { "en": "Give direct orders a small perk, like an extra sauce.", "ar": "ادّي الطلب المباشر ميزة صغيرة، زي صوص زيادة." },
+              "service": "restaurant-website"
+            },
+            {
+              "title": { "en": "Content from inside your kitchen", "ar": "محتوى من جوه المطبخ" },
+              "text": {
+                "en": "A short video of your best-selling dish being made, the team during the rush, or a new dish coming out. People respond to real food more than to polished designs.",
+                "ar": "فيديو قصير لتحضير الصنف الأشهر، أو الفريق وقت الزحمة، أو صنف جديد نازل. الناس بتتفاعل مع الأكل الحقيقي أكتر من التصميمات."
+              },
+              "tip": { "en": "Shoot on your phone in daylight, and post regularly rather than a lot at once.", "ar": "صوّر بالموبايل في إضاءة النهار، وانشر بانتظام أحسن من إنك تنشر كتير مرة واحدة." }
+            },
+            {
+              "title": { "en": "Offers for quiet times", "ar": "عروض للأوقات الهادية" },
+              "text": {
+                "en": "Instead of a permanent discount that eats your profit, run offers only on slow days or hours, like weekday lunch or mid-afternoon. You fill empty time without losing money at busy hours.",
+                "ar": "بدل خصم دايم ياكل من مكسبك، اعمل عروض في الأيام أو الساعات الضعيفة بس، زي غدا أيام الأسبوع أو بعد الضهر. كده بتملا وقت فاضي من غير ما تخسر في وقت الزحمة."
+              }
+            },
+            {
+              "title": { "en": "Work with your neighbours", "ar": "اشتغل مع اللي حواليك" },
+              "text": {
+                "en": "Nearby offices, universities and gyms are ready-made customers. Offer them a company lunch menu, or a discount for staff and students who show their card.",
+                "ar": "الشركات والمكاتب والجامعات والجيم اللي حواليك زباين جاهزين. اعرض عليهم منيو غدا للشركات، أو خصم للموظفين والطلبة بالكارنيه."
+              }
+            }
+          ]
+        },
+        {
+          "id": "plan",
+          "type": "weeks",
+          "title": { "en": "A ready 30-day plan", "ar": "خطة 30 يوم جاهزة" },
+          "intro": { "en": "Print it, or save it as a PDF from the print button, and tick each step off as you go.", "ar": "اطبعها، أو احفظها PDF من زرار الطباعة، وعلّم على كل خطوة لما تخلصها." },
+          "weeks": [
+            {
+              "title": { "en": "Week 1: Set up the basics", "ar": "الأسبوع 1: جهّز الأساس" },
+              "tasks": [
+                { "en": "Write down your 3 numbers: orders per day, average order value, returning customers", "ar": "اكتب أرقامك الـ 3: الطلبات في اليوم، ومتوسط الفاتورة، والزباين اللي بيرجعوا" },
+                { "en": "Complete your Google Maps profile: photos, hours, phone and menu link", "ar": "كمّل صفحة جوجل ماب: صور ومواعيد ورقم ولينك المنيو" },
+                { "en": "Review your menu: real photos, most profitable dishes at the top", "ar": "راجع المنيو: صور حقيقية، والأصناف اللي بتكسب منها فوق" }
+              ]
+            },
+            {
+              "title": { "en": "Week 2: Grow every order", "ar": "الأسبوع 2: كبّر كل طلب" },
+              "tasks": [
+                { "en": "Create 2 or 3 clear combos", "ar": "اعمل 2 أو 3 كومبو واضحين" },
+                { "en": "Train your team to suggest combos and extras", "ar": "درّب الفريق يقترح الكومبو والإضافات" },
+                { "en": "Put “Rate us” cards on the tables and by the till", "ar": "حط كارت «قيّمنا» على الترابيزات وجنب الكاشير" }
+              ]
+            },
+            {
+              "title": { "en": "Week 3: Bring new customers", "ar": "الأسبوع 3: هات زباين جداد" },
+              "tasks": [
+                { "en": "A first-order offer with a different code per channel", "ar": "عرض أول طلب بكود مختلف لكل مكان" },
+                { "en": "Post 3 short videos from your kitchen", "ar": "انشر 3 فيديوهات قصيرة من المطبخ" },
+                { "en": "Talk to a nearby company, office or university", "ar": "كلّم شركة أو مكتب أو جامعة قريبة منك" }
+              ]
+            },
+            {
+              "title": { "en": "Week 4: Bring them back and measure", "ar": "الأسبوع 4: رجّعهم وقيس" },
+              "tasks": [
+                { "en": "Start a stamp card or points", "ar": "ابدأ كارت أختام أو نقاط" },
+                { "en": "Put your direct ordering number on bags and cards", "ar": "حط رقم الطلب المباشر على الشنط والكروت" },
+                { "en": "Compare your numbers with week 1 and keep what worked", "ar": "قارن أرقامك بالأسبوع الأول، وكمّل في اللي اشتغل" }
+              ]
+            }
+          ],
+          "print": { "en": "Print the plan or save it as PDF", "ar": "اطبع الخطة أو احفظها PDF" }
+        },
+        {
+          "id": "phrases",
+          "type": "phrases",
+          "title": { "en": "Ready lines for your restaurant's posts", "ar": "عبارات جاهزة لإعلانات مطعمك" },
+          "intro": {
+            "en": "Change the dish, the code and the price, and use them in posts, stories and cards in the bag.",
+            "ar": "غيّر اسم الصنف والكود والسعر، واستخدمها في البوستات والستوري والكروت اللي في الشنطة."
+          },
+          "items": [
+            { "en": "Hot and fresh, from our kitchen to your door.", "ar": "سخن وطازة، من مطبخنا لباب بيتك." },
+            { "en": "Tried it once? You'll order it again. [Dish] is back!", "ar": "جربته مرة؟ هتطلبه تاني. [اسم الصنف] رجع!" },
+            { "en": "Lunch is ready. Order now and we'll handle the rest.", "ar": "غداك جاهز. اطلب دلوقتي وإحنا علينا الباقي." },
+            { "en": "Your tenth order is on us. Ask about our stamp card.", "ar": "الطلب العاشر علينا. اسأل على كارت الأختام." },
+            { "en": "First order? Use code [CODE] for [X]% off.", "ar": "أول طلب؟ استخدم كود [الكود] وخد خصم [النسبة]." },
+            { "en": "Something for everyone in the family, on one menu.", "ar": "كل العيلة هتلاقي اللي بتحبه في منيو واحد." },
+            { "en": "A free drink with any meal, today only.", "ar": "مشروب ببلاش مع أي وجبة، النهارده بس." },
+            { "en": "Tell us honestly what you think on Google. We read every word.", "ar": "قولّنا رأيك بصراحة على جوجل. بنقرا كل كلمة." }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "restaurant-menu-design",
+      "published": "2026-10-16",
+      "for": "qr-menu",
+      "name": { "en": "Restaurant menu design", "ar": "تصميم منيو مطعم" },
+      "search": "تصميم منيو مطعم تصميم منيو كافيه منيو احترافي كيفية تصميم منيو طريقة تسعير المنيو مقاس المنيو نموذج منيو menu design pricing",
+      "seo": {
+        "en": {
+          "title": "Restaurant Menu Design: 12 Tips for a Menu That Sells",
+          "description": "How to design a professional restaurant or café menu: sections, photos, descriptions, pricing, print sizes, a printable planning sheet and a free digital menu."
+        },
+        "ar": {
+          "title": "تصميم منيو مطعم: 12 نصيحة لمنيو احترافي بيبيع أكتر",
+          "description": "إزاي تصمم منيو مطعم أو كافيه احترافي: ترتيب الأقسام، والصور والوصف، وطريقة تسعير المنيو، ومقاسات المنيو المطبوع، ونموذج جاهز للطباعة، ومنيو إلكتروني مجاني."
+        }
+      },
+      "pill": { "en": "A free guide for restaurants and cafés", "ar": "دليل مجاني للمطاعم والكافيهات" },
+      "h1": { "en": "Restaurant menu design: 12 tips for a professional menu that sells more", "ar": "تصميم منيو مطعم: 12 نصيحة لمنيو احترافي بيبيع أكتر" },
+      "lede": {
+        "en": "A menu is more than a price list: it is the thing customers read most in your restaurant. This guide shows you how to organise, design and price it, printed or digital, with a ready sheet you can print and plan on.",
+        "ar": "المنيو مش مجرد قايمة أسعار: ده أكتر حاجة الزبون بيقراها في مطعمك. الدليل ده بيوريك إزاي ترتّبه وتصممه وتسعّره، مطبوع أو إلكتروني، وفيه نموذج جاهز تطبعه وتخطط عليه."
+      },
+      "goals": [
+        {
+          "icon": "menubook",
+          "text": { "en": "Customers choose faster", "ar": "الزبون يختار أسرع" }
+        },
+        {
+          "icon": "tag",
+          "text": { "en": "They order your best earners", "ar": "يطلب الأصناف اللي بتكسبك" }
+        },
+        {
+          "icon": "bolt",
+          "text": { "en": "A menu that is easy to update", "ar": "منيو سهل تحدّثه" }
+        }
+      ],
+      "sections": [
+        {
+          "id": "structure",
+          "type": "cards",
+          "title": { "en": "Before you design: organise the menu", "ar": "قبل التصميم: رتّب المنيو" },
+          "intro": { "en": "Good design can't save a messy menu. Start with the structure.", "ar": "التصميم الحلو مش هينفع لو المنيو نفسه ملخبط. ابدأ بالترتيب." },
+          "items": [
+            {
+              "title": { "en": "Sections in eating order", "ar": "أقسام بترتيب الأكل" },
+              "text": {
+                "en": "Starters, then mains, then desserts and drinks. Customers read the menu in the order they eat.",
+                "ar": "مقبلات، بعدين الأطباق الرئيسية، بعدين الحلو والمشروبات. الزبون بيقرا المنيو بنفس ترتيب ما بياكل."
+              }
+            },
+            {
+              "title": { "en": "Fewer dishes per section", "ar": "أصناف أقل في كل قسم" },
+              "text": {
+                "en": "Too many choices slow customers down. If a section is long, split it or drop the dishes nobody orders.",
+                "ar": "لما الاختيارات تكتر الزبون بيحتار وبياخد وقت أطول. لو القسم طويل، قسّمه لقسمين أو شيل الأصناف اللي محدش بيطلبها."
+              }
+            },
+            {
+              "title": { "en": "A clear name and a short description", "ar": "اسم واضح ووصف قصير" },
+              "text": {
+                "en": "A dish name people understand at once, with one line about the ingredients or how it is cooked.",
+                "ar": "اسم الصنف يتفهم من أول مرة، وتحته سطر واحد بالمكونات أو طريقة التحضير."
+              }
+            },
+            {
+              "title": { "en": "Arabic and English, kept tidy", "ar": "عربي وإنجليزي منظمين" },
+              "text": {
+                "en": "If your customers use both, write both in the same order for every dish, or make one Arabic side and one English side.",
+                "ar": "لو زباينك بيتكلموا اللغتين، اكتب الاتنين بنفس الترتيب في كل صنف، أو اعمل وش عربي ووش إنجليزي."
+              }
+            }
+          ]
+        },
+        {
+          "id": "tips",
+          "type": "ideas",
+          "title": { "en": "12 tips for a menu that sells", "ar": "12 نصيحة لتصميم منيو بيبيع" },
+          "intro": { "en": "Tips that work on printed and digital menus alike.", "ar": "نصايح بتشتغل في المنيو المطبوع والإلكتروني." },
+          "items": [
+            {
+              "title": { "en": "Put your best dishes where eyes go first", "ar": "حط أهم أصنافك في الأماكن اللي العين بتروحلها" },
+              "text": {
+                "en": "The first dish in each section and the top of the page get the most attention. Put the dishes that earn you the most there, not the cheapest ones.",
+                "ar": "أول صنف في كل قسم وأعلى الصفحة بياخدوا أكبر نصيب من الانتباه. حط فيهم الأصناف اللي بتكسب منها أكتر، مش الأرخص."
+              },
+              "tip": { "en": "Find your best earners with the planning sheet below.", "ar": "اعرف الأصناف اللي بتكسبك من نموذج التخطيط اللي تحت." }
+            },
+            {
+              "title": { "en": "Highlight just 2 or 3 dishes", "ar": "ميّز 2 أو 3 أصناف بس" },
+              "text": {
+                "en": "A box or a “Most popular” tag around two or three dishes draws the eye. Highlight everything and nothing stands out.",
+                "ar": "برواز أو علامة «الأشهر» حوالين صنفين أو تلاتة بيلفتوا النظر. لو ميّزت كل حاجة، مفيش حاجة هتبان."
+              }
+            },
+            {
+              "title": { "en": "Real photos, without overdoing it", "ar": "صور حقيقية، من غير مبالغة" },
+              "text": {
+                "en": "A real photo helps customers choose. On a printed menu, photos of your highlighted dishes are enough; on a digital menu every dish can have one.",
+                "ar": "صورة حقيقية للصنف بتساعد الزبون يختار. في المنيو المطبوع كفاية صور للأصناف المميزة، وفي المنيو الإلكتروني تقدر تحط صورة لكل صنف."
+              },
+              "tip": {
+                "en": "Shoot in daylight on a plain background, and never use internet photos of food that isn't yours.",
+                "ar": "صوّر في إضاءة النهار على خلفية بسيطة، ومتستخدمش صور من النت لأكل مش بتاعك."
+              }
+            },
+            {
+              "title": { "en": "Descriptions that make people hungry", "ar": "وصف بيشهّي" },
+              "text": {
+                "en": "Instead of “Grilled chicken”, write “Chicken marinated in lemon and garlic, grilled over charcoal”. A few words about taste and cooking make the difference.",
+                "ar": "بدل «فراخ مشوية» اكتب «فراخ متبّلة بالليمون والتوم، مشوية على الفحم». كلمتين عن الطعم وطريقة التحضير بيفرقوا."
+              }
+            },
+            {
+              "title": { "en": "Prices that don't shout", "ar": "السعر من غير ما يلفت النظر" },
+              "text": {
+                "en": "Write the price as a number after the description, without dotted lines leading to it and without sorting dishes by price, so customers choose by the food, not by the cheapest.",
+                "ar": "اكتب السعر رقم بعد الوصف، من غير خطوط نقط بتوصّل له ومن غير ترتيب الأصناف بالسعر، عشان الزبون يختار بالأكل مش بالأرخص."
+              }
+            },
+            {
+              "title": { "en": "A clear font at a comfortable size", "ar": "خط واضح ومقاس مريح" },
+              "text": {
+                "en": "An easy-to-read font, large enough, with strong contrast between text and background. Some people read your menu in dim light.",
+                "ar": "خط سهل القراية بمقاس كبير كفاية، وتباين قوي بين الكتابة والخلفية. في ناس بتقرا المنيو في إضاءة خافتة."
+              }
+            },
+            {
+              "title": { "en": "Colours from your brand", "ar": "ألوان من هوية مطعمك" },
+              "text": {
+                "en": "Use two or three colours from your logo and repeat them across the menu. Too many colours tire the eye.",
+                "ar": "استخدم لونين أو تلاتة من لوجو مطعمك وكررهم في المنيو كله. الألوان الكتير بتتعب العين."
+              }
+            },
+            {
+              "title": { "en": "Suggest what completes the order", "ar": "اقترح اللي يكمّل الطلب" },
+              "text": {
+                "en": "Next to the burger, write “Add fries and a drink for…”; next to coffee, suggest a dessert. A clear combo grows the order.",
+                "ar": "جنب البرجر اكتب «زوّد بطاطس ومشروب بـ...»، وجنب القهوة اقترح حاجة حلوة. الكومبو الواضح بيكبّر الطلب."
+              },
+              "service": "qr-menu"
+            },
+            {
+              "title": { "en": "Small marks that help", "ar": "علامات صغيرة بتساعد" },
+              "text": { "en": "Marks for spicy, vegetarian and new dishes. They save your staff a lot of questions.", "ar": "علامة للحار، والنباتي، والصنف الجديد. بتوفّر أسئلة كتير على الجرسون." }
+            },
+            {
+              "title": { "en": "For cafés: drinks in a table", "ar": "للكافيه: المشروبات في جدول" },
+              "text": {
+                "en": "Put the sizes (small, medium, large) as columns with their prices side by side, and extras like an extra shot or a milk choice on one clear line.",
+                "ar": "حط المقاسات (صغير، وسط، كبير) كعواميد وأسعارها جنب بعض، والإضافات زي الشوت الزيادة أو نوع اللبن في سطر واضح."
+              }
+            },
+            {
+              "title": { "en": "Leave white space", "ar": "سيب مساحة فاضية" },
+              "text": {
+                "en": "A crowded menu is hard to read. Space around the sections rests the eye and lets your highlighted dishes stand out.",
+                "ar": "المنيو المزحوم صعب يتقري. المسافات حوالين الأقسام بتريّح العين وبتخلّي الأصناف المميزة تبان."
+              }
+            },
+            {
+              "title": { "en": "A digital menu you update in a minute", "ar": "منيو إلكتروني تحدّثه في دقيقة" },
+              "text": {
+                "en": "With a QR menu you change a price or add a dish without reprinting, and customers see the menu with photos on their phone.",
+                "ar": "مع منيو QR تغيّر سعر أو تضيف صنف من غير ما تطبع تاني، والزبون يشوف المنيو بالصور على موبايله."
+              },
+              "tip": { "en": "The QR card on the table can carry your own design and logo with QR Premium.", "ar": "كارت الكود اللي على الترابيزة ممكن يبقى بتصميمك ولوجو مطعمك مع QR Premium." },
+              "service": "qr-menu"
+            }
+          ]
+        },
+        {
+          "id": "pricing",
+          "type": "cards",
+          "title": { "en": "How to price your menu, simply", "ar": "طريقة تسعير المنيو ببساطة" },
+          "intro": { "en": "A simple way to start, which you then adjust to your market.", "ar": "طريقة سهلة تبدأ بيها، وبعدين تظبطها على حسب السوق." },
+          "items": [
+            {
+              "title": { "en": "Work out the dish cost", "ar": "احسب تكلفة الصنف" },
+              "text": {
+                "en": "The cost of every ingredient on the plate by weight: the meat, the bread, the sauce, even the box for delivery.",
+                "ar": "تكلفة كل الخامات اللي في الطبق بالجرام: اللحمة والعيش والصوص، وحتى العلبة لو دليفري."
+              }
+            },
+            {
+              "title": { "en": "Pick a cost share", "ar": "اختار نسبة التكلفة" },
+              "text": {
+                "en": "Many restaurants keep ingredient cost at around a third of the selling price. Divide the cost by that share to get a price.",
+                "ar": "مطاعم كتير بتخلّي تكلفة الخامات حوالي تلت سعر البيع. اقسم التكلفة على النسبة دي يطلعلك السعر."
+              }
+            },
+            {
+              "title": { "en": "Compare and round", "ar": "قارن وقرّب" },
+              "text": { "en": "Check what similar places near you charge, and round to a comfortable number.", "ar": "شوف أسعار المطاعم اللي زيك في منطقتك، وقرّب السعر لرقم مريح." }
+            },
+            {
+              "title": { "en": "Review every few months", "ar": "راجع كل كام شهر" },
+              "text": {
+                "en": "Ingredient prices change. Review your costs every 3 months; it is much easier with a digital menu.",
+                "ar": "أسعار الخامات بتتغير. راجع التكلفة كل 3 شهور، وده أسهل بكتير في المنيو الإلكتروني."
+              }
+            }
+          ],
+          "example": {
+            "title": { "en": "Example", "ar": "مثال" },
+            "lines": [
+              { "en": "Burger ingredient cost: EGP 50", "ar": "تكلفة خامات البرجر: 50 جنيه" },
+              { "en": "50 ÷ 0.33 ≈ EGP 150", "ar": "50 ÷ 0.33 = حوالي 150 جنيه" },
+              { "en": "Similar places nearby charge 140 to 165, so you pick 149 or 155", "ar": "المطاعم اللي حواليك بين 140 و165، فتختار 149 أو 155" }
+            ]
+          }
+        },
+        {
+          "id": "sizes",
+          "type": "table",
+          "title": { "en": "Printed menu sizes", "ar": "مقاسات المنيو المطبوع" },
+          "intro": { "en": "The most common sizes at print shops, and what each one is for.", "ar": "أشهر المقاسات في المطابع، وكل واحد مناسب لإيه." },
+          "head": [
+            { "en": "Size", "ar": "المقاس" },
+            { "en": "In cm", "ar": "بالسنتيمتر" },
+            { "en": "Good for", "ar": "مناسب لـ" }
+          ],
+          "rows": [
+            [
+              { "en": "A4", "ar": "A4" },
+              { "en": "21 × 29.7", "ar": "21 × 29.7" },
+              { "en": "A standard table menu, one or two pages", "ar": "منيو الترابيزة العادي، صفحة أو صفحتين" }
+            ],
+            [
+              { "en": "A3 folded", "ar": "A3 مطوي" },
+              { "en": "29.7 × 42", "ar": "29.7 × 42" },
+              { "en": "A large menu with many sections, folded to A4", "ar": "منيو كبير بأقسام كتير، بيتطوي لمقاس A4" }
+            ],
+            [
+              { "en": "A5", "ar": "A5" },
+              { "en": "14.8 × 21", "ar": "14.8 × 21" },
+              { "en": "A café or drinks menu", "ar": "منيو الكافيه أو المشروبات" }
+            ],
+            [
+              { "en": "DL", "ar": "DL" },
+              { "en": "10 × 21", "ar": "10 × 21" },
+              { "en": "A delivery menu to put in the bag", "ar": "منيو الدليفري اللي بيتحط في الشنطة" }
+            ]
+          ],
+          "note": {
+            "en": "Print at 300 DPI, add 3 mm on every side for trimming (bleed), and keep text at least 5 mm from the edge.",
+            "ar": "اطبع على 300 DPI، وسيب 3 مم زيادة من كل ناحية للقص (bleed)، وخلّي الكتابة بعيدة عن الحرف 5 مم على الأقل."
+          }
+        },
+        {
+          "id": "sheet",
+          "type": "sheet",
+          "title": { "en": "A ready sheet to plan and price your menu", "ar": "نموذج جاهز لتخطيط المنيو وتسعيره" },
+          "intro": {
+            "en": "Print it or save it as a PDF, and write each dish, its cost and its price before you start designing.",
+            "ar": "اطبعه أو احفظه PDF، واكتب فيه كل صنف وتكلفته وسعره قبل ما تبدأ التصميم."
+          },
+          "cols": [
+            { "en": "Section", "ar": "القسم" },
+            { "en": "Dish", "ar": "الصنف" },
+            { "en": "Ingredient cost", "ar": "تكلفة الخامات" },
+            { "en": "Price", "ar": "السعر" },
+            { "en": "Cost ÷ price", "ar": "التكلفة ÷ السعر" }
+          ],
+          "rows": 12,
+          "print": { "en": "Print the sheet or save it as PDF", "ar": "اطبع النموذج أو احفظه PDF" }
+        }
+      ],
+      "band": {
+        "title": { "en": "Free guide: design a menu that sells more", "ar": "دليل مجاني: تصميم منيو بيبيع أكتر" },
+        "text": { "en": "12 tips, a simple pricing method, print sizes and a sheet to print.", "ar": "12 نصيحة، وطريقة تسعير بسيطة، ومقاسات الطباعة، ونموذج تطبعه." },
+        "btn": { "en": "Read the guide", "ar": "اقرأ الدليل" }
+      },
+      "faq": [
+        {
+          "q": { "en": "How do I design a professional restaurant menu?", "ar": "إزاي أصمم منيو مطعم احترافي؟" },
+          "a": {
+            "en": "Put the sections in eating order, keep each section short, write short descriptions that make people hungry, put your best earners first in each section, and use a clear font and colours from your brand. The 12 tips above go through each step.",
+            "ar": "رتّب الأقسام بترتيب الأكل، وقلّل الأصناف في كل قسم، واكتب وصف قصير بيشهّي، وحط الأصناف اللي بتكسبك في أول كل قسم، واستخدم خط واضح وألوان من هوية مطعمك. والنصايح الـ 12 اللي فوق بتشرح كل خطوة."
+          }
+        },
+        {
+          "q": { "en": "Can I get a digital menu for free?", "ar": "أقدر أعمل منيو إلكتروني مجاني؟" },
+          "a": {
+            "en": "Yes. The Foodidu Business Starter plan includes a basic QR menu for free, in return for an exclusive promo code for Foodidu users. A menu in your own design with your photos is in the Growth plan.",
+            "ar": "أيوه. الباقة الأساسية في Foodidu Business فيها منيو QR أساسي مجاناً، مقابل كود خصم حصري لعملاء Foodidu. والمنيو بتصميمك وصور أصنافك في باقة النمو."
+          }
+        },
+        {
+          "q": { "en": "What size should my menu be?", "ar": "إيه مقاس المنيو المناسب؟" },
+          "a": {
+            "en": "A4 for a standard table menu, A5 for a café or drinks menu, and DL (10 × 21 cm) for a delivery menu in the bag. If you have many sections, a folded A3.",
+            "ar": "A4 لمنيو الترابيزة العادي، وA5 للكافيه أو المشروبات، وDL (10 × 21 سم) لمنيو الدليفري اللي في الشنطة. ولو أقسامك كتير، A3 مطوي."
+          }
+        },
+        {
+          "q": { "en": "How do I price my menu?", "ar": "إزاي أسعّر أصناف المنيو؟" },
+          "a": {
+            "en": "Work out the ingredient cost of each dish and divide it by the cost share that suits you (many restaurants aim for about a third). Then compare with similar places nearby and round to a comfortable number.",
+            "ar": "احسب تكلفة خامات الصنف، واقسمها على نسبة التكلفة اللي تناسبك (مطاعم كتير بتستهدف حوالي التلت). وبعدين قارن بأسعار المطاعم اللي زيك وقرّب لرقم مريح."
+          }
+        },
+        {
+          "q": { "en": "Is a café menu different from a restaurant menu?", "ar": "منيو الكافيه بيختلف عن منيو المطعم؟" },
+          "a": {
+            "en": "Yes. A café menu is mostly drinks with sizes and extras, so a table (small, medium, large) is clearer, and the menu is usually smaller, like A5.",
+            "ar": "أيوه. الكافيه أغلبه مشروبات بمقاسات وإضافات، فالجدول (صغير، وسط، كبير) بيبقى أوضح، والمنيو غالباً أصغر، زي A5."
+          }
+        },
+        {
+          "q": { "en": "Should I design the menu myself?", "ar": "أصمم المنيو بنفسي ولا حد يصممه؟" },
+          "a": {
+            "en": "You can start yourself with these tips and the sheet above. For a digital menu in your own design with your photos, there is the Growth plan, and a QR card with your logo costs EGP 50 with QR Premium.",
+            "ar": "تقدر تبدأ بنفسك بالنصايح دي والنموذج اللي فوق. ولو عايز منيو إلكتروني بتصميمك وصورك، ده في باقة النمو، وكارت الـ QR بلوجو مطعمك بـ 50 جنيه مع QR Premium."
+          }
         }
       ]
     }
