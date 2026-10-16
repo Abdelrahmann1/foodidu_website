@@ -57,6 +57,38 @@
       }
     },
     {
+      "key": "noon-egypt",
+      "slug": "Noon-EG-PromoCode",
+      "name": { "en": "noon Egypt", "ar": "نون مصر" },
+      "logo": "noon.webp",
+      "code": "WK32",
+      "category": "shopping",
+      "region": "eg",
+      "exclusive": true,
+      "featured": true,
+      "priority": "top",
+      "url": "https://www.noon.com/egypt-en/",
+      "lastVerified": "2026-09-29",
+      "badge": { "en": ["5–7%", "off"], "ar": ["5–7%", "خصم"] },
+      "offer": { "en": "5–7% off your orders in Egypt", "ar": "خصم من 5 إلى 7% على طلباتك في مصر" },
+      "terms": { "en": "5–7% off orders on noon Egypt.", "ar": "خصم من 5 إلى 7% على الطلبات من نون مصر." },
+      "where": { "en": "the noon app or noon.com", "ar": "تطبيق نون أو موقع noon.com" },
+      "about": {
+        "en": "Shopping on noon in Egypt? This code takes 5–7% off your orders across categories such as electronics, fashion, beauty and home.",
+        "ar": "بتتسوق من نون في مصر؟ هذا الكود يمنحك خصم من 5 إلى 7% على طلباتك في أقسام مثل الإلكترونيات والأزياء والتجميل والمنزل."
+      },
+      "seo": {
+        "en": {
+          "title": "noon Egypt Promo Code: 5–7% Off Your Orders",
+          "description": "noon Egypt promo code WK32 gives you 5–7% off your orders on noon Egypt: electronics, fashion, beauty, home and more. Copy the code and save."
+        },
+        "ar": {
+          "title": "كود خصم وكوبون نون مصر: خصم من 5 إلى 7% على طلباتك",
+          "description": "كود خصم نون مصر WK32 يمنحك خصم من 5 إلى 7% على طلباتك من نون مصر: إلكترونيات وأزياء وتجميل ومنزل وأكثر. انسخ الكود ووفّر."
+        }
+      }
+    },
+    {
       "key": "noon",
       "slug": "Noon-PromoCode",
       "name": { "en": "noon", "ar": "نون" },
@@ -88,38 +120,6 @@
         "ar": {
           "title": "كود خصم وكوبون نون السعودية والخليج: كاش باك 10%",
           "description": "كود خصم نون NROH: كاش باك 10% على طلباتك من نون بحد أقصى 75 ريال، وصالح حتى 31 ديسمبر 2026. انسخ الكود واستخدمه عند الدفع في التطبيق أو الموقع."
-        }
-      }
-    },
-    {
-      "key": "noon-egypt",
-      "slug": "Noon-EG-PromoCode",
-      "name": { "en": "noon Egypt", "ar": "نون مصر" },
-      "logo": "noon.webp",
-      "code": "WK32",
-      "category": "shopping",
-      "region": "eg",
-      "exclusive": true,
-      "featured": true,
-      "priority": "top",
-      "url": "https://www.noon.com/egypt-en/",
-      "lastVerified": "2026-09-29",
-      "badge": { "en": ["5–7%", "off"], "ar": ["5–7%", "خصم"] },
-      "offer": { "en": "5–7% off your orders in Egypt", "ar": "خصم من 5 إلى 7% على طلباتك في مصر" },
-      "terms": { "en": "5–7% off orders on noon Egypt.", "ar": "خصم من 5 إلى 7% على الطلبات من نون مصر." },
-      "where": { "en": "the noon app or noon.com", "ar": "تطبيق نون أو موقع noon.com" },
-      "about": {
-        "en": "Shopping on noon in Egypt? This code takes 5–7% off your orders across categories such as electronics, fashion, beauty and home.",
-        "ar": "بتتسوق من نون في مصر؟ هذا الكود يمنحك خصم من 5 إلى 7% على طلباتك في أقسام مثل الإلكترونيات والأزياء والتجميل والمنزل."
-      },
-      "seo": {
-        "en": {
-          "title": "noon Egypt Promo Code: 5–7% Off Your Orders",
-          "description": "noon Egypt promo code WK32 gives you 5–7% off your orders on noon Egypt: electronics, fashion, beauty, home and more. Copy the code and save."
-        },
-        "ar": {
-          "title": "كود خصم وكوبون نون مصر: خصم من 5 إلى 7% على طلباتك",
-          "description": "كود خصم نون مصر WK32 يمنحك خصم من 5 إلى 7% على طلباتك من نون مصر: إلكترونيات وأزياء وتجميل ومنزل وأكثر. انسخ الكود ووفّر."
         }
       }
     },
