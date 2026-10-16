@@ -1699,7 +1699,7 @@ HTML
         . '<a class="bz-btn ' . ($p->{featured} ? 'bz-pri' : 'bz-ghost') . '" href="#join" data-track="business_plan_click" data-plan="' . $p->{key} . '">' . T($l, 'biz_plan_cta') . '</a></li>' } @{ $BIZ->{plans} }) . '</ul>';
       my $req = ' <span class="req" aria-hidden="true">*</span>';
       my $opts = join '', map { qq{<option value="$_->[0]">} . T($l, $_->[1]) . '</option>' } (['restaurant', 'f_restaurant'], ['cafe', 'f_cafe'], ['cloud-kitchen', 'f_cloud'], ['food-truck', 'f_truck'], ['bakery', 'f_bakery'], ['other', 'f_other']);
-      my $svc_checks = join '', map { '<label class="check"><input type="checkbox" name="services" value="' . esc($_->{name}{$l}) . '"' . ($_->{featured} ? ' checked' : '') . '><span>' . esc($_->{name}{$l}) . '</span></label>' } @svc;
+      my $svc_checks = join '', map { '<label class="check"><input type="checkbox" name="services" value="' . esc($_->{name}{$l}) . '"><span>' . esc($_->{name}{$l}) . '</span></label>' } @svc;   # nothing ticked in advance: a request shows only what the restaurant chose
       my $plan_opts = '<option value="">' . T($l, 'f_plan_ph') . '</option>' . join('', map { '<option value="' . $_->{key} . '">' . esc($_->{name}{$l}) . ' · ' . esc($_->{price}{$l}) . '</option>' } @{ $BIZ->{plans} });
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $BIZ->{faq} };
       my $g1 = ($BIZ->{guides} // [])->[0];
