@@ -1943,7 +1943,7 @@ HTML
     $content =~ s/\{privacy\}/path_for($l, '\/privacy-policy\/')/ge;
     my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, "${p}_title"), path_for($l, "/$slug/")]];
     my $body = qq{<section class="page-hero"><div class="wrap">} . crumbs_html($l, $crumbs) . '<h1>' . T($l, "${p}_title") . '</h1><p class="updated">'
-      . T($l, 'updated', date => ($l eq 'en' ? 'October 2026' : 'أكتوبر 2026')) . qq{</p></div></section><div class="scallop" aria-hidden="true"></div><div class="wrap legal">$content</div>};
+      . T($l, 'updated', date => ($p eq 'pr' ? fmt_date($l, '2026-10-16') : $l eq 'en' ? 'October 2026' : 'أكتوبر 2026')) . qq{</p></div></section><div class="scallop" aria-hidden="true"></div><div class="wrap legal">$content</div>};
     layout(lang => $l, key => "/$slug/", title => T($l, "${p}_seo"), desc => T($l, "${p}_desc"), body => $body, crumbs => $crumbs, lastmod => mdate($src));
   }
 }
