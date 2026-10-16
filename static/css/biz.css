@@ -638,3 +638,9 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
   body.printing .bz-weeks article, body.printing tr { break-inside: avoid; }
   body.printing .bz-table-wrap { overflow: visible; }
 }
+
+/* the demo menu link (/business/menu-demo/) */
+.bz-hl-cta { display: flex; flex-wrap: wrap; gap: 10px; }
+.bz-hl-note { margin-top: 10px; color: var(--bz-ink-2); font-size: .93rem; }
+.bz-demo-link { display: flex; width: fit-content; margin-top: 14px; color: var(--bz-leaf); }
+@media (max-width: 700px) { .bz-hl-cta { justify-content: center; } .bz-hl-note { text-align: center; } .bz-demo-link { margin-inline: auto; } }

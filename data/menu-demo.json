@@ -1,0 +1,319 @@
+{
+  "_help": "The demo QR menu at /business/menu-demo/ (noindex): a made-up restaurant that shows every QR menu feature (photos, prices, Arabic and English, offer at the top, table number from ?t=, suggestions that complete the order, group order with split bill, loyalty stamps, 'Rate us'). Names and prices are not real, and the page says so. Group orders sync between phones through Firestore 'demoGroups' (firestore.rules); without it they work on one phone. Built by tools/build.pl, run by static/js/menu-demo.js.",
+  "restaurant": {
+    "name": { "en": "Didu Grill", "ar": "ديدو جريل" },
+    "tagline": { "en": "Burgers & charcoal grills", "ar": "برجر ومشويات على الفحم" },
+    "hours": { "en": "Open now · until 2 am", "ar": "مفتوح دلوقتي · لحد 2 بالليل" }
+  },
+  "offer": { "en": "Today: free ice cream with any order over EGP 300", "ar": "النهارده: آيس كريم ببلاش مع أي طلب فوق 300 جنيه" },
+  "categories": [
+    {
+      "key": "burgers",
+      "emoji": "🍔",
+      "name": { "en": "Burgers", "ar": "برجر" },
+      "items": [
+        {
+          "id": "b1",
+          "emoji": "🍔",
+          "bg": "#FFE9D6",
+          "name": { "en": "Classic burger", "ar": "كلاسيك برجر" },
+          "desc": { "en": "150 g local beef, cheddar, lettuce, tomato and Didu sauce", "ar": "لحمة بلدي 150 جم، شيدر، خس، طماطم، وصوص ديدو" },
+          "price": 165,
+          "tags": ["popular"],
+          "suggest": "combo"
+        },
+        {
+          "id": "b2",
+          "emoji": "🍔",
+          "bg": "#FFE4C2",
+          "name": { "en": "Smoky BBQ", "ar": "سموكي باربكيو" },
+          "desc": { "en": "150 g beef, smoked beef bacon, caramelised onions and BBQ sauce", "ar": "لحمة 150 جم، بيكون بيف مدخن، بصل مكرمل، وصوص باربكيو" },
+          "price": 195,
+          "suggest": "combo"
+        },
+        {
+          "id": "b3",
+          "emoji": "🌶️",
+          "bg": "#FFDCD2",
+          "name": { "en": "Hot chilli", "ar": "هوت تشيلي" },
+          "desc": { "en": "150 g beef, jalapeños, pepper jack and hot sauce", "ar": "لحمة 150 جم، هالبينو، جبنة بيبر جاك، وصوص حار" },
+          "price": 185,
+          "tags": ["spicy"],
+          "suggest": "combo"
+        },
+        {
+          "id": "b4",
+          "emoji": "🍔",
+          "bg": "#FFF1CC",
+          "name": { "en": "Double Didu", "ar": "دبل ديدو" },
+          "desc": { "en": "Two 150 g patties, double cheddar and pickles", "ar": "طبقتين لحمة 150 جم، دبل شيدر، ومخلل" },
+          "price": 255,
+          "tags": ["new"],
+          "suggest": "combo"
+        }
+      ]
+    },
+    {
+      "key": "chicken",
+      "emoji": "🍗",
+      "name": { "en": "Chicken", "ar": "فراخ" },
+      "items": [
+        {
+          "id": "c1",
+          "emoji": "🍗",
+          "bg": "#FFE9D6",
+          "name": { "en": "Charcoal-grilled chicken", "ar": "فراخ مشوية على الفحم" },
+          "desc": { "en": "Half a chicken in lemon and garlic, with rice and salad", "ar": "نص فرخة متبّلة بالليمون والتوم، مع رز وسلطة" },
+          "price": 210,
+          "suggest": "lemonade"
+        },
+        {
+          "id": "c2",
+          "emoji": "🌯",
+          "bg": "#FFF1CC",
+          "name": { "en": "Chicken shawarma", "ar": "شاورما فراخ" },
+          "desc": { "en": "Saj bread, garlic sauce and pickles", "ar": "عيش صاج، ثومية، ومخلل" },
+          "price": 120,
+          "suggest": "lemonade"
+        },
+        {
+          "id": "c3",
+          "emoji": "🍗",
+          "bg": "#FFE4C2",
+          "name": { "en": "Crispy chicken", "ar": "كرسبي تشيكن" },
+          "desc": { "en": "3 crispy strips with honey mustard", "ar": "3 قطع صدور مقرمشة مع صوص العسل والمسطردة" },
+          "price": 150,
+          "tags": ["popular"],
+          "suggest": "combo"
+        }
+      ]
+    },
+    {
+      "key": "sides",
+      "emoji": "🍟",
+      "name": { "en": "Sides", "ar": "أطباق جانبية" },
+      "items": [
+        {
+          "id": "s1",
+          "emoji": "🍟",
+          "bg": "#FFF1CC",
+          "name": { "en": "Fries", "ar": "بطاطس" },
+          "desc": { "en": "Crispy and lightly salted", "ar": "مقرمشة ومملحة" },
+          "price": 45,
+          "tags": ["veg"]
+        },
+        {
+          "id": "s2",
+          "emoji": "🍟",
+          "bg": "#FFE4C2",
+          "name": { "en": "Loaded fries", "ar": "لوديد فرايز" },
+          "desc": { "en": "Fries, cheese sauce and beef bits", "ar": "بطاطس، صوص جبنة، وقطع لحمة" },
+          "price": 95
+        },
+        {
+          "id": "s3",
+          "emoji": "🥗",
+          "bg": "#EAF3DC",
+          "name": { "en": "Caesar salad", "ar": "سلطة سيزر" },
+          "desc": { "en": "Lettuce, parmesan, croutons and Caesar dressing", "ar": "خس، بارميزان، عيش محمص، وصوص سيزر" },
+          "price": 85,
+          "tags": ["veg"]
+        },
+        {
+          "id": "s4",
+          "emoji": "🧅",
+          "bg": "#FFF1CC",
+          "name": { "en": "Onion rings", "ar": "حلقات بصل" },
+          "desc": { "en": "8 golden rings with ranch", "ar": "8 حلقات مقرمشة مع رانش" },
+          "price": 55,
+          "tags": ["veg"]
+        }
+      ]
+    },
+    {
+      "key": "drinks",
+      "emoji": "🥤",
+      "name": { "en": "Drinks", "ar": "مشروبات" },
+      "items": [
+        {
+          "id": "d1",
+          "emoji": "🥤",
+          "bg": "#E3F0FF",
+          "name": { "en": "Cola", "ar": "كولا" },
+          "price": 30
+        },
+        {
+          "id": "d2",
+          "emoji": "🍋",
+          "bg": "#EAF3DC",
+          "name": { "en": "Mint lemonade", "ar": "ليمون نعناع" },
+          "desc": { "en": "Fresh and lightly sweet", "ar": "فريش وسكره خفيف" },
+          "price": 55,
+          "tags": ["veg"]
+        },
+        {
+          "id": "d3",
+          "emoji": "🥭",
+          "bg": "#FFF1CC",
+          "name": { "en": "Mango juice", "ar": "عصير مانجو" },
+          "desc": { "en": "Fresh mango", "ar": "مانجو فريش" },
+          "price": 60,
+          "tags": ["veg"]
+        },
+        {
+          "id": "d4",
+          "emoji": "☕",
+          "bg": "#F3E6D6",
+          "name": { "en": "Turkish coffee", "ar": "قهوة تركي" },
+          "price": 40,
+          "suggest": "dessert"
+        }
+      ]
+    },
+    {
+      "key": "desserts",
+      "emoji": "🍰",
+      "name": { "en": "Desserts", "ar": "حلويات" },
+      "items": [
+        {
+          "id": "k1",
+          "emoji": "🍰",
+          "bg": "#FFE9D6",
+          "name": { "en": "Lotus cheesecake", "ar": "تشيز كيك لوتس" },
+          "price": 90,
+          "tags": ["popular"]
+        },
+        {
+          "id": "k2",
+          "emoji": "🍫",
+          "bg": "#F3E6D6",
+          "name": { "en": "Brownie with ice cream", "ar": "براوني بالآيس كريم" },
+          "price": 85
+        },
+        {
+          "id": "k3",
+          "emoji": "🍨",
+          "bg": "#FFF1CC",
+          "name": { "en": "Ice cream", "ar": "آيس كريم" },
+          "desc": { "en": "3 scoops", "ar": "3 بولات" },
+          "price": 60,
+          "tags": ["new", "veg"]
+        }
+      ]
+    }
+  ],
+  "extras": [
+    {
+      "id": "x1",
+      "emoji": "🍟",
+      "bg": "#EAF3DC",
+      "name": { "en": "Combo: fries + cola", "ar": "كومبو: بطاطس + كولا" },
+      "price": 50
+    }
+  ],
+  "suggestions": {
+    "combo": {
+      "add": "x1",
+      "title": { "en": "Make it a combo?", "ar": "تخليها كومبو؟" },
+      "text": { "en": "Fries and a cola for EGP 50 instead of 75", "ar": "بطاطس وكولا بـ 50 جنيه بدل 75" }
+    },
+    "lemonade": {
+      "add": "d2",
+      "title": { "en": "Something cold with it?", "ar": "حاجة ساقعة معاها؟" },
+      "text": { "en": "Mint lemonade, fresh and lightly sweet", "ar": "ليمون نعناع فريش وسكره خفيف" }
+    },
+    "dessert": {
+      "add": "k1",
+      "title": { "en": "Something sweet with your coffee?", "ar": "حاجة حلوة مع القهوة؟" },
+      "text": { "en": "Lotus cheesecake, our most popular dessert", "ar": "تشيز كيك لوتس، أشهر حلو عندنا" }
+    }
+  },
+  "loyalty": {
+    "stamps": 10,
+    "start": 6,
+    "reward": { "en": "Your 10th order is on us", "ar": "الطلب العاشر علينا" }
+  },
+  "seo": {
+    "en": {
+      "title": "Demo QR Menu: Try Every Feature | Foodidu Business",
+      "description": "Try a demo QR menu from Foodidu Business: photos and prices, smart suggestions, group orders with split bills, and a loyalty card. The restaurant is made up."
+    },
+    "ar": {
+      "title": "منيو QR تجريبي: جرّب كل المميزات | Foodidu Business",
+      "description": "جرّب منيو QR تجريبي من Foodidu Business: صور وأسعار، واقتراحات تكمّل الطلب، وطلب جماعي بتقسيم الحساب، وكارت ولاء. المطعم تجريبي ومش حقيقي."
+    }
+  },
+  "ui": {
+    "demo": {
+      "en": "This is a demo menu from Foodidu Business: the restaurant and prices are made up. Try everything!",
+      "ar": "ده منيو تجريبي من Foodidu Business: المطعم والأسعار مش حقيقية. جرّب كل حاجة!"
+    },
+    "want": { "en": "Want this menu for your restaurant?", "ar": "عايز منيو زي ده لمطعمك؟" },
+    "table": { "en": "Table", "ar": "ترابيزة" },
+    "search": { "en": "Search the menu", "ar": "دوّر في المنيو" },
+    "noResults": { "en": "Nothing matches your search", "ar": "مفيش أصناف بالاسم ده" },
+    "add": { "en": "Add", "ar": "أضف" },
+    "egp": { "en": "EGP {n}", "ar": "{n} ج.م" },
+    "tags": {
+      "popular": { "en": "Most popular", "ar": "الأشهر" },
+      "spicy": { "en": "Spicy", "ar": "حار" },
+      "veg": { "en": "Vegetarian", "ar": "نباتي" },
+      "new": { "en": "New", "ar": "جديد" }
+    },
+    "viewOrder": { "en": "View order", "ar": "شوف طلبك" },
+    "items": { "en": "{n} items", "ar": "{n} أصناف" },
+    "item1": { "en": "1 item", "ar": "صنف واحد" },
+    "yourOrder": { "en": "Your order", "ar": "طلبك" },
+    "empty": { "en": "Your order is empty. Add something tasty!", "ar": "طلبك فاضي. ضيف حاجة حلوة!" },
+    "total": { "en": "Total", "ar": "الإجمالي" },
+    "taxNote": { "en": "Prices include VAT.", "ar": "الأسعار شاملة الضريبة." },
+    "showWaiter": { "en": "Show the order to the waiter", "ar": "اعرض الطلب للجرسون" },
+    "waiterTitle": { "en": "Order for table {t}", "ar": "طلب ترابيزة {t}" },
+    "waiterNote": { "en": "Demo: in a real restaurant this screen goes to the waiter or the till.", "ar": "تجربة: في المطعم الحقيقي الشاشة دي بتوصل للجرسون أو الكاشير." },
+    "back": { "en": "Back to the menu", "ar": "رجوع للمنيو" },
+    "noThanks": { "en": "No, thanks", "ar": "لا، شكراً" },
+    "addIt": { "en": "Add it", "ar": "ضيفه" },
+    "group": { "en": "Group order", "ar": "طلب جماعي" },
+    "groupTitle": { "en": "Order together from your phones", "ar": "اطلبوا مع بعض من موبايلاتكم" },
+    "groupText": {
+      "en": "Start a group order and share the link or the QR code with your friends at the table. Everyone adds their own dishes, and the bill splits itself.",
+      "ar": "ابدأ طلب جماعي وشارك اللينك أو كود QR مع صحابك على الترابيزة. كل واحد يضيف أطباقه، والحساب بيتقسم لوحده."
+    },
+    "yourName": { "en": "Your name", "ar": "اسمك" },
+    "start": { "en": "Start the group order", "ar": "ابدأ الطلب الجماعي" },
+    "join": { "en": "Join the group order", "ar": "ادخل الطلب الجماعي" },
+    "joinTitle": { "en": "You're invited to a group order", "ar": "معزوم على طلب جماعي" },
+    "joinText": { "en": "Write your name so your friends know what you ordered.", "ar": "اكتب اسمك عشان صحابك يعرفوا انت طلبت إيه." },
+    "shareTitle": { "en": "Friends scan this code to join", "ar": "صحابك يمسحوا الكود ده عشان يدخلوا" },
+    "copy": { "en": "Copy link", "ar": "انسخ اللينك" },
+    "copied": { "en": "Link copied", "ar": "اتنسخ اللينك" },
+    "share": { "en": "Share", "ar": "شارك" },
+    "people": { "en": "At the table", "ar": "على الترابيزة" },
+    "ordering": { "en": "Who is ordering now?", "ar": "مين بيطلب دلوقتي؟" },
+    "addPerson": { "en": "Add a friend", "ar": "ضيف صاحبك" },
+    "localNote": {
+      "en": "Group order on this phone only: pass the phone around, or try again online to order from several phones.",
+      "ar": "الطلب الجماعي شغال على الموبايل ده بس: لفّوا الموبايل على بعض، أو جرّبوا تاني والنت شغال عشان كل واحد يطلب من موبايله."
+    },
+    "live": { "en": "Live: everyone's dishes appear here as they add them", "ar": "مباشر: أطباق الكل بتظهر هنا أول ما يضيفوها" },
+    "split": { "en": "Split the bill", "ar": "تقسيم الحساب" },
+    "byOrder": { "en": "Each pays for their own", "ar": "كل واحد يدفع اللي طلبه" },
+    "equally": { "en": "Split equally", "ar": "بالتساوي" },
+    "perPerson": { "en": "Each person", "ar": "كل واحد" },
+    "leave": { "en": "Leave the group order", "ar": "اخرج من الطلب الجماعي" },
+    "you": { "en": "you", "ar": "انت" },
+    "loyaltyTitle": { "en": "Loyalty card", "ar": "كارت الولاء" },
+    "loyaltyLeft": { "en": "{n} more stamps to a free order", "ar": "باقي {n} أختام على طلب ببلاش" },
+    "loyaltyGot": { "en": "+1 stamp for this order!", "ar": "+1 ختم على الطلب ده!" },
+    "loyaltyFull": { "en": "Your next order is free!", "ar": "طلبك الجاي ببلاش!" },
+    "rate": { "en": "Enjoyed it? Rate us on Google", "ar": "عجبك الأكل؟ قيّمنا على جوجل" },
+    "rateDemo": { "en": "Demo: in a real restaurant this opens its Google review page.", "ar": "تجربة: في المطعم الحقيقي الزرار ده بيفتح صفحة التقييم بتاعته على جوجل." },
+    "openOnPhone": { "en": "Open this menu on your phone", "ar": "افتح المنيو على موبايلك" },
+    "scanHint": { "en": "Scan with your phone camera and try it like a customer.", "ar": "امسح الكود بكاميرا الموبايل وجرّبه كأنك زبون." },
+    "poweredBy": { "en": "Menu by Foodidu Business", "ar": "المنيو من Foodidu Business" },
+    "close": { "en": "Close", "ar": "اقفل" },
+    "orderFor": { "en": "Order", "ar": "الطلب" },
+    "lang": { "en": "العربية", "ar": "English" },
+    "err": { "en": "Something went wrong. Try again.", "ar": "حصلت مشكلة. جرّب تاني." }
+  }
+}

@@ -875,14 +875,15 @@ $a{body}
 HTML
   $html =~ s/\n{2,}/\n/g;
   if (($a{skin} // '') eq 'biz') {   # Foodidu Business: its own header, footer, colours and fonts (static/css/biz.css)
-    my ($bh, $bf) = biz_chrome($l, $key, $lang_link);
+    my ($bh, $bf) = $a{bare} ? ('', '') : biz_chrome($l, $key, $lang_link);   # bare: the page brings its own top (the demo menu)
     $html =~ s{<header class="site-header is-home">.*?</header>}{$bh}s or die "biz header\n";
     $html =~ s{<footer class="site-footer">.*?</footer>}{$bf}s or die "biz footer\n";
-    $html =~ s{<body>}{<body class="biz">};
+    $html =~ s{<body>}{'<body class="biz' . ($a{bare} ? ' bare' : '') . '">'}e;
     $html =~ s{<meta name="theme-color" content="#FFD15C">}{<meta name="theme-color" content="#0B6E4F">};
     $html =~ s{<link rel="preload" href="/fonts/lalezar[^>]*>\n}{};
     my $bcss = asset('/css/biz.css');
-    $html =~ s{(<link rel="stylesheet" href="[^"]+">)}{$1\n<link rel="stylesheet" href="$bcss">};
+    my $more = join '', map { qq{\n<link rel="stylesheet" href="$_">} } @{ $a{styles} // [] };
+    $html =~ s{(<link rel="stylesheet" href="[^"]+">)}{$1\n<link rel="stylesheet" href="$bcss">$more};
     my $js = join '', map { qq{\n<script src="$_" defer></script>} } @{ $a{scripts} // [] };
     $html =~ s{(<script src="[^"]+" defer></script>)}{$1$js} if $js;
   }
@@ -1690,6 +1691,7 @@ HTML
         . '<div class="bz-ttl"><span class="bz-ic">' . icon($s->{icon}) . '</span><h3>' . esc($s->{name}{$l}) . '</h3></div><p>' . esc($s->{short}{$l}) . '</p>'
         . ($s->{features} ? '<ul class="bz-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{title}{$l}) . '</span></li>' } @{ $s->{features} }[0 .. 2]) . '</ul>' : '')
         . ($s->{highlight} ? '<ul class="bz-new">' . join('', map { '<li><span class="bz-new-tag">' . T($l, 'biz_new') . '</span>' . icon($_->{icon}) . '<span>' . esc($_->{title}{$l}) . '</span></li>' } @{ $s->{highlight}{items} }) . '</ul>' : '')
+        . ($s->{highlight} && $BIZ->{demo} ? '<a class="bz-link bz-demo-link" href="' . path_for($l, '/business/menu-demo/') . '?t=7">' . esc($BIZ->{demo}{btn}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : '')
         . ($has_page->($s) ? '<a class="bz-link" href="' . $surl->($s) . '">' . T($l, 'biz_more') . ': ' . esc($s->{name}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : '')
         . '</div>' . ($k ? '<div class="bz-row-visual">' . biz_mock($l, $k) . '</div>' : '') . '</article>' } @svc;
       my $plans = '<ul class="bz-plans">' . join('', map { my $p = $_;
@@ -1769,7 +1771,8 @@ HTML
       # the newest features, first and marked "new"
       my $hl = $s->{highlight} ? '<div class="bz-hl">' . $head->('hl-title', T($l, 'biz_new'), esc($s->{highlight}{title}{$l}), esc($s->{highlight}{intro}{$l}))
         . '<ul class="bz-feats">' . join('', map { '<li><span class="bz-tag">' . T($l, 'biz_new') . '</span><div class="bz-ttl"><span class="bz-ic">' . icon($_->{icon}) . '</span><h3>' . esc($_->{title}{$l}) . '</h3></div><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $s->{highlight}{items} }) . '</ul>'
-        . '<p class="bz-hl-cta">' . biz_wa_link($l, 'menu', 'bz-btn bz-wa', esc($s->{highlight}{cta}{$l})) . '</p></div>' : '';
+        . '<p class="bz-hl-cta">' . ($BIZ->{demo} ? '<a class="bz-btn bz-pri" href="' . path_for($l, '/business/menu-demo/') . '?t=7">' . esc($BIZ->{demo}{btn}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : '')
+        . biz_wa_link($l, 'menu', 'bz-btn bz-wa', esc($s->{highlight}{cta}{$l})) . '</p>' . ($BIZ->{demo} ? '<p class="bz-hl-note">' . esc($BIZ->{demo}{note}{$l}) . '</p>' : '') . '</div>' : '';
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $s->{faq} };
       my $band = $s->{key} eq 'qr-menu' && $toolband ? qq{<section class="bz-sec" style="padding-top:0"><div class="wrap">$toolband</div></section>} : '';
       my ($sg) = grep { ($_->{for} // '') eq $s->{key} } @{ $BIZ->{guides} // [] };   # a guide written for this service
@@ -1880,6 +1883,49 @@ HTML2
         crumbs => $crumbs, og => "/img/og/biz-home-$l.png", fd => { formUrl => $FORM_URL, quickNote => ($BIZ->{quick} ? $BIZ->{quick}{note}{$l} : '') },
         ld => [ { '@type' => 'Article', headline => $g->{h1}{$l}, description => $g->{seo}{$l}{description}, inLanguage => $l, datePublished => $g->{published}, dateModified => mdate($BIZ_FILE),
           author => { '@id' => "$SITE/business/#org" }, publisher => { '@id' => "$SITE/business/#org" }, mainEntityOfPage => { '@id' => absu($url) . '#webpage' }, image => absu("/img/og/biz-home-$l.png") }, faq_ld(@qa) ]);
+    }
+
+    # the demo QR menu (data/menu-demo.json): a made-up restaurant with every QR menu feature, run by static/js/menu-demo.js.
+    # noindex: it is a product demo, not a real restaurant, and the page says so at the top.
+    if (-f "$ROOT/data/menu-demo.json") {
+      my $M = JSON::PP->new->utf8->decode(slurp("$ROOT/data/menu-demo.json", 1));
+      my $u = sub { $M->{ui}{$_[0]}{$l} };
+      my $price = sub { (my $p = $u->('egp')) =~ s/\{n\}/$_[0]/; $p };
+      my $other = path_for($l eq 'ar' ? 'en' : 'ar', '/business/menu-demo/');
+      my $qrm = path_for($l, '/business/qr-menu/');
+      my %tagic = (popular => '⭐', spicy => '🌶️', veg => '🌱', new => '✨');
+      my %items = map { my $i = $_; ($i->{id} => { n => $i->{name}{$l}, p => $i->{price}, e => $i->{emoji}, bg => $i->{bg}, ($i->{suggest} ? (s => $i->{suggest}) : ()) }) } (map { @{ $_->{items} } } @{ $M->{categories} }), @{ $M->{extras} // [] };
+      my $chips = join '', map { qq{<a href="#cat-$_->{key}" data-cat="$_->{key}"><span aria-hidden="true">$_->{emoji}</span>} . esc($_->{name}{$l}) . '</a>' } @{ $M->{categories} };
+      my $cats = join '', map { my $c = $_;
+        qq{<section class="md-cat" id="cat-$c->{key}" data-cat="$c->{key}"><h2><span aria-hidden="true">$c->{emoji}</span>} . esc($c->{name}{$l}) . '</h2><ul class="md-items">' . join('', map { my $i = $_;
+          qq{<li class="md-item" data-id="$i->{id}"><div class="md-ph" style="--bg:$i->{bg}"><span aria-hidden="true">$i->{emoji}</span></div><div class="md-info"><h3>} . esc($i->{name}{$l}) . '</h3>'
+          . ($i->{desc} ? '<p>' . esc($i->{desc}{$l}) . '</p>' : '')
+          . ($i->{tags} ? '<div class="md-tags">' . join('', map { qq{<span class="md-tag t-$_">$tagic{$_} } . esc($M->{ui}{tags}{$_}{$l}) . '</span>' } @{ $i->{tags} }) . '</div>' : '')
+          . '<div class="md-row"><b class="md-price">' . $price->($i->{price}) . qq{</b><span class="md-qty" data-id="$i->{id}"><button class="md-add" type="button" data-add="$i->{id}" aria-label="} . esc($u->('add') . ' ' . $i->{name}{$l}) . '">+ ' . esc($u->('add')) . '</button></span></div></div></li>' } @{ $c->{items} }) . '</ul></section>' } @{ $M->{categories} };
+      my $lo = $M->{loyalty};
+      my $body = qq{<div class="md">
+<div class="md-demo"><span>} . esc($u->('demo')) . qq{</span> <a href="$qrm">} . esc($u->('want')) . qq{</a></div>
+<header class="md-top"><div class="md-brand"><span class="md-logo"><img src="/img/mascot/didu.svg" alt="" width="54" height="54"></span><div><h1>} . esc($M->{restaurant}{name}{$l}) . '</h1><p>' . esc($M->{restaurant}{tagline}{$l}) . '</p><small class="md-open"><i></i>' . esc($M->{restaurant}{hours}{$l}) . qq{</small></div></div>
+<div class="md-top-r"><span class="md-table" hidden>} . esc($u->('table')) . qq{ <b></b></span><a class="md-lang" href="$other" hreflang="} . ($l eq 'ar' ? 'en' : 'ar') . '">' . esc($u->('lang')) . qq{</a></div></header>
+<p class="md-offer"><span aria-hidden="true">🎁</span>} . esc($M->{offer}{$l}) . qq{</p>
+<div class="md-tools"><label class="sr-only" for="md-q">} . esc($u->('search')) . qq{</label><input id="md-q" class="md-search" type="search" placeholder="} . esc($u->('search')) . qq{" autocomplete="off"><button class="md-group-btn" type="button"><span aria-hidden="true">👥</span>} . esc($u->('group')) . qq{</button></div>
+<div class="md-groupbar" hidden></div>
+<nav class="md-cats" aria-label="} . esc($u->('orderFor')) . qq{">$chips</nav>
+$cats
+<p class="md-none" hidden>} . esc($u->('noResults')) . qq{</p>
+<section class="md-loyal" aria-labelledby="md-loyal-t"><div class="md-loyal-top"><h2 id="md-loyal-t"><span aria-hidden="true">🎟️</span>} . esc($u->('loyaltyTitle')) . '</h2><small>' . esc($lo->{reward}{$l}) . qq{</small></div><ol class="md-stamps" data-max="$lo->{stamps}" data-start="$lo->{start}">}
+        . join('', map { '<li></li>' } 1 .. $lo->{stamps}) . qq{</ol><p class="md-loyal-left"></p></section>
+<button class="md-rate" type="button"><span aria-hidden="true">⭐⭐⭐⭐⭐</span>} . esc($u->('rate')) . qq{</button>
+<p class="md-foot"><a href="$qrm">} . esc($u->('poweredBy')) . qq{</a></p>
+<div class="md-bar" hidden><button class="md-view" type="button"><span class="md-count"></span><b>} . esc($u->('viewOrder')) . qq{</b><span class="md-total"></span></button></div>
+</div>
+<div class="md-back" hidden></div>
+<div class="md-sheet" role="dialog" aria-modal="true" aria-labelledby="md-sheet-t" hidden></div>
+<p class="md-toast" role="status" aria-live="polite"></p>};
+      layout(lang => $l, key => '/business/menu-demo/', title => $M->{seo}{$l}{title}, desc => $M->{seo}{$l}{description}, body => $body, skin => 'biz', bare => 1, noindex => 1, lastmod => mdate("$ROOT/data/menu-demo.json"),
+        og => "/img/og/biz-qr-menu-$l.png", styles => [asset('/css/menu-demo.css')], scripts => [asset('/js/qr.js'), asset('/js/menu-demo.js')],
+        fd => { md => { items => \%items, suggestions => { map { my $k = $_; ($k => { add => $M->{suggestions}{$k}{add}, t => $M->{suggestions}{$k}{title}{$l}, x => $M->{suggestions}{$k}{text}{$l} }) } keys %{ $M->{suggestions} } },
+          ui => { map { ($_ => $M->{ui}{$_}{$l}) } grep { $_ ne 'tags' } keys %{ $M->{ui} } }, stamps => $lo->{stamps}, start => $lo->{start} + 0, lang => $l } });
     }
 
     # the free QR code tool: the restaurant pastes its menu link and gets a code + a table card (static/js/qr.js and qr-tool.js, all in the browser)

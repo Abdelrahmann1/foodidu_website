@@ -59,6 +59,24 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    // The demo QR menu's group orders (static/js/menu-demo.js): read by their random id only (never listed), editable for
+    // one day, small. Turn on a TTL policy on expireAt in the console to delete old ones automatically.
+    match /demoGroups/{gid} {
+      function groupShape(d) {
+        return d.keys().hasOnly(['createdAt', 'expireAt', 'lang', 'table', 'people', 'items'])
+          && d.people is list && d.people.size() <= 12 && d.items is list && d.items.size() <= 120
+          && d.lang in ['en', 'ar'] && d.table is string && d.table.size() <= 4;
+      }
+      allow get: if true;
+      allow create: if gid.matches('^[A-Za-z0-9]{16}$') && groupShape(request.resource.data)
+        && request.resource.data.createdAt == request.time && request.resource.data.expireAt is timestamp
+        && request.resource.data.expireAt > request.time && request.resource.data.expireAt < request.time + duration.value(2, 'd');
+      allow update: if groupShape(request.resource.data) && resource.data.expireAt > request.time
+        && request.resource.data.createdAt == resource.data.createdAt && request.resource.data.expireAt == resource.data.expireAt
+        && request.resource.data.lang == resource.data.lang && request.resource.data.table == resource.data.table;
+      allow list, delete: if false;
+    }
+
     // Everything else: no access from browsers (the console and admin tools are not affected).
     match /{document=**} {
       allow read, write: if false;

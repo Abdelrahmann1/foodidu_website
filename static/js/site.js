@@ -1,6 +1,7 @@
 /* Foodidu — site behaviour. No dependencies. Loaded with `defer`. */
 (function () {
   "use strict";
+  window.FoodiduCore = { loadCore: function () { return loadCore(); } };   // Firebase for other scripts (the demo menu's group order)
 
   var doc = document.documentElement;
   var DATA = {};

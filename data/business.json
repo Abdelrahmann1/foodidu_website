@@ -1705,5 +1705,9 @@
         }
       ]
     }
-  ]
+  ],
+  "demo": {
+    "btn": { "en": "Try the demo menu", "ar": "جرّب المنيو التجريبي" },
+    "note": { "en": "A made-up restaurant with every feature: open it on your phone and order like a customer.", "ar": "مطعم تجريبي فيه كل المميزات: افتحه على موبايلك واطلب كأنك زبون." }
+  }
 }
