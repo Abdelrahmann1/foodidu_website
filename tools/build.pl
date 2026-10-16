@@ -1886,37 +1886,46 @@ HTML2
     }
 
     # the demo QR menu (data/menu-demo.json): a made-up restaurant with every QR menu feature, run by static/js/menu-demo.js.
-    # noindex: it is a product demo, not a real restaurant, and the page says so at the top.
+    # noindex: it is a product demo, not a real restaurant, and the page says so at the top. Photos: free Unsplash photos.
     if (-f "$ROOT/data/menu-demo.json") {
       my $M = JSON::PP->new->utf8->decode(slurp("$ROOT/data/menu-demo.json", 1));
       my $u = sub { $M->{ui}{$_[0]}{$l} };
       my $price = sub { (my $p = $u->('egp')) =~ s/\{n\}/$_[0]/; $p };
       my $other = path_for($l eq 'ar' ? 'en' : 'ar', '/business/menu-demo/');
       my $qrm = path_for($l, '/business/qr-menu/');
-      my %tagic = (popular => '⭐', spicy => '🌶️', veg => '🌱', new => '✨');
-      my %items = map { my $i = $_; ($i->{id} => { n => $i->{name}{$l}, p => $i->{price}, e => $i->{emoji}, bg => $i->{bg}, ($i->{suggest} ? (s => $i->{suggest}) : ()) }) } (map { @{ $_->{items} } } @{ $M->{categories} }), @{ $M->{extras} // [] };
-      my $chips = join '', map { qq{<a href="#cat-$_->{key}" data-cat="$_->{key}"><span aria-hidden="true">$_->{emoji}</span>} . esc($_->{name}{$l}) . '</a>' } @{ $M->{categories} };
+      my $img = sub { "/img/menu-demo/$_[0]" };
+      my $users = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c.6-3.3 3-5 6-5s5.4 1.7 6 5"/><path d="M16 5.2a3 3 0 0 1 0 5.6M18 14.4c1.6.7 2.6 2.3 3 4.6"/></svg>';
+      my @all = map { @{ $_->{items} } } @{ $M->{categories} };
+      my %items = map { my $i = $_; ($i->{id} => { n => $i->{name}{$l}, p => $i->{price}, img => $img->($i->{img}), ($i->{desc} ? (d => $i->{desc}{$l}) : ()),
+        ($i->{tags} ? (t => [ map { [$_, $M->{ui}{tags}{$_}{$l}] } @{ $i->{tags} } ]) : ()), ($i->{suggest} ? (s => $i->{suggest}) : ()) }) } @all, @{ $M->{extras} // [] };
+      my $tags = sub { my ($i) = @_; $i->{tags} ? '<div class="md-tags">' . join('', map { qq{<span class="md-tag t-$_">} . esc($M->{ui}{tags}{$_}{$l}) . '</span>' } @{ $i->{tags} }) . '</div>' : '' };
+      my $qty = sub { my ($i) = @_; qq{<span class="md-qty" data-id="$i->{id}"><button class="md-plus" type="button" data-add="$i->{id}" aria-label="} . esc($u->('add') . ' ' . $i->{name}{$l}) . '">+</button></span>' };
+      my @pop = grep { grep { $_ eq 'popular' } @{ $_->{tags} // [] } } @all;
+      my $chips = join '', ((@pop ? qq{<a href="#cat-popular" data-cat="popular">} . esc($u->('popular')) . '</a>' : ()), map { qq{<a href="#cat-$_->{key}" data-cat="$_->{key}">} . esc($_->{name}{$l}) . '</a>' } @{ $M->{categories} });
+      my $popular = @pop ? qq{<section class="md-cat md-popsec" id="cat-popular" data-cat="popular"><h2>} . esc($u->('popular')) . '</h2><ul class="md-carousel">' . join('', map { my $i = $_;
+        qq{<li class="md-pc"><button class="md-pc-pic" type="button" data-open="$i->{id}" tabindex="-1" aria-hidden="true"><img src="} . $img->($i->{img}) . qq{" alt="" width="600" height="600" loading="lazy"></button><div class="md-pc-b"><h3><button class="md-iname" type="button" data-open="$i->{id}">} . esc($i->{name}{$l}) . '</button></h3>'
+        . '<div class="md-pc-r"><b class="md-price">' . $price->($i->{price}) . '</b>' . $qty->($i) . '</div></div></li>' } @pop) . '</ul></section>' : '';
       my $cats = join '', map { my $c = $_;
-        qq{<section class="md-cat" id="cat-$c->{key}" data-cat="$c->{key}"><h2><span aria-hidden="true">$c->{emoji}</span>} . esc($c->{name}{$l}) . '</h2><ul class="md-items">' . join('', map { my $i = $_;
-          qq{<li class="md-item" data-id="$i->{id}"><div class="md-ph" style="--bg:$i->{bg}"><span aria-hidden="true">$i->{emoji}</span></div><div class="md-info"><h3>} . esc($i->{name}{$l}) . '</h3>'
-          . ($i->{desc} ? '<p>' . esc($i->{desc}{$l}) . '</p>' : '')
-          . ($i->{tags} ? '<div class="md-tags">' . join('', map { qq{<span class="md-tag t-$_">$tagic{$_} } . esc($M->{ui}{tags}{$_}{$l}) . '</span>' } @{ $i->{tags} }) . '</div>' : '')
-          . '<div class="md-row"><b class="md-price">' . $price->($i->{price}) . qq{</b><span class="md-qty" data-id="$i->{id}"><button class="md-add" type="button" data-add="$i->{id}" aria-label="} . esc($u->('add') . ' ' . $i->{name}{$l}) . '">+ ' . esc($u->('add')) . '</button></span></div></div></li>' } @{ $c->{items} }) . '</ul></section>' } @{ $M->{categories} };
+        qq{<section class="md-cat" id="cat-$c->{key}" data-cat="$c->{key}"><h2>} . esc($c->{name}{$l}) . '</h2><ul class="md-items">' . join('', map { my $i = $_;
+          qq{<li class="md-item" data-id="$i->{id}"><div class="md-txt"><h3><button class="md-iname" type="button" data-open="$i->{id}">} . esc($i->{name}{$l}) . '</button></h3>'
+          . ($i->{desc} ? '<p>' . esc($i->{desc}{$l}) . '</p>' : '') . $tags->($i) . '<b class="md-price">' . $price->($i->{price}) . '</b></div>'
+          . qq{<div class="md-pic"><button class="md-pic-btn" type="button" data-open="$i->{id}" tabindex="-1" aria-hidden="true"><img src="} . $img->($i->{img}) . qq{" alt="" width="600" height="600" loading="lazy"></button>} . $qty->($i) . '</div></li>' } @{ $c->{items} }) . '</ul></section>' } @{ $M->{categories} };
       my $lo = $M->{loyalty};
       my $body = qq{<div class="md">
-<div class="md-demo"><span>} . esc($u->('demo')) . qq{</span> <a href="$qrm">} . esc($u->('want')) . qq{</a></div>
-<header class="md-top"><div class="md-brand"><span class="md-logo"><img src="/img/mascot/didu.svg" alt="" width="54" height="54"></span><div><h1>} . esc($M->{restaurant}{name}{$l}) . '</h1><p>' . esc($M->{restaurant}{tagline}{$l}) . '</p><small class="md-open"><i></i>' . esc($M->{restaurant}{hours}{$l}) . qq{</small></div></div>
-<div class="md-top-r"><span class="md-table" hidden>} . esc($u->('table')) . qq{ <b></b></span><a class="md-lang" href="$other" hreflang="} . ($l eq 'ar' ? 'en' : 'ar') . '">' . esc($u->('lang')) . qq{</a></div></header>
-<p class="md-offer"><span aria-hidden="true">🎁</span>} . esc($M->{offer}{$l}) . qq{</p>
-<div class="md-tools"><label class="sr-only" for="md-q">} . esc($u->('search')) . qq{</label><input id="md-q" class="md-search" type="search" placeholder="} . esc($u->('search')) . qq{" autocomplete="off"><button class="md-group-btn" type="button"><span aria-hidden="true">👥</span>} . esc($u->('group')) . qq{</button></div>
+<div class="md-demo"><span class="md-demo-tag">Demo</span><span>} . esc($u->('demo')) . qq{</span> <a href="$qrm">} . esc($u->('want')) . qq{</a></div>
+<header class="md-cover"><img class="md-cover-img" src="} . $img->($M->{restaurant}{cover}) . qq{" alt="" width="600" height="600" fetchpriority="high"><div class="md-cover-top"><span class="md-table" hidden>} . esc($u->('table')) . qq{ <b></b></span><a class="md-lang" href="$other" hreflang="} . ($l eq 'ar' ? 'en' : 'ar') . '">' . icon('globe') . esc($u->('lang')) . qq{</a></div></header>
+<section class="md-card"><span class="md-logo"><img src="/img/mascot/didu.svg" alt="" width="52" height="52"></span><div class="md-card-t"><h1>} . esc($M->{restaurant}{name}{$l}) . '</h1><p>' . esc($M->{restaurant}{tagline}{$l}) . '</p></div><ul class="md-info"><li class="open"><i></i>' . esc($M->{restaurant}{hours}{$l}) . '</li><li>' . esc($u->('taxNote')) . qq{</li></ul></section>
+<div class="md-offer"><span class="md-offer-ic">} . icon('gift') . '</span><div><b>' . esc($M->{offer}{title}{$l}) . '</b><span>' . esc($M->{offer}{text}{$l}) . qq{</span></div></div>
+<div class="md-tools"><div class="md-searchbox">} . icon('search') . qq{<label class="sr-only" for="md-q">} . esc($u->('search')) . qq{</label><input id="md-q" class="md-search" type="search" placeholder="} . esc($u->('search')) . qq{" autocomplete="off"></div><button class="md-group-btn" type="button">$users<span>} . esc($u->('group')) . qq{</span></button></div>
 <div class="md-groupbar" hidden></div>
 <nav class="md-cats" aria-label="} . esc($u->('orderFor')) . qq{">$chips</nav>
+$popular
 $cats
 <p class="md-none" hidden>} . esc($u->('noResults')) . qq{</p>
-<section class="md-loyal" aria-labelledby="md-loyal-t"><div class="md-loyal-top"><h2 id="md-loyal-t"><span aria-hidden="true">🎟️</span>} . esc($u->('loyaltyTitle')) . '</h2><small>' . esc($lo->{reward}{$l}) . qq{</small></div><ol class="md-stamps" data-max="$lo->{stamps}" data-start="$lo->{start}">}
+<section class="md-loyal" aria-labelledby="md-loyal-t"><div class="md-loyal-top"><div><small>} . esc($u->('loyaltyTitle')) . qq{</small><h2 id="md-loyal-t">} . esc($u->('loyaltyName')) . '</h2></div><span class="md-loyal-reward">' . icon('gift') . esc($lo->{reward}{$l}) . qq{</span></div><ol class="md-stamps" data-max="$lo->{stamps}" data-start="$lo->{start}">}
         . join('', map { '<li></li>' } 1 .. $lo->{stamps}) . qq{</ol><p class="md-loyal-left"></p></section>
-<button class="md-rate" type="button"><span aria-hidden="true">⭐⭐⭐⭐⭐</span>} . esc($u->('rate')) . qq{</button>
-<p class="md-foot"><a href="$qrm">} . esc($u->('poweredBy')) . qq{</a></p>
+<button class="md-rate" type="button"><span class="md-stars" aria-hidden="true">} . ('<svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>' x 5) . '</span><span>' . esc($u->('rate')) . qq{</span></button>
+<p class="md-foot"><a href="$qrm">} . esc($u->('poweredBy')) . '</a> · <a href="https://unsplash.com" target="_blank" rel="noopener">' . esc($u->('photos')) . qq{</a></p>
 <div class="md-bar" hidden><button class="md-view" type="button"><span class="md-count"></span><b>} . esc($u->('viewOrder')) . qq{</b><span class="md-total"></span></button></div>
 </div>
 <div class="md-back" hidden></div>

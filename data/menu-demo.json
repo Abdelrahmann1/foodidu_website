@@ -1,203 +1,184 @@
 {
-  "_help": "The demo QR menu at /business/menu-demo/ (noindex): a made-up restaurant that shows every QR menu feature (photos, prices, Arabic and English, offer at the top, table number from ?t=, suggestions that complete the order, group order with split bill, loyalty stamps, 'Rate us'). Names and prices are not real, and the page says so. Group orders sync between phones through Firestore 'demoGroups' (firestore.rules); without it they work on one phone. Built by tools/build.pl, run by static/js/menu-demo.js.",
+  "_help": "The demo QR menu at /business/menu-demo/ (noindex): a made-up restaurant that shows every QR menu feature (photos (static/img/menu-demo/, free Unsplash photos, no brand logos), prices, Arabic and English, offer at the top, table number from ?t=, suggestions that complete the order, group order with split bill, loyalty stamps, 'Rate us'). Names and prices are not real, and the page says so. Group orders sync between phones through Firestore 'demoGroups' (firestore.rules); without it they work on one phone. Built by tools/build.pl, run by static/js/menu-demo.js.",
   "restaurant": {
     "name": { "en": "Didu Grill", "ar": "ديدو جريل" },
     "tagline": { "en": "Burgers & charcoal grills", "ar": "برجر ومشويات على الفحم" },
-    "hours": { "en": "Open now · until 2 am", "ar": "مفتوح دلوقتي · لحد 2 بالليل" }
+    "hours": { "en": "Open now · until 2 am", "ar": "مفتوح دلوقتي · لحد 2 بالليل" },
+    "cover": "b4.jpg"
   },
-  "offer": { "en": "Today: free ice cream with any order over EGP 300", "ar": "النهارده: آيس كريم ببلاش مع أي طلب فوق 300 جنيه" },
+  "offer": {
+    "title": { "en": "Today's offer", "ar": "عرض النهارده" },
+    "text": { "en": "Free ice cream with any order over EGP 300", "ar": "آيس كريم ببلاش مع أي طلب فوق 300 جنيه" }
+  },
   "categories": [
     {
       "key": "burgers",
-      "emoji": "🍔",
       "name": { "en": "Burgers", "ar": "برجر" },
       "items": [
         {
           "id": "b1",
-          "emoji": "🍔",
-          "bg": "#FFE9D6",
           "name": { "en": "Classic burger", "ar": "كلاسيك برجر" },
           "desc": { "en": "150 g local beef, cheddar, lettuce, tomato and Didu sauce", "ar": "لحمة بلدي 150 جم، شيدر، خس، طماطم، وصوص ديدو" },
           "price": 165,
           "tags": ["popular"],
-          "suggest": "combo"
+          "suggest": "combo",
+          "img": "b1.jpg"
         },
         {
           "id": "b2",
-          "emoji": "🍔",
-          "bg": "#FFE4C2",
           "name": { "en": "Smoky BBQ", "ar": "سموكي باربكيو" },
           "desc": { "en": "150 g beef, smoked beef bacon, caramelised onions and BBQ sauce", "ar": "لحمة 150 جم، بيكون بيف مدخن، بصل مكرمل، وصوص باربكيو" },
           "price": 195,
-          "suggest": "combo"
+          "suggest": "combo",
+          "img": "b2.jpg"
         },
         {
           "id": "b3",
-          "emoji": "🌶️",
-          "bg": "#FFDCD2",
           "name": { "en": "Hot chilli", "ar": "هوت تشيلي" },
           "desc": { "en": "150 g beef, jalapeños, pepper jack and hot sauce", "ar": "لحمة 150 جم، هالبينو، جبنة بيبر جاك، وصوص حار" },
           "price": 185,
           "tags": ["spicy"],
-          "suggest": "combo"
+          "suggest": "combo",
+          "img": "b3.jpg"
         },
         {
           "id": "b4",
-          "emoji": "🍔",
-          "bg": "#FFF1CC",
           "name": { "en": "Double Didu", "ar": "دبل ديدو" },
           "desc": { "en": "Two 150 g patties, double cheddar and pickles", "ar": "طبقتين لحمة 150 جم، دبل شيدر، ومخلل" },
           "price": 255,
           "tags": ["new"],
-          "suggest": "combo"
+          "suggest": "combo",
+          "img": "b4.jpg"
         }
       ]
     },
     {
       "key": "chicken",
-      "emoji": "🍗",
       "name": { "en": "Chicken", "ar": "فراخ" },
       "items": [
         {
           "id": "c1",
-          "emoji": "🍗",
-          "bg": "#FFE9D6",
           "name": { "en": "Charcoal-grilled chicken", "ar": "فراخ مشوية على الفحم" },
           "desc": { "en": "Half a chicken in lemon and garlic, with rice and salad", "ar": "نص فرخة متبّلة بالليمون والتوم، مع رز وسلطة" },
           "price": 210,
-          "suggest": "lemonade"
+          "suggest": "lemonade",
+          "img": "c1.jpg"
         },
         {
           "id": "c2",
-          "emoji": "🌯",
-          "bg": "#FFF1CC",
           "name": { "en": "Chicken shawarma", "ar": "شاورما فراخ" },
           "desc": { "en": "Saj bread, garlic sauce and pickles", "ar": "عيش صاج، ثومية، ومخلل" },
           "price": 120,
-          "suggest": "lemonade"
+          "suggest": "lemonade",
+          "img": "c2.jpg"
         },
         {
           "id": "c3",
-          "emoji": "🍗",
-          "bg": "#FFE4C2",
           "name": { "en": "Crispy chicken", "ar": "كرسبي تشيكن" },
           "desc": { "en": "3 crispy strips with honey mustard", "ar": "3 قطع صدور مقرمشة مع صوص العسل والمسطردة" },
           "price": 150,
           "tags": ["popular"],
-          "suggest": "combo"
+          "suggest": "combo",
+          "img": "c3.jpg"
         }
       ]
     },
     {
       "key": "sides",
-      "emoji": "🍟",
       "name": { "en": "Sides", "ar": "أطباق جانبية" },
       "items": [
         {
           "id": "s1",
-          "emoji": "🍟",
-          "bg": "#FFF1CC",
           "name": { "en": "Fries", "ar": "بطاطس" },
           "desc": { "en": "Crispy and lightly salted", "ar": "مقرمشة ومملحة" },
           "price": 45,
-          "tags": ["veg"]
+          "tags": ["veg"],
+          "img": "s1.jpg"
         },
         {
           "id": "s2",
-          "emoji": "🍟",
-          "bg": "#FFE4C2",
           "name": { "en": "Loaded fries", "ar": "لوديد فرايز" },
           "desc": { "en": "Fries, cheese sauce and beef bits", "ar": "بطاطس، صوص جبنة، وقطع لحمة" },
-          "price": 95
+          "price": 95,
+          "img": "s2.jpg"
         },
         {
           "id": "s3",
-          "emoji": "🥗",
-          "bg": "#EAF3DC",
           "name": { "en": "Caesar salad", "ar": "سلطة سيزر" },
           "desc": { "en": "Lettuce, parmesan, croutons and Caesar dressing", "ar": "خس، بارميزان، عيش محمص، وصوص سيزر" },
           "price": 85,
-          "tags": ["veg"]
+          "tags": ["veg"],
+          "img": "s3.jpg"
         },
         {
           "id": "s4",
-          "emoji": "🧅",
-          "bg": "#FFF1CC",
           "name": { "en": "Onion rings", "ar": "حلقات بصل" },
           "desc": { "en": "8 golden rings with ranch", "ar": "8 حلقات مقرمشة مع رانش" },
           "price": 55,
-          "tags": ["veg"]
+          "tags": ["veg"],
+          "img": "s4.jpg"
         }
       ]
     },
     {
       "key": "drinks",
-      "emoji": "🥤",
       "name": { "en": "Drinks", "ar": "مشروبات" },
       "items": [
         {
           "id": "d1",
-          "emoji": "🥤",
-          "bg": "#E3F0FF",
           "name": { "en": "Cola", "ar": "كولا" },
-          "price": 30
+          "price": 30,
+          "img": "d1.jpg"
         },
         {
           "id": "d2",
-          "emoji": "🍋",
-          "bg": "#EAF3DC",
           "name": { "en": "Mint lemonade", "ar": "ليمون نعناع" },
           "desc": { "en": "Fresh and lightly sweet", "ar": "فريش وسكره خفيف" },
           "price": 55,
-          "tags": ["veg"]
+          "tags": ["veg"],
+          "img": "d2.jpg"
         },
         {
           "id": "d3",
-          "emoji": "🥭",
-          "bg": "#FFF1CC",
           "name": { "en": "Mango juice", "ar": "عصير مانجو" },
           "desc": { "en": "Fresh mango", "ar": "مانجو فريش" },
           "price": 60,
-          "tags": ["veg"]
+          "tags": ["veg"],
+          "img": "d3.jpg"
         },
         {
           "id": "d4",
-          "emoji": "☕",
-          "bg": "#F3E6D6",
           "name": { "en": "Turkish coffee", "ar": "قهوة تركي" },
           "price": 40,
-          "suggest": "dessert"
+          "suggest": "dessert",
+          "img": "d4.jpg"
         }
       ]
     },
     {
       "key": "desserts",
-      "emoji": "🍰",
       "name": { "en": "Desserts", "ar": "حلويات" },
       "items": [
         {
           "id": "k1",
-          "emoji": "🍰",
-          "bg": "#FFE9D6",
           "name": { "en": "Lotus cheesecake", "ar": "تشيز كيك لوتس" },
           "price": 90,
-          "tags": ["popular"]
+          "tags": ["popular"],
+          "img": "k1.jpg"
         },
         {
           "id": "k2",
-          "emoji": "🍫",
-          "bg": "#F3E6D6",
           "name": { "en": "Brownie with ice cream", "ar": "براوني بالآيس كريم" },
-          "price": 85
+          "price": 85,
+          "img": "k2.jpg"
         },
         {
           "id": "k3",
-          "emoji": "🍨",
-          "bg": "#FFF1CC",
           "name": { "en": "Ice cream", "ar": "آيس كريم" },
           "desc": { "en": "3 scoops", "ar": "3 بولات" },
           "price": 60,
-          "tags": ["new", "veg"]
+          "tags": ["new", "veg"],
+          "img": "k3.jpg"
         }
       ]
     }
@@ -205,10 +186,9 @@
   "extras": [
     {
       "id": "x1",
-      "emoji": "🍟",
-      "bg": "#EAF3DC",
       "name": { "en": "Combo: fries + cola", "ar": "كومبو: بطاطس + كولا" },
-      "price": 50
+      "price": 50,
+      "img": "s1.jpg"
     }
   ],
   "suggestions": {
@@ -314,6 +294,10 @@
     "close": { "en": "Close", "ar": "اقفل" },
     "orderFor": { "en": "Order", "ar": "الطلب" },
     "lang": { "en": "العربية", "ar": "English" },
-    "err": { "en": "Something went wrong. Try again.", "ar": "حصلت مشكلة. جرّب تاني." }
+    "err": { "en": "Something went wrong. Try again.", "ar": "حصلت مشكلة. جرّب تاني." },
+    "popular": { "en": "Most ordered", "ar": "الأكثر طلباً" },
+    "addToOrder": { "en": "Add to order", "ar": "أضف للطلب" },
+    "photos": { "en": "Photos: Unsplash", "ar": "الصور: Unsplash" },
+    "loyaltyName": { "en": "Didu Grill loyalty card", "ar": "كارت ولاء ديدو جريل" }
   }
 }
