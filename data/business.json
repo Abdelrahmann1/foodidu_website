@@ -844,8 +844,8 @@
       {
         "q": { "en": "Can I have the card in my own design, with my logo?", "ar": "أقدر أعمل الكارت بتصميمي ولوجو مطعمي؟" },
         "a": {
-          "en": "The free card comes in a ready design with the colours you pick. For your logo, your brand colours and a design made for your place, ask for QR Premium on WhatsApp: our team designs it and sends you files ready to print.",
-          "ar": "الكارت المجاني بتصميم جاهز بالألوان اللي تختارها. لو عايزه بلوجو مطعمك وألوان هويتك وتصميم معمول لمكانك، اطلب QR Premium على واتساب: فريقنا بيصممه ويبعتلك ملفات جاهزة للطباعة."
+          "en": "The free card comes in a ready design with the colours you pick. For your logo, your brand colours and a design made for your place, ask for QR Premium on WhatsApp: our team designs it for EGP 50 and sends you files ready to print.",
+          "ar": "الكارت المجاني بتصميم جاهز بالألوان اللي تختارها. لو عايزه بلوجو مطعمك وألوان هويتك وتصميم معمول لمكانك، اطلب QR Premium على واتساب: فريقنا بيصممه بـ 50 جنيه ويبعتلك ملفات جاهزة للطباعة."
         }
       },
       {
@@ -886,8 +886,8 @@
     "premium": {
       "title": { "en": "Free, or Premium in your own design", "ar": "مجاني، أو Premium بتصميمك انت" },
       "intro": {
-        "en": "The free card is ready in seconds. Want it with your logo, your colours and a design made for your place? That is QR Premium, designed by our team.",
-        "ar": "الكارت المجاني جاهز في ثواني. عايزه بلوجو مطعمك وألوانك وتصميم معمول مخصوص لمكانك؟ ده QR Premium، بيصممه فريقنا."
+        "en": "The free card is ready in seconds. Want it with your logo, your colours and a design made for your place? That is QR Premium: our team designs it for EGP 50.",
+        "ar": "الكارت المجاني جاهز في ثواني. عايزه بلوجو مطعمك وألوانك وتصميم معمول مخصوص لمكانك؟ ده QR Premium: فريقنا بيصممه لك بـ 50 جنيه."
       },
       "free": {
         "name": { "en": "Free", "ar": "مجاني" },
@@ -903,8 +903,8 @@
       },
       "pro": {
         "name": { "en": "QR Premium", "ar": "QR Premium" },
-        "price": { "en": "Quote", "ar": "عرض سعر" },
-        "note": { "en": "Designed for you by the Foodidu team", "ar": "بيصممه لك فريق Foodidu" },
+        "price": { "en": "EGP 50", "ar": "50 جنيه" },
+        "note": { "en": "One payment for your card design, by the Foodidu team", "ar": "مرة واحدة لتصميم كارتك، من فريق Foodidu" },
         "tag": { "en": "Your own design", "ar": "بتصميمك انت" },
         "items": [
           { "en": "Your logo on the card", "ar": "لوجو مطعمك على الكارت" },
@@ -915,7 +915,7 @@
         ],
         "cta": { "en": "Ask for my design", "ar": "اطلب تصميمك" }
       },
-      "mini": { "en": "Want it with your own logo and design?", "ar": "عايزه بلوجو مطعمك وتصميمك؟" }
+      "mini": { "en": "Your own logo and design? Just EGP 50", "ar": "عايزه بلوجو مطعمك وتصميمك؟ بـ 50 جنيه بس" }
     }
   },
   "org": { "gbp": "" },
