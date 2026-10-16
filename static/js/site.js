@@ -62,7 +62,7 @@
      data-track-view="event" sends once when at least half of the element has been on screen. */
   function placement(el) {
     return el.closest(".site-header") ? "header" : el.closest(".site-footer, .bz-foot") ? "footer" : el.closest(".feat-slot") ? "featured"
-      : el.closest(".bz-float-wa") ? "floating_button" : el.closest(".bz-plans") ? "plans" : el.closest("#join") ? "form_section"
+      : el.closest(".bz-float-wa") ? "floating_button" : el.closest("#premium") ? "qr_premium" : el.closest(".bz-plans") ? "plans" : el.closest("#join") ? "form_section"
       : el.closest(".hero") ? "home_hero" : el.closest(".page-hero, .bz-hero") ? "page_top" : el.closest(".side") ? "sidebar"
       : el.closest(".app-band, .band") ? "app_section" : "page";
   }
