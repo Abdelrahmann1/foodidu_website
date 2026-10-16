@@ -575,15 +575,6 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .m-up small { color: var(--bz-leaf); font-weight: 700; }
 .m-up > span { flex: none; padding: 5px 10px; border-radius: 9px; background: var(--bz-leaf); color: #fff; font-weight: 700; font-size: 11px; }
 
-/* ---------- the free QR tool: free vs Premium (the card in the restaurant's own design) ---------- */
-.bz-plans.two { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 900px; margin-inline: auto; }
-#premium { scroll-margin-top: 90px; }
-.qr-pro-mini { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 14px; border: 1.5px solid var(--bz-sun-2); background: var(--bz-sun-soft); color: var(--bz-pri-2); font-weight: 700; font-size: .93rem; text-decoration: none; transition: border-color .18s; }
-.qr-pro-mini:hover { border-color: var(--bz-pri); }
-.qr-pro-mini > span:nth-child(2) { flex: 1; }
-.qr-pro-mini .icon { flex: none; width: 18px; height: 18px; }
-@media (max-width: 900px) { .bz-plans.two { grid-template-columns: minmax(0, 1fr); } }
-
 /* ---------- guides for restaurant owners (/business/restaurant-marketing-plan/) ---------- */
 .bz-goals { position: relative; width: min(100%, 460px); margin-inline: auto; padding: clamp(20px, 3vw, 32px); border-radius: 28px; background: var(--bz-sun-soft); border: 1.5px solid var(--bz-sun-2); }
 .bz-goals ul { list-style: none; display: grid; gap: 12px; }

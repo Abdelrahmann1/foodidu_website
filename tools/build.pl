@@ -236,7 +236,7 @@ my %S = (
   biz_aud_lead => 'Made for your kind of place:', biz_aud_tools => 'What Foodidu Business gives you', biz_aud_more => 'More from Foodidu Business', biz_all_svc => 'All the services',
   biz_nav_maps => 'Google Maps', foot_biz_wa => 'Restaurants, WhatsApp us:', biz_wa_msg_maps => 'Hi Foodidu Business, I would like to put my restaurant on Google Maps.',
   biz_wa_btn => 'Chat with us on WhatsApp', biz_wa_float => 'Chat with Foodidu Business on WhatsApp',
-  biz_wa_msg_info => 'Hi Foodidu Business, I would like to know more about your services for my restaurant.', biz_wa_msg_menu => 'Hi Foodidu Business, I would like an online menu for my restaurant.', biz_wa_msg_qrpro => 'Hi Foodidu Business, I would like QR Premium (EGP 50): a QR card in my restaurant\'s own design (logo and colours).',
+  biz_wa_msg_info => 'Hi Foodidu Business, I would like to know more about your services for my restaurant.', biz_wa_msg_menu => 'Hi Foodidu Business, I would like an online menu for my restaurant.',
   qr_nomenu => 'No menu link yet? <a href="{wa}" target="_blank" rel="noopener" data-track="business_whatsapp_click">Chat with us on WhatsApp</a> and we will make your online menu.',
   p_form_sub => 'Fields marked * are required.', f_services => 'Services you are interested in', f_plan => 'Plan', f_plan_ph => 'Not sure yet',
   f_business => 'Business name', f_contact => 'Contact person', f_contact_hint => 'Arabic or English letters only.', f_phone => 'Phone number', f_email => 'Email address',
@@ -395,7 +395,7 @@ my %S = (
   biz_aud_lead => 'حسب نوع مكانك:', biz_aud_tools => 'Foodidu Business هيقدّملك إيه', biz_aud_more => 'كمان من Foodidu Business', biz_all_svc => 'كل الخدمات',
   biz_nav_maps => 'جوجل ماب', foot_biz_wa => 'للمطاعم، كلمنا واتساب:', biz_wa_msg_maps => 'أهلاً Foodidu Business، عايز أضيف مطعمي على جوجل ماب.',
   biz_wa_btn => 'كلمنا على واتساب', biz_wa_float => 'كلّم Foodidu Business على واتساب',
-  biz_wa_msg_info => 'أهلاً Foodidu Business، عايز أعرف أكتر عن خدماتكم لمطعمي.', biz_wa_msg_menu => 'أهلاً Foodidu Business، عايز منيو إلكتروني لمطعمي.', biz_wa_msg_qrpro => 'أهلاً Foodidu Business، عايز QR Premium بـ 50 جنيه: كارت QR بتصميم خاص بمطعمي (لوجو وألوان).',
+  biz_wa_msg_info => 'أهلاً Foodidu Business، عايز أعرف أكتر عن خدماتكم لمطعمي.', biz_wa_msg_menu => 'أهلاً Foodidu Business، عايز منيو إلكتروني لمطعمي.',
   qr_nomenu => 'معندكش لينك للمنيو؟ <a href="{wa}" target="_blank" rel="noopener" data-track="business_whatsapp_click">كلمنا واتساب</a> ونعملّك منيو إلكتروني.',
   p_form_sub => 'الحقول المميزة بـ * مطلوبة.', f_services => 'الخدمات اللي تهمك', f_plan => 'الباقة', f_plan_ph => 'لسه مش متأكد',
   f_business => 'اسم النشاط', f_contact => 'اسم المسؤول', f_contact_hint => 'حروف عربية أو إنجليزية فقط.', f_phone => 'رقم الهاتف', f_email => 'البريد الإلكتروني',
@@ -1891,15 +1891,6 @@ HTML2
       my $tips = '<ul class="bz-feats">' . join('', map { '<li><div class="bz-ttl"><span class="bz-ic">' . icon('check') . '</span><h3>' . esc($_->{title}{$l}) . '</h3></div><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $tl->{tips} }) . '</ul>';
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $tl->{faq} };
       my $req = ' <span class="req" aria-hidden="true">*</span>';
-      # Premium: the card in the restaurant's own design, made by the team (the free tool keeps everything it has)
-      my $pr = $tl->{premium};
-      my $pcard = sub { my ($p, $main, $btn) = @_;
-        '<li class="bz-plan' . ($main ? ' bz-plan-main' : '') . '">' . ($p->{tag} ? '<span class="bz-tag">' . esc($p->{tag}{$l}) . '</span>' : '') . '<h3>' . esc($p->{name}{$l}) . '</h3><p class="bz-price">' . esc($p->{price}{$l}) . '</p><p class="bz-note">' . esc($p->{note}{$l}) . '</p>'
-        . '<ul class="bz-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{$l}) . '</span></li>' } @{ $p->{items} }) . "</ul>$btn</li>" };
-      my $premium = $pr ? qq{<section class="bz-sec" id="premium" aria-labelledby="pro-title"><div class="wrap">} . $head->('pro-title', 'QR Premium', esc($pr->{title}{$l}), esc($pr->{intro}{$l}))
-        . '<ul class="bz-plans two">' . $pcard->($pr->{free}, 0, '<a class="bz-btn bz-ghost" href="#qr-form">' . esc($pr->{free}{cta}{$l}) . '</a>')
-        . $pcard->($pr->{pro}, 1, biz_wa_link($l, 'qrpro', 'bz-btn bz-wa', esc($pr->{pro}{cta}{$l}))) . '</ul></div></section>' : '';
-      my $mini = $pr ? '<a class="qr-pro-mini" href="#premium"><span class="bz-new-tag">Premium</span><span>' . esc($pr->{mini}{$l}) . '</span>' . icon('arrow', 'flip') . '</a>' : '';
       my $body = <<"HTML";
 <section class="bz-hero qr-page" aria-labelledby="qr-h1">
 <div class="wrap qr-head">@{[ crumbs_html($l, $crumbs) ]}<p class="bz-pill"><span class="dot" aria-hidden="true"></span>@{[ T($l, 'qr_pill') ]}</p><h1 id="qr-h1">@{[ esc($tl->{h1}{$l}) ]}</h1><p class="bz-lede">@{[ esc($tl->{lede}{$l}) ]}</p></div>
@@ -1919,12 +1910,10 @@ HTML2
 <p class="qr-note" id="qr-note" aria-live="polite">@{[ T($l, 'qr_sample') ]}</p>
 <div class="qr-actions"><button class="bz-btn bz-pri" type="button" id="qr-dl-card" disabled>@{[ icon('download') ]} @{[ T($l, 'qr_dl_card') ]}</button>
 <div class="row"><button class="bz-btn bz-ghost" type="button" id="qr-dl-code" disabled>@{[ T($l, 'qr_dl_code') ]}</button><button class="bz-btn bz-ghost" type="button" id="qr-print" disabled>@{[ icon('print') ]} @{[ T($l, 'qr_print') ]}</button></div></div>
-$mini
 <p class="qr-private">@{[ icon('shield') ]}<span>@{[ T($l, 'qr_private') ]}</span></p>
 </div>
 </div>
 </section>
-$premium
 <section class="bz-sec bz-alt" aria-labelledby="how-title"><div class="wrap">
 @{[ $head->('how-title', esc($tl->{name}{$l}), T($l, 'qr_how_title')) ]}
 @{[ $steps->($tl->{steps}) ]}

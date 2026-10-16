@@ -842,13 +842,6 @@
         "a": { "en": "Yes. Make as many codes as you want, with no sign-up and no mark on the code itself.", "ar": "أيوه. اعمل أكواد قد ما تحب، من غير تسجيل ومن غير أي علامة على الكود نفسه." }
       },
       {
-        "q": { "en": "Can I have the card in my own design, with my logo?", "ar": "أقدر أعمل الكارت بتصميمي ولوجو مطعمي؟" },
-        "a": {
-          "en": "The free card comes in a ready design with the colours you pick. For your logo, your brand colours and a design made for your place, ask for QR Premium on WhatsApp: our team designs it for EGP 50 and sends you files ready to print.",
-          "ar": "الكارت المجاني بتصميم جاهز بالألوان اللي تختارها. لو عايزه بلوجو مطعمك وألوان هويتك وتصميم معمول لمكانك، اطلب QR Premium على واتساب: فريقنا بيصممه بـ 50 جنيه ويبعتلك ملفات جاهزة للطباعة."
-        }
-      },
-      {
         "q": { "en": "Is the code free for life?", "ar": "الكود مجاني مدى الحياة؟" },
         "a": { "en": "Yes. The link is stored inside the code itself, so it never expires and needs no subscription.", "ar": "أيوه. اللينك متسجل جوه الكود نفسه، فمش بينتهي ومش محتاج اشتراك." }
       },
@@ -882,41 +875,7 @@
         }
       }
     ],
-    "search": "qr باركود barcode code generator واتساب",
-    "premium": {
-      "title": { "en": "Free, or Premium in your own design", "ar": "مجاني، أو Premium بتصميمك انت" },
-      "intro": {
-        "en": "The free card is ready in seconds. Want it with your logo, your colours and a design made for your place? That is QR Premium: our team designs it for EGP 50.",
-        "ar": "الكارت المجاني جاهز في ثواني. عايزه بلوجو مطعمك وألوانك وتصميم معمول مخصوص لمكانك؟ ده QR Premium: فريقنا بيصممه لك بـ 50 جنيه."
-      },
-      "free": {
-        "name": { "en": "Free", "ar": "مجاني" },
-        "price": { "en": "0 EGP", "ar": "0 جنيه" },
-        "note": { "en": "Ready in seconds, for life", "ar": "جاهز في ثواني، مدى الحياة" },
-        "items": [
-          { "en": "A QR code for any link or WhatsApp number", "ar": "كود QR لأي لينك أو رقم واتساب" },
-          { "en": "A ready card in 2 styles and 5 colours", "ar": "كارت جاهز بشكلين و5 ألوان" },
-          { "en": "Your restaurant's name and table number", "ar": "اسم مطعمك ورقم الترابيزة" },
-          { "en": "PNG download and 4 cards per A4 page", "ar": "تحميل PNG وطباعة 4 كروت في الصفحة" }
-        ],
-        "cta": { "en": "Make my free code", "ar": "اعمل كودك ببلاش" }
-      },
-      "pro": {
-        "name": { "en": "QR Premium", "ar": "QR Premium" },
-        "price": { "en": "EGP 50", "ar": "50 جنيه" },
-        "note": { "en": "One payment for your card design, by the Foodidu team", "ar": "مرة واحدة لتصميم كارتك، من فريق Foodidu" },
-        "tag": { "en": "Your own design", "ar": "بتصميمك انت" },
-        "items": [
-          { "en": "Your logo on the card", "ar": "لوجو مطعمك على الكارت" },
-          { "en": "Your brand colours and fonts", "ar": "ألوان وخطوط هويتك" },
-          { "en": "A design that matches your place", "ar": "تصميم يناسب شكل مكانك" },
-          { "en": "Sizes for tables, the counter, delivery bags and printed menus", "ar": "مقاسات للترابيزة والكاشير وشنط الدليفري والمنيو المطبوع" },
-          { "en": "High-quality files ready for the print shop", "ar": "ملفات بجودة عالية جاهزة للمطبعة" }
-        ],
-        "cta": { "en": "Ask for my design", "ar": "اطلب تصميمك" }
-      },
-      "mini": { "en": "Your own logo and design? Just EGP 50", "ar": "عايزه بلوجو مطعمك وتصميمك؟ بـ 50 جنيه بس" }
-    }
+    "search": "qr باركود barcode code generator واتساب"
   },
   "org": { "gbp": "" },
   "quick": {
@@ -1595,7 +1554,6 @@
                 "en": "With a QR menu you change a price or add a dish without reprinting, and customers see the menu with photos on their phone.",
                 "ar": "مع منيو QR تغيّر سعر أو تضيف صنف من غير ما تطبع تاني، والزبون يشوف المنيو بالصور على موبايله."
               },
-              "tip": { "en": "The QR card on the table can carry your own design and logo with QR Premium.", "ar": "كارت الكود اللي على الترابيزة ممكن يبقى بتصميمك ولوجو مطعمك مع QR Premium." },
               "service": "qr-menu"
             }
           ]
@@ -1741,8 +1699,8 @@
         {
           "q": { "en": "Should I design the menu myself?", "ar": "أصمم المنيو بنفسي ولا حد يصممه؟" },
           "a": {
-            "en": "You can start yourself with these tips and the sheet above. For a digital menu in your own design with your photos, there is the Growth plan, and a QR card with your logo costs EGP 50 with QR Premium.",
-            "ar": "تقدر تبدأ بنفسك بالنصايح دي والنموذج اللي فوق. ولو عايز منيو إلكتروني بتصميمك وصورك، ده في باقة النمو، وكارت الـ QR بلوجو مطعمك بـ 50 جنيه مع QR Premium."
+            "en": "You can start yourself with these tips and the sheet above. For a digital menu in your own design with your photos, there is the Growth plan.",
+            "ar": "تقدر تبدأ بنفسك بالنصايح دي والنموذج اللي فوق. ولو عايز منيو إلكتروني بتصميمك وصورك، ده في باقة النمو."
           }
         }
       ]
