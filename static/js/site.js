@@ -354,6 +354,17 @@
     });
   }
 
+  /* ---------- "Print the plan": prints only that part of the page (body.print-<name>, see biz.css) ---------- */
+  document.querySelectorAll("[data-print]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var c = "print-" + b.getAttribute("data-print");
+      var done = function () { document.body.classList.remove(c); window.removeEventListener("afterprint", done); };
+      document.body.classList.add(c); window.addEventListener("afterprint", done);
+      track("business_guide_print", { plan: b.getAttribute("data-print") });
+      window.print();
+    });
+  });
+
   /* ---------- Foodidu Business: sections rise in as they scroll into view ---------- */
   if (document.body.classList.contains("biz")) {
     if ("IntersectionObserver" in window && !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {

@@ -582,3 +582,52 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .qr-pro-mini > span:nth-child(2) { flex: 1; }
 .qr-pro-mini .icon { flex: none; width: 18px; height: 18px; }
 @media (max-width: 900px) { .bz-plans.two { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- guides for restaurant owners (/business/restaurant-marketing-plan/) ---------- */
+.bz-goals { position: relative; width: min(100%, 460px); margin-inline: auto; padding: clamp(20px, 3vw, 32px); border-radius: 28px; background: var(--bz-sun-soft); border: 1.5px solid var(--bz-sun-2); }
+.bz-goals ul { list-style: none; display: grid; gap: 12px; }
+.bz-goals li { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 18px; background: #fff; border: 1px solid var(--bz-line); box-shadow: 0 14px 30px -24px rgba(58, 40, 13, .6); }
+.bz-goals li .n { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--bz-pri); color: var(--bz-sun); font-weight: 700; font-size: .9rem; }
+.bz-goals b { font-size: 1.08rem; color: var(--bz-pri-2); }
+.bz-goals .bz-ic { flex: none; }
+.bz-goals img { position: absolute; bottom: -34px; inset-inline-end: -14px; width: 104px; height: auto; }
+.bz-toc { margin-bottom: clamp(36px, 5vw, 56px); padding: 18px 20px; border-radius: 18px; border: 1px solid var(--bz-line); background: #fff; }
+.bz-toc b { display: block; margin-bottom: 8px; color: var(--bz-pri-2); }
+.bz-toc ol { display: flex; flex-wrap: wrap; gap: 8px 22px; padding-inline-start: 18px; }
+[dir="rtl"] .bz-toc ol { list-style: arabic-indic; }
+.bz-toc a { color: var(--bz-pri); font-weight: 600; text-underline-offset: 3px; }
+#numbers, #ideas, #plan, #phrases { scroll-margin-top: 80px; }
+.bz-ideas { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 16px; }
+.bz-ideas > li { display: flex; gap: 16px; padding: 22px; border-radius: 20px; background: #fff; border: 1px solid var(--bz-line); }
+.bz-ideas .n { flex: none; width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; background: var(--bz-sun); color: var(--bz-pri-2); font-weight: 700; font-size: 1.05rem; }
+.bz-ideas h3 { font-size: 1.12rem; line-height: 1.35; }
+.bz-ideas p { margin-top: 6px; color: var(--bz-ink-2); }
+.bz-ideas .tip { display: flex; gap: 8px; align-items: flex-start; margin-top: 12px; padding: 10px 12px; border-radius: 12px; background: var(--bz-leaf-soft); color: #2F5310; font-size: .93rem; }
+.bz-ideas .tip .icon { flex: none; width: 18px; height: 18px; margin-top: 2px; }
+.bz-ideas .bz-link { display: inline-flex; margin-top: 12px; }
+.bz-weeks { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 16px; }
+.bz-weeks article { padding: 22px; border-radius: 20px; background: #fff; border: 1.5px solid var(--bz-line-2); }
+.bz-weeks h3 { font-size: 1.05rem; color: var(--bz-pri-2); padding-bottom: 12px; border-bottom: 2px dashed var(--bz-line-2); }
+.bz-weeks ul { list-style: none; display: grid; gap: 12px; margin-top: 14px; }
+.bz-weeks li { display: flex; gap: 10px; align-items: flex-start; color: var(--bz-ink-2); }
+.bz-weeks .box { flex: none; width: 20px; height: 20px; margin-top: 3px; border-radius: 6px; border: 2px solid var(--bz-pri); }
+.bz-print { margin-top: 22px; }
+.bz-phrases { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 14px; }
+.bz-phrases li { position: relative; padding: 20px 22px 20px 52px; border-radius: 18px; background: #fff; border: 1px solid var(--bz-line); font-weight: 600; color: var(--bz-pri-2); line-height: 1.6; }
+[dir="rtl"] .bz-phrases li { padding: 20px 52px 20px 22px; }
+.bz-phrases li::before { content: "“"; position: absolute; top: 6px; inset-inline-start: 16px; font-size: 2.6rem; line-height: 1; color: var(--bz-sun-2); font-family: Georgia, serif; }
+[dir="rtl"] .bz-phrases li::before { content: "”"; }
+.bz-more-link { margin-top: 18px; }
+.bz-guideband { margin-top: clamp(40px, 6vw, 64px); }
+@media (max-width: 700px) {
+  .bz-toc ol { flex-direction: column; }
+  .bz-print, .bz-more-link { text-align: center; }
+  .bz-goals img { width: 84px; bottom: -28px; }
+}
+/* "Print the plan": only the 30-day plan on the page */
+@media print {
+  body.print-plan > :not(main), body.print-plan main > :not(#plan), body.print-plan .bz-print { display: none !important; }
+  body.print-plan #plan { padding: 0; }
+  body.print-plan .bz-weeks { grid-template-columns: 1fr 1fr; }
+  body.print-plan .bz-weeks article { break-inside: avoid; }
+}
