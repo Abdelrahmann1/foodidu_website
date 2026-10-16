@@ -11,7 +11,7 @@ window.FoodiduAdmin = (() => {
   const ICONS = [["fork", "مطاعم"], ["pizza", "بيتزا"], ["basket", "بقالة"], ["bag", "تسوق"], ["gift", "هدية"], ["tag", "خصم"]];
   const RESERVED = ["ar", "en", "promo-codes", "partners", "business", "day-deals", "privacy-policy", "terms-and-conditions", "dashboard", "blog", "first-order-promo-codes", "img", "css", "js", "pages", "components", "404"];
   // key order in the JSON files, so a saved entry looks like the ones written by hand
-  const BRAND_KEYS = ["key", "slug", "name", "logo", "code", "noCode", "category", "region", "regionLabel", "exclusive", "firstOrder", "featured", "priority", "url", "urlLabel", "lastVerified", "badge", "offer", "terms", "where", "steps", "moreCodes", "about", "seo"];
+  const BRAND_KEYS = ["key", "slug", "name", "logo", "code", "noCode", "category", "region", "regionLabel", "exclusive", "firstOrder", "featured", "priority", "url", "urlLabel", "lastVerified", "badge", "offer", "terms", "where", "note", "steps", "moreCodes", "about", "seo"];
   const REST_KEYS = ["key", "slug", "name", "logo", "category", "region", "menu", "website", "phone", "cuisine", "lastChecked", "validUntil", "about", "seo", "offers"];
   const POST_KEYS = ["key", "slug", "status", "published", "updated", "seasonEnd", "brands", "seo", "h1", "lede", "body", "faq"];
   const DEAL_KEYS = ["id", "brand", "name", "logo", "icon", "region", "url", "featured", "days", "title", "details", "source", "sourceLabel", "lastChecked"];
@@ -364,6 +364,7 @@ window.FoodiduAdmin = (() => {
       badge: badge("الخصم على التذكرة"), offer: bi("العرض في سطر", { req: true, hint: "زي: خصم 30% على أول طلب بحد أقصى 150 جنيه" }),
       terms: bi("الشروط", { req: true, area: true }), where: bi("بيتستخدم فين", { req: true, hint: "زي: تطبيق رابيت" }),
       moreCodes: list("أكواد تانية لنفس البراند (اختياري)", () => group({ code: text("الكود", { dir: "ltr", pattern: /^\S+$/, patternMsg: "من غير مسافات", hint: "فاضي لو العرض من غير كود." }), noCode: check("عرض من غير كود", "بيتطبق لوحده. بيظهر عليه \"بدون كود\" بدل زرار النسخ."), until: date("العرض بيخلص يوم (اختياري)", { hint: "بعد اليوم ده بيختفي من الموقع لوحده (الموقع بيتبني كل ليلة)." }), badge: badge("الخصم على التذكرة"), offer: bi("العرض في سطر", { req: true }), terms: bi("الشروط", { req: true, area: true }), exclusive: check("حصري"), firstOrder: check("لأول طلب بس"), lastVerified: date("آخر مرة جربنا الكود ده بنفسنا", { today: true, hint: "لو فاضي، الكود ده بيظهر من غير \"اتحقق منه\"." }) }), { item: "كود", add: "كود تاني" }),
+      note: bi("ملحوظة توضيحية تحت العرض (اختياري)", { area: true, hint: "سطر قصير يوضح حاجة الناس بتتلخبط فيها، زي: الكود ده لتطبيق البقالة مش السكوترات، أو أي كود للمطاعم." }),
       about: bi("عن البراند", { req: true, area: true, hint: "جملتين عن البراند والكود. بيظهر في صفحة البراند." }), seo: seo()
     };
     idFields(isNew, "-PromoCode", f);
@@ -593,7 +594,7 @@ window.FoodiduAdmin = (() => {
       const next = Object.assign(isNew ? {} : clone(b), v);
       if (noCode) { next.noCode = true; next.code = ""; } else delete next.noCode;
       if (firstOrder) next.firstOrder = true; else delete next.firstOrder;
-      for (const k of ["moreCodes", "regionLabel", "urlLabel", "priority", "lastVerified"]) if (!(k in v)) delete next[k];
+      for (const k of ["moreCodes", "regionLabel", "urlLabel", "note", "priority", "lastVerified"]) if (!(k in v)) delete next[k];
       next.url = v.url || "";
       next.logo = cur.logo || "";
       if (!isNew && !logoF.changed() && same(next, b, BRAND_KEYS)) return false;

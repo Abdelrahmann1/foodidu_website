@@ -1590,7 +1590,7 @@ HTML
 <div class="bp-id"><span class="bp-logo"><span class="logo-tile">@{[ logo_img($b, $l, 104, 1) ]}</span>$verified</span>
 <div class="bp-head"><div class="pill-row"><span class="pill">@{[ icon($CATICON{$b->{category}}) ]}@{[ esc($CATN{$b->{category}}{$l}) ]}</span>$flag$count</div>
 <h1>@{[ Te($l, $nc ? 'b_h1_nocode' : @coded > 1 ? 'b_h1_multi' : 'b_h1', name => $name) ]}</h1></div></div>
-<p class="lede bp-lede">$lede</p>
+<div class="bp-lede"><p class="lede">$lede</p>@{[ $b->{note} && $b->{note}{$l} ? '<p class="bp-note">' . icon('info') . '<span>' . esc($b->{note}{$l}) . '</span></p>' : '' ]}</div>
 <div class="coupons bp-coupons@{[ $multi ? ' multi' : '' ]}">
 $coupons
 @{[ $go ? qq{<div class="coupon-actions">$go</div>} : '' ]}

@@ -832,6 +832,9 @@ a.store:hover { background: #000; transform: translateY(-2px); }
 }
 .bp-id { grid-area: id; display: flex; align-items: center; gap: 22px; }
 .bp-lede { grid-area: lede; margin: 0; font-size: clamp(1.05rem, 1.6vw, 1.2rem); max-width: 36em; }
+.bp-lede > .lede { margin: 0; font-size: inherit; max-width: none; }
+.bp-note { display: flex; gap: 8px; align-items: flex-start; margin-top: 12px; padding: 10px 14px; border-radius: 12px; background: rgba(255, 255, 255, .55); font-size: .9rem; line-height: 1.6; }
+.bp-note .icon { flex: none; width: 1.15em; height: 1.15em; margin-top: .25em; }
 .bp-coupons { grid-area: coupons; align-self: center; }
 .bp-facts { grid-area: facts; }
 .bp-logo { position: relative; flex: none; transform: rotate(-4deg); }
