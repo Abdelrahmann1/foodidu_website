@@ -100,6 +100,19 @@
       "source": "https://www.facebook.com/100066818760280/posts/pfbid0JpmBUAMfPnv9WsaoEdkDih3YynNb95Pv2Dq3YFq9XjeLQ33rwJbCz2w9h91ACRx8l/",
       "sourceLabel": { "en": "Caribou Coffee Egypt's post on Facebook", "ar": "بوست كاريبو كوفي مصر على فيسبوك" },
       "lastChecked": "2026-10-14"
+    },
+    {
+      "id": "pizza-king-sunday",
+      "brand": "pizza-king",
+      "days": ["sun"],
+      "title": { "en": "3 medium pizzas + a free 1L Pepsi for 375 EGP", "ar": "3 بيتزا وسط + لتر بيبسي هدية بـ 375 جنيه" },
+      "details": {
+        "en": "Pizza King's Sunday offer: 3 medium pizzas of your choice for 375 EGP, with a free 1-litre Pepsi, every Sunday, from the Pizza King app or website.",
+        "ar": "عرض الأحد من بيتزا كينج: 3 بيتزا وسط من اختيارك بـ 375 جنيه مع لتر بيبسي هدية، كل يوم أحد، من تطبيق أو موقع بيتزا كينج."
+      },
+      "source": "https://pizzaking-eg.com/",
+      "sourceLabel": { "en": "Pizza King's website", "ar": "موقع بيتزا كينج" },
+      "lastChecked": "2026-10-18"
     }
   ]
 }
