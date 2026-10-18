@@ -434,6 +434,7 @@ sub nbrands { my ($l, $n) = @_; return $l eq 'en' ? "$n brands" : ($n <= 10 ? "$
 sub ncodes  { my ($l, $n) = @_; return $n == 1 ? '1 code' : "$n codes" if $l eq 'en'; return $n == 1 ? 'كود واحد' : $n == 2 ? 'كودان' : $n <= 10 ? "$n أكواد" : "$n كوداً" }
 sub fmt_date { my ($l, $ymd) = @_; my ($y, $m, $d) = split /-/, $ymd; return $l eq 'en' ? ($d + 0) . " $MONTHS_EN[$m-1] $y" : ($d + 0) . " $MONTHS_AR[$m-1] $y" }
 sub month_year { my ($l, $ymd) = @_; my ($y, $m) = split /-/, $ymd; return $l eq 'en' ? substr($MONTHS_EN[$m-1], 0, 3) . " $y" : "$MONTHS_AR[$m-1] $y" }
+sub this_month { my $ymd = shift // ''; $ymd ne '' && substr($ymd, 0, 7) eq substr($TODAY, 0, 7) }   # a title says "(Oct 2026)" only in October: an old month looks stale in Google
 sub fresh { my $ymd = shift or return 0; my ($y, $m, $d) = split /-/, $ymd; my $t = eval { timegm(0, 0, 12, $d, $m - 1, $y) } or return 0; return ($NOW - $t) / 86400 <= 45 && $t <= $NOW + 86400 }
 
 # ------------------------------------------------------------------ icons
@@ -1457,7 +1458,7 @@ HTML
     my $min = fmt_n(rest_min($r));
     my $cheap = (sort { $a->{price} <=> $b->{price} } @os)[0];
     my $is_fresh = fresh($r->{lastChecked});
-    my $tbase = $r->{seo}{$l}{title} . ($is_fresh ? ' (' . month_year($l, $r->{lastChecked}) . ')' : '');
+    my $tbase = $r->{seo}{$l}{title} . ($is_fresh && this_month($r->{lastChecked}) ? ' (' . month_year($l, $r->{lastChecked}) . ')' : '');
     my $checked = $r->{lastChecked} ? '<p class="checked">' . icon('shield') . T($l, 'ro_checked', date => fmt_date($l, $r->{lastChecked})) . '</p>' : '';
     $checked .= '<p class="checked">' . icon('calendar') . T($l, 'ro_valid', date => fmt_date($l, $r->{validUntil})) . '</p>' if $r->{validUntil};
     my $menu = esc($r->{menu}{$l} // $r->{website});
@@ -1536,7 +1537,7 @@ HTML
     my $strong = sub { '<strong dir="ltr">' . esc($_[0]{code}) . '</strong>' };
     my $codes_or = join($l eq 'ar' ? ' أو ' : ' or ', map { $strong->($_) } @coded);
     my $is_fresh = fresh($b->{lastVerified});
-    my $tbase = $b->{seo}{$l}{title} . ($is_fresh ? ' (' . month_year($l, $b->{lastVerified}) . ')' : '');
+    my $tbase = $b->{seo}{$l}{title} . ($is_fresh && this_month($b->{lastVerified}) ? ' (' . month_year($l, $b->{lastVerified}) . ')' : '');
     my $title = length($tbase) + 10 <= 65 ? "$tbase | Foodidu" : $tbase;   # keep the month visible in Google; drop the suffix if too long
     my $verified = $is_fresh ? '<span class="bp-check" role="img" aria-label="' . T($l, 'b_f_checked') . '" title="' . T($l, 'b_f_checked') . '">' . icon('check') . '</span>' : '';
     my @facts = ([pin => T($l, 'b_f_region'), region_label($b, $l)], [store => T($l, 'b_f_where'), $where]);
