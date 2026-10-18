@@ -2,7 +2,8 @@
   "firestore": { "rules": "firestore.rules" },
   "hosting": {
     "public": "public",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "appAssociation": "NONE",
+    "ignore": ["firebase.json", "**/.git/**", "**/.firebase/**", "**/.DS_Store", "**/node_modules/**"],
     "cleanUrls": false,
     "redirects": [
       { "source": "/index.html", "destination": "/", "type": 301 },
@@ -174,7 +175,9 @@
       { "source": "/8orders-promocode", "destination": "/8Orders-PromoCode/", "type": 301 },
       { "source": "/8orders-promocode/", "destination": "/8Orders-PromoCode/", "type": 301 },
       { "source": "/ar/8orders-promocode", "destination": "/ar/8Orders-PromoCode/", "type": 301 },
-      { "source": "/ar/8orders-promocode/", "destination": "/ar/8Orders-PromoCode/", "type": 301 }
+      { "source": "/ar/8orders-promocode/", "destination": "/ar/8Orders-PromoCode/", "type": 301 },
+      { "source": "/place/:id", "destination": "https://foodidu-mobile-dashbaord.vercel.app/place/:id", "type": 302 },
+      { "source": "/place/:id/", "destination": "https://foodidu-mobile-dashbaord.vercel.app/place/:id", "type": 302 }
     ],
     "headers": [
       {
@@ -214,6 +217,19 @@
       },
       {
         "source": "/@(sitemap.xml|robots.txt|site.webmanifest)",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=3600" }
+        ]
+      },
+      {
+        "source": "/.well-known/apple-app-site-association",
+        "headers": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Cache-Control", "value": "public, max-age=3600" }
+        ]
+      },
+      {
+        "source": "/.well-known/assetlinks.json",
         "headers": [
           { "key": "Cache-Control", "value": "public, max-age=3600" }
         ]
