@@ -113,6 +113,22 @@
       "source": "https://pizzaking-eg.com/",
       "sourceLabel": { "en": "Pizza King's website", "ar": "موقع بيتزا كينج" },
       "lastChecked": "2026-10-18"
+    },
+    {
+      "id": "8back-sun-mon",
+      "name": { "en": "8Back", "ar": "8Back" },
+      "icon": "fork",
+      "region": "eg",
+      "regionLabel": { "en": "Almaza, Heliopolis", "ar": "ألماظة، مصر الجديدة" },
+      "days": ["sun", "mon"],
+      "title": { "en": "All-you-can-eat wings for 249 EGP", "ar": "أجنحة لحد ما تشبع بـ 249 جنيه" },
+      "details": {
+        "en": "8Back's Sunday and Monday wings offer: all-you-can-eat wings for 249 EGP, or 299 EGP with unlimited soft drinks. 8Back is at Tivoli Garden, opposite Tivoli Dome, Omar Ibn El Khattab St., Almaza; for delivery call 01222227646.",
+        "ar": "عرض الأجنحة من 8Back يومي الأحد والاثنين: أجنحة لحد ما تشبع بـ 249 جنيه، أو بـ 299 جنيه مع مشروب غازي مفتوح. 8Back في تيفولي جاردن أمام تيفولي دوم، شارع عمر بن الخطاب، ألماظة، وللتوصيل اتصل على 01222227646."
+      },
+      "source": "tel:01222227646",
+      "sourceLabel": { "en": "8Back's delivery line, 01222227646", "ar": "خط توصيل 8Back الرسمي 01222227646" },
+      "lastChecked": "2026-10-18"
     }
   ]
 }
