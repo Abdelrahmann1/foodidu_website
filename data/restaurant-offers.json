@@ -1,5 +1,5 @@
 {
-  "_help": "Restaurant menu offers (no code needed). Each restaurant gets its own page at /{slug}/ and a block in the home 'Restaurant offers' section. Prices in EGP, copied from the restaurant's official menu; update lastChecked (YYYY-MM-DD) whenever you re-check them. Then run: perl tools/build.pl",
+  "_help": "Restaurant menu offers (no code needed). Each restaurant gets its own page at /{slug}/ and a block in the home 'Restaurant offers' section. Prices in EGP, copied from the restaurant's official menu; update lastChecked (YYYY-MM-DD) whenever you re-check them. Optional: branches [{name, place, phone}] when orders are by phone only (one call button per branch), and priceSource \"facebook\" when the prices come from the restaurant's official Facebook post (put the post in menu). Then run: perl tools/build.pl",
   "restaurants": [
     {
       "key": "willys-kitchen",
@@ -266,6 +266,61 @@
           "items": { "en": "4 Joker wraps + 4 Nashville fries + 4 drinks", "ar": "4 جوكر راب + 4 بطاطس ناشفيل + 4 مشروبات" },
           "price": 700,
           "was": 1300
+        }
+      ]
+    },
+    {
+      "key": "melt-chocolate",
+      "slug": "Melt-Chocolate-Offers",
+      "name": { "en": "Melt Chocolate", "ar": "ميلت شوكليت" },
+      "logo": "melt-chocolate.webp",
+      "category": "restaurants",
+      "region": "eg",
+      "regionLabel": { "en": "Nasr City & New Cairo", "ar": "مدينة نصر والتجمع" },
+      "menu": { "en": "https://www.facebook.com/61559832895841/posts/122240434508327763/", "ar": "https://www.facebook.com/61559832895841/posts/122240434508327763/" },
+      "website": "https://www.facebook.com/61559832895841",
+      "phone": "01158989944",
+      "branches": [
+        {
+          "name": { "en": "Nasr City", "ar": "مدينة نصر" },
+          "place": { "en": "Tivoli Plaza Mall, Omar Ibn El-Khattab St.", "ar": "تيفولي بلازا مول، شارع عمر بن الخطاب" },
+          "phone": "01158989944"
+        },
+        {
+          "name": { "en": "New Cairo", "ar": "التجمع" },
+          "place": { "en": "Hazard Mall, Mostafa Kamel Axis, First Settlement", "ar": "هازارد مول، محور مصطفى كامل، التجمع الأول" },
+          "phone": "01158989933"
+        }
+      ],
+      "priceSource": "facebook",
+      "cuisine": ["Desserts", "Coffee"],
+      "lastChecked": "2026-10-19",
+      "about": {
+        "en": "Melt Chocolate is a chocolate dessert café in Cairo known for cream puffs, cookies and iced coffee. It has two branches: Tivoli Plaza Mall in Nasr City and Hazard Mall in New Cairo, and you order by calling the branch.",
+        "ar": "ميلت شوكليت كافيه حلويات شوكولاتة في القاهرة، مشهور بالكريم باف والكوكيز والآيس كوفي. له فرعان: تيفولي بلازا مول في مدينة نصر وهازارد مول في التجمع، والطلب بالاتصال بالفرع."
+      },
+      "seo": {
+        "en": {
+          "title": "Melt Chocolate Offers: Iced Coffee Combos from 249 EGP",
+          "description": "Melt Chocolate offers in Cairo: iced coffee with cream puffs for 249 EGP instead of 315, or with a cookie for 349 instead of 405. Nasr City and New Cairo."
+        },
+        "ar": {
+          "title": "عروض ميلت شوكليت: آيس كوفي مع حلو من 249 جنيه",
+          "description": "عروض ميلت شوكليت في القاهرة: آيس كوفي مع كريم باف بـ 249 جنيه بدل 315، أو مع كوكي بـ 349 بدل 405، في فرعي مدينة نصر والتجمع."
+        }
+      },
+      "offers": [
+        {
+          "name": { "en": "Cream Puffs + Iced Coffee", "ar": "كريم باف + آيس كوفي" },
+          "items": { "en": "A single cup of cream puffs + an iced coffee", "ar": "كوب كريم باف سينجل + آيس كوفي" },
+          "price": 249,
+          "was": 315
+        },
+        {
+          "name": { "en": "Cookie + Iced Coffee", "ar": "كوكي + آيس كوفي" },
+          "items": { "en": "A single-scoop cookie + an iced coffee", "ar": "كوكي بسكوب آيس كريم واحد + آيس كوفي" },
+          "price": 349,
+          "was": 405
         }
       ]
     }

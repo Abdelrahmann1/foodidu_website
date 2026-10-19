@@ -85,8 +85,8 @@ function ogJobs(e, kind) {
       const save = Math.max(...e.offers.map((o) => Math.round((1 - o.price / o.was) * 100)));
       const n = e.offers.length;
       const text = lang === "ar"
-        ? [`عروض ${e.name.ar}`, `${n <= 10 ? n + " عروض" : n + " عرضاً"} تبدأ من ${min} جنيه، ووفّر حتى ${save}% من سعر المنيو.`]
-        : [`${e.name.en} offers`, `${n} offers from ${min} EGP, saving up to ${save}% on the menu price.`];
+        ? [`عروض ${e.name.ar}`, `${n === 1 ? "عرض واحد" : n === 2 ? "عرضان" : n <= 10 ? n + " عروض" : n + " عرضاً"} تبدأ من ${min} جنيه، ووفّر حتى ${save}% من سعر المنيو.`]
+        : [`${e.name.en} offers`, `${n === 1 ? "1 offer" : n + " offers"} from ${min} EGP, saving up to ${save}% on the menu price.`];
       const badge = { en: [String(min), "EGP"], ar: [`${min} جنيه`, "من"] };
       return { lang, file: `${e.key}-${lang}`, text, items: [{ ...e, badge, tag: lang === "ar" ? `وفّر حتى ${save}%` : `Save up to ${save}%` }] };
     }

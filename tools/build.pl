@@ -217,6 +217,13 @@ my %S = (
   ro_q3 => 'How do I order {name} offers?', ro_a3 => 'From the Offers section of the {name} menu online, or by calling {phone}.',
   ro_q4 => 'Do the prices change?', ro_a4 => 'These prices are from the official {name} menu on {date} and can change, so check the menu before you order.',
   ro_src => 'Prices from the official {name} menu. They can change.', ro_valid => 'Offers valid until {date}',
+  ro_checked_fb => 'Prices from the official {name} Facebook page, checked by Foodidu on {date}',
+  ro_a1_fb => '{name} currently has {count} on its official Facebook page: {list}.',
+  ro_a4_fb => 'These prices are from the official {name} Facebook page on {date} and can change, so check with the branch before you order.',
+  ro_src_fb => 'Prices from <a href="{url}" rel="nofollow noopener" target="_blank">the official {name} post on Facebook</a>. They can change.',
+  ro_call_branch => 'Call {branch}: {phone}', ro_branch => '{branch} ({place}) on {phone}', ro_a3_br => 'By calling the nearest {name} branch: {branches}.',
+  ro_bs1 => 'Pick the nearest branch', ro_bs1p => '{branches}.', ro_bs2 => 'Call the branch', ro_bs2p => 'Ask for the offer by its name.',
+  ro_bs3 => 'Confirm the price', ro_bs3p => 'Prices can change, so ask for the final price before you confirm your order.',
   ft_label => 'Featured offer', ft_sponsored => 'Sponsored', ft_until => 'until {date}',
   ft_rest_title => '{name} offers: save up to {p}%', ft_rest_text => '{n} on the menu from {min} EGP', ft_rest_cta => 'See the offers',
   ft_code_title => '{name} promo code', ft_code_cta => 'Get the code',
@@ -379,6 +386,13 @@ my %S = (
   ro_q3 => 'كيف أطلب عروض {name}؟', ro_a3 => 'من قسم العروض في منيو {name} أونلاين، أو بالاتصال على {phone}.',
   ro_q4 => 'هل تتغير الأسعار؟', ro_a4 => 'هذه الأسعار من منيو {name} الرسمي بتاريخ {date} وقد تتغير، فراجع المنيو قبل الطلب.',
   ro_src => 'الأسعار من منيو {name} الرسمي وقد تتغير.', ro_valid => 'العروض سارية حتى {date}',
+  ro_checked_fb => 'الأسعار من صفحة {name} الرسمية على فيسبوك، تحقّق منها فريق Foodidu في {date}',
+  ro_a1_fb => 'يعرض {name} حالياً {count} على صفحته الرسمية على فيسبوك: {list}.',
+  ro_a4_fb => 'هذه الأسعار من صفحة {name} الرسمية على فيسبوك بتاريخ {date} وقد تتغير، فتأكد منها مع الفرع قبل الطلب.',
+  ro_src_fb => 'الأسعار من <a href="{url}" rel="nofollow noopener" target="_blank">بوست {name} الرسمي على فيسبوك</a> وقد تتغير.',
+  ro_call_branch => 'اتصل بفرع {branch}: {phone}', ro_branch => 'فرع {branch} ({place}) على {phone}', ro_a3_br => 'بالاتصال بأقرب فرع من فروع {name}: {branches}.',
+  ro_bs1 => 'اختر أقرب فرع', ro_bs1p => '{branches}.', ro_bs2 => 'اتصل بالفرع', ro_bs2p => 'اطلب العرض باسمه.',
+  ro_bs3 => 'تأكد من السعر', ro_bs3p => 'الأسعار قد تتغير، فاسأل عن السعر النهائي قبل تأكيد الطلب.',
   ft_label => 'عرض مميز', ft_sponsored => 'إعلان', ft_until => 'حتى {date}',
   ft_rest_title => 'عروض {name}: وفّر حتى <bdi>{p}%</bdi>', ft_rest_text => '{n} من المنيو تبدأ من {min} جنيه', ft_rest_cta => 'شوف العروض',
   ft_code_title => 'كود خصم {name}', ft_code_cta => 'خد الكود',
@@ -1105,6 +1119,7 @@ sub noffers  { my ($l, $n) = @_; return $n == 1 ? '1 offer' : "$n offers" if $l 
 sub fmt_n    { my $n = shift; 1 while $n =~ s/^(\d+)(\d{3})/$1,$2/; $n }
 sub save_pct { my $o = shift; $o->{was} ? int((1 - $o->{price} / $o->{was}) * 100 + 0.5) : 0 }
 sub rest_url { my ($r, $l) = @_; path_for($l, "/$r->{slug}/") }
+sub and_list { my ($l, @x) = @_; @x < 2 ? ($x[0] // '') : join($l eq 'ar' ? '، ' : ', ', @x[0 .. $#x - 1]) . ($l eq 'ar' ? '، و' : ', and ') . $x[-1] }
 sub rest_logo { my ($r, $l, $size) = @_; qq{<img } . logo_attrs($r->{logo}, $size) . qq{ alt="} . Te($l, 'logo_alt', name => $r->{name}{$l}) . qq{" width="$size" height="$size" loading="lazy" decoding="async">} }
 sub rest_min { my $r = shift; (sort { $a <=> $b } map { $_->{price} } @{ $r->{offers} })[0] }
 sub rest_max_save { my $r = shift; (sort { $b <=> $a } map { save_pct($_) } @{ $r->{offers} })[0] }
@@ -1511,18 +1526,30 @@ HTML
     my $cheap = (sort { $a->{price} <=> $b->{price} } @os)[0];
     my $is_fresh = fresh($r->{lastChecked});
     my $tbase = $r->{seo}{$l}{title} . ($is_fresh && this_month($r->{lastChecked}) ? ' (' . month_year($l, $r->{lastChecked}) . ')' : '');
-    my $checked = $r->{lastChecked} ? '<p class="checked">' . icon('shield') . T($l, 'ro_checked', date => fmt_date($l, $r->{lastChecked})) . '</p>' : '';
+    # priceSource "facebook": the prices come from the restaurant's official Facebook post (menu = that post), not a menu page.
+    # branches [{name, place, phone}]: orders are by phone only, one call button per branch instead of the order button.
+    my $fb = ($r->{priceSource} // '') eq 'facebook';
+    my @br = @{ $r->{branches} // [] };
+    my $branches = sub { my $bdi = shift; and_list($l, map { T($l, 'ro_branch', branch => esc($_->{name}{$l}), place => esc($_->{place}{$l}), phone => ($bdi ? "<bdi>$_->{phone}</bdi>" : $_->{phone})) } @br) };
+    my $checked = $r->{lastChecked} ? '<p class="checked">' . icon('shield') . T($l, $fb ? 'ro_checked_fb' : 'ro_checked', name => $en, date => fmt_date($l, $r->{lastChecked})) . '</p>' : '';
     $checked .= '<p class="checked">' . icon('calendar') . T($l, 'ro_valid', date => fmt_date($l, $r->{validUntil})) . '</p>' if $r->{validUntil};
     my $menu = esc($r->{menu}{$l} // $r->{website});
-    my $actions = qq{<div class="coupon-actions"><a class="btn btn-leaf" href="$menu" rel="nofollow noopener" target="_blank" data-track="restaurant_order_click" data-brand="$r->{key}">} . T($l, 'ro_order', name => $en) . ' ' . icon('external') . '</a>'
+    my $actions = @br
+      ? '<div class="coupon-actions">' . join('', map { my $b = $br[$_]; qq{<a class="btn } . ($_ ? 'btn-line' : 'btn-leaf') . qq{" href="tel:$b->{phone}" data-track="restaurant_call_click" data-brand="$r->{key}">} . icon('phone') . ' ' . T($l, 'ro_call_branch', branch => esc($b->{name}{$l}), phone => "<bdi>$b->{phone}</bdi>") . '</a>' } 0 .. $#br) . '</div>'
+      : qq{<div class="coupon-actions"><a class="btn btn-leaf" href="$menu" rel="nofollow noopener" target="_blank" data-track="restaurant_order_click" data-brand="$r->{key}">} . T($l, 'ro_order', name => $en) . ' ' . icon('external') . '</a>'
       . ($r->{phone} ? qq{<a class="btn btn-line" href="tel:$r->{phone}" data-track="restaurant_call_click" data-brand="$r->{key}">} . icon('phone') . ' ' . T($l, 'ro_call', phone => "<bdi>$r->{phone}</bdi>") . '</a>' : '') . '</div>';
     my $list = join($l eq 'ar' ? '، ' : ', ', map { esc(oname($_, $l)) . ' (' . fmt_n($_->{price}) . ' ' . T($l, 'egp') . ')' } @os);
     my @qa = (
-      [Te($l, 'ro_q1', name => $name), T($l, 'ro_a1', name => $en, count => noffers($l, scalar @os), list => $list)],
+      [Te($l, 'ro_q1', name => $name), T($l, $fb ? 'ro_a1_fb' : 'ro_a1', name => $en, count => noffers($l, scalar @os), list => $list)],
       [Te($l, 'ro_q2', name => $name), T($l, 'ro_a2', offer => esc(oname($cheap, $l)), price => fmt_n($cheap->{price}), items => esc($cheap->{items}{$l}))],
-      [Te($l, 'ro_q3', name => $name), T($l, 'ro_a3', name => $en, phone => $r->{phone} // '')],
-      [T($l, 'ro_q4'), T($l, 'ro_a4', name => $en, date => fmt_date($l, $r->{lastChecked} // $RO_DATE))],
+      [Te($l, 'ro_q3', name => $name), @br ? T($l, 'ro_a3_br', name => $en, branches => $branches->(0)) : T($l, 'ro_a3', name => $en, phone => $r->{phone} // '')],
+      [T($l, 'ro_q4'), T($l, $fb ? 'ro_a4_fb' : 'ro_a4', name => $en, date => fmt_date($l, $r->{lastChecked} // $RO_DATE))],
     );
+    my @steps = @br
+      ? ([T($l, 'ro_bs1'), T($l, 'ro_bs1p', branches => $branches->(1))], [T($l, 'ro_bs2'), T($l, 'ro_bs2p')], [T($l, 'ro_bs3'), T($l, 'ro_bs3p')])
+      : ([Te($l, 'ro_s1', name => $name), T($l, 'ro_s1p')], [T($l, 'ro_s2'), T($l, 'ro_s2p')], [T($l, 'ro_s3'), T($l, 'ro_s3p', phone => qq{<bdi>$r->{phone}</bdi>})]);
+    my $steps = join "\n", map { "<li><div><b>$_->[0]</b><span>$_->[1]</span></div></li>" } @steps;
+    my $src = $fb ? T($l, 'ro_src_fb', name => $en, url => $menu) : Te($l, 'ro_src', name => $name);
     my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'ro_h1', name => $name), $url]];
     my $cards = join '', map { '<li>' . moffer_card($_, $l, 'h3') . '</li>' } @os;
     my @rcodes = (grep { $_->{category} eq 'restaurants' && ($_->{priority} // '') ne 'low' } @BRANDS)[0 .. 3];
@@ -1543,15 +1570,13 @@ $actions
 <section class="wrap section-tight" aria-labelledby="ro-list-title">
 <h2 class="sr-only" id="ro-list-title">@{[ Te($l, 'ro_all', name => $name) ]}</h2>
 <ul class="moffer-list all">$cards</ul>
-<p class="note">@{[ Te($l, 'ro_src', name => $name) ]}</p>
+<p class="note">$src</p>
 </section>
 <div class="wrap brand-body ro-body">
 <article class="prose">
 <section aria-labelledby="how-title"><h2 id="how-title">@{[ Te($l, 'ro_how', name => $name) ]}</h2>
 <ol class="how">
-<li><div><b>@{[ Te($l, 'ro_s1', name => $name) ]}</b><span>@{[ T($l, 'ro_s1p') ]}</span></div></li>
-<li><div><b>@{[ T($l, 'ro_s2') ]}</b><span>@{[ T($l, 'ro_s2p') ]}</span></div></li>
-<li><div><b>@{[ T($l, 'ro_s3') ]}</b><span>@{[ T($l, 'ro_s3p', phone => qq{<bdi>$r->{phone}</bdi>}) ]}</span></div></li>
+$steps
 </ol></section>
 <section aria-labelledby="about-title"><h2 id="about-title">@{[ Te($l, 'b_about', name => $name) ]}</h2><p>@{[ esc($r->{about}{$l}) ]}</p></section>
 <section aria-labelledby="faq-title"><h2 id="faq-title">@{[ T($l, 'faq_title') ]}</h2>@{[ faq_html(@qa) ]}</section>
