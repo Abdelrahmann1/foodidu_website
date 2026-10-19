@@ -41,6 +41,50 @@ sub mdate {                             # last commit date of a file (stable acr
   my $d = $dirty ? '' : `git -C "$ROOT" log -1 --format=%cs -- "$f" 2>/dev/null`; chomp $d;
   return $d =~ /^\d{4}-\d\d-\d\d$/ ? $d : strftime('%Y-%m-%d', localtime((stat $f)[9]));   # local date, like git %cs
 }
+# What a page in one language shows of some data: every {en, ar} pair keeps only that language.
+sub lang_only {
+  my ($v, $l) = @_;
+  return [ map { lang_only($_, $l) } @$v ] if ref $v eq 'ARRAY';
+  return $v unless ref $v eq 'HASH';
+  return lang_only($v->{$l}, $l) if exists $v->{en} && exists $v->{ar};
+  return { map { ($_ => lang_only($v->{$_}, $l)) } keys %$v };
+}
+# When each part of a data file last changed, from its git history: { "id/en" => 'YYYY-MM-DD', "id/ar" => ... }. $parts
+# turns the decoded file into { id => data }. A brand page's sitemap date then moves only when that brand's own data in that
+# language does, not every time another brand is added or edited (Google ignores sitemap dates that change on every page at once).
+sub part_dates {
+  my ($f, $parts) = @_;
+  my $J = JSON::PP->new->utf8->canonical;
+  my $split = sub {   # { "id/lang" => that part as text }, only for the parts in %$want when it is given
+    my ($raw, $want) = @_;
+    my $d = eval { $J->decode($raw) }; my $p = ref $d eq 'HASH' ? (eval { $parts->($d) } // {}) : {};
+    +{ map { my $id = $_; map { ("$id/$_" => $J->encode([lang_only($p->{$id}, $_)])) } grep { !$want || $want->{"$id/$_"} } @LANGS } keys %$p };
+  };
+  my %now = %{ $split->(slurp($f, 1)) };
+  my $newest = mdate($f);   # the file as it is now: its last commit (or the day of uncommitted edits)
+  my %date = map { ($_ => $newest) } keys %now;
+  (my $rel = $f) =~ s{^\Q$ROOT\E/}{};
+  my @log = map { [split / /] } grep { /^[0-9a-f]{40} \d{4}-\d\d-\d\d$/ } split /\n/, `git -C "$ROOT" log --format="%H %cs" -- "$rel" 2>/dev/null`;
+  shift @log unless `git -C "$ROOT" status --porcelain -- "$rel" 2>/dev/null`;   # no uncommitted edits: the newest commit is the file as it is now
+  return \%date unless @log;
+  require File::Temp;
+  my ($th, $tn) = File::Temp::tempfile();
+  print $th map { "$_->[0]:$rel\n" } @log; close $th;
+  open my $ph, '-|', qq{git -C "$ROOT" cat-file --batch < "$tn"} or return \%date;   # every older version in one call
+  binmode $ph; my $out = do { local $/; <$ph> } // ''; close $ph; unlink $tn;
+  my ($pos, %open) = (0, map { ($_ => 1) } keys %now);
+  for my $c (@log) {   # newest first: a part takes the date of the oldest version in a row that has it exactly as it is now
+    last unless %open;
+    my $nl = index($out, "\n", $pos); last if $nl < 0;
+    my $head = substr($out, $pos, $nl - $pos); $pos = $nl + 1;
+    my $blob = '';
+    if ($head =~ / blob (\d+)$/) { $blob = substr($out, $pos, $1); $pos += $1 + 1 }
+    my $old = $split->($blob, \%open);
+    for my $id (keys %open) { if (($old->{$id} // '') eq $now{$id}) { $date{$id} = $c->[1] } else { delete $open{$id} } }
+  }
+  return \%date;
+}
+sub add_days { my ($ymd, $n) = @_; my ($y, $m, $d) = split /-/, $ymd; strftime('%Y-%m-%d', gmtime(timegm(0, 0, 12, $d, $m - 1, $y) + $n * 86400)) }
 
 my $DATA   = JSON::PP->new->utf8->decode(slurp("$ROOT/data/brands.json", 1));
 my @BRANDS = @{ $DATA->{brands} };
@@ -51,9 +95,11 @@ my %CATN   = %{ $DATA->{categories} };
 my @CATS   = qw(restaurants groceries shopping);
 my %CATICON = (restaurants => 'fork', groceries => 'basket', shopping => 'bag');
 my $DATA_DATE = mdate("$ROOT/data/brands.json");
+my %BRAND_DATES = %{ part_dates("$ROOT/data/brands.json", sub { +{ map { (($_->{key} // '') => $_) } @{ $_[0]{brands} } } }) };
 my $DD_FILE = "$ROOT/data/day-deals.json";
 my @DDEALS = -f $DD_FILE ? @{ JSON::PP->new->utf8->decode(slurp($DD_FILE, 1))->{deals} // [] } : ();
 my $DD_DATE = -f $DD_FILE ? mdate($DD_FILE) : $DATA_DATE;
+my %DD_DATES = -f $DD_FILE ? %{ part_dates($DD_FILE, sub { my %g; push @{ $g{$_->{brand} // ''} }, $_ for @{ $_[0]{deals} }; \%g }) } : ();   # per brand: its day deals
 # Amazon picks (data/amazon-picks.json): products the owner chose himself, listed on that brand's page with his affiliate tag.
 # Only the product ID (ASIN) is stored; no prices, because Amazon's rules allow only prices that update from Amazon itself.
 my $PK_FILE = "$ROOT/data/amazon-picks.json";
@@ -76,6 +122,7 @@ my %DAYN = (
 my $RO_FILE = "$ROOT/data/restaurant-offers.json";
 my @RESTS = -f $RO_FILE ? @{ JSON::PP->new->utf8->decode(slurp($RO_FILE, 1))->{restaurants} // [] } : ();
 my $RO_DATE = -f $RO_FILE ? mdate($RO_FILE) : $DATA_DATE;
+my %RO_DATES = -f $RO_FILE ? %{ part_dates($RO_FILE, sub { +{ map { (($_->{key} // '') => $_) } @{ $_[0]{restaurants} } } }) } : ();
 my $FT_FILE = "$ROOT/data/featured.json";
 my @FO;   # first-order codes, filled once the brands are loaded (used by the footer and /first-order-promo-codes/)
 my $FEAT = -f $FT_FILE ? JSON::PP->new->utf8->decode(slurp($FT_FILE, 1)) : {};
@@ -83,6 +130,11 @@ my $HOME_FILE = "$ROOT/data/home.json";
 my $HOME = -f $HOME_FILE ? JSON::PP->new->utf8->decode(slurp($HOME_FILE, 1)) : {};
 my $BIZ_FILE = "$ROOT/data/business.json";
 my $BIZ = -f $BIZ_FILE ? JSON::PP->new->utf8->decode(slurp($BIZ_FILE, 1)) : undef;   # Foodidu Business: /business/ and its service pages
+# A business page's date: its own entry (service, audience, guide or the QR tool), the menu demo it links to, and the
+# WhatsApp number and quick form every business page has. (The hub shows a bit of everything: it keeps the file's date.)
+my %BIZ_DATES = $BIZ ? %{ part_dates($BIZ_FILE, sub { my $d = shift; +{ (map { my $t = $_; map { ("$t:" . ($_->{key} // '') => $_) } @{ $d->{$t} // [] } } qw(services audiences guides)),
+  tool => $d->{tool}, demo => $d->{demo}, common => { map { ($_ => $d->{$_}) } qw(whatsapp org quick) } } }) } : ();
+sub biz_date { my $l = shift; (sort grep { $_ } map { $BIZ_DATES{"$_/$l"} } 'common', @_)[-1] // mdate($BIZ_FILE) }
 my $BLOG_FILE = "$ROOT/data/blog.json";
 my @POSTS = -f $BLOG_FILE ? @{ JSON::PP->new->utf8->decode(slurp($BLOG_FILE, 1))->{posts} // [] } : ();
 my @PUB = sort { $b->{published} cmp $a->{published} } grep { ($_->{status} // '') eq 'published' } @POSTS;   # published articles, newest first
@@ -1517,7 +1569,7 @@ HTML
       about => { '@type' => 'Restaurant', name => $r->{name}{en}, alternateName => $r->{name}{ar}, url => $r->{website}, ($r->{phone} ? (telephone => $r->{phone}) : ()), servesCuisine => $r->{cuisine} // [] },
       ld => [ faq_ld(@qa), { '@type' => 'ItemList', name => T($l, 'ro_h1', name => $name), numberOfItems => scalar @os,
         itemListElement => [ map { { '@type' => 'ListItem', position => ++$i, item => { '@type' => 'Offer', name => oname($_, $l), description => $_->{items}{$l}, price => $_->{price}, priceCurrency => 'EGP', ($r->{validUntil} ? (priceValidUntil => $r->{validUntil}) : ()), url => $r->{menu}{$l} // $r->{website} } } } @os ] } ],
-      lastmod => (sort grep { $_ } $r->{lastChecked}, $RO_DATE)[-1]);
+      lastmod => (sort grep { $_ } $r->{lastChecked}, $RO_DATES{"$r->{key}/$l"} // $RO_DATE)[-1]);
   }
 
   # ---------- brand pages
@@ -1634,9 +1686,14 @@ $bdd
 <nav class="cat-links" aria-labelledby="cat-links-title"><h3 id="cat-links-title">@{[ T($l, 'b_all_cat', cat => T($l, "cat_def_$b->{category}")) ]}</h3><ul>$catlinks</ul></nav>
 </section>
 HTML
+    # sitemap date: this brand's own data and day deals, plus the days the page changed by itself (an extra offer past its
+    # "until", the title's month on the 1st of the next month, the "checked" line 45 days after the check)
+    my @lm = ($BRAND_DATES{"$b->{key}/$l"} // $DATA_DATE, $b->{lastVerified}, (@bdd ? $DD_DATES{"$b->{key}/$l"} // $DD_DATE : ()),
+      map { add_days($_->{until}, 1) } grep { ($_->{until} // '') =~ /^\d{4}-\d\d-\d\d$/ } @{ $b->{moreCodes} // [] });
+    if (($b->{lastVerified} // '') =~ /^(\d{4})-(\d\d)-\d\d$/) { push @lm, ($2 == 12 ? sprintf('%04d-01-01', $1 + 1) : sprintf('%04d-%02d-01', $1, $2 + 1)), add_days($b->{lastVerified}, 46) }
     layout(lang => $l, key => "/$b->{slug}/", title => $title, desc => $b->{seo}{$l}{description}, body => $body, nav => 'codes',
       crumbs => $crumbs, og => "/img/og/$b->{key}-$l.png", about => { '@type' => 'Brand', name => $b->{name}{en}, alternateName => $b->{name}{ar} },
-      ld => [ faq_ld(@qa) ], lastmod => (sort grep { $_ } $b->{lastVerified}, $DATA_DATE, (@bdd ? $DD_DATE : ()))[-1]);
+      ld => [ faq_ld(@qa) ], lastmod => (sort grep { $_ && $_ le $TODAY } @lm)[-1]);
   }
 
   # ---------- Foodidu Business (data/business.json): /business/ and one page per service; /partners/ redirects here.
@@ -1797,7 +1854,7 @@ $others
 @{[ $faq->('sfaq-title', @qa) ]}
 HTML
       my $t = $s->{seo}{$l}{title};
-      layout(lang => $l, key => "/business/$s->{key}/", title => (length($t) + 10 <= 65 ? "$t | Foodidu" : $t), desc => $s->{seo}{$l}{description}, body => $body, skin => 'biz', lastmod => mdate($BIZ_FILE),
+      layout(lang => $l, key => "/business/$s->{key}/", title => (length($t) + 10 <= 65 ? "$t | Foodidu" : $t), desc => $s->{seo}{$l}{description}, body => $body, skin => 'biz', lastmod => biz_date($l, "services:$s->{key}", ($s->{highlight} ? "demo" : ())),
         crumbs => $crumbs, og => "/img/og/biz-$s->{key}-$l.png",
         ld => [ { '@type' => 'Service', name => $s->{name}{$l}, serviceType => $s->{name}{en}, description => $s->{seo}{$l}{description}, url => absu($url),
           provider => { '@id' => "$SITE/business/#org" }, areaServed => { '@type' => 'Country', name => 'Egypt' } }, faq_ld(@qa) ]);
@@ -1834,7 +1891,7 @@ $more
 </div></section>
 @{[ $faq->('afaq-title', @qa) ]}
 HTML2
-      layout(lang => $l, key => "/business/$au->{key}/", title => $au->{seo}{$l}{title}, desc => $au->{seo}{$l}{description}, body => $body, skin => 'biz', lastmod => mdate($BIZ_FILE),
+      layout(lang => $l, key => "/business/$au->{key}/", title => $au->{seo}{$l}{title}, desc => $au->{seo}{$l}{description}, body => $body, skin => 'biz', lastmod => biz_date($l, "audiences:$au->{key}"),
         crumbs => $crumbs, og => "/img/og/biz-home-$l.png", fd => { formUrl => $FORM_URL, quickNote => ($BIZ->{quick} ? $BIZ->{quick}{note}{$l} : '') },
         ld => [ { '@type' => 'Service', name => "Foodidu Business " . ($l eq 'en' ? lcfirst $au->{name}{$l} : $au->{name}{$l}), serviceType => 'Restaurant marketing', description => $au->{seo}{$l}{description}, url => absu($url),
           audience => { '@type' => 'BusinessAudience', audienceType => $au->{name}{en} =~ s/^For //r }, provider => { '@id' => "$SITE/business/#org" }, areaServed => { '@type' => 'Country', name => 'Egypt' } }, faq_ld(@qa) ]);
@@ -1880,9 +1937,9 @@ HTML2
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $g->{faq} };
       my $body = $hero->($crumbs, $g->{pill}{$l}, $g->{h1}{$l}, $g->{lede}{$l}, $visual, undef, $quick->()) . "$parts\n$types\n$more\n$cta\n" . $faq->('gfaq-title', $num->(@secs + 1), @qa);
       my $t = $g->{seo}{$l}{title};
-      layout(lang => $l, key => "/business/$g->{key}/", title => (length($t) + 10 <= 65 ? "$t | Foodidu" : $t), desc => $g->{seo}{$l}{description}, body => $body, skin => 'biz', lastmod => mdate($BIZ_FILE),
+      layout(lang => $l, key => "/business/$g->{key}/", title => (length($t) + 10 <= 65 ? "$t | Foodidu" : $t), desc => $g->{seo}{$l}{description}, body => $body, skin => 'biz', lastmod => (sort $g->{published}, biz_date($l, "guides:$g->{key}"))[-1],
         crumbs => $crumbs, og => "/img/og/biz-home-$l.png", fd => { formUrl => $FORM_URL, quickNote => ($BIZ->{quick} ? $BIZ->{quick}{note}{$l} : '') },
-        ld => [ { '@type' => 'Article', headline => $g->{h1}{$l}, description => $g->{seo}{$l}{description}, inLanguage => $l, datePublished => $g->{published}, dateModified => mdate($BIZ_FILE),
+        ld => [ { '@type' => 'Article', headline => $g->{h1}{$l}, description => $g->{seo}{$l}{description}, inLanguage => $l, datePublished => $g->{published}, dateModified => (sort $g->{published}, biz_date($l, "guides:$g->{key}"))[-1],
           author => { '@id' => "$SITE/business/#org" }, publisher => { '@id' => "$SITE/business/#org" }, mainEntityOfPage => { '@id' => absu($url) . '#webpage' }, image => absu("/img/og/biz-home-$l.png") }, faq_ld(@qa) ]);
     }
 
@@ -1984,7 +2041,7 @@ $tips
 @{[ $faq->('tfaq-title', @qa) ]}
 HTML
       my %qrt = map { ($_ => T($l, "qr_js_$_")) } qw(word table bad long sample ready credit);
-      layout(lang => $l, key => '/business/qr-menu-generator/', title => $tl->{seo}{$l}{title}, desc => $tl->{seo}{$l}{description}, body => $body, skin => 'biz', lastmod => mdate($BIZ_FILE),
+      layout(lang => $l, key => '/business/qr-menu-generator/', title => $tl->{seo}{$l}{title}, desc => $tl->{seo}{$l}{description}, body => $body, skin => 'biz', lastmod => biz_date($l, "tool"),
         crumbs => $crumbs, og => "/img/og/biz-qr-menu-generator-$l.png", fd => { qr => { %qrt, namePh => T($l, 'qr_name_ph') } }, scripts => [asset('/js/qr.js'), asset('/js/qr-tool.js')],
         ld => [ { '@type' => 'WebApplication', name => $tl->{name}{$l}, url => absu($turl), description => $tl->{seo}{$l}{description}, applicationCategory => 'BusinessApplication', operatingSystem => 'Any',
           browserRequirements => 'Requires JavaScript', isAccessibleForFree => JSON::PP::true, offers => { '@type' => 'Offer', price => '0', priceCurrency => 'EGP' }, provider => { '@id' => "$SITE/business/#org" } }, faq_ld(@qa) ]);
