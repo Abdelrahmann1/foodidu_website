@@ -89,6 +89,8 @@ One-time setup in Google Analytics (Admin > Data display > Custom definitions > 
 
 **App Check** (blocks writes that don't come from foodidu.com): create a reCAPTCHA v3 key for `foodidu.com` and `www.foodidu.com` at google.com/recaptcha/admin, register the web app with it in Firebase console > App Check (paste the secret key there), put the *site* key in `APP_CHECK_SITE_KEY` in `static/js/site.js`, deploy, and after a few days of clean metrics press **Enforce** for Cloud Firestore.
 
+**Email for every request:** `tools/apps-script-notify.gs` goes into the Apps Script of the "Vendor Requests" sheet (Extensions > Apps Script, a new file, then run `setupNotify` once). Every 5 minutes it emails each new row to the owner, with a WhatsApp link to the restaurant and a link to the dashboard. The dashboard marks requests that came in since the last visit as new.
+
 ## Dashboard: foodidu.com/dashboard/
 
 An internal page (noindex, not in the sitemap) built by `tools/build.pl` with `static/js/dashboard.js` and `static/css/dashboard.css`.

@@ -509,7 +509,11 @@
       return;
     }
     const when = (d) => (d.createdAt && d.createdAt.toDate ? d.createdAt.toDate() : null);
-    const fmt = (d) => { const w = when(d); return w ? `${w.getDate()} ${MONTHS[w.getMonth()]} ${w.getFullYear()}` : "–"; };
+    // "new": came in since the last time this browser opened the requests (an email also goes out for each one, see tools/apps-script-notify.gs)
+    const seen = Number(store.get("dash-apps-seen") || 0), isNew = (d) => seen && when(d) && when(d).getTime() > seen;
+    const fresh = docs.filter(isNew).length;
+    store.set("dash-apps-seen", String(Date.now()));
+    const fmt = (d) => { const w = when(d), t = w ? `${w.getDate()} ${MONTHS[w.getMonth()]} ${w.getFullYear()}` : "–"; return isNew(d) ? el("span", null, t + " ", chip("good", "جديد")) : t; };
     // per page: all, last 30 days, and how many came from the quick form (it has no email)
     const since = Date.now() - 30 * 864e5, src = {};
     docs.forEach((d) => { const k = d.page || "–", r = src[k] || (src[k] = { page: k, all: 0, d30: 0, quick: 0 }); const w = when(d);
@@ -523,7 +527,7 @@
       document.body.append(a); a.click(); a.remove();
     };
     sec.replaceChildren(
-      head("applications", "طلبات الشراكة", `${docs.length} طلب · نسخة من كل طلب بتروح كمان لشيت Vendor Requests.`),
+      head("applications", "طلبات الشراكة", `${docs.length} طلب${fresh ? ` · ${fresh} جديد من آخر مرة فتحت فيها اللوحة` : ""} · نسخة من كل طلب بتروح كمان لشيت Vendor Requests، وإيميل بكل طلب.`),
       docs.length ? el("p", null, el("button", { class: "dash-btn ghost", type: "button", onclick: csv, text: "تحميل الطلبات CSV" })) : null,
       docs.length ? el("h3", { text: "الطلبات جت منين" }) : null,
       docs.length ? table([{ label: "الصفحة", get: (r) => el("span", { class: "ltr", text: r.page }) }, { label: "آخر 30 يوم", get: (r) => num(r.d30) }, { label: "الكل", get: (r) => num(r.all) },
