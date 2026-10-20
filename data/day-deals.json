@@ -5,14 +5,14 @@
       "id": "bazooka-sun-wed",
       "brand": "bazooka",
       "days": ["sun", "mon", "tue", "wed"],
-      "title": { "en": "6 fried chicken pieces + 2 coleslaw + 2 bread for 260 EGP", "ar": "6 قطع فرايد تشيكن + 2 كول سلو + 2 عيش بـ 260 جنيه" },
+      "title": { "en": "6 fried chicken pieces + 2 coleslaw + 2 bread for 280 EGP", "ar": "6 قطع فرايد تشيكن + 2 كول سلو + 2 عيش بـ 280 جنيه" },
       "details": {
-        "en": "Bazooka's Sunday-to-Wednesday offer: 6 pieces of fried chicken (no wings), 2 coleslaws and 2 breads for 260 EGP.",
-        "ar": "عرض بازوكا من الأحد للأربعاء: 6 قطع فرايد تشيكن بدون أجنحة + 2 كول سلو + 2 عيش بـ 260 جنيه."
+        "en": "Bazooka's Sunday-to-Wednesday offer: 6 pieces of fried chicken (no wings), 2 coleslaws and 2 breads for 280 EGP.",
+        "ar": "عرض بازوكا من الأحد للأربعاء: 6 قطع فرايد تشيكن بدون أجنحة + 2 كول سلو + 2 عيش بـ 280 جنيه."
       },
       "source": "https://bazookaegy.com/en/resturant/bazooka/offers/offer-sunday-to-wednesday-6-pieces",
       "sourceLabel": { "en": "Bazooka's official website", "ar": "موقع بازوكا الرسمي" },
-      "lastChecked": "2026-09-30"
+      "lastChecked": "2026-10-20"
     },
     {
       "id": "kfc-tuesday",

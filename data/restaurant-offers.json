@@ -71,7 +71,7 @@
       "website": "https://bazookaegy.com/",
       "phone": "16455",
       "cuisine": ["Fried chicken", "Burgers"],
-      "lastChecked": "2026-09-30",
+      "lastChecked": "2026-10-20",
       "validUntil": "2026-10-30",
       "about": {
         "en": "Bazooka is an Egyptian fried-chicken restaurant serving crispy chicken pieces, chicken and beef sandwiches, wraps and combo meals. Order from its website or call 16455.",
@@ -80,49 +80,55 @@
       "seo": {
         "en": {
           "title": "Bazooka Offers: Fried Chicken Deals up to 50% Off",
-          "description": "Bazooka offers in Egypt: 21 fried chicken and combo deals, up to 50% off, like 7 pieces for 300 EGP instead of 600. Prices from the official menu."
+          "description": "Bazooka offers in Egypt: 21 fried chicken and combo deals, up to 50% off, like 7 pieces for 330 EGP instead of 660. Prices from the official menu."
         },
         "ar": {
           "title": "عروض بازوكا: وجبات فرايد تشيكن بخصم حتى 50%",
-          "description": "عروض بازوكا في مصر: 21 عرض فرايد تشيكن وكومبو بخصم حتى 50%، مثل 7 قطع بـ 300 جنيه بدل 600. الأسعار من المنيو الرسمي."
+          "description": "عروض بازوكا في مصر: 21 عرض فرايد تشيكن وكومبو بخصم حتى 50%، مثل 7 قطع بـ 330 جنيه بدل 660. الأسعار من المنيو الرسمي."
         }
       },
       "offers": [
         {
           "name": { "en": "7 Pieces at Half Price", "ar": "7 قطع بنص السعر" },
           "items": { "en": "7 fried chicken pieces (no wings) + 2 breads", "ar": "7 قطع فرايد تشيكن بدون أجنحة + 2 عيش" },
-          "price": 300,
-          "was": 600
+          "price": 330,
+          "was": 660
         },
         {
           "name": { "en": "Big Crunchy", "ar": "كبير القرمشة" },
-          "items": { "en": "10 fried chicken pieces + 3 breads", "ar": "10 قطع فرايد تشيكن + 3 عيش" },
-          "price": 420,
-          "was": 840
+          "items": { "en": "10 fried chicken pieces (no wings) + 3 breads", "ar": "10 قطع فرايد تشيكن بدون أجنحة + 3 عيش" },
+          "price": 450,
+          "was": 900
         },
         {
           "name": { "en": "Big Happiness", "ar": "كبير السعادة" },
           "items": { "en": "5 fried chicken pieces + bread", "ar": "5 قطع فرايد + عيش" },
-          "price": 230,
-          "was": 460
+          "price": 240,
+          "was": 480
         },
         {
           "name": { "en": "Big Summer", "ar": "كبير الصيف" },
           "items": { "en": "4 sandwiches of your choice", "ar": "4 ساندويتشات من اختيارك" },
-          "price": 400,
-          "was": 800
+          "price": 420,
+          "was": 840
         },
         {
           "name": { "en": "Happiness Wrap", "ar": "راب السعادة" },
           "items": { "en": "4 wraps (2 chicken + 1 burger + 1 msahab)", "ar": "4 ساندويتشات راب (2 تشيكن + 1 برجر + 1 مسحب)" },
-          "price": 300,
-          "was": 600
+          "price": 320,
+          "was": 640
+        },
+        {
+          "name": { "en": "Wazir Happiness", "ar": "وزير السعادة" },
+          "items": { "en": "2 single sandwiches of your choice (chicken or beef) + 2 bags of chips", "ar": "2 ساندويتش سينجل من اختيارك (تشيكن أو بيف) + 2 شيبسي" },
+          "price": 240,
+          "was": 480
         },
         {
           "name": { "en": "Hormone Elsaada (2 pieces)", "ar": "هرمون السعادة (قطعتين)" },
           "items": { "en": "2 chicken pieces + rice + medium coleslaw + bread", "ar": "قطعتين دجاج + أرز + كول سلو وسط + عيش" },
-          "price": 150,
-          "was": 250
+          "price": 160,
+          "was": 260
         },
         {
           "name": { "en": "Fire Supreme Combo", "ar": "فاير سوبريم كومبو" },
@@ -195,12 +201,6 @@
           "items": { "en": "3 fried chicken pieces + single or wrap sandwich + coleslaw + fries", "ar": "3 قطع فرايد تشيكن + ساندويتش سنجل أو راب + كول سلو + فرايز" },
           "price": 299,
           "was": 499
-        },
-        {
-          "name": { "en": "Duetto 2 (6 pieces)", "ar": "دويتو 2 (6 قطع)" },
-          "items": { "en": "6 chicken pieces + 2 breads + 2 coleslaw", "ar": "6 قطع دجاج + 2 عيش + 2 كول سلو" },
-          "price": 330,
-          "was": 550
         },
         {
           "name": { "en": "Double Crunch", "ar": "دبل القرمشة" },
