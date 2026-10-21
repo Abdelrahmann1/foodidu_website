@@ -1236,6 +1236,40 @@
       }
     },
     {
+      "key": "urkitchen",
+      "slug": "urkitchen-PromoCode",
+      "name": { "en": "urkitchen", "ar": "يور كيتشن" },
+      "logo": "urkitchen.webp",
+      "code": "welcome10",
+      "category": "restaurants",
+      "region": "eg",
+      "exclusive": false,
+      "firstOrder": true,
+      "featured": false,
+      "url": "https://urkitchenegypt.com/",
+      "badge": { "en": ["10%", "off"], "ar": ["10%", "خصم"] },
+      "offer": { "en": "10% off your first order in the app", "ar": "خصم 10% على أول أوردر من التطبيق" },
+      "terms": {
+        "en": "First order only, from the urkitchen app. Check delivery to your area in the app before you order.",
+        "ar": "على أول أوردر فقط، من تطبيق urkitchen. تأكد من التوصيل لمنطقتك في التطبيق قبل الطلب."
+      },
+      "where": { "en": "the urkitchen app", "ar": "تطبيق urkitchen" },
+      "about": {
+        "en": "urkitchen (your kitchen) is an Egyptian app for homemade food from home chefs and urkitchen hubs: Egyptian classics, Arab favourites and Mediterranean comfort food, cooked fresh every day and delivered to your door. New customers can use welcome10 for 10% off their first order in the app.",
+        "ar": "يور كيتشن (urkitchen) تطبيق مصري للأكل البيتي من شيفات منزليين ومطابخ urkitchen: أكلات مصرية وعربية ومتوسطية تُطبخ طازجة كل يوم وتوصل حتى باب البيت. يمكن للعملاء الجدد استخدام كود welcome10 لخصم 10% على أول أوردر من التطبيق."
+      },
+      "seo": {
+        "en": {
+          "title": "urkitchen Promo Code: 10% Off Your First Order",
+          "description": "urkitchen promo code welcome10: 10% off your first order in the urkitchen app for homemade Egyptian, Arab and Mediterranean food from home chefs."
+        },
+        "ar": {
+          "title": "كود خصم وبرومو كود يور كيتشن: خصم 10% على أول أوردر",
+          "description": "كود خصم يور كيتشن welcome10: خصم 10% على أول أوردر من تطبيق urkitchen للأكل البيتي المصري والعربي والمتوسطي من شيفات منزليين."
+        }
+      }
+    },
+    {
       "key": "spinneys",
       "slug": "Spinneys-PromoCode",
       "name": { "en": "Spinneys", "ar": "سبينيز" },
