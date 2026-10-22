@@ -238,6 +238,41 @@
       }
     },
     {
+      "key": "dr-nutrition",
+      "slug": "Dr-Nutrition-PromoCode",
+      "name": { "en": "Dr. Nutrition", "ar": "دكتور نيوترشن" },
+      "logo": "dr-nutrition.webp",
+      "code": "SS28",
+      "category": "shopping",
+      "region": ["eg", "gcc"],
+      "regionLabel": { "en": "Egypt, the GCC & more", "ar": "مصر والخليج ودول أخرى" },
+      "exclusive": false,
+      "featured": false,
+      "priority": "top",
+      "url": "https://drnutrition.com/",
+      "badge": { "en": ["5%", "off"], "ar": ["5%", "خصم"] },
+      "offer": { "en": "5% off full-price products", "ar": "خصم 5% على المنتجات غير المخفّضة" },
+      "terms": {
+        "en": "On full-price products only, on the Dr. Nutrition website and app, in every country Dr. Nutrition serves.",
+        "ar": "على المنتجات غير المخفّضة فقط، من موقع وتطبيق دكتور نيوترشن، في كل الدول التي يخدمها."
+      },
+      "where": { "en": "the Dr. Nutrition website or app", "ar": "موقع أو تطبيق دكتور نيوترشن" },
+      "about": {
+        "en": "Dr. Nutrition is one of the largest nutrition stores in the Middle East, specialising in sports nutrition supplements, natural products and diet plans. It has more than 200 branches in 10 countries, including Egypt, the UAE and Saudi Arabia, and sells more than 250 international brands. Use SS28 for 5% off full-price products.",
+        "ar": "دكتور نيوترشن من أكبر متاجر التغذية في الشرق الأوسط، متخصص في مكملات التغذية الرياضية والمنتجات الطبيعية وأنظمة الغذاء. له أكثر من 200 فرع في 10 دول منها مصر والإمارات والسعودية، ويبيع أكثر من 250 علامة تجارية عالمية. استخدم كود SS28 لخصم 5% على المنتجات غير المخفّضة."
+      },
+      "seo": {
+        "en": {
+          "title": "Dr. Nutrition Promo Code SS28: 5% Off Supplements",
+          "description": "Dr. Nutrition promo code SS28: 5% off full-price supplements and nutrition products on the Dr. Nutrition website and app, in Egypt, the GCC and more."
+        },
+        "ar": {
+          "title": "كود خصم دكتور نيوترشن SS28: خصم 5% على المكملات",
+          "description": "كود خصم دكتور نيوترشن SS28: خصم 5% على المكملات ومنتجات التغذية غير المخفّضة من موقع وتطبيق دكتور نيوترشن، في مصر والخليج ودول أخرى."
+        }
+      }
+    },
+    {
       "key": "talabat-mart",
       "slug": "Talabat-Mart-PromoCode",
       "name": { "en": "talabat mart", "ar": "طلبات مارت" },
