@@ -42,3 +42,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           projectId: foodidu-website
           channelId: live
+          firebaseToolsVersion: 15.34.0   # 15.34.1 (21 Oct 2026) fails every deploy; move up once a newer release works

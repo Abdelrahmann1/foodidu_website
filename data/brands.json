@@ -250,6 +250,7 @@
       "featured": false,
       "priority": "top",
       "url": "https://drnutrition.com/",
+      "lastVerified": "2026-10-22",
       "badge": { "en": ["5%", "off"], "ar": ["5%", "خصم"] },
       "offer": { "en": "5% off full-price products", "ar": "خصم 5% على المنتجات غير المخفّضة" },
       "terms": {
