@@ -1779,15 +1779,17 @@ HTML
       # all the services at a glance first (icon beside the name), each opening its details below
       my $glance = '<ul class="bz-glance">' . join('', map { my $s = $_; '<li' . ($s->{featured} ? ' class="main"' : '') . '><a href="#svc-' . $s->{key} . '"><span class="bz-ic">' . icon($s->{icon}) . '</span>'
         . '<span class="t"><b>' . esc($s->{name}{$l}) . '</b><small>' . esc($s->{short}{$l}) . '</small></span>' . icon('arrow', 'go flip') . '</a></li>' } @svc) . '</ul>';
-      my $rows = join '', map { my $s = $_; my $k = $row_mock{$s->{key}};
+      my $rows = join '', map { my $s = $_; my $k = $row_mock{$s->{key}}; my $wd = $demo_for{$s->{key}};   # a concept site we built for this service: shown in its row
         '<article class="bz-row' . ($s->{featured} ? ' bz-row-main' : '') . '" id="svc-' . $s->{key} . '"><div class="bz-row-copy">' . ($s->{featured} ? '<span class="bz-tag">' . T($l, 'biz_main_tag') . '</span>' : '')
         . '<div class="bz-ttl"><span class="bz-ic">' . icon($s->{icon}) . '</span><h3>' . esc($s->{name}{$l}) . '</h3></div><p>' . esc($s->{short}{$l}) . '</p>'
         . ($s->{features} ? '<ul class="bz-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{title}{$l}) . '</span></li>' } @{ $s->{features} }[0 .. 2]) . '</ul>' : '')
         . ($s->{highlight} ? '<ul class="bz-new">' . join('', map { '<li><span class="bz-new-tag">' . T($l, 'biz_new') . '</span>' . icon($_->{icon}) . '<span>' . esc($_->{title}{$l}) . '</span></li>' } @{ $s->{highlight}{items} }) . '</ul>' : '')
         . ($s->{highlight} && $BIZ->{demo} ? '<a class="bz-link bz-demo-link" href="' . path_for($l, '/business/menu-demo/') . '?t=7">' . esc($BIZ->{demo}{btn}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : '')
+        . ($wd ? '<a class="bz-btn bz-pri fw-row-btn" href="' . $wd->{url}{$l} . '">' . esc($wd->{demo}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : '')
         . ($has_page->($s) ? '<a class="bz-link" href="' . $surl->($s) . '">' . T($l, 'biz_more') . ': ' . esc($s->{name}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : '')
-        . ($demo_for{$s->{key}} ? '<a class="bz-link fw-demo-link" href="' . $demo_for{$s->{key}}{url}{$l} . '">' . esc($demo_for{$s->{key}}{demo}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : '')
-        . '</div>' . ($k ? '<div class="bz-row-visual">' . biz_mock($l, $k) . '</div>' : '') . '</article>' } @svc;
+        . '</div>' . ($wd ? '<div class="bz-row-visual fw-row-visual"><a class="fw-shot" href="' . $wd->{url}{$l} . '"><img src="' . $wd->{img} . '" alt="' . esc($wd->{alt}{$l}) . qq{" width="$wd->{w}" height="$wd->{h}" loading="lazy" decoding="async"></a>}
+            . '<span class="fw-row-cap">' . esc($wd->{cap}{$l}) . '</span></div>'
+          : $k ? '<div class="bz-row-visual">' . biz_mock($l, $k) . '</div>' : '') . '</article>' } @svc;
       my $plans = '<ul class="bz-plans">' . join('', map { my $p = $_;
         '<li class="bz-plan' . ($p->{featured} ? ' bz-plan-main' : '') . '">' . ($p->{featured} ? '<span class="bz-tag">' . T($l, 'biz_plan_tag') . '</span>' : '')
         . '<h3>' . esc($p->{name}{$l}) . '</h3><p class="bz-price">' . esc($p->{price}{$l}) . '</p><p class="bz-note">' . esc($p->{note}{$l}) . '</p>'

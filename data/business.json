@@ -1733,7 +1733,9 @@
         { "en": "Scroll animations that feel like an app", "ar": "حركة مع السكرول كأنه تطبيق" }
       ],
       "btn": { "en": "Open the demo", "ar": "افتح الديمو" },
-      "demo": { "en": "See a live demo: NILO gelato", "ar": "شوف ديمو لايف: نيلو جيلاتو" }
+      "demo": { "en": "See a live demo: NILO gelato", "ar": "شوف ديمو لايف: نيلو جيلاتو" },
+      "name": { "en": "NILO gelato", "ar": "نيلو جيلاتو" },
+      "cap": { "en": "Concept project: NILO gelato", "ar": "مشروع تجريبي: نيلو جيلاتو" }
     }
   ]
 }

@@ -664,3 +664,11 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
   .fw-demo-link { margin-inline: auto; }
 }
 @media (prefers-reduced-motion: reduce) { .fw-shot, .fw-shot:hover { transition: none; transform: none; } }
+
+/* the service row that has a concept site: its screenshot instead of the drawn mock-up, and a demo button */
+.fw-row-visual { padding: clamp(18px, 3vw, 34px); }
+.fw-row-visual .fw-shot { width: 100%; }
+.fw-row-cap { position: absolute; top: clamp(8px, 1.6vw, 18px); inset-inline-start: clamp(8px, 1.6vw, 18px); padding: 6px 12px; border-radius: 999px; background: var(--bz-pri); color: var(--bz-sun); font-weight: 700; font-size: .8rem; box-shadow: 0 8px 18px -10px rgba(58, 40, 13, .6); }
+.fw-row-btn { display: flex; width: fit-content; margin-top: 22px; }
+.fw-row-btn + .bz-link { display: flex; width: fit-content; margin-top: 14px; }
+@media (max-width: 700px) { .fw-row-btn, .fw-row-btn + .bz-link { margin-inline: auto; } }
