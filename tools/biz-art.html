@@ -36,7 +36,7 @@ const COPY = {
     rateWord: "RATE US", rateScan: "Rate us on Google", rateTable: "★★★★★",
     free: "FREE", word: "MENU", scan: "Scan for the menu", table: "Table 7", rest: "Your restaurant", card: "Loyalty card", left: "3 more stamps to a free drink",
     pts: "320 points", order: "Order online", url: "yourrestaurant.com", webH: "Hot and fresh, to your door",
-    post: ["Make a QR code for your menu, free", "No online menu yet? We can make it for you."], site: "foodidu.com/business", wa: "WhatsApp 010 9919 1074",
+    post: ["Make a QR code for your menu, free", "No online menu yet? We can make it for you."], site: "foodidu.com/business", wa: "WhatsApp 010 9798 4200",
     final: "Everything your restaurant needs, in one place", services: "QR menu · Loyalty program · Ordering website · Google Maps",
     real: "Real reviews", review: "Great food and fast service!", place: "Restaurant · Open now"
   },
@@ -50,7 +50,7 @@ const COPY = {
     rateWord: "قيّمنا", rateScan: "قيّمنا على جوجل", rateTable: "★★★★★",
     free: "مجاناً", word: "منيو", scan: "امسح الكود وشوف المنيو", table: "ترابيزة 7", rest: "مطعمك", card: "كارت الولاء", left: "باقي 3 أختام على مشروب ببلاش",
     pts: "320 نقطة", order: "اطلب أونلاين", url: "yourrestaurant.com", webH: "سخن وطازة لحد باب بيتك",
-    post: ["اعمل كود QR لمنيو مطعمك مجاناً", "معندكش منيو أونلاين؟ إحنا نعملهولك."], site: "foodidu.com/business", wa: "WhatsApp 010 9919 1074",
+    post: ["اعمل كود QR لمنيو مطعمك مجاناً", "معندكش منيو أونلاين؟ إحنا نعملهولك."], site: "foodidu.com/business", wa: "WhatsApp 010 9798 4200",
     final: "كل أدوات مطعمك في مكان واحد", services: "منيو QR · برنامج ولاء · موقع طلبات · جوجل ماب",
     real: "تقييمات حقيقية", review: "الأكل جميل والخدمة سريعة!", place: "مطعم · مفتوح دلوقتي"
   }
@@ -300,7 +300,7 @@ function gbpCover(l, A) {
   let y = 250 + t.s * .4;
   x.font = font(700, t.s); for (const ln of t.L) { x.fillText(ln, W / 2, y); y += lh; }
   x.fillStyle = "#6B522C"; x.font = font(600, 24); x.fillText(T.services, W / 2, y + 6);
-  x.fillStyle = BROWN; rr(x, W / 2 - 250, H - 116, 500, 64, 32); x.fill();
+  x.fillStyle = BROWN; rr(x, W / 2 - 300, H - 116, 600, 64, 32); x.fill();
   x.fillStyle = SUN; x.font = font(700, 24); x.direction = "ltr"; x.fillText(T.site + "   ·   " + T.wa.replace("WhatsApp ", ""), W / 2, H - 76);
   return c;
 }
@@ -319,7 +319,7 @@ function gbpPost(kind, l, A) {
   else if (kind === "google-maps") { mapCard(x, l, W / 2, vy - 10, 470, -outer * .03); didu(x, A.point, W / 2 + outer * 330, vy + 80, 180, !rtl); }
   else if (kind === "qr-menu-generator") { stand(x, l, W / 2, vy, 230, -outer * .04, "white"); badge(x, T.free, W / 2 - outer * 200, vy - 150, 64, -outer * .15); didu(x, A.point, W / 2 + outer * 250, vy + 70, 180, !rtl); }
   else { stand(x, l, W / 2, vy, 230, -outer * .04); didu(x, A.point, W / 2 + outer * 250, vy + 70, 180, !rtl); }
-  x.fillStyle = BROWN; rr(x, W / 2 - 330, H - 96, 660, 64, 32); x.fill();
+  x.fillStyle = BROWN; rr(x, W / 2 - 390, H - 96, 780, 64, 32); x.fill();
   x.fillStyle = SUN; x.textAlign = "center"; x.font = font(700, 25); x.direction = "ltr"; x.fillText(T.site + "   ·   " + T.wa, W / 2, H - 55);
   return c;
 }
