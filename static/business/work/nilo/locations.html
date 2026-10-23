@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Locations · NILO gelato</title>
+  <meta name="description" content="Find NILO gelato in Zamalek, Maadi and New Cairo, plus a summer cart on the North Coast.">
+  <meta name="robots" content="noindex">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Foodidu Business">
+  <meta property="og:title" content="NILO gelato: a restaurant website by Foodidu Business">
+  <meta property="og:description" content="A concept site we designed and built to show what your restaurant's website can look like: bold, animated, in Arabic and English, ready for orders.">
+  <meta property="og:url" content="https://foodidu.com/business/work/nilo/locations.html">
+  <meta property="og:image" content="https://foodidu.com/business/work/nilo/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0F6E6A">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="alternate" hreflang="en" href="locations.html">
+  <link rel="alternate" hreflang="ar" href="ar/locations.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Changa:wght@700&family=Yellowtail&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="is-loading">
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="hdr" id="hdr">
+  <a class="logo" href="index.html" aria-label="NILO gelato home">
+    <span class="logo-mark" data-art="cone" data-scoops="mango" data-seed="4"></span>
+    <span class="logo-word">nilo</span>
+    <span class="logo-sub">gelato<br>cairo</span>
+  </a>
+  <button class="btn btn-cream menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu">
+    <span class="menu-btn-label">Menu</span><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
+  </button>
+  <div class="hdr-end">
+    <a class="btn btn-cream lang-btn" href="ar/locations.html" hreflang="ar" lang="ar" aria-label="النسخة العربية">ع</a>
+    <a class="btn btn-sun order-btn" href="#visit">Order<span class="lg">&nbsp;now</span></a>
+  </div>
+</header>
+
+<nav class="menu" id="menu" aria-label="Main" aria-hidden="true">
+  <ul class="menu-list">
+    <li><a href="flavors.html"><span class="mi" data-art="tub" data-flavor="mango" data-seed="2"></span><span class="mt">Flavors</span><span class="mn">01</span></a></li>
+    <li><a href="locations.html" aria-current="page"><span class="mi" data-art="tub" data-flavor="pistachio" data-seed="5"></span><span class="mt">Locations</span><span class="mn">02</span></a></li>
+    <li><a href="index.html#story"><span class="mi" data-art="tub" data-flavor="karkadeh" data-seed="8"></span><span class="mt">Our story</span><span class="mn">03</span></a></li>
+    <li><a href="index.html#social"><span class="mi" data-art="tub" data-flavor="strawberry" data-seed="3"></span><span class="mt">Scoop gram</span><span class="mn">04</span></a></li>
+    <li><a href="#visit"><span class="mi" data-art="tub" data-flavor="roz" data-seed="9"></span><span class="mt">Visit &amp; order</span><span class="mn">05</span></a></li>
+  </ul>
+  <div class="menu-foot">
+    <p><strong>Open daily</strong> 12pm – 1am</p>
+    <p><strong>Find us</strong> Zamalek · Maadi · New Cairo</p>
+    <p><strong>Say hi</strong> hello@nilo-gelato.example</p>
+  </div>
+</nav>
+
+<main id="main">
+
+  <section class="page-hero" style="--hero-bg:#0F6E6A;--hero-fg:#FFF3E3;--hero-kicker:#FFB627" aria-labelledby="pageTitle">
+    <p class="crumbs"><a href="index.html">Home</a> / Locations</p>
+    <span class="deco" style="--x:7%;--y:22%;--r:-10deg;--d:7s" data-art="tub" data-flavor="mango" data-seed="21" aria-hidden="true"></span>
+    <span class="deco" style="--x:83%;--y:20%;--r:14deg;--d:8s" data-art="cone" data-scoops="pistachio,roz" data-seed="22" aria-hidden="true"></span>
+    <span class="deco" style="--x:12%;--y:68%;--r:10deg;--d:6.5s" data-art="popsicle" data-flavor="karkadeh" data-seed="23" aria-hidden="true"></span>
+    <span class="deco" style="--x:82%;--y:66%;--r:-8deg;--d:7.5s" data-art="tub" data-flavor="strawberry" data-seed="24" aria-hidden="true"></span>
+    <div>
+      <p class="script-kicker" data-reveal>Four spots, one churn</p>
+      <h1 class="page-title outline" id="pageTitle" data-reveal>Locations</h1>
+      <p class="page-sub" data-reveal>Every flavor is churned in Zamalek each morning and driven across the city before lunch.</p>
+    </div>
+  </section>
+
+  <section class="loc-wrap" aria-labelledby="locListTitle">
+    <div class="map-card" id="map" aria-label="Map"></div>
+    <div>
+      <h2 class="sr" id="locListTitle">Our shops</h2>
+      <ul class="loc-list" id="locList"></ul>
+    </div>
+  </section>
+
+  <section class="cart-band" aria-labelledby="cartTitle">
+    <div class="cart-grid">
+      <div class="cart-art" data-art="cart" aria-hidden="true"></div>
+      <div class="cart-copy">
+        <h2 class="cart-title" id="cartTitle" data-reveal>Bring the cart<br>to your party</h2>
+        <p data-reveal>Weddings, birthdays, office Fridays: the cart rolls up with a scooper, six flavors of your choice and a lot of napkins.</p>
+        <ul class="cart-facts" data-reveal><li>50 – 300 guests</li><li>6 flavors</li><li>Cairo &amp; Giza</li></ul>
+        <a class="btn btn-ink" href="#visit" data-reveal>Ask about the cart</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="ftr" id="visit">
+  <div class="ftr-grid">
+    <form class="news" id="news" novalidate>
+      <h2 class="news-title">Get the scoop first</h2>
+      <p>New flavors, pop-up carts and the occasional free cone. One email a month, pinky promise.</p>
+      <div class="news-row">
+        <label class="sr" for="newsEmail">Email address</label>
+        <input id="newsEmail" type="email" placeholder="you@email.com" autocomplete="email" required>
+        <button class="btn btn-sun" type="submit">Sign up</button>
+      </div>
+      <p class="news-msg" id="newsMsg" role="status"></p>
+    </form>
+    <div class="ftr-cols">
+      <div>
+        <h3>Visit</h3>
+        <p>Zamalek · Maadi · New Cairo<br>+ a summer cart on the coast</p>
+        <a href="locations.html">All locations →</a>
+      </div>
+      <div>
+        <h3>Order</h3>
+        <p>Delivery in 30 min<br>+20 100 000 0000</p>
+      </div>
+      <nav aria-label="Footer">
+        <h3>Explore</h3>
+        <a href="flavors.html">Flavors</a><a href="locations.html">Locations</a><a href="index.html#story">Our story</a><a href="index.html#social">Scoop gram</a>
+      </nav>
+    </div>
+  </div>
+  <p class="ftr-word" aria-hidden="true">nilo</p>
+  <div class="ftr-bottom">
+    <p>&copy; <span id="year">2026</span> NILO gelato. A concept site by Foodidu Business.</p>
+    <p class="ftr-social"><a href="index.html#social">Instagram</a><a href="index.html#social">TikTok</a><a href="#visit">WhatsApp</a></p>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/art.js"></script>
+<script src="assets/js/locations.js"></script>
+<script src="assets/js/site.js"></script>
+<a class="fd-back" href="/business/">← Back to Foodidu Business</a>
+<style>.fd-back{position:fixed;z-index:70;bottom:14px;inset-inline-start:14px;display:inline-flex;align-items:center;padding:10px 15px 9px;border-radius:999px;background:#2A1A12;color:#FFF3E3;font:700 13px/1 'Bricolage Grotesque',system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px -8px rgba(0,0,0,.55);transition:opacity .3s,transform .3s}.fd-back.off{opacity:0;transform:translateY(20px);pointer-events:none}.fd-back:hover{background:#0F6E6A}.hero-hint{display:none}</style>
+<script>(()=>{const b=document.querySelector('.fd-back');const f=()=>{const y=scrollY,e=document.documentElement.scrollHeight-innerHeight;b.classList.toggle('off',y>220&&y<e-500)};addEventListener('scroll',f,{passive:true});f()})();</script>
+</body>
+</html>

@@ -1709,5 +1709,31 @@
   "demo": {
     "btn": { "en": "Try the demo menu", "ar": "جرّب المنيو التجريبي" },
     "note": { "en": "A made-up restaurant with every feature: open it on your phone and order like a customer.", "ar": "مطعم تجريبي فيه كل المميزات: افتحه على موبايلك واطلب كأنك زبون." }
-  }
+  },
+  "work": [
+    {
+      "key": "nilo",
+      "service": "restaurant-website",
+      "url": { "en": "/business/work/nilo/", "ar": "/business/work/nilo/ar/" },
+      "img": "/business/work/nilo/cover.webp",
+      "w": 1600,
+      "h": 1000,
+      "alt": { "en": "The NILO gelato demo website on a laptop and a phone", "ar": "موقع نيلو جيلاتو التجريبي على لابتوب وموبايل" },
+      "tag": { "en": "Concept project", "ar": "مشروع تجريبي من تصميمنا" },
+      "title": { "en": "A restaurant website we designed: NILO gelato", "ar": "موقع مطعم صمّمناه: نيلو جيلاتو" },
+      "example": { "en": "NILO gelato: a concept site we built", "ar": "نيلو جيلاتو: موقع صمّمناه" },
+      "text": {
+        "en": "We designed and built NILO gelato from scratch to show what your restaurant's website can look like: bold, animated, in Arabic and English, and ready for orders.",
+        "ar": "صمّمنا وبنينا موقع نيلو جيلاتو من الصفر عشان تشوف موقع مطعمك ممكن يبقى شكله إزاي: جريء، متحرك، بالعربي والإنجليزي، وجاهز يستقبل طلبات."
+      },
+      "points": [
+        { "en": "Arabic and English, with a proper right-to-left layout", "ar": "عربي وإنجليزي، والعربي من اليمين للشمال صح" },
+        { "en": "A flavors page with filters and a details card for every item", "ar": "صفحة نكهات بفلاتر وكارت تفاصيل لكل صنف" },
+        { "en": "Branches on a map with opening hours that update by themselves", "ar": "الفروع على خريطة ومواعيد الفتح بتتحدّث لوحدها" },
+        { "en": "Scroll animations that feel like an app", "ar": "حركة مع السكرول كأنه تطبيق" }
+      ],
+      "btn": { "en": "Open the demo", "ar": "افتح الديمو" },
+      "demo": { "en": "See a live demo: NILO gelato", "ar": "شوف ديمو لايف: نيلو جيلاتو" }
+    }
+  ]
 }

@@ -89,6 +89,8 @@ One-time setup in Google Analytics (Admin > Data display > Custom definitions > 
 
 **App Check** (blocks writes that don't come from foodidu.com): create a reCAPTCHA v3 key for `foodidu.com` and `www.foodidu.com` at google.com/recaptcha/admin, register the web app with it in Firebase console > App Check (paste the secret key there), put the *site* key in `APP_CHECK_SITE_KEY` in `static/js/site.js`, deploy, and after a few days of clean metrics press **Enforce** for Cloud Firestore.
 
+**Our work:** `static/business/work/` holds concept sites we designed to show restaurants what we can build, copied to the site as they are (their own HTML, CSS and JS). The first is NILO gelato, `/business/work/nilo/` (English) and `/business/work/nilo/ar/` (Arabic): every page is noindex, says in its footer that it is a concept site by Foodidu Business, has a pill back to /business/, and shares with the preview image `og.jpg`. Its newsletter box sends nothing and says so. `work` in `data/business.json` shows it as section 3 "Our work" on the landing page, as an example on the page of the service it belongs to (`service`), and as a live demo link in that service's row. Always present these as concept projects, never as client work.
+
 **Email for every request:** `tools/apps-script-notify.gs` goes into the Apps Script of the "Vendor Requests" sheet (Extensions > Apps Script, a new file, then run `setupNotify` once). Every 5 minutes it emails each new row to the owner, with a WhatsApp link to the restaurant and a link to the dashboard. The dashboard marks requests that came in since the last visit as new.
 
 ## Dashboard: foodidu.com/dashboard/

@@ -644,3 +644,23 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .bz-hl-note { margin-top: 10px; color: var(--bz-ink-2); font-size: .93rem; }
 .bz-demo-link { display: flex; width: fit-content; margin-top: 14px; color: var(--bz-leaf); }
 @media (max-width: 700px) { .bz-hl-cta { justify-content: center; } .bz-hl-note { text-align: center; } .bz-demo-link { margin-inline: auto; } }
+
+/* ---------- our work: concept sites we built (static/business/work/), on the landing page and the service they show ---------- */
+.fw-band { background: var(--bz-sun-soft); border-block: 1px solid var(--bz-line); }
+.fw-case { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(26px, 4.5vw, 56px); align-items: center; }
+.fw-shot { display: block; overflow: hidden; border-radius: 22px; background: #fff; box-shadow: 0 22px 40px -18px rgba(84, 58, 20, .38); transition: transform .45s var(--ease, ease); }
+.fw-shot:hover { transform: translateY(-5px) rotate(-.6deg); }
+.fw-shot img { display: block; width: 100%; height: auto; }
+.fw-tag { display: inline-block; margin-bottom: 14px; padding: 6px 13px; border: 1px solid var(--bz-line-2); border-radius: 999px; background: #fff; color: var(--bz-pri); font-size: .85rem; font-weight: 700; }
+.fw-copy > p:not(.fw-tag) { font-size: 1.05rem; line-height: 1.75; color: var(--bz-ink-2); }
+.fw-copy .bz-list { margin-top: 16px; }
+.fw-copy .bz-btns { margin-top: 22px; }
+.fw-demo-link { display: flex; width: fit-content; margin-top: 12px; }
+@media (max-width: 860px) { .fw-case { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 700px) {
+  .fw-copy { text-align: center; }
+  .fw-copy .bz-list { width: fit-content; margin-inline: auto; text-align: start; }
+  .fw-copy .bz-btns { justify-content: center; }
+  .fw-demo-link { margin-inline: auto; }
+}
+@media (prefers-reduced-motion: reduce) { .fw-shot, .fw-shot:hover { transition: none; transform: none; } }
