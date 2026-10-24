@@ -652,6 +652,9 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .fw-shot:hover { transform: translateY(-5px) rotate(-.6deg); }
 .fw-shot img { display: block; width: 100%; height: auto; }
 .fw-tag { display: inline-block; margin-bottom: 14px; padding: 6px 13px; border: 1px solid var(--bz-line-2); border-radius: 999px; background: #fff; color: var(--bz-pri); font-size: .85rem; font-weight: 700; }
+.fw-name { margin: 0 0 10px; font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.2; color: var(--bz-ink); }
+.fw-case + .fw-case { margin-top: clamp(56px, 8vw, 100px); }
+@media (min-width: 861px) { .fw-case--flip { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); } .fw-case--flip > .fw-shot { order: 2; } }
 .fw-copy > p:not(.fw-tag) { font-size: 1.05rem; line-height: 1.75; color: var(--bz-ink-2); }
 .fw-copy .bz-list { margin-top: 16px; }
 .fw-copy .bz-btns { margin-top: 22px; }
@@ -773,6 +776,8 @@ body.bz-bold .bz-toolband { background: var(--v2-sun); }
 body.bz-bold .bz-cta { background: var(--v2-ink); }
 body.bz-bold .fw-band { background: var(--v2-peach); border-block: 3px solid var(--v2-ink); }
 body.bz-bold .fw-tag { border: 2px solid var(--v2-ink); box-shadow: var(--v2-sh-sm); }
+body.bz-bold .fw-name { font-family: var(--v2-display); font-weight: 400; font-size: clamp(1.8rem, 3.2vw, 2.6rem); line-height: 1.15; color: var(--v2-ink); }
+[dir="rtl"] body.bz-bold .fw-name { line-height: 1.4; }
 body.bz-bold .bz-aud a { box-shadow: var(--v2-sh-sm); }
 body.bz-bold .faq details[open] { border-color: var(--v2-ink); background: var(--v2-paper); }
 

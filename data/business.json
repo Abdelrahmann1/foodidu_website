@@ -1719,7 +1719,7 @@
       "w": 1600,
       "h": 1000,
       "alt": { "en": "The NILO gelato website on a laptop and a phone", "ar": "موقع نيلو جيلاتو على لابتوب وموبايل" },
-      "tag": { "en": "From our work", "ar": "من شغلنا" },
+      "tag": { "en": "From our work · restaurant website", "ar": "من شغلنا · موقع مطعم" },
       "title": { "en": "A restaurant website we designed: NILO gelato", "ar": "موقع مطعم صمّمناه: نيلو جيلاتو" },
       "example": { "en": "NILO gelato: a website we built", "ar": "نيلو جيلاتو: موقع صمّمناه" },
       "text": {
@@ -1736,6 +1736,32 @@
       "demo": { "en": "See it live: NILO gelato", "ar": "شوف الموقع لايف: نيلو جيلاتو" },
       "name": { "en": "NILO gelato", "ar": "نيلو جيلاتو" },
       "cap": { "en": "Our work: NILO gelato", "ar": "من شغلنا: نيلو جيلاتو" }
+    },
+    {
+      "key": "talg",
+      "service": "restaurant-website",
+      "url": { "en": "/business/work/talg/", "ar": "/business/work/talg/ar/" },
+      "img": "/business/work/talg/cover.webp",
+      "w": 1600,
+      "h": 1000,
+      "alt": { "en": "The TALG online store on a laptop and a phone", "ar": "متجر تلج الأونلاين على لابتوب وموبايل" },
+      "tag": { "en": "From our work · online store", "ar": "من شغلنا · متجر أونلاين" },
+      "title": { "en": "An online store we designed: TALG ice cream bars", "ar": "متجر أونلاين صمّمناه: تلج" },
+      "example": { "en": "TALG: an online store we built", "ar": "تلج: متجر صمّمناه" },
+      "text": {
+        "en": "We designed and built the TALG online store for ice cream bars: add to the bag, build your own box and find the nearest spot, in Arabic and English.",
+        "ar": "صمّمنا وبنينا متجر تلج الأونلاين للآيس كريم على عصاية: ضيف للشنطة، ركّب البوكس بتاعك، وشوف أقرب مكان ليك، بالعربي والإنجليزي."
+      },
+      "points": [
+        { "en": "A bag that keeps the order with live totals", "ar": "شنطة مشتريات بتحفظ الطلب وبتحسب الإجمالي" },
+        { "en": "Build-your-box with the price updating as you pick", "ar": "ركّب بوكس والسعر بيتحسب قدامك" },
+        { "en": "Spots by city on a map", "ar": "الأماكن حسب المدينة على خريطة" },
+        { "en": "Arabic and English, with a proper right-to-left layout", "ar": "عربي وإنجليزي، والعربي من اليمين للشمال صح" }
+      ],
+      "btn": { "en": "Open the store", "ar": "افتح المتجر" },
+      "demo": { "en": "See it live: TALG", "ar": "شوف المتجر لايف: تلج" },
+      "name": { "en": "TALG ice cream bars", "ar": "تلج: آيس كريم على عصاية" },
+      "cap": { "en": "Our work: TALG", "ar": "من شغلنا: تلج" }
     }
   ]
 }
