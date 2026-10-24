@@ -320,20 +320,27 @@
   }
   var vform = document.getElementById("vendor-application-form");
   if (vform && DATA.formUrl) {
-    // "Choose this plan" on a plan card picks it in the form
+    // "Choose this plan" on a plan card: kept in a hidden field and shown above the form as a chip that can be removed
+    var planIn = document.getElementById("f-plan"), chip = document.getElementById("f-plan-chosen");
+    var setPlan = function (key, label) {
+      if (!planIn) return;
+      planIn.value = key || ""; planIn.setAttribute("data-label", label || "");
+      if (chip) { chip.hidden = !key; chip.querySelector("b").textContent = label || ""; }
+    };
     document.querySelectorAll("[data-plan]").forEach(function (a) {
-      a.addEventListener("click", function () { var s = document.getElementById("f-plan"); if (s) s.value = a.getAttribute("data-plan"); });
+      a.addEventListener("click", function () { setPlan(a.getAttribute("data-plan"), a.getAttribute("data-plan-name") || a.getAttribute("data-plan")); });
     });
+    if (chip) chip.querySelector("button").addEventListener("click", function () { setPlan("", ""); });
+    vform.addEventListener("reset", function () { setPlan("", ""); });   // after a request is sent
     vform.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!vform.reportValidity()) return;
       var data = {}, fd = new FormData(vform);
       fd.forEach(function (v, k) { data[k] = String(v).trim(); });
       // the chosen services and plan go at the top of the description (the saved fields are fixed by firestore.rules)
-      var services = fd.getAll("services"), plan = vform.querySelector("#f-plan");
-      var extra = (services.length ? (vform.querySelector(".checks legend").textContent.trim() + ": " + services.join("، ")) + "\n" : "")
-        + (plan && plan.value ? (vform.querySelector('label[for="f-plan"]').textContent.trim() + ": " + plan.options[plan.selectedIndex].text) + "\n" : "");
-      var chosen = plan && plan.value ? plan.value : "";
+      var services = fd.getAll("services"), chosen = planIn && planIn.value ? planIn.value : "";
+      var extra = (services.length ? (vform.querySelector(".checks legend").getAttribute("data-name") + ": " + services.join("، ")) + "\n" : "")
+        + (chosen && chip ? (chip.querySelector("span").textContent.trim() + ": " + (planIn.getAttribute("data-label") || chosen)) + "\n" : "");
       delete data.services; delete data.plan;
       if (extra) data.description = extra + (data.description ? "\n" + data.description : "");
       sendLead(vform, document.getElementById("form-status"), data, "full", { plan: chosen });

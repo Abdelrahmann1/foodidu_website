@@ -517,7 +517,7 @@
     // per page: all, last 30 days, and how many came from the quick form (it has no email)
     const since = Date.now() - 30 * 864e5, src = {};
     docs.forEach((d) => { const k = d.page || "–", r = src[k] || (src[k] = { page: k, all: 0, d30: 0, quick: 0 }); const w = when(d);
-      r.all++; if (w && w.getTime() >= since) r.d30++; if (!d.email) r.quick++; });
+      r.all++; if (w && w.getTime() >= since) r.d30++; if (/^(طلب سريع|Quick request)/.test(d.description || "")) r.quick++; });   // the quick form's fixed note
     const bySource = Object.values(src).sort((a, b) => b.d30 - a.d30 || b.all - a.all);
     const csv = () => {
       const cols = ["createdAt", "businessName", "contactPerson", "phone", "email", "location", "businessType", "website", "language", "page", "description"];

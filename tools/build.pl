@@ -271,7 +271,7 @@ my %S = (
   biz_start => 'Start free', biz_plans_btn => 'See the plans', biz_join => 'Apply now',
   biz_svc_eyebrow => 'Our services', biz_svc_title => 'Tools that grow your restaurant', biz_main_tag => 'Brings customers back',
   biz_journey_eyebrow => 'How the tools work together', biz_plans_eyebrow => 'Plans', biz_plans_title => 'Start free, grow when you are ready',
-  biz_plans_sub => 'Pick a plan in the form and our team will get back to you with the details and the right price for your restaurant.', biz_plan_tag => 'Includes loyalty', biz_plan_cta => 'Choose this plan',
+  biz_plans_sub => 'Choose a plan below, send the form, and our team will get back to you with the details and the right price for your restaurant.', biz_plan_tag => 'Includes loyalty', biz_plan_cta => 'Choose this plan',
   biz_form_title => 'Tell us about your restaurant', biz_feats_title => 'What you get', biz_new => 'New', biz_how_title => 'How we start', biz_other_title => 'More tools for your restaurant',
   biz_cta_title => 'Ready to grow your restaurant?', biz_cta_text => 'Start free with an exclusive promo code for Foodidu users, and add the tools you need when you need them.',
   biz_pill => 'For restaurants and cafés in Egypt', biz_tick1 => 'Start free', biz_tick2 => 'Arabic and English', biz_tick3 => 'Nothing for customers to download',
@@ -291,7 +291,8 @@ my %S = (
   qr_js_table => 'Table {n}', qr_js_bad => 'Enter a full link, like https://instagram.com/yourpage', qr_js_long => 'This link is too long for a QR code. Use a shorter link.', qr_js_sample => 'This is an example. Paste your menu link to make your code.',
   qr_js_ready => 'Your code is ready. Scan it with your phone to test it before printing.', qr_js_credit => 'Foodidu Business',
   anim_alt => 'Animation: how Foodidu Business helps a restaurant, from a promo code on Foodidu to a QR menu, online orders, loyalty stamps and real reviews on Google Maps', anim_play => 'Play the animation', anim_pause => 'Pause the animation',
-  biz_work_eyebrow => 'Our work', biz_example_eyebrow => 'See an example', biz_work_other => 'النسخة العربية',
+  biz_work_eyebrow => 'Our work', f_opt => 'optional', biz_form_time => 'Takes under a minute', f_phone_wa => 'Mobile number (WhatsApp)', f_notes => 'Anything to add?', f_plan_clear => 'Remove the plan',
+  biz_example_eyebrow => 'See an example', biz_work_other => 'النسخة العربية',
   biz_guide_toc => 'In this guide', biz_guide_more => 'More free guides',
   biz_aud_lead => 'Made for your kind of place:', biz_aud_tools => 'What Foodidu Business gives you', biz_aud_more => 'More from Foodidu Business', biz_all_svc => 'All the services',
   biz_nav_maps => 'Google Maps', foot_biz_wa => 'Restaurants, WhatsApp us:', biz_wa_msg_maps => 'Hi Foodidu Business, I would like to put my restaurant on Google Maps.',
@@ -438,7 +439,7 @@ my %S = (
   biz_start => 'ابدأ مجاناً', biz_plans_btn => 'شوف الباقات', biz_join => 'قدّم دلوقتي',
   biz_svc_eyebrow => 'خدماتنا', biz_svc_title => 'أدوات تكبّر مطعمك', biz_main_tag => 'يرجّع عملاءك',
   biz_journey_eyebrow => 'إزاي الأدوات بتكمّل بعض', biz_plans_eyebrow => 'الباقات', biz_plans_title => 'ابدأ مجاناً، وكبّر لما تكون جاهز',
-  biz_plans_sub => 'اختار الباقة في الفورم، وفريقنا يتواصل معاك بالتفاصيل والسعر المناسب لمطعمك.', biz_plan_tag => 'فيها برنامج الولاء', biz_plan_cta => 'اختار الباقة دي',
+  biz_plans_sub => 'اختار الباقة اللي تناسبك وابعت الفورم، وفريقنا يتواصل معاك بالتفاصيل والسعر المناسب لمطعمك.', biz_plan_tag => 'فيها برنامج الولاء', biz_plan_cta => 'اختار الباقة دي',
   biz_form_title => 'احكيلنا عن مطعمك', biz_feats_title => 'هتاخد إيه', biz_new => 'جديد', biz_how_title => 'إزاي بنبدأ', biz_other_title => 'أدوات تانية لمطعمك',
   biz_cta_title => 'جاهز تكبّر مطعمك؟', biz_cta_text => 'ابدأ مجاناً بكود خصم حصري لعملاء Foodidu، وزوّد الأدوات اللي محتاجها وقت ما تحتاجها.',
   biz_pill => 'للمطاعم والكافيهات في مصر', biz_tick1 => 'ابدأ مجاناً', biz_tick2 => 'بالعربي والإنجليزي', biz_tick3 => 'من غير تطبيق للعميل',
@@ -458,7 +459,8 @@ my %S = (
   qr_js_table => 'ترابيزة {n}', qr_js_bad => 'اكتب لينك كامل، زي https://instagram.com/yourpage', qr_js_long => 'اللينك ده طويل على الكود. استخدم لينك أقصر.', qr_js_sample => 'ده مثال. حط لينك المنيو بتاعك عشان يتعمل كودك.',
   qr_js_ready => 'كودك جاهز. امسحه بموبايلك وجرّبه قبل الطباعة.', qr_js_credit => 'Foodidu Business',
   anim_alt => 'أنيميشن: إزاي Foodidu Business بيساعد المطعم، من كود خصم على Foodidu لمنيو QR وطلبات أونلاين وأختام ولاء وتقييمات حقيقية على جوجل ماب', anim_play => 'شغّل الأنيميشن', anim_pause => 'وقّف الأنيميشن',
-  biz_work_eyebrow => 'شغلنا', biz_example_eyebrow => 'شوف مثال', biz_work_other => 'English version',
+  biz_work_eyebrow => 'شغلنا', f_opt => 'اختياري', biz_form_time => 'بياخد أقل من دقيقة', f_phone_wa => 'رقم الموبايل (واتساب)', f_notes => 'حاجة تحب تضيفها؟', f_plan_clear => 'شيل الباقة',
+  biz_example_eyebrow => 'شوف مثال', biz_work_other => 'English version',
   biz_guide_toc => 'في الدليل ده', biz_guide_more => 'أدلة مجانية تانية',
   biz_aud_lead => 'حسب نوع مكانك:', biz_aud_tools => 'Foodidu Business هيقدّملك إيه', biz_aud_more => 'كمان من Foodidu Business', biz_all_svc => 'كل الخدمات',
   biz_nav_maps => 'جوجل ماب', foot_biz_wa => 'للمطاعم، كلمنا واتساب:', biz_wa_msg_maps => 'أهلاً Foodidu Business، عايز أضيف مطعمي على جوجل ماب.',
@@ -783,7 +785,7 @@ sub biz_chrome {
     . qq{<a class="bz-btn bz-pri bz-head-cta" href="$b#join">} . T($l, 'biz_start') . '</a>'
     . '<button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="' . T($l, 'menu') . '">' . icon('menu', 'i-menu') . icon('close', 'i-close') . '</button></div></header>';
   my $wa = $BIZ->{whatsapp} ? biz_wa_link($l, 'info', 'bz-foot-wa', T($l, 'biz_wa_btn') . ': <bdi dir="ltr">' . esc($BIZ->{whatsapp}{display}) . '</bdi>') : '';
-  my $footer = qq{<footer class="bz-foot"><div class="wrap"><div class="bz-foot-grid"><div class="bz-foot-brand">$logo<p>} . T($l, 'biz_foot_blurb') . "</p>$wa</div>"
+  my $footer = qq{<footer class="bz-foot"><div class="wrap"><div class="bz-foot-grid"><div class="bz-foot-brand">$logo<p>} . T($l, 'biz_foot_blurb') . "</p>$wa<img class=\"bz-foot-didu\" src=\"/img/mascot/didu-party.svg\" alt=\"\" width=\"120\" height=\"120\" loading=\"lazy\"></div>"
     . '<nav aria-label="' . T($l, 'biz_foot_svc') . '"><h2>' . T($l, 'biz_foot_svc') . '</h2><ul>' . join('', map { '<li><a href="' . path_for($l, "/business/$_->{key}/") . '">' . esc($_->{name}{$l}) . '</a></li>' } @svc)
     . ($BIZ->{tool} ? '<li><a href="' . path_for($l, '/business/qr-menu-generator/') . '">' . esc($BIZ->{tool}{name}{$l}) . '</a></li>' : '')
     . join('', map { '<li><a href="' . path_for($l, "/business/$_->{key}/") . '">' . esc($_->{name}{$l}) . '</a></li>' } @{ $BIZ->{audiences} // [] }, @{ $BIZ->{guides} // [] })
@@ -1794,11 +1796,10 @@ HTML
         '<li class="bz-plan' . ($p->{featured} ? ' bz-plan-main' : '') . '">' . ($p->{featured} ? '<span class="bz-tag">' . T($l, 'biz_plan_tag') . '</span>' : '')
         . '<h3>' . esc($p->{name}{$l}) . '</h3><p class="bz-price">' . esc($p->{price}{$l}) . '</p><p class="bz-note">' . esc($p->{note}{$l}) . '</p>'
         . '<ul class="bz-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{$l}) . '</span></li>' } @{ $p->{features} }) . '</ul>'
-        . '<a class="bz-btn ' . ($p->{featured} ? 'bz-pri' : 'bz-ghost') . '" href="#join" data-track="business_plan_click" data-plan="' . $p->{key} . '">' . T($l, 'biz_plan_cta') . '</a></li>' } @{ $BIZ->{plans} }) . '</ul>';
+        . '<a class="bz-btn ' . ($p->{featured} ? 'bz-pri' : 'bz-ghost') . '" href="#join" data-track="business_plan_click" data-plan="' . $p->{key} . '" data-plan-name="' . esc($p->{name}{$l} . ' · ' . $p->{price}{$l}) . '">' . T($l, 'biz_plan_cta') . '</a></li>' } @{ $BIZ->{plans} }) . '</ul>';
       my $req = ' <span class="req" aria-hidden="true">*</span>';
       my $opts = join '', map { qq{<option value="$_->[0]">} . T($l, $_->[1]) . '</option>' } (['restaurant', 'f_restaurant'], ['cafe', 'f_cafe'], ['cloud-kitchen', 'f_cloud'], ['food-truck', 'f_truck'], ['bakery', 'f_bakery'], ['other', 'f_other']);
       my $svc_checks = join '', map { '<label class="check"><input type="checkbox" name="services" value="' . esc($_->{name}{$l}) . '"><span>' . esc($_->{name}{$l}) . '</span></label>' } @svc;   # nothing ticked in advance: a request shows only what the restaurant chose
-      my $plan_opts = '<option value="">' . T($l, 'f_plan_ph') . '</option>' . join('', map { '<option value="' . $_->{key} . '">' . esc($_->{name}{$l}) . ' · ' . esc($_->{price}{$l}) . '</option>' } @{ $BIZ->{plans} });
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $BIZ->{faq} };
       my $g1 = ($BIZ->{guides} // [])->[0];
       my $worksec = @work ? qq{<section class="bz-sec fw-band" id="work" aria-labelledby="work-title"><div class="wrap">} . $head->('work-title', T($l, 'biz_work_eyebrow'), esc($work[0]{title}{$l}), '', $num->(3)) . $work_case->($work[0]) . '</div></section>' : '';
@@ -1810,8 +1811,8 @@ HTML
         my $ring = $l eq 'ar' ? 'ابدأ مجاناً · منيو QR · برنامج ولاء · ' x 2 : 'START FREE · QR MENU · LOYALTY · ORDER ONLINE · ';   # about one turn of the circle
         my $sticker = qq{<a class="v2-ring" href="#join" aria-label="} . T($l, 'biz_start') . qq{"><svg viewBox="-100 -100 200 200" aria-hidden="true"><circle r="96" class="r-bg"/><defs><path id="v2rp" d="M0 -72A72 72 0 1 1 -0.1 -72"/></defs>}
           . qq{<g class="spin"><text class="r-t"><textPath href="#v2rp">$ring</textPath></text></g><circle r="46" class="r-in"/><path class="r-ar" d="M-18 0H18M4 -15L19 0 4 15"/></svg></a>};
-        $top =~ s{<div class="bz-visual">}{<div class="bz-visual">$sticker};
-        my $mq = join '', map { '<span>' . esc($_) . '<i></i></span>' } (map { $_->{name}{$l} } @svc), ($BIZ->{tool} ? $BIZ->{tool}{name}{$l} : ());
+        $top =~ s{<div class="bz-visual">}{<div class="bz-visual">$sticker<img class="v2-didu" src="/img/mascot/didu-point.svg" alt="" width="150" height="150">};
+        my $mq = join '', map { '<span>' . esc($_) . '<img src="/img/mascot/didu.svg" alt="" width="40" height="40"></span>' } (map { $_->{name}{$l} } @svc), ($BIZ->{tool} ? $BIZ->{tool}{name}{$l} : ());
         $top .= qq{<div class="v2-mq-wrap" aria-hidden="true"><div class="v2-marquee"><div class="v2-mq-track">$mq$mq</div></div></div>};
         my $pts = join ' ', map { my $r = $_ % 2 ? 80 : 98; my $a = 3.14159265 * $_ / 16 - 3.14159265 / 2; sprintf('%.1f,%.1f', $r * cos($a), $r * sin($a)) } 0 .. 31;
         my $burst = qq{<span class="v2-burst" aria-hidden="true"><svg viewBox="-104 -104 208 208"><polygon points="$pts"/><text y="14">} . ($l eq 'ar' ? 'مجاناً' : 'FREE') . '</text></svg></span>';
@@ -1838,21 +1839,19 @@ $plans
 <section class="bz-sec bz-alt" id="join" aria-labelledby="form-title"><div class="wrap bz-join">
 <div class="bz-join-copy"><p class="bz-eyebrow"><span class="n" aria-hidden="true">@{[ $num->(5) ]}</span>Foodidu Business</p><h2 id="form-title">@{[ T($l, 'biz_form_title') ]}</h2><p>@{[ T($l, 'biz_form_text') ]}</p>@{[ $ticks->(qw(biz_form_t1 biz_form_t2 biz_form_t3)) ]}@{[ biz_wa_link($l, 'info', 'bz-btn bz-wa', T($l, 'biz_wa_btn')) ]}<img src="/img/mascot/didu.svg" alt="" width="150" height="150" loading="lazy"></div>
 <div class="form-card">
-<p class="bz-form-sub">@{[ T($l, 'p_form_sub') ]}</p>
+<p class="bz-form-sub"><b>@{[ T($l, 'biz_form_time') ]}</b> · @{[ T($l, 'p_form_sub') ]}</p>
 <form id="vendor-application-form" novalidate>
+<input type="hidden" id="f-plan" name="plan" value="">
+<p class="bz-chosen" id="f-plan-chosen" hidden><span>@{[ T($l, 'f_plan') ]}</span><b></b><button type="button" aria-label="@{[ T($l, 'f_plan_clear') ]}">×</button></p>
 <div class="form-grid">
 <div class="field"><label for="f-business">@{[ T($l, 'f_business') ]}$req</label><input id="f-business" name="businessName" required maxlength="200" autocomplete="organization"></div>
 <div class="field"><label for="f-contact">@{[ T($l, 'f_contact') ]}$req</label><input id="f-contact" name="contactPerson" required maxlength="200" autocomplete="name" pattern="^[\\p{L}\\s\\-]+\$" aria-describedby="f-contact-hint"><span class="hint" id="f-contact-hint">@{[ T($l, 'f_contact_hint') ]}</span></div>
-<div class="field"><label for="f-phone">@{[ T($l, 'f_phone') ]}$req</label><input id="f-phone" name="phone" type="tel" required maxlength="40" autocomplete="tel" inputmode="tel"></div>
-<div class="field"><label for="f-email">@{[ T($l, 'f_email') ]}$req</label><input id="f-email" name="email" type="email" required maxlength="200" autocomplete="email"></div>
-<div class="field"><label for="f-location">@{[ T($l, 'f_location') ]}$req</label><input id="f-location" name="location" required maxlength="300" placeholder="@{[ T($l, 'f_location_ph') ]}"></div>
-<div class="field"><label for="f-type">@{[ T($l, 'f_type') ]}$req</label><select id="f-type" name="businessType" required><option value="">@{[ T($l, 'f_type_ph') ]}</option>$opts</select></div>
-<fieldset class="field full checks"><legend>@{[ T($l, 'f_services') ]}</legend>$svc_checks</fieldset>
-<div class="field full"><label for="f-plan">@{[ T($l, 'f_plan') ]}</label><select id="f-plan" name="plan">$plan_opts</select></div>
-<div class="field full"><label for="f-desc">@{[ T($l, 'f_desc') ]}</label><textarea id="f-desc" name="description" maxlength="2500" placeholder="@{[ T($l, 'f_desc_ph') ]}"></textarea></div>
-<div class="field full"><label for="f-web">@{[ T($l, 'f_web') ]}</label><input id="f-web" name="website" maxlength="500" inputmode="url" autocomplete="url"></div>
+<div class="field"><label for="f-phone">@{[ T($l, 'f_phone_wa') ]}$req</label><input id="f-phone" name="phone" type="tel" required maxlength="40" autocomplete="tel" inputmode="tel"></div>
+<div class="field"><label for="f-type">@{[ T($l, 'f_type') ]} <span class="opt">@{[ T($l, 'f_opt') ]}</span></label><select id="f-type" name="businessType"><option value="">@{[ T($l, 'f_type_ph') ]}</option>$opts</select></div>
+<fieldset class="field full checks"><legend data-name="@{[ T($l, 'f_services') ]}">@{[ T($l, 'f_services') ]} <span class="opt">@{[ T($l, 'f_opt') ]}</span></legend>$svc_checks</fieldset>
+<div class="field full"><label for="f-desc">@{[ T($l, 'f_notes') ]} <span class="opt">@{[ T($l, 'f_opt') ]}</span></label><textarea id="f-desc" name="description" rows="3" maxlength="2500" placeholder="@{[ T($l, 'f_desc_ph') ]}"></textarea></div>
 </div>
-<div class="form-foot"><button class="bz-btn bz-pri" type="submit">@{[ T($l, 'f_submit') ]}</button><small>@{[ T($l, 'f_privacy') ]} <a href="@{[ path_for($l, '/privacy-policy/') ]}">@{[ T($l, 'privacy') ]}</a></small></div>
+<div class="form-foot"><button class="bz-btn bz-pri" type="submit">@{[ T($l, 'f_submit') ]} @{[ icon('arrow', 'flip') ]}</button><small>@{[ T($l, 'f_privacy') ]} <a href="@{[ path_for($l, '/privacy-policy/') ]}">@{[ T($l, 'privacy') ]}</a></small></div>
 <p class="form-status" id="form-status" role="status" tabindex="-1" hidden></p>
 </form>
 </div>

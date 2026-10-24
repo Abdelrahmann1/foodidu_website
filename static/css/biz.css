@@ -843,3 +843,63 @@ body.bz-bold .form-status { border: 2px solid var(--v2-ink); box-shadow: 3px 3px
 body.bz-bold .bz-quick .bz-btn { min-height: 54px; }
 @media (max-width: 560px) { body.bz-bold .form-foot .bz-btn { width: 100%; } }
 body.bz-bold .qr-form, body.bz-bold .qr-preview { border: 2.5px solid var(--v2-ink); box-shadow: var(--v2-sh); }   /* the free QR tool */
+
+/* ---------- the bold look on phones: a tighter hero (the landing page's breadcrumbs go, the video box is smaller and centred,
+   the sticker sits on the box's corner instead of over the headline) ---------- */
+@media (max-width: 900px) {
+  body.bz-bold .bz-hero { padding-top: 22px; }
+  body.bz-home .bz-hero .crumbs { display: none; }
+  body.bz-bold .bz-pill { margin-top: 4px; }
+  body.bz-bold .bz-hero h1 { margin-top: 14px; }
+  body.bz-bold .bz-visual { margin-top: 26px; }
+  body.bz-bold .bz-anim { width: min(100%, 330px); margin-inline: auto; border-radius: 26px; box-shadow: 6px 6px 0 var(--v2-ink); }
+  .v2-ring { width: 84px; top: -24px; inset-inline-end: max(-4px, calc(50% - 165px - 26px)); }
+  body.bz-bold .bz-lede { margin-top: 26px; font-size: 1rem; line-height: 1.75; }
+  body.bz-bold .bz-quick { margin-top: 22px; }
+  body.bz-bold .bz-ticks { margin-top: 18px; }
+}
+@media (max-width: 380px) {
+  body.bz-bold .bz-anim { width: 100%; }
+  .v2-ring { width: 74px; inset-inline-end: -4px; }
+}
+
+/* ---------- the request form: optional fields say so, and the plan picked on a card shows as a chip ---------- */
+.opt { margin-inline-start: 4px; padding: 1px 8px; border-radius: 999px; background: #F1E7D2; color: #7A6447; font-size: .74rem; font-weight: 600; vertical-align: 2px; }
+.bz-chosen { display: flex; align-items: center; gap: 8px; width: fit-content; margin: 0 0 16px; padding: 6px 6px 6px 14px; border-radius: 999px; background: var(--bz-sun); color: var(--bz-pri-2); font-weight: 600; }
+[dir="rtl"] .bz-chosen { padding: 6px 14px 6px 6px; }
+.bz-chosen[hidden] { display: none; }
+.bz-chosen button { width: 28px; height: 28px; border-radius: 50%; border: 0; background: var(--bz-pri-2); color: var(--bz-sun); font-size: 1.1rem; line-height: 1; cursor: pointer; }
+body.bz-bold .bz-chosen { border: 2px solid var(--v2-ink); box-shadow: 3px 3px 0 var(--v2-ink); }
+body.bz-bold .bz-form-sub b { color: var(--v2-leaf); }
+
+/* ---------- Didu, everywhere on the bold pages ---------- */
+@keyframes diduFloat { 50% { transform: translateY(-7px) rotate(-3deg); } }
+@keyframes diduSway { 50% { transform: rotate(5deg); } }
+/* the hero: Didu points at the video from its top corner (the sticker has the other corner) */
+.v2-didu { position: absolute; z-index: 5; top: -54px; inset-inline-end: -26px; width: clamp(110px, 10vw, 150px); height: auto; filter: drop-shadow(3px 4px 0 rgba(58, 40, 13, .35)); animation: diduFloat 3.2s ease-in-out infinite; pointer-events: none; }
+[dir="rtl"] .v2-didu { transform: scaleX(-1); animation-name: diduFloatR; }
+@keyframes diduFloatR { 0%, 100% { transform: scaleX(-1); } 50% { transform: scaleX(-1) translateY(-7px) rotate(3deg); } }
+/* the marquee: Didu between the services */
+.v2-mq-track img { width: 1.15em; height: 1.15em; flex: none; }
+/* the section heads of the landing page: a Didu for each */
+body.bz-home :is(#services, #work, #plans, #faq) > .wrap { position: relative; }
+body.bz-home :is(#services, #work, #plans, #faq) > .wrap::before {
+  content: ""; position: absolute; z-index: 1; top: -6px; inset-inline-end: 0; width: clamp(96px, 10vw, 140px); aspect-ratio: 1;
+  background: url("/img/mascot/didu-search.svg") center / contain no-repeat; animation: diduFloat 3.6s ease-in-out infinite; pointer-events: none;
+}
+body.bz-home #work > .wrap::before { background-image: url("/img/mascot/didu-point.svg"); }
+body.bz-home #plans > .wrap::before { background-image: url("/img/mascot/didu-party.svg"); }
+body.bz-home #faq > .wrap::before { background-image: url("/img/mascot/didu.svg"); }
+/* the form: a bigger Didu that sways */
+body.bz-bold .bz-join-copy img { width: clamp(150px, 16vw, 200px); height: auto; transform-origin: 50% 100%; animation: diduSway 2.8s ease-in-out infinite; }
+/* the footer */
+.bz-foot-didu { display: block; width: 110px; height: auto; margin-top: 18px; transform-origin: 50% 100%; animation: diduSway 3.4s ease-in-out infinite; }
+@media (max-width: 900px) {
+  .v2-didu { width: 86px; top: auto; bottom: -50px; inset-inline-end: auto; inset-inline-start: max(-8px, calc(50% - 165px - 40px)); }
+  body.bz-home .bz-visual { margin-bottom: 44px; }   /* room for Didu under the video, clear of the text below */
+  body.bz-home :is(#services, #work, #plans, #faq) > .wrap::before { position: static; display: block; width: 92px; margin: 0 auto 8px; }
+}
+@media (max-width: 700px) { .bz-foot-didu { margin-inline: auto; } }
+@media (prefers-reduced-motion: reduce) {
+  .v2-didu, body.bz-home :is(#services, #work, #plans, #faq) > .wrap::before, body.bz-bold .bz-join-copy img, .bz-foot-didu { animation: none; }
+}
