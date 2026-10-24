@@ -41,145 +41,6 @@
   },
   "services": [
     {
-      "key": "loyalty-program",
-      "icon": "gift",
-      "featured": true,
-      "name": { "en": "Loyalty program", "ar": "برنامج الولاء" },
-      "short": {
-        "en": "Points or a digital stamp card that rewards the customers who come back, and shows you who your regulars are.",
-        "ar": "نقاط أو كارت أختام إلكتروني يكافئ العملاء اللي بيرجعوا، ويعرّفك مين زبائنك الدائمين."
-      },
-      "seo": {
-        "en": {
-          "title": "Customer Loyalty Program for Restaurants: Points & Stamp Cards",
-          "description": "A customer loyalty program for your restaurant or café: points or a digital stamp card that rewards returning customers and turns first-timers into regulars."
-        },
-        "ar": {
-          "title": "برنامج ولاء العملاء للمطاعم والكافيهات: نقاط وكارت ولاء",
-          "description": "برنامج ولاء العملاء لمطعمك أو الكافيه: نقاط أو كارت أختام إلكتروني يكافئ العملاء اللي بيرجعوا، ويحوّل اللي جه بكود خصم من Foodidu لزبون دائم."
-        }
-      },
-      "h1": { "en": "A loyalty program that brings customers back", "ar": "برنامج ولاء يرجّع عملاءك" },
-      "lede": {
-        "en": "The customer who came once with a promo code should come back every time. Points or a digital stamp card on their phone, with rewards you choose.",
-        "ar": "العميل اللي جه مرة بكود خصم، خليه يرجع كل مرة. نقاط أو كارت أختام إلكتروني على موبايل العميل، ومكافآت أنت اللي بتحددها."
-      },
-      "about": {
-        "title": { "en": "What is a customer loyalty program?", "ar": "يعني إيه برنامج ولاء العملاء؟" },
-        "text": [
-          {
-            "en": "A loyalty program rewards customers for coming back. Every order earns points or a stamp, and after a number of visits the customer gets a reward you choose, like a free drink or a discount.",
-            "ar": "برنامج ولاء العملاء بيكافئ العميل إنه يرجعلك. كل طلب عليه نقاط أو ختم، وبعد عدد زيارات معين العميل ياخد مكافأة أنت بتختارها، زي مشروب ببلاش أو خصم."
-          },
-          {
-            "en": "Big chains run their own loyalty programs because keeping a customer costs less than finding a new one. Foodidu Business gives a single restaurant or café the same tool, as a digital card on the customer's phone instead of a paper card that gets lost.",
-            "ar": "السلاسل الكبيرة عندها برامج ولاء خاصة بيها، لأن إنك تحافظ على عميل أرخص من إنك تجيب عميل جديد. وFoodidu Business بيدي المطعم أو الكافيه الواحد نفس الأداة، ككارت إلكتروني على موبايل العميل بدل الكارت الورق اللي بيضيع."
-          }
-        ]
-      },
-      "guide": {
-        "title": { "en": "Reward ideas that work in restaurants and cafés", "ar": "أفكار مكافآت بتنجح في المطاعم والكافيهات" },
-        "intro": { "en": "Keep the reward simple and close enough that customers feel they can reach it:", "ar": "خلي المكافأة بسيطة وقريبة، عشان العميل يحس إنه يقدر يوصلها:" },
-        "items": [
-          {
-            "title": { "en": "A free drink after a few visits", "ar": "مشروب ببلاش بعد كام زيارة" },
-            "text": { "en": "The classic stamp card: 8 to 10 visits works well for cafés.", "ar": "كارت الأختام المعروف: من 8 لـ 10 زيارات بتنفع جداً مع الكافيهات." }
-          },
-          {
-            "title": { "en": "A free side with the next order", "ar": "صنف جانبي ببلاش مع الطلب الجاي" },
-            "text": { "en": "Fries, a dessert or a drink: cheap for you, nice for the customer.", "ar": "بطاطس أو حلو أو مشروب: تكلفته قليلة عليك وحلو عند العميل." }
-          },
-          {
-            "title": { "en": "A birthday treat", "ar": "هدية في عيد الميلاد" },
-            "text": { "en": "A discount or a dessert on the customer's birthday brings them back with friends.", "ar": "خصم أو حلو في عيد ميلاد العميل بيرجّعه ومعاه صحابه." }
-          },
-          {
-            "title": { "en": "Double points on quiet days", "ar": "نقاط مضاعفة في الأيام الهادية" },
-            "text": { "en": "Bring customers on the days your tables are empty.", "ar": "جيب العملاء في الأيام اللي الترابيزات فيها فاضية." }
-          },
-          {
-            "title": { "en": "A welcome-back reward", "ar": "مكافأة على الزيارة التانية" },
-            "text": { "en": "A small reward for coming back within a week turns a first visit into a habit.", "ar": "مكافأة صغيرة لو العميل رجع خلال أسبوع بتحوّل أول زيارة لعادة." }
-          }
-        ]
-      },
-      "features": [
-        {
-          "title": { "en": "Points or stamps", "ar": "نقاط أو أختام" },
-          "text": { "en": "Pick what suits you: points for every pound spent, or a stamp with every order.", "ar": "اختار النظام اللي يناسبك: نقاط على كل جنيه، أو ختم مع كل طلب." }
-        },
-        {
-          "title": { "en": "No paper cards", "ar": "من غير كروت ورق" },
-          "text": { "en": "The card lives on the customer's phone, so it is never lost or forgotten.", "ar": "الكارت على موبايل العميل، فمش بيضيع ولا بيتنسى." }
-        },
-        {
-          "title": { "en": "Rewards you decide", "ar": "مكافآت بتحددها أنت" },
-          "text": { "en": "A free drink, a discount or a meal after a number of visits: you set the rules.", "ar": "مشروب ببلاش، أو خصم، أو وجبة بعد عدد زيارات معين: أنت اللي بتحدد." }
-        },
-        {
-          "title": { "en": "Know your regulars", "ar": "اعرف زبائنك الدائمين" },
-          "text": { "en": "See who comes back most and send them special offers.", "ar": "شوف مين بيرجع أكتر، وابعتلهم عروض خاصة." }
-        },
-        {
-          "title": { "en": "The next step after your Foodidu code", "ar": "الخطوة اللي بعد كود Foodidu" },
-          "text": {
-            "en": "New customers arrive with your promo code; loyalty brings them back without a discount every time.",
-            "ar": "العميل الجديد بييجي بكود خصمك، والولاء بيرجّعه من غير خصم كل مرة."
-          }
-        },
-        {
-          "title": { "en": "Works across your branches", "ar": "شغال في كل فروعك" },
-          "text": { "en": "Points and stamps add up from any of your branches.", "ar": "النقاط والأختام بتتجمع من أي فرع من فروعك." }
-        }
-      ],
-      "steps": [
-        {
-          "title": { "en": "Choose the reward", "ar": "اختار المكافأة" },
-          "text": { "en": "Tell us what your regulars get and after how many visits.", "ar": "قولّنا الزبون الدائم ياخد إيه وبعد كام زيارة." }
-        },
-        {
-          "title": { "en": "We set it up", "ar": "نجهّز البرنامج" },
-          "text": { "en": "We prepare the program with your name and colours, ready for your counter and tables.", "ar": "نجهّز البرنامج باسمك وألوانك، جاهز للكاشير والترابيزات." }
-        },
-        {
-          "title": { "en": "Customers collect and come back", "ar": "العميل يجمّع ويرجع" },
-          "text": { "en": "Every visit counts, and the reward gives them a reason to choose you again.", "ar": "كل زيارة بتتحسب، والمكافأة بتديله سبب يختارك تاني." }
-        }
-      ],
-      "faq": [
-        {
-          "q": { "en": "What is the difference between a loyalty program and a promo code?", "ar": "إيه الفرق بين برنامج الولاء وكود الخصم؟" },
-          "a": {
-            "en": "A promo code brings a new customer for the first time; a loyalty program rewards the customer who comes back, so they keep choosing you.",
-            "ar": "كود الخصم بيجيب عميل جديد لأول مرة، وبرنامج الولاء بيكافئ العميل اللي بيرجع، فيفضل يختارك."
-          }
-        },
-        {
-          "q": { "en": "Does the customer need to download an app?", "ar": "العميل محتاج ينزّل تطبيق؟" },
-          "a": {
-            "en": "No. The card opens on the customer's phone from a link or a QR code, with nothing to download.",
-            "ar": "لأ. الكارت بيفتح على موبايل العميل من لينك أو كود QR، من غير تحميل أي حاجة."
-          }
-        },
-        {
-          "q": { "en": "Can I choose the rewards?", "ar": "أقدر أحدد المكافآت؟" },
-          "a": { "en": "Yes. You decide the reward and when the customer gets it, and you can change it later.", "ar": "أيوه. أنت اللي بتحدد المكافأة وإمتى العميل ياخدها، وتقدر تغيّرها بعدين." }
-        },
-        {
-          "q": { "en": "Which plan includes the loyalty program?", "ar": "برنامج الولاء في أنهي باقة؟" },
-          "a": { "en": "The Growth and Pro plans.", "ar": "في باقة النمو والباقة الاحترافية." }
-        },
-        {
-          "q": { "en": "Points or stamps: which is better?", "ar": "نقاط ولا أختام: أنهي أحسن؟" },
-          "a": {
-            "en": "Stamps are simpler for cafés and small repeat orders; points suit restaurants where order values vary a lot.",
-            "ar": "الأختام أبسط للكافيهات والطلبات الصغيرة المتكررة، والنقاط أنسب للمطاعم اللي قيمة الطلب فيها بتفرق كتير."
-          }
-        }
-      ],
-      "search": "ولاء loyalty نقاط اختام"
-    },
-    {
       "key": "qr-menu",
       "icon": "qr",
       "name": { "en": "QR code menu", "ar": "منيو إلكتروني QR" },
@@ -668,6 +529,145 @@
           "text": { "en": "Your offer reaches the people who follow Foodidu for deals.", "ar": "عرضك يوصل للناس اللي متابعة Foodidu عشان العروض." }
         }
       ]
+    },
+    {
+      "key": "loyalty-program",
+      "icon": "gift",
+      "featured": true,
+      "name": { "en": "Loyalty program", "ar": "برنامج الولاء" },
+      "short": {
+        "en": "Points or a digital stamp card that rewards the customers who come back, and shows you who your regulars are.",
+        "ar": "نقاط أو كارت أختام إلكتروني يكافئ العملاء اللي بيرجعوا، ويعرّفك مين زبائنك الدائمين."
+      },
+      "seo": {
+        "en": {
+          "title": "Customer Loyalty Program for Restaurants: Points & Stamp Cards",
+          "description": "A customer loyalty program for your restaurant or café: points or a digital stamp card that rewards returning customers and turns first-timers into regulars."
+        },
+        "ar": {
+          "title": "برنامج ولاء العملاء للمطاعم والكافيهات: نقاط وكارت ولاء",
+          "description": "برنامج ولاء العملاء لمطعمك أو الكافيه: نقاط أو كارت أختام إلكتروني يكافئ العملاء اللي بيرجعوا، ويحوّل اللي جه بكود خصم من Foodidu لزبون دائم."
+        }
+      },
+      "h1": { "en": "A loyalty program that brings customers back", "ar": "برنامج ولاء يرجّع عملاءك" },
+      "lede": {
+        "en": "The customer who came once with a promo code should come back every time. Points or a digital stamp card on their phone, with rewards you choose.",
+        "ar": "العميل اللي جه مرة بكود خصم، خليه يرجع كل مرة. نقاط أو كارت أختام إلكتروني على موبايل العميل، ومكافآت أنت اللي بتحددها."
+      },
+      "about": {
+        "title": { "en": "What is a customer loyalty program?", "ar": "يعني إيه برنامج ولاء العملاء؟" },
+        "text": [
+          {
+            "en": "A loyalty program rewards customers for coming back. Every order earns points or a stamp, and after a number of visits the customer gets a reward you choose, like a free drink or a discount.",
+            "ar": "برنامج ولاء العملاء بيكافئ العميل إنه يرجعلك. كل طلب عليه نقاط أو ختم، وبعد عدد زيارات معين العميل ياخد مكافأة أنت بتختارها، زي مشروب ببلاش أو خصم."
+          },
+          {
+            "en": "Big chains run their own loyalty programs because keeping a customer costs less than finding a new one. Foodidu Business gives a single restaurant or café the same tool, as a digital card on the customer's phone instead of a paper card that gets lost.",
+            "ar": "السلاسل الكبيرة عندها برامج ولاء خاصة بيها، لأن إنك تحافظ على عميل أرخص من إنك تجيب عميل جديد. وFoodidu Business بيدي المطعم أو الكافيه الواحد نفس الأداة، ككارت إلكتروني على موبايل العميل بدل الكارت الورق اللي بيضيع."
+          }
+        ]
+      },
+      "guide": {
+        "title": { "en": "Reward ideas that work in restaurants and cafés", "ar": "أفكار مكافآت بتنجح في المطاعم والكافيهات" },
+        "intro": { "en": "Keep the reward simple and close enough that customers feel they can reach it:", "ar": "خلي المكافأة بسيطة وقريبة، عشان العميل يحس إنه يقدر يوصلها:" },
+        "items": [
+          {
+            "title": { "en": "A free drink after a few visits", "ar": "مشروب ببلاش بعد كام زيارة" },
+            "text": { "en": "The classic stamp card: 8 to 10 visits works well for cafés.", "ar": "كارت الأختام المعروف: من 8 لـ 10 زيارات بتنفع جداً مع الكافيهات." }
+          },
+          {
+            "title": { "en": "A free side with the next order", "ar": "صنف جانبي ببلاش مع الطلب الجاي" },
+            "text": { "en": "Fries, a dessert or a drink: cheap for you, nice for the customer.", "ar": "بطاطس أو حلو أو مشروب: تكلفته قليلة عليك وحلو عند العميل." }
+          },
+          {
+            "title": { "en": "A birthday treat", "ar": "هدية في عيد الميلاد" },
+            "text": { "en": "A discount or a dessert on the customer's birthday brings them back with friends.", "ar": "خصم أو حلو في عيد ميلاد العميل بيرجّعه ومعاه صحابه." }
+          },
+          {
+            "title": { "en": "Double points on quiet days", "ar": "نقاط مضاعفة في الأيام الهادية" },
+            "text": { "en": "Bring customers on the days your tables are empty.", "ar": "جيب العملاء في الأيام اللي الترابيزات فيها فاضية." }
+          },
+          {
+            "title": { "en": "A welcome-back reward", "ar": "مكافأة على الزيارة التانية" },
+            "text": { "en": "A small reward for coming back within a week turns a first visit into a habit.", "ar": "مكافأة صغيرة لو العميل رجع خلال أسبوع بتحوّل أول زيارة لعادة." }
+          }
+        ]
+      },
+      "features": [
+        {
+          "title": { "en": "Points or stamps", "ar": "نقاط أو أختام" },
+          "text": { "en": "Pick what suits you: points for every pound spent, or a stamp with every order.", "ar": "اختار النظام اللي يناسبك: نقاط على كل جنيه، أو ختم مع كل طلب." }
+        },
+        {
+          "title": { "en": "No paper cards", "ar": "من غير كروت ورق" },
+          "text": { "en": "The card lives on the customer's phone, so it is never lost or forgotten.", "ar": "الكارت على موبايل العميل، فمش بيضيع ولا بيتنسى." }
+        },
+        {
+          "title": { "en": "Rewards you decide", "ar": "مكافآت بتحددها أنت" },
+          "text": { "en": "A free drink, a discount or a meal after a number of visits: you set the rules.", "ar": "مشروب ببلاش، أو خصم، أو وجبة بعد عدد زيارات معين: أنت اللي بتحدد." }
+        },
+        {
+          "title": { "en": "Know your regulars", "ar": "اعرف زبائنك الدائمين" },
+          "text": { "en": "See who comes back most and send them special offers.", "ar": "شوف مين بيرجع أكتر، وابعتلهم عروض خاصة." }
+        },
+        {
+          "title": { "en": "The next step after your Foodidu code", "ar": "الخطوة اللي بعد كود Foodidu" },
+          "text": {
+            "en": "New customers arrive with your promo code; loyalty brings them back without a discount every time.",
+            "ar": "العميل الجديد بييجي بكود خصمك، والولاء بيرجّعه من غير خصم كل مرة."
+          }
+        },
+        {
+          "title": { "en": "Works across your branches", "ar": "شغال في كل فروعك" },
+          "text": { "en": "Points and stamps add up from any of your branches.", "ar": "النقاط والأختام بتتجمع من أي فرع من فروعك." }
+        }
+      ],
+      "steps": [
+        {
+          "title": { "en": "Choose the reward", "ar": "اختار المكافأة" },
+          "text": { "en": "Tell us what your regulars get and after how many visits.", "ar": "قولّنا الزبون الدائم ياخد إيه وبعد كام زيارة." }
+        },
+        {
+          "title": { "en": "We set it up", "ar": "نجهّز البرنامج" },
+          "text": { "en": "We prepare the program with your name and colours, ready for your counter and tables.", "ar": "نجهّز البرنامج باسمك وألوانك، جاهز للكاشير والترابيزات." }
+        },
+        {
+          "title": { "en": "Customers collect and come back", "ar": "العميل يجمّع ويرجع" },
+          "text": { "en": "Every visit counts, and the reward gives them a reason to choose you again.", "ar": "كل زيارة بتتحسب، والمكافأة بتديله سبب يختارك تاني." }
+        }
+      ],
+      "faq": [
+        {
+          "q": { "en": "What is the difference between a loyalty program and a promo code?", "ar": "إيه الفرق بين برنامج الولاء وكود الخصم؟" },
+          "a": {
+            "en": "A promo code brings a new customer for the first time; a loyalty program rewards the customer who comes back, so they keep choosing you.",
+            "ar": "كود الخصم بيجيب عميل جديد لأول مرة، وبرنامج الولاء بيكافئ العميل اللي بيرجع، فيفضل يختارك."
+          }
+        },
+        {
+          "q": { "en": "Does the customer need to download an app?", "ar": "العميل محتاج ينزّل تطبيق؟" },
+          "a": {
+            "en": "No. The card opens on the customer's phone from a link or a QR code, with nothing to download.",
+            "ar": "لأ. الكارت بيفتح على موبايل العميل من لينك أو كود QR، من غير تحميل أي حاجة."
+          }
+        },
+        {
+          "q": { "en": "Can I choose the rewards?", "ar": "أقدر أحدد المكافآت؟" },
+          "a": { "en": "Yes. You decide the reward and when the customer gets it, and you can change it later.", "ar": "أيوه. أنت اللي بتحدد المكافأة وإمتى العميل ياخدها، وتقدر تغيّرها بعدين." }
+        },
+        {
+          "q": { "en": "Which plan includes the loyalty program?", "ar": "برنامج الولاء في أنهي باقة؟" },
+          "a": { "en": "The Growth and Pro plans.", "ar": "في باقة النمو والباقة الاحترافية." }
+        },
+        {
+          "q": { "en": "Points or stamps: which is better?", "ar": "نقاط ولا أختام: أنهي أحسن؟" },
+          "a": {
+            "en": "Stamps are simpler for cafés and small repeat orders; points suit restaurants where order values vary a lot.",
+            "ar": "الأختام أبسط للكافيهات والطلبات الصغيرة المتكررة، والنقاط أنسب للمطاعم اللي قيمة الطلب فيها بتفرق كتير."
+          }
+        }
+      ],
+      "search": "ولاء loyalty نقاط اختام"
     }
   ],
   "plans": [
@@ -1718,13 +1718,13 @@
       "img": "/business/work/nilo/cover.webp",
       "w": 1600,
       "h": 1000,
-      "alt": { "en": "The NILO gelato demo website on a laptop and a phone", "ar": "موقع نيلو جيلاتو التجريبي على لابتوب وموبايل" },
-      "tag": { "en": "Concept project", "ar": "مشروع تجريبي من تصميمنا" },
+      "alt": { "en": "The NILO gelato website on a laptop and a phone", "ar": "موقع نيلو جيلاتو على لابتوب وموبايل" },
+      "tag": { "en": "From our work", "ar": "من شغلنا" },
       "title": { "en": "A restaurant website we designed: NILO gelato", "ar": "موقع مطعم صمّمناه: نيلو جيلاتو" },
-      "example": { "en": "NILO gelato: a concept site we built", "ar": "نيلو جيلاتو: موقع صمّمناه" },
+      "example": { "en": "NILO gelato: a website we built", "ar": "نيلو جيلاتو: موقع صمّمناه" },
       "text": {
-        "en": "We designed and built NILO gelato from scratch to show what your restaurant's website can look like: bold, animated, in Arabic and English, and ready for orders.",
-        "ar": "صمّمنا وبنينا موقع نيلو جيلاتو من الصفر عشان تشوف موقع مطعمك ممكن يبقى شكله إزاي: جريء، متحرك، بالعربي والإنجليزي، وجاهز يستقبل طلبات."
+        "en": "We designed and built the NILO gelato website from scratch: bold, animated, in Arabic and English, and ready for orders.",
+        "ar": "صمّمنا وبنينا موقع نيلو جيلاتو من الصفر: جريء، متحرك، بالعربي والإنجليزي، وجاهز يستقبل طلبات."
       },
       "points": [
         { "en": "Arabic and English, with a proper right-to-left layout", "ar": "عربي وإنجليزي، والعربي من اليمين للشمال صح" },
@@ -1732,10 +1732,10 @@
         { "en": "Branches on a map with opening hours that update by themselves", "ar": "الفروع على خريطة ومواعيد الفتح بتتحدّث لوحدها" },
         { "en": "Scroll animations that feel like an app", "ar": "حركة مع السكرول كأنه تطبيق" }
       ],
-      "btn": { "en": "Open the demo", "ar": "افتح الديمو" },
-      "demo": { "en": "See a live demo: NILO gelato", "ar": "شوف ديمو لايف: نيلو جيلاتو" },
+      "btn": { "en": "Open the website", "ar": "افتح الموقع" },
+      "demo": { "en": "See it live: NILO gelato", "ar": "شوف الموقع لايف: نيلو جيلاتو" },
       "name": { "en": "NILO gelato", "ar": "نيلو جيلاتو" },
-      "cap": { "en": "Concept project: NILO gelato", "ar": "مشروع تجريبي: نيلو جيلاتو" }
+      "cap": { "en": "Our work: NILO gelato", "ar": "من شغلنا: نيلو جيلاتو" }
     }
   ]
 }

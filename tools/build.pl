@@ -947,9 +947,9 @@ HTML
     my ($bh, $bf) = $a{bare} ? ('', '') : biz_chrome($l, $key, $lang_link);   # bare: the page brings its own top (the demo menu)
     $html =~ s{<header class="site-header is-home">.*?</header>}{$bh}s or die "biz header\n";
     $html =~ s{<footer class="site-footer">.*?</footer>}{$bf}s or die "biz footer\n";
-    $html =~ s{<body>}{'<body class="biz' . ($a{bare} ? ' bare' : '') . ($a{bodyclass} ? " $a{bodyclass}" : '') . '">'}e;
+    $html =~ s{<body>}{'<body class="biz' . ($a{bare} ? ' bare' : ' bz-bold') . ($a{bodyclass} ? " $a{bodyclass}" : '') . '">'}e;   # bz-bold: the bold look in biz.css
     $html =~ s{<meta name="theme-color" content="#FFD15C">}{<meta name="theme-color" content="#0B6E4F">};
-    $html =~ s{<link rel="preload" href="/fonts/lalezar[^>]*>\n}{} unless $a{display_font};   # the new look (v2) uses Lalezar for its headlines
+    $html =~ s{<link rel="preload" href="/fonts/lalezar[^>]*>\n}{} if $a{bare};   # the bold look's headlines use Lalezar; the bare demo menu does not
     my $bcss = asset('/css/biz.css');
     my $more = join '', map { qq{\n<link rel="stylesheet" href="$_">} } @{ $a{styles} // [] };
     $html =~ s{(<link rel="stylesheet" href="[^"]+">)}{$1\n<link rel="stylesheet" href="$bcss">$more};
@@ -1771,9 +1771,8 @@ HTML
       . '<a class="bz-btn bz-pri" href="' . path_for($l, '/business/qr-menu-generator/') . '">' . T($l, 'qr_band_btn') . ' ' . icon('arrow', 'flip') . '</a></div>' : '';
     my $cta = '<section class="bz-sec"><div class="wrap"><div class="bz-cta"><div><h2>' . T($l, 'biz_cta_title') . '</h2><p>' . T($l, 'biz_cta_text') . '</p></div><img src="/img/mascot/didu-party.svg" alt="" width="130" height="130" loading="lazy"><a class="bz-btn bz-sunbtn" href="' . $burl . '#join">' . T($l, 'biz_join') . ' ' . icon('arrow', 'flip') . '</a></div></div></section>';
 
-    # the landing page, and the same page in the new look (NILO style: static/css/biz-next.css) as a preview at /business/v2/,
-    # noindex and outside the sitemap, until the owner approves it
-    for my $v2 (0, 1) {
+    # the landing page
+    {
       my $crumbs = [[T($l, 'home'), path_for($l, '/')], ['Foodidu Business', $burl]];
       my $stage = qq{<div class="bz-anim"><canvas class="biz-anim" data-lang="$l" width="1080" height="1080" role="img" aria-label="} . T($l, 'anim_alt') . '"></canvas>'
         . '<button class="anim-btn" type="button" aria-pressed="false" data-play="' . T($l, 'anim_play') . '" data-pause="' . T($l, 'anim_pause') . '" aria-label="' . T($l, 'anim_play') . '">' . icon('play', 'i-play') . icon('pause', 'i-pause') . '</button><p class="anim-cap" aria-hidden="true"></p></div>';   # the 30 s services explainer (static/js/biz-anim.js); the caption shows the scene title on phones
@@ -1807,14 +1806,13 @@ HTML
         . '<a class="bz-btn bz-pri" href="' . path_for($l, "/business/$g1->{key}/") . '">' . esc($g1->{band}{btn}{$l}) . ' ' . icon('arrow', 'flip') . '</a></div>' : '';
       my $aud = @{ $BIZ->{audiences} // [] } ? '<p class="bz-aud"><span>' . T($l, 'biz_aud_lead') . '</span>' . join('', map { '<a href="' . path_for($l, "/business/$_->{key}/") . '">' . icon($_->{icon}) . esc($_->{name}{$l}) . '</a>' } @{ $BIZ->{audiences} }) . '</p>' : '';
       my $top = $hero->($crumbs, T($l, 'biz_pill'), $BIZ->{h1}{$l}, $BIZ->{lede}{$l}, $stage, undef, $quick->());
-      if ($v2) {   # the new look's extras: a note that this is a preview, a turning sticker, a marquee, a burst on the free plan
+      {   # the bold look's extras: a turning "start free" sticker on the video, a marquee of the services, a burst on the free plan
         my $ring = $l eq 'ar' ? 'ابدأ مجاناً · منيو QR · برنامج ولاء · ' x 2 : 'START FREE · QR MENU · LOYALTY · ORDER ONLINE · ';   # about one turn of the circle
         my $sticker = qq{<a class="v2-ring" href="#join" aria-label="} . T($l, 'biz_start') . qq{"><svg viewBox="-100 -100 200 200" aria-hidden="true"><circle r="96" class="r-bg"/><defs><path id="v2rp" d="M0 -72A72 72 0 1 1 -0.1 -72"/></defs>}
           . qq{<g class="spin"><text class="r-t"><textPath href="#v2rp">$ring</textPath></text></g><circle r="46" class="r-in"/><path class="r-ar" d="M-18 0H18M4 -15L19 0 4 15"/></svg></a>};
         $top =~ s{<div class="bz-visual">}{<div class="bz-visual">$sticker};
         my $mq = join '', map { '<span>' . esc($_) . '<i></i></span>' } (map { $_->{name}{$l} } @svc), ($BIZ->{tool} ? $BIZ->{tool}{name}{$l} : ());
-        $top = '<p class="v2-note">' . ($l eq 'ar' ? 'معاينة للتصميم الجديد، مش ظاهرة في جوجل' : 'A preview of the new look, hidden from Google') . ' · <a href="' . $burl . '">' . ($l eq 'ar' ? 'الشكل الحالي' : 'The current page') . '</a></p>'
-          . $top . qq{<div class="v2-mq-wrap" aria-hidden="true"><div class="v2-marquee"><div class="v2-mq-track">$mq$mq</div></div></div>};
+        $top .= qq{<div class="v2-mq-wrap" aria-hidden="true"><div class="v2-marquee"><div class="v2-mq-track">$mq$mq</div></div></div>};
         my $pts = join ' ', map { my $r = $_ % 2 ? 80 : 98; my $a = 3.14159265 * $_ / 16 - 3.14159265 / 2; sprintf('%.1f,%.1f', $r * cos($a), $r * sin($a)) } 0 .. 31;
         my $burst = qq{<span class="v2-burst" aria-hidden="true"><svg viewBox="-104 -104 208 208"><polygon points="$pts"/><text y="14">} . ($l eq 'ar' ? 'مجاناً' : 'FREE') . '</text></svg></span>';
         $plans =~ s{<li class="bz-plan">}{<li class="bz-plan">$burst};   # the first plan that is not featured: the free one
@@ -1861,8 +1859,7 @@ $plans
 </div></section>
 @{[ $faq->('bfaq-title', $num->(6), @qa) ]}
 HTML
-      layout(lang => $l, key => ($v2 ? '/business/v2/' : '/business/'), title => $BIZ->{seo}{$l}{title}, desc => $BIZ->{seo}{$l}{description}, body => $body, skin => 'biz', lastmod => mdate($BIZ_FILE), scripts => [asset('/js/biz-anim.js')],
-        ($v2 ? (noindex => 1, bodyclass => 'v2', display_font => 1, styles => [asset('/css/biz-next.css')]) : ()),
+      layout(lang => $l, key => '/business/', title => $BIZ->{seo}{$l}{title}, desc => $BIZ->{seo}{$l}{description}, body => $body, skin => 'biz', lastmod => mdate($BIZ_FILE), scripts => [asset('/js/biz-anim.js')], bodyclass => 'bz-home',
         crumbs => $crumbs, og => "/img/og/biz-home-$l.png", fd => { formUrl => $FORM_URL, quickNote => ($BIZ->{quick} ? $BIZ->{quick}{note}{$l} : '') },
         ld => [ { '@type' => 'ItemList', name => 'Foodidu Business', itemListElement => [ map { my $i = $_; { '@type' => 'ListItem', position => $i + 1, name => $svc[$i]{name}{$l}, ($has_page->($svc[$i]) ? (url => absu($surl->($svc[$i]))) : ()) } } 0 .. $#svc ] }, faq_ld(@qa) ]);
     }

@@ -672,3 +672,174 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .fw-row-btn { display: flex; width: fit-content; margin-top: 22px; }
 .fw-row-btn + .bz-link { display: flex; width: fit-content; margin-top: 14px; }
 @media (max-width: 700px) { .fw-row-btn, .fw-row-btn + .bz-link { margin-inline: auto; } }
+
+/* ==================== the bold look (inspired by the NILO concept site) ====================
+   Big Lalezar headlines with an outline and a hard shadow, chunky borders and offset shadows, a sun hero with the food
+   pattern, and on the landing page a turning "start free" sticker, a services marquee and a "free" burst. It restyles the
+   rules above for every business page (body.bz-bold, set by layout(); not the bare demo menu). */
+body.bz-bold {
+  --v2-ink: #3A280D; --v2-cream: #FFF6DF; --v2-paper: #FFFCF3; --v2-sun: #FFD15C; --v2-sun-d: #F5B82E; --v2-sun-soft: #FFEFC2;
+  --v2-leaf: #4A7A1E; --v2-leaf-soft: #E4F2D2; --v2-peach: #FFDCC8; --v2-pink: #FF9DAE;
+  --v2-sh: 5px 5px 0 var(--v2-ink); --v2-sh-sm: 3px 3px 0 var(--v2-ink);
+  --v2-bounce: cubic-bezier(.3, 1.6, .5, 1);
+  --v2-display: "Lalezar", "Readex Pro", system-ui, sans-serif;   /* biz.css sets --font-display to Readex Pro */
+  background: var(--v2-cream);
+}
+
+
+/* ---------- display type: headlines with an outline and a hard shadow ---------- */
+body.bz-bold .bz-hero h1, body.bz-bold .bz-head h2, body.bz-bold .bz-join-copy h2, body.bz-bold .bz-cta h2, body.bz-bold .bz-toolband h2, body.bz-bold .bz-row-copy h3, body.bz-bold .bz-price {
+  font-family: var(--v2-display); font-weight: 400; letter-spacing: 0;
+}
+body.bz-bold .bz-hero h1 {
+  font-size: clamp(2.3rem, 4.4vw, 3.7rem); line-height: 1.06; color: var(--v2-cream);
+  paint-order: stroke fill; -webkit-text-stroke: .04em var(--v2-ink); text-shadow: .045em .05em 0 var(--v2-ink);
+  text-wrap: balance;
+}
+[dir="rtl"] body.bz-bold .bz-hero h1 { line-height: 1.32; }
+body.bz-home .bz-hero h1 { font-size: clamp(2.8rem, 6.2vw, 5.4rem); line-height: 1.02; }
+[dir="rtl"] body.bz-home .bz-hero h1 { line-height: 1.3; }
+body.bz-bold .bz-head h2, body.bz-bold .bz-join-copy h2 { font-size: clamp(2.3rem, 4.8vw, 3.9rem); line-height: 1.06; color: var(--v2-ink); }
+[dir="rtl"] body.bz-bold .bz-head h2, [dir="rtl"] body.bz-bold .bz-join-copy h2 { line-height: 1.32; }
+body.bz-bold .bz-row-copy h3 { font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--v2-ink); }
+body.bz-bold .bz-eyebrow { font-family: var(--v2-display); font-weight: 400; font-size: 1.2rem; color: var(--v2-ink); }
+body.bz-bold .bz-eyebrow .n { width: 40px; height: 40px; font-size: 1.1rem; background: var(--v2-sun); color: var(--v2-ink); border: 2.5px solid var(--v2-ink); box-shadow: var(--v2-sh-sm); transform: rotate(-8deg); }
+
+/* ---------- hero: the sun with the food pattern ---------- */
+body.bz-bold .bz-hero { background: var(--v2-sun); border-bottom: 3px solid var(--v2-ink); padding-bottom: clamp(64px, 9vw, 110px); }
+body.bz-bold .bz-hero::before { background: url("/img/pattern.svg") 0 0 / 187px 406px repeat; opacity: .2; -webkit-mask: none; mask: none; }
+body.bz-bold .bz-hero .crumbs, body.bz-bold .bz-hero .crumbs a { color: var(--v2-ink); }
+body.bz-bold .bz-pill { background: var(--v2-ink); color: var(--v2-sun); border: 0; box-shadow: var(--v2-sh-sm); font-weight: 700; letter-spacing: .02em; }
+body.bz-bold .bz-pill .dot { background: var(--v2-sun); }
+body.bz-bold .bz-lede { color: var(--v2-ink); font-weight: 500; }
+body.bz-bold .bz-anim { border: 3px solid var(--v2-ink); border-radius: 30px; box-shadow: 9px 9px 0 var(--v2-ink); overflow: hidden; background: #fff; transform: rotate(1.2deg); }
+body.bz-bold .bz-visual { position: relative; }
+body.bz-bold .bz-ticks li { color: var(--v2-ink); font-weight: 600; }
+
+/* the turning sticker on the video: "start free" */
+.v2-ring { position: absolute; z-index: 4; inset-inline-start: -30px; bottom: -36px; width: clamp(112px, 11vw, 150px); aspect-ratio: 1; transition: transform .45s var(--v2-bounce); }
+.v2-ring svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(4px 5px 0 var(--v2-ink)); }
+.v2-ring .r-bg { fill: var(--v2-pink); stroke: var(--v2-ink); stroke-width: 4; }
+.v2-ring .r-in { fill: var(--v2-paper); stroke: var(--v2-ink); stroke-width: 4; }
+.v2-ring .r-t { font: 400 19px var(--v2-display); fill: var(--v2-ink); direction: ltr; }   /* text on a path only lays out left to right in Chrome */
+html[lang="en"] .v2-ring .r-t { letter-spacing: 1px; }
+.v2-ring .r-ar { fill: none; stroke: var(--v2-ink); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+[dir="rtl"] .v2-ring .r-ar { transform: scaleX(-1); }
+.v2-ring .spin { animation: v2spin 18s linear infinite; }
+.v2-ring:hover { transform: rotate(-10deg) scale(1.08); }
+@keyframes v2spin { to { transform: rotate(360deg); } }
+
+/* the marquee under the hero */
+.v2-mq-wrap { position: relative; z-index: 3; overflow: hidden; margin-top: -34px; padding: 18px 0; }
+.v2-marquee { width: 106%; margin-inline-start: -3%; background: var(--v2-ink); color: var(--v2-sun); transform: rotate(-2deg); border-block: 3px solid var(--v2-ink); }
+.v2-mq-track { display: flex; width: max-content; padding: 14px 0 10px; font: 400 clamp(22px, 2.8vw, 36px)/1.25 var(--v2-display); animation: v2marq 42s linear infinite; }
+.v2-mq-track span { display: inline-flex; align-items: center; gap: 26px; padding-inline-end: 26px; white-space: nowrap; }
+.v2-mq-track i { width: .62em; height: .62em; background: var(--v2-pink); clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+@keyframes v2marq { to { transform: translateX(-50%); } }
+[dir="rtl"] .v2-mq-track { animation-name: v2marq-rtl; }
+@keyframes v2marq-rtl { to { transform: translateX(50%); } }
+
+/* ---------- buttons: chunky, with a hard shadow that presses in ---------- */
+body.bz-bold .bz-btn { border: 2.5px solid var(--v2-ink); border-radius: 999px; box-shadow: 4px 4px 0 var(--v2-ink); font-weight: 700; transition: transform .15s ease, box-shadow .15s ease, background-color .2s; }
+body.bz-bold .bz-btn:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--v2-ink); }
+body.bz-bold .bz-btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--v2-ink); }
+body.bz-bold .bz-pri { background: var(--v2-ink); color: var(--v2-sun); }
+body.bz-bold .bz-pri:hover { background: var(--v2-ink); }
+body.bz-bold .bz-ghost, body.bz-bold .bz-waghost { background: var(--v2-paper); color: var(--v2-ink); }
+body.bz-bold .bz-sunbtn { background: var(--v2-sun); color: var(--v2-ink); }
+body.bz-bold .bz-wa { background: var(--v2-leaf); color: #fff; }
+body.bz-bold .bz-link { text-decoration-color: var(--v2-sun-d); text-decoration-thickness: 3px; }
+
+/* ---------- cards: thick outlines and offset shadows ---------- */
+body.bz-bold .bz-glance a, body.bz-bold .bz-steps li, body.bz-bold .bz-plan, body.bz-bold .bz-feats li, body.bz-bold .bz-cards li, body.bz-bold .biz .faq details, body.bz-bold .faq details,
+body.bz-bold .form-card, body.bz-bold .bz-quick, body.bz-bold .bz-toolband, body.bz-bold .bz-cta, body.bz-bold .fw-shot, body.bz-bold .bz-row-visual, body.bz-bold .bz-aud a {
+  border: 2.5px solid var(--v2-ink); box-shadow: var(--v2-sh);
+}
+body.bz-bold .bz-glance a { background: var(--v2-paper); transition: transform .2s var(--v2-bounce), box-shadow .2s; }
+body.bz-bold .bz-glance a:hover { transform: translate(-2px, -3px) rotate(-.6deg); box-shadow: 7px 8px 0 var(--v2-ink); border-color: var(--v2-ink); }
+body.bz-bold .bz-glance .main a { background: var(--v2-sun); }
+body.bz-bold .bz-glance .bz-ic, body.bz-bold .bz-ttl .bz-ic { border: 2px solid var(--v2-ink); }
+body.bz-bold .bz-row-visual { border-radius: 30px; }
+body.bz-bold .bz-row:nth-child(odd) .bz-row-visual { transform: rotate(-1deg); }
+body.bz-bold .bz-row:nth-child(even) .bz-row-visual { transform: rotate(1deg); }
+body.bz-bold .bz-tag { background: var(--v2-ink); color: var(--v2-sun); transform: rotate(-3deg); box-shadow: var(--v2-sh-sm); }
+body.bz-bold .bz-new li { border: 2px solid var(--v2-ink); box-shadow: var(--v2-sh-sm); }
+body.bz-bold .bz-steps li { background: var(--v2-paper); }
+body.bz-bold .bz-num { border: 2px solid var(--v2-ink); box-shadow: var(--v2-sh-sm); transform: rotate(-6deg); font-family: var(--v2-display); font-size: 1.3rem; font-weight: 400; }
+body.bz-bold .bz-plan { background: var(--v2-paper); }
+body.bz-bold .bz-plan-main { background: var(--v2-sun); transform: translateY(-8px) rotate(-.6deg); box-shadow: 8px 9px 0 var(--v2-ink); }
+body.bz-bold .bz-price { font-size: 2.4rem; color: var(--v2-ink); }
+body.bz-bold .bz-toolband { background: var(--v2-sun); }
+body.bz-bold .bz-cta { background: var(--v2-ink); }
+body.bz-bold .fw-band { background: var(--v2-peach); border-block: 3px solid var(--v2-ink); }
+body.bz-bold .fw-tag { border: 2px solid var(--v2-ink); box-shadow: var(--v2-sh-sm); }
+body.bz-bold .bz-aud a { box-shadow: var(--v2-sh-sm); }
+body.bz-bold .faq details[open] { border-color: var(--v2-ink); background: var(--v2-paper); }
+
+/* the burst on the free plan */
+body.bz-bold .bz-plan { position: relative; }
+.v2-burst { position: absolute; z-index: 2; top: -30px; inset-inline-end: -22px; width: 92px; aspect-ratio: 1; transform: rotate(10deg); }
+.v2-burst svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(3px 4px 0 var(--v2-ink)); }
+.v2-burst polygon { fill: var(--v2-pink); stroke: var(--v2-ink); stroke-width: 5; stroke-linejoin: round; }
+.v2-burst text { font: 400 38px var(--v2-display); fill: var(--v2-ink); text-anchor: middle; }
+
+/* ---------- sections ---------- */
+body.bz-bold .bz-alt { background: var(--v2-sun-soft); }
+body.bz-bold .bz-alt::before { background: radial-gradient(circle at 12px 0, var(--v2-cream) 11px, transparent 11.5px) 0 0 / 24px 14px repeat-x; }
+body.bz-bold .bz-alt::after { background: radial-gradient(circle at 12px 0, var(--v2-sun-soft) 11px, transparent 11.5px) 0 0 / 24px 14px repeat-x; }
+
+/* ---------- phones ---------- */
+@media (max-width: 900px) {
+  body.bz-bold .bz-anim { transform: none; box-shadow: 6px 6px 0 var(--v2-ink); }
+  .v2-ring { width: 100px; inset-inline-start: auto; inset-inline-end: -6px; top: -30px; bottom: auto; }   /* phones: the top corner, clear of the caption and the pause button */
+  body.bz-bold .bz-row:nth-child(n) .bz-row-visual { transform: none; }
+  body.bz-bold .bz-plan-main { transform: none; }
+}
+@media (max-width: 560px) {
+  body.bz-bold .bz-hero h1 { font-size: clamp(2rem, 8.6vw, 2.7rem); }
+  body.bz-home .bz-hero h1 { font-size: clamp(2.4rem, 11vw, 3.2rem); }
+  .v2-mq-track { font-size: 22px; }
+  .v2-burst { width: 78px; top: -24px; inset-inline-end: -8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .v2-ring .spin, .v2-mq-track { animation: none; }
+  .v2-ring, body.bz-bold .bz-glance a, body.bz-bold .bz-btn { transition: none; }
+}
+
+/* ---------- the bold look: the request forms (the full one at #join and the quick one in the hero) ---------- */
+body.bz-bold .form-card { padding: clamp(22px, 4vw, 40px); border-radius: 28px; background: #fff; }
+body.bz-bold .bz-form-sub { color: var(--v2-ink); font-weight: 600; }
+body.bz-bold .form-grid { gap: 18px 16px; }
+body.bz-bold .field label, body.bz-bold .checks legend { color: var(--v2-ink); font-weight: 700; }
+body.bz-bold .field input, body.bz-bold .field select, body.bz-bold .field textarea {
+  min-height: 54px; border: 2px solid var(--v2-ink); border-radius: 14px; background: var(--v2-paper); color: var(--v2-ink); font-weight: 500;
+  transition: box-shadow .15s ease, transform .15s ease, background-color .15s;
+}
+body.bz-bold .field textarea { min-height: 130px; }
+body.bz-bold .field input::placeholder, body.bz-bold .field textarea::placeholder { color: #A08A6A; }
+body.bz-bold .field input:focus, body.bz-bold .field select:focus, body.bz-bold .field textarea:focus {
+  outline: none; background: #fff; border-color: var(--v2-ink); box-shadow: 4px 4px 0 var(--v2-sun-d); transform: translate(-1px, -1px);
+}
+body.bz-bold .field input:user-invalid, body.bz-bold .field select:user-invalid { border-color: #C92A2A; box-shadow: 4px 4px 0 #F4B4B4; }
+body.bz-bold .field select {
+  appearance: none; -webkit-appearance: none; padding-inline-end: 46px; cursor: pointer;
+  background: var(--v2-paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233A280D' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 16px center / 18px;
+}
+[dir="rtl"] body.bz-bold .field select { background-position: left 16px center; }
+/* the services: chunky chips that turn yellow when picked */
+body.bz-bold .checks { gap: 10px; }
+body.bz-bold .checks .check {
+  gap: 9px; padding: 8px 14px; border: 2px solid var(--v2-ink); border-radius: 999px; background: var(--v2-paper); color: var(--v2-ink); font-weight: 600; font-size: .95rem;
+  box-shadow: 3px 3px 0 var(--v2-ink); transition: transform .12s ease, box-shadow .12s ease, background-color .15s;
+}
+body.bz-bold .checks .check:hover { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--v2-ink); }
+body.bz-bold .checks .check:has(input:checked) { background: var(--v2-sun); }
+body.bz-bold .checks .check:has(input:focus-visible) { outline: 3px solid var(--v2-ink); outline-offset: 3px; }
+body.bz-bold .checks input { width: 20px; height: 20px; accent-color: var(--v2-ink); }
+/* sending */
+body.bz-bold .form-foot { gap: 14px 18px; }
+body.bz-bold .form-foot .bz-btn { min-height: 58px; padding-inline: 34px; font-size: 1.08rem; }
+body.bz-bold .form-status { border: 2px solid var(--v2-ink); box-shadow: 3px 3px 0 var(--v2-ink); font-weight: 600; }
+body.bz-bold .bz-quick .bz-btn { min-height: 54px; }
+@media (max-width: 560px) { body.bz-bold .form-foot .bz-btn { width: 100%; } }
+body.bz-bold .qr-form, body.bz-bold .qr-preview { border: 2.5px solid var(--v2-ink); box-shadow: var(--v2-sh); }   /* the free QR tool */

@@ -85,7 +85,7 @@ window.NILO_DATA = (() => {
   const UI = {
     en: {
       menu: 'Menu', close: 'Close', openAria: 'Open menu', closeAria: 'Close menu',
-      ok: "Demo only: nothing was sent. On a real site, this signs you up.", bad: 'That email looks a little melted. Try again?',
+      ok: "Thanks! This showcase copy of the site does not send emails.", bad: 'That email looks a little melted. Try again?',
       filters: { all: 'All', milk: 'Creamy', sorbet: 'Dairy-free', cairo: 'Cairo specials', isNew: 'New' },
       more: 'Details', contains: 'Contains', dairyFree: 'Dairy-free', order: 'Order a scoop', closeDlg: 'Close', count: (n) => `${n} flavors`,
       openNow: 'Open now', opensAt: (h) => `Opens at ${h}`, showMap: 'On the map', backIn: 'Back in June', daily: 'Daily', hours: 'Hours', call: 'Call', area: 'Area', directions: 'Directions',
@@ -94,7 +94,7 @@ window.NILO_DATA = (() => {
     },
     ar: {
       menu: 'المنيو', close: 'اقفل', openAria: 'افتح المنيو', closeAria: 'اقفل المنيو',
-      ok: 'دي نسخة تجريبية: مفيش حاجة اتبعتت. في الموقع الحقيقي هنا بتشترك.', bad: 'الإيميل ده شكله ساح شوية. جرّب تاني؟',
+      ok: 'شكراً! النسخة دي من الموقع للعرض ومبتبعتش إيميلات.', bad: 'الإيميل ده شكله ساح شوية. جرّب تاني؟',
       filters: { all: 'الكل', milk: 'بالكريمة', sorbet: 'من غير لبن', cairo: 'قاهري', isNew: 'جديد' },
       more: 'التفاصيل', contains: 'فيه', dairyFree: 'من غير لبن', order: 'اطلب سكوب', closeDlg: 'اقفل', count: (n) => `${n} نكهة`,
       openNow: 'مفتوح دلوقتي', opensAt: (h) => `بيفتح ${h}`, showMap: 'على الخريطة', backIn: 'راجعين في يونيو', daily: 'يوميًا', hours: 'المواعيد', call: 'اتصل', area: 'المنطقة', directions: 'الاتجاهات',
