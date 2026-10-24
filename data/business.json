@@ -1,6 +1,6 @@
 {
   "_help": "Foodidu Business (foodidu.com/business/ and /ar/business/): the landing page and one page per service, built by tools/build.pl. Keep every promise here something we can deliver; no prices are written (plans say 'monthly plan' or 'quote'). The application form saves the chosen services and plan inside the description. \"org.gbp\": the Google Business Profile link of Foodidu Business (empty until it is verified); it goes into the structured data as sameAs. \"audiences\": one page per kind of place (/business/<key>/), each tool names a service key.",
-  "whatsapp": { "number": "201097984200", "display": "010 9798 4200" },
+  "whatsapp": { "number": "201097874200", "display": "010 9787 4200" },
   "seo": {
     "en": {
       "title": "QR Menu, Loyalty Program & Restaurant Website | Foodidu Business",
