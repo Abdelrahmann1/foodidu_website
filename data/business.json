@@ -509,11 +509,78 @@
     {
       "key": "visibility",
       "icon": "target",
-      "page": false,
       "name": { "en": "Visibility on Foodidu", "ar": "ظهور على Foodidu" },
       "short": {
         "en": "A page for your restaurant and your promo code on Foodidu, in Google, on our WhatsApp channel and our social pages.",
         "ar": "صفحة لمطعمك وكود خصمك على Foodidu، تظهر في جوجل وفي قناتنا على واتساب وصفحاتنا على السوشيال."
+      },
+      "seo": {
+        "en": {
+          "title": "List Your Restaurant on Foodidu: Free Page & Promo Code",
+          "description": "Get a free page for your restaurant on Foodidu in Arabic and English, with an exclusive promo code for our users, shared on our WhatsApp channel."
+        },
+        "ar": {
+          "title": "اعرض مطعمك على Foodidu: صفحة وكود خصم مجاناً",
+          "description": "صفحة مجانية لمطعمك على Foodidu بالعربي والإنجليزي، فيها كود خصم حصري لمستخدمينا، وبننشر عرضك في قناتنا على واتساب."
+        }
+      },
+      "h1": { "en": "Put your restaurant in front of people looking for deals", "ar": "خلّي مطعمك قدام الناس اللي بتدوّر على عروض" },
+      "lede": {
+        "en": "Foodidu is a website for food promo codes and deals in Egypt. We make a page for your restaurant with an exclusive code for our users, in Arabic and English, and share your offer on our WhatsApp channel. It is free in the Starter plan.",
+        "ar": "Foodidu موقع لأكواد خصم وعروض الأكل في مصر. بنعمل صفحة لمطعمك فيها كود خصم حصري لمستخدمينا، بالعربي والإنجليزي، وبننشر عرضك في قناتنا على واتساب. ومجانية في الباقة الأساسية."
+      },
+      "about": {
+        "title": { "en": "What your page on Foodidu does", "ar": "صفحتك على Foodidu بتعمل إيه؟" },
+        "text": [
+          {
+            "en": "People who search for your restaurant's name and “promo code” are already thinking of ordering from you. Your page answers them with a code that works, the offer and its terms, and how to use it, so they order from you instead of looking elsewhere.",
+            "ar": "اللي بيدوّر على اسم مطعمك و«كود خصم» ناوي يطلب منك أصلاً. صفحتك بترد عليه بكود شغال، والعرض وشروطه، وإزاي يستخدمه، فيطلب منك بدل ما يدوّر على غيرك."
+          },
+          {
+            "en": "You decide the offer: the discount, the conditions and how long it runs. We only show real codes that you agreed to, and when the offer changes or ends, you tell us and we update your page.",
+            "ar": "إنت اللي بتحدد العرض: الخصم والشروط والمدة. إحنا بنعرض بس أكواد حقيقية إنت موافق عليها، ولما العرض يتغيّر أو يخلص، بتبلّغنا ونحدّث صفحتك."
+          }
+        ]
+      },
+      "examples": {
+        "title": { "en": "Restaurant pages on Foodidu", "ar": "صفحات مطاعم على Foodidu" },
+        "text": {
+          "en": "This is what your page looks like: your code with a copy button, the offer and its terms, and how to use it, in Arabic and English.",
+          "ar": "كده هتبقى صفحة مطعمك: كودك بزرار نسخ، والعرض وشروطه، وإزاي يستخدمه، بالعربي والإنجليزي."
+        },
+        "brands": ["just-smash", "mini-beirut", "butchers-burger"]
+      },
+      "guide": {
+        "title": { "en": "How to make a promo code that brings orders", "ar": "إزاي تعمل كود خصم يجيبلك طلبات" },
+        "intro": { "en": "A few rules that work anywhere you share a code, with us or not:", "ar": "شوية قواعد تنفع في أي مكان تنشر فيه كود، معانا أو من غيرنا:" },
+        "items": [
+          {
+            "title": { "en": "Keep it short and easy to type", "ar": "خليه قصير وسهل يتكتب" },
+            "text": { "en": "A word people can remember, like your name and a number: BURGER15.", "ar": "كلمة الناس تفتكرها، زي اسمك ورقم: BURGER15." }
+          },
+          {
+            "title": { "en": "Say the offer in numbers", "ar": "قول العرض بالأرقام" },
+            "text": { "en": "“15% off your first order” is clearer than “a special discount”.", "ar": "«خصم 15% على أول طلب» أوضح من «خصم مميز»." }
+          },
+          {
+            "title": { "en": "Write the conditions upfront", "ar": "اكتب الشروط من الأول" },
+            "text": {
+              "en": "Minimum order, first order only, delivery or pickup, end date. A condition people discover at checkout makes them leave.",
+              "ar": "الحد الأدنى، أول طلب بس، توصيل ولا استلام، تاريخ الانتهاء. الشرط اللي الزبون يكتشفه وهو بيدفع بيخليه يمشي."
+            }
+          },
+          {
+            "title": { "en": "Test it everywhere you take orders", "ar": "جرّبه في كل مكان بتاخد منه طلبات" },
+            "text": { "en": "Your app, your website and your phone line: a code that fails once loses the customer.", "ar": "التطبيق والموقع والتليفون: الكود اللي يفشل مرة بيخسّرك الزبون." }
+          },
+          {
+            "title": { "en": "Give every channel its own code", "ar": "خلّي لكل مكان كود" },
+            "text": {
+              "en": "One code for Foodidu, another for your social pages: then you know where each order came from.",
+              "ar": "كود لـ Foodidu وكود لصفحاتك على السوشيال: كده تعرف كل طلب جالك منين."
+            }
+          }
+        ]
       },
       "features": [
         {
@@ -527,8 +594,72 @@
         {
           "title": { "en": "On our WhatsApp channel", "ar": "في قناتنا على واتساب" },
           "text": { "en": "Your offer reaches the people who follow Foodidu for deals.", "ar": "عرضك يوصل للناس اللي متابعة Foodidu عشان العروض." }
+        },
+        {
+          "title": { "en": "The “Our code is on Foodidu” badge", "ar": "شارة «كودنا على Foodidu»" },
+          "text": { "en": "A badge for your website and social pages that tells your customers where to find your code.", "ar": "شارة لموقعك وصفحاتك على السوشيال، تقول لعملاءك يلاقوا كودك فين." }
+        },
+        {
+          "title": { "en": "A monthly report (Growth plan)", "ar": "تقرير شهري (باقة النمو)" },
+          "text": { "en": "How many people opened your page and copied your code, so you see what the code brings.", "ar": "عدد اللي فتحوا صفحتك ونسخوا كودك، عشان تشوف الكود بيجيبلك إيه." }
+        },
+        {
+          "title": { "en": "Priority in the featured spots (Growth plan)", "ar": "أولوية في المساحة المميزة (باقة النمو)" },
+          "text": { "en": "Your offer gets priority in the featured spots on Foodidu.", "ar": "عرضك ياخد أولوية في الأماكن المميزة على Foodidu." }
         }
-      ]
+      ],
+      "steps": [
+        {
+          "title": { "en": "Send us your offer", "ar": "ابعتلنا عرضك" },
+          "text": {
+            "en": "Your restaurant's name, your logo and the code you want to give Foodidu users, with its conditions.",
+            "ar": "اسم المطعم واللوجو والكود اللي عايز تديه لمستخدمي Foodidu، بشروطه."
+          }
+        },
+        {
+          "title": { "en": "We make your page", "ar": "نعمل صفحتك" },
+          "text": { "en": "Your page in Arabic and English, with your code, the offer and its terms.", "ar": "صفحتك بالعربي والإنجليزي، فيها كودك والعرض وشروطه." }
+        },
+        {
+          "title": { "en": "People find your code", "ar": "الناس تلاقي كودك" },
+          "text": { "en": "Your page goes live on Foodidu, and we share your offer on our WhatsApp channel.", "ar": "صفحتك تنزل على Foodidu، وننشر عرضك في قناتنا على واتساب." }
+        }
+      ],
+      "faq": [
+        {
+          "q": { "en": "Is it really free?", "ar": "هل الظهور على Foodidu مجاني فعلاً؟" },
+          "a": {
+            "en": "Yes, in the Starter plan. All we ask is an exclusive promo code for Foodidu users; you set its value and conditions.",
+            "ar": "أيوه، في الباقة الأساسية. كل المطلوب كود خصم حصري لمستخدمي Foodidu، وإنت اللي بتحدد قيمته وشروطه."
+          }
+        },
+        {
+          "q": { "en": "Do I have to give a big discount?", "ar": "لازم أدي خصم كبير؟" },
+          "a": {
+            "en": "No. Any real offer works: a percentage, a fixed amount, free delivery or a gift with the order. What matters is that it works and its conditions are clear.",
+            "ar": "لأ. أي عرض حقيقي ينفع: نسبة، أو مبلغ ثابت، أو توصيل مجاني، أو هدية مع الطلب. المهم يكون شغال وشروطه واضحة."
+          }
+        },
+        {
+          "q": { "en": "Can you guarantee my page will be first on Google?", "ar": "تضمنوا إن صفحتي تطلع أول نتيجة في جوجل؟" },
+          "a": {
+            "en": "No one can guarantee that. Your page is built to show up when people search for your restaurant's promo code, and a real code that works helps it.",
+            "ar": "محدش يقدر يضمن ده. صفحتك متجهزة تظهر لما الناس تدوّر على كود خصم مطعمك، والكود الحقيقي الشغال بيساعدها."
+          }
+        },
+        {
+          "q": { "en": "Can I change or stop my code?", "ar": "أقدر أغيّر الكود أو أوقفه؟" },
+          "a": { "en": "Yes. Tell us when the offer changes or ends and we update your page.", "ar": "أيوه. بلّغنا لما العرض يتغيّر أو يخلص ونحدّث صفحتك." }
+        },
+        {
+          "q": { "en": "How do I know if the code brings customers?", "ar": "أعرف منين إن الكود بيجيبلي زباين؟" },
+          "a": {
+            "en": "Count the orders that used the code in your system. In the Growth plan we also send you a monthly report of how many people opened your page and copied your code.",
+            "ar": "اعدّ الطلبات اللي استخدمت الكود عندك في السيستم. وفي باقة النمو بنبعتلك كمان تقرير شهري بعدد اللي فتحوا صفحتك ونسخوا كودك."
+          }
+        }
+      ],
+      "search": "visibility promo code page foodidu ظهور صفحة مطعم كود خصم"
     },
     {
       "key": "loyalty-program",

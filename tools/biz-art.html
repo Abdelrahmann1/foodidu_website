@@ -33,6 +33,8 @@ const COPY = {
     "loyalty-program": ["A loyalty program that brings customers back", "Points or a digital stamp card on your customers' phones."],
     "restaurant-website": ["Your own ordering website and app", "Customers order from you directly, for delivery or pickup."],
     "google-maps": ["Your restaurant on Google Maps", "A complete profile and a “Rate us” card for real reviews from your customers."],
+    visibility: ["Your restaurant on Foodidu", "A free page with your promo code, and your offer on our WhatsApp channel."],
+    tkOn: "Now on Foodidu", tkOffer: "20% off your first order", tkCode: "YOUR CODE", tkCopy: "Copy code", tkSearch: "your restaurant promo code",
     rateWord: "RATE US", rateScan: "Rate us on Google", rateTable: "★★★★★",
     free: "FREE", word: "MENU", scan: "Scan for the menu", table: "Table 7", rest: "Your restaurant", card: "Loyalty card", left: "3 more stamps to a free drink",
     pts: "320 points", order: "Order online", url: "yourrestaurant.com", webH: "Hot and fresh, to your door",
@@ -47,6 +49,8 @@ const COPY = {
     "loyalty-program": ["برنامج ولاء يرجّع عملاءك", "نقاط أو كارت أختام إلكتروني على موبايل عميلك."],
     "restaurant-website": ["موقع وتطبيق طلبات باسم مطعمك", "العميل يطلب منك مباشرة، توصيل أو استلام."],
     "google-maps": ["مطعمك على جوجل ماب", "صفحة كاملة، وكارت «قيّمنا» لتقييمات حقيقية من عملاءك."],
+    visibility: ["مطعمك على Foodidu", "صفحة مجانية فيها كود خصمك، وعرضك في قناتنا على واتساب."],
+    tkOn: "دلوقتي على Foodidu", tkOffer: "خصم 20% على أول طلب", tkCode: "كودك هنا", tkCopy: "انسخ الكود", tkSearch: "كود خصم مطعمك",
     rateWord: "قيّمنا", rateScan: "قيّمنا على جوجل", rateTable: "★★★★★",
     free: "مجاناً", word: "منيو", scan: "امسح الكود وشوف المنيو", table: "ترابيزة 7", rest: "مطعمك", card: "كارت الولاء", left: "باقي 3 أختام على مشروب ببلاش",
     pts: "320 نقطة", order: "اطلب أونلاين", url: "yourrestaurant.com", webH: "سخن وطازة لحد باب بيتك",
@@ -203,6 +207,9 @@ function og(kind, l, A) {
   } else if (kind === "restaurant-website") {
     browser(x, l, vx - outer * 20, 300, 470, -outer * .03);
     didu(x, A.point, vx + outer * 215, 500, 170, flipDidu);
+  } else if (kind === "visibility") {
+    codeCard(x, l, vx - outer * 20, 330, 470, -outer * .03);
+    didu(x, A.point, vx + outer * 215, 520, 160, flipDidu);
   } else if (kind === "google-maps") {
     stand(x, l, vx - outer * 30, 315, 300, -outer * .05, "white", true);
     didu(x, A.point, vx + outer * 190, 480, 180, flipDidu);
@@ -240,6 +247,35 @@ function social(l, A, story) {
 
 // ---------- Google Business Profile ----------
 // A restaurant on a map with its rating and a review: w wide, 0.86 w tall
+// the restaurant's code on Foodidu: a search for it above, then a ticket with the offer, the code and a copy button
+function codeCard(x, l, cx, cy, w, rot) {
+  const T = COPY[l], rtl = l === "ar", h = w * .5, pad = w * .07;
+  x.save(); x.translate(cx, cy); x.rotate(rot); x.translate(-w / 2, -h / 2);
+  // the search
+  const sh = w * .14, sy = -sh - w * .07;
+  shadow(x, 30, 12, .25); x.fillStyle = "#fff"; rr(x, w * .04, sy, w * .92, sh, sh / 2); x.fill(); noShadow(x);
+  const gx = rtl ? w * .96 - sh * .55 : w * .04 + sh * .55, gy = sy + sh / 2, gr = sh * .17;
+  x.strokeStyle = BROWN; x.lineWidth = sh * .07; x.lineCap = "round";
+  x.beginPath(); x.arc(gx - gr * .2, gy - gr * .2, gr, 0, Math.PI * 2); x.stroke();
+  x.beginPath(); x.moveTo(gx + gr * .55, gy + gr * .55); x.lineTo(gx + gr * 1.2, gy + gr * 1.2); x.stroke();
+  x.direction = rtl ? "rtl" : "ltr"; x.textAlign = rtl ? "right" : "left"; x.textBaseline = "middle";
+  x.fillStyle = "#6B522C"; x.font = font(500, sh * .36); x.fillText(T.tkSearch, rtl ? gx - sh * .45 : gx + sh * .45, gy + 1);
+  // the ticket
+  shadow(x, 44, 20, .35); x.fillStyle = "#fff"; rr(x, 0, 0, w, h, w * .05); x.fill(); noShadow(x);
+  const tx = rtl ? w - pad : pad;
+  x.fillStyle = LEAF2; x.font = font(600, w * .042); x.fillText(T.tkOn, tx, h * .2);
+  x.fillStyle = DEEP; x.font = font(700, w * .066); x.fillText(T.tkOffer, tx, h * .4);
+  x.strokeStyle = "rgba(84,58,20,.25)"; x.lineWidth = 2; x.setLineDash([8, 8]);
+  x.beginPath(); x.moveTo(pad, h * .56); x.lineTo(w - pad, h * .56); x.stroke();
+  // the code and the copy button (the code on the reading side)
+  const by = h * .66, bh = h * .22, cw = w * .5, bw = w - pad * 2 - cw - w * .03;
+  const cx0 = rtl ? w - pad - cw : pad, bx0 = rtl ? pad : w - pad - bw;
+  x.strokeStyle = BROWN; x.lineWidth = 3; x.setLineDash([10, 7]); rr(x, cx0, by, cw, bh, bh * .3); x.stroke(); x.setLineDash([]);
+  x.textAlign = "center"; x.fillStyle = DEEP; x.font = font(700, w * .05); x.fillText(T.tkCode, cx0 + cw / 2, by + bh / 2 + 1);
+  x.fillStyle = BROWN; rr(x, bx0, by, bw, bh, bh / 2); x.fill();
+  x.fillStyle = SUN; x.font = font(700, w * .042); x.fillText(T.tkCopy, bx0 + bw / 2, by + bh / 2 + 1);
+  x.textBaseline = "alphabetic"; x.restore();
+}
 function mapCard(x, l, cx, cy, w, rot) {
   const T = COPY[l], rtl = l === "ar", h = w * .86, mh = h * .46;
   x.save(); x.translate(cx, cy); x.rotate(rot); x.translate(-w / 2, -h / 2);
@@ -341,7 +377,7 @@ document.getElementById("go").onclick = async () => {
     for (const f of ["400 92px Lalezar", "700 40px 'Readex Pro'", "400 30px 'Readex Pro'", "600 30px 'Readex Pro'"]) { await document.fonts.load(f); await document.fonts.load(f, "منيو كود"); }
     const A = { logo: await load("/__static/img/foodidu-logo.svg"), point: await load("/__static/img/mascot/didu-point.svg"), party: await load("/__static/img/mascot/didu-party.svg"), pattern: await load("/__static/img/pattern.svg") };
     for (const l of ["en", "ar"]) {
-      for (const k of ["home", "qr-menu-generator", "qr-menu", "loyalty-program", "restaurant-website", "google-maps"]) await save(`static/img/og/biz-${k}-${l}.png`, og(k, l, A), "image/png");
+      for (const k of ["home", "qr-menu-generator", "qr-menu", "loyalty-program", "restaurant-website", "google-maps", "visibility"]) await save(`static/img/og/biz-${k}-${l}.png`, og(k, l, A), "image/png");
       await save(`banners/business/qr-tool-post-${l}.png`, social(l, A, false), "image/png");
       await save(`banners/business/qr-tool-story-${l}.png`, social(l, A, true), "image/png");
     }

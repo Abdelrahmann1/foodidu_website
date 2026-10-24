@@ -292,7 +292,7 @@ my %S = (
   qr_js_ready => 'Your code is ready. Scan it with your phone to test it before printing.', qr_js_credit => 'Foodidu Business',
   anim_alt => 'Animation: how Foodidu Business helps a restaurant, from a promo code on Foodidu to a QR menu, online orders, loyalty stamps and real reviews on Google Maps', anim_play => 'Play the animation', anim_pause => 'Pause the animation',
   biz_work_eyebrow => 'Our work', f_opt => 'optional', biz_form_time => 'Takes under a minute', f_phone_wa => 'Mobile number (WhatsApp)', f_notes => 'Anything to add?', f_plan_clear => 'Remove the plan',
-  biz_work_other => 'النسخة العربية', biz_work_title => 'Websites we designed and built', biz_work_all => 'See the websites we built',
+  biz_work_other => 'النسخة العربية', biz_work_title => 'Websites we designed and built', biz_examples => 'Examples', biz_work_all => 'See the websites we built',
   biz_work_sub => 'Open any of them and try it the way a customer would, on your phone or your laptop.',
   biz_guide_toc => 'In this guide', biz_guide_more => 'More free guides',
   biz_aud_lead => 'Made for your kind of place:', biz_aud_tools => 'What Foodidu Business gives you', biz_aud_more => 'More from Foodidu Business', biz_all_svc => 'All the services',
@@ -461,7 +461,7 @@ my %S = (
   qr_js_ready => 'كودك جاهز. امسحه بموبايلك وجرّبه قبل الطباعة.', qr_js_credit => 'Foodidu Business',
   anim_alt => 'أنيميشن: إزاي Foodidu Business بيساعد المطعم، من كود خصم على Foodidu لمنيو QR وطلبات أونلاين وأختام ولاء وتقييمات حقيقية على جوجل ماب', anim_play => 'شغّل الأنيميشن', anim_pause => 'وقّف الأنيميشن',
   biz_work_eyebrow => 'شغلنا', f_opt => 'اختياري', biz_form_time => 'بياخد أقل من دقيقة', f_phone_wa => 'رقم الموبايل (واتساب)', f_notes => 'حاجة تحب تضيفها؟', f_plan_clear => 'شيل الباقة',
-  biz_work_other => 'English version', biz_work_title => 'مواقع صمّمناها ونفّذناها', biz_work_all => 'شوف المواقع اللي عملناها',
+  biz_work_other => 'English version', biz_work_title => 'مواقع صمّمناها ونفّذناها', biz_examples => 'أمثلة', biz_work_all => 'شوف المواقع اللي عملناها',
   biz_work_sub => 'افتح أي واحد وجرّبه كأنك زبون، من الموبايل أو اللابتوب.',
   biz_guide_toc => 'في الدليل ده', biz_guide_more => 'أدلة مجانية تانية',
   biz_aud_lead => 'حسب نوع مكانك:', biz_aud_tools => 'Foodidu Business هيقدّملك إيه', biz_aud_more => 'كمان من Foodidu Business', biz_all_svc => 'كل الخدمات',
@@ -1871,12 +1871,13 @@ HTML
     }
 
     # one page per service
-    my %hero_mock = ('loyalty-program' => ['card'], 'qr-menu' => ['phone', 'stand'], 'restaurant-website' => ['web'], 'google-maps' => ['maps']);
+    my %hero_mock = ('loyalty-program' => ['card'], 'qr-menu' => ['phone', 'stand'], 'restaurant-website' => ['web'], 'google-maps' => ['maps'], visibility => ['ticket']);
     for my $s (grep { $has_page->($_) } @svc) {
       my $url = $surl->($s);
       my $crumbs = [[T($l, 'home'), path_for($l, '/')], ['Foodidu Business', $burl], [$s->{name}{$l}, $url]];
       my $m = $hero_mock{$s->{key}};
-      my $visual = $m ? '<div class="bz-duo n' . scalar(@$m) . '">' . join('', map { biz_mock($l, $_) } @$m) . '<img class="bz-didu at-start" src="/img/mascot/didu-point.svg" alt="" width="120" height="120"></div>' : '<span class="bz-ic bz-ic-xl">' . icon($s->{icon}) . '</span>';
+      my $tk = $m && $m->[0] eq 'ticket';   # the code ticket: Didu below it, on the other side, so it does not cover the offer
+      my $visual = $m ? '<div class="bz-duo n' . scalar(@$m) . ($tk ? ' n-ticket' : '') . '">' . join('', map { biz_mock($l, $_) } @$m) . '<img class="bz-didu ' . ($tk ? 'at-end' : 'at-start') . '" src="/img/mascot/didu-point.svg" alt="" width="120" height="120"></div>' : '<span class="bz-ic bz-ic-xl">' . icon($s->{icon}) . '</span>';
       my $guide = $s->{guide} ? qq{<section class="bz-sec bz-alt" aria-labelledby="guide-title"><div class="wrap">} . $head->('guide-title', esc($s->{name}{$l}), esc($s->{guide}{title}{$l}), esc($s->{guide}{intro}{$l}))
         . '<ol class="bz-guide">' . join('', map { '<li><h3>' . esc($_->{title}{$l}) . '</h3><p>' . esc($_->{text}{$l}) . '</p></li>' } @{ $s->{guide}{items} }) . '</ol></div></section>' : '';
       my $about = $s->{about} ? qq{<section class="bz-sec" aria-labelledby="about-title"><div class="wrap bz-about"><h2 id="about-title">} . esc($s->{about}{title}{$l}) . '</h2><div>'
@@ -1893,6 +1894,12 @@ HTML
       my @sw = grep { $_->{service} eq $s->{key} } @work;   # what we built for this service, first thing under the hero
       my $worksec = @sw ? qq{<section class="bz-sec fw-band" id="work" aria-labelledby="work-title"><div class="wrap">}
         . $head->('work-title', T($l, 'biz_work_eyebrow'), (@sw > 1 ? T($l, 'biz_work_title') : esc($sw[0]{example}{$l})), T($l, 'biz_work_sub')) . $work_list->(@sw) . '</div></section>' : '';
+      # real restaurant pages on Foodidu (services "examples": brand keys), to show what the restaurant's page looks like
+      my $ex = $s->{examples};
+      $worksec .= qq{<section class="bz-sec fw-band" id="examples" aria-labelledby="ex-title"><div class="wrap">} . $head->('ex-title', T($l, 'biz_examples'), esc($ex->{title}{$l}), esc($ex->{text}{$l}))
+        . '<ul class="bz-cards bz-ex">' . join('', map { my $bd = $BYKEY{$_} // die "business.json: there is no brand \"$_\" in brands.json\n";
+            '<li><a href="' . brand_url($bd, $l) . '"><span class="bz-ex-logo"><img ' . logo_attrs($bd->{logo}, 52) . ' alt="" width="52" height="52" loading="lazy" decoding="async"></span>'
+            . '<span class="t"><b>' . esc($bd->{name}{$l}) . '</b><small>' . esc($bd->{offer}{$l}) . '</small></span>' . icon('arrow', 'flip') . '</a></li>' } @{ $ex->{brands} }) . '</ul></div></section>' if $ex;
       my $band = $s->{key} eq 'qr-menu' && $toolband ? qq{<section class="bz-sec" style="padding-top:0"><div class="wrap">$toolband</div></section>} : '';
       my ($sg) = grep { ($_->{for} // '') eq $s->{key} } @{ $BIZ->{guides} // [] };   # a guide written for this service
       $band .= qq{<section class="bz-sec" style="padding-top:0"><div class="wrap">} . '<div class="bz-toolband bz-guideband" style="margin-top:0"><img src="/img/mascot/didu-point.svg" alt="" width="110" height="110" loading="lazy"><div><h2>' . esc($sg->{band}{title}{$l}) . '</h2><p>' . esc($sg->{band}{text}{$l}) . '</p></div>'

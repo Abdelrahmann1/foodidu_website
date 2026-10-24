@@ -110,6 +110,9 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .bz-duo .bz-didu { width: 120px; bottom: -36px; inset-inline-start: -56px; }
 @media (max-width: 900px) { .bz-duo .bz-didu { inset-inline-start: -6px; } }
 .bz-duo.n2 .bz-didu { bottom: 0; }
+.bz-duo.n-ticket { margin-bottom: 64px; }
+.bz-duo.n-ticket .bz-didu { width: 110px; bottom: -84px; inset-inline-start: auto; inset-inline-end: -10px; }
+@media (max-width: 900px) { .bz-duo.n-ticket .bz-didu { width: 96px; bottom: -76px; inset-inline-start: auto; inset-inline-end: 0; } }
 .bz-ic-xl { width: 140px; height: 140px; border-radius: 32px; display: grid; place-items: center; background: var(--bz-sun-soft); color: var(--bz-pri); }
 .bz-ic-xl .icon { width: 64px; height: 64px; }
 
@@ -652,6 +655,17 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .fw-shot:hover { transform: translateY(-5px) rotate(-.6deg); }
 .fw-shot img { display: block; width: 100%; height: auto; }
 .fw-tag { display: inline-block; margin-bottom: 14px; padding: 6px 13px; border: 1px solid var(--bz-line-2); border-radius: 999px; background: #fff; color: var(--bz-pri); font-size: .85rem; font-weight: 700; }
+/* examples of restaurant pages on Foodidu (the visibility page) */
+.bz-ex li { padding: 0; }
+.bz-ex a { display: flex; align-items: center; gap: 14px; height: 100%; padding: 18px 20px; color: inherit; text-decoration: none; border-radius: inherit; }
+.bz-ex-logo { flex: none; display: grid; place-items: center; width: 64px; height: 64px; overflow: hidden; border-radius: 16px; border: 1px solid var(--bz-line); background: #fff; }
+.bz-ex-logo img { width: 52px; height: 52px; object-fit: contain; }
+.bz-ex .t { flex: 1; min-width: 0; }
+.bz-ex b { display: block; font-size: 1.08rem; color: var(--bz-ink); }
+.bz-ex small { display: block; margin-top: 4px; color: var(--bz-ink-2); font-size: .95rem; line-height: 1.5; }
+.bz-ex .icon { flex: none; width: 20px; height: 20px; color: var(--bz-ink); transition: transform .2s; }
+.bz-ex a:hover .icon { transform: translateX(4px); }
+[dir="rtl"] .bz-ex a:hover .icon { transform: translateX(-4px) scaleX(-1); }
 .fw-name { margin: 0 0 10px; font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.2; color: var(--bz-ink); }
 .fw-case + .fw-case { margin-top: clamp(56px, 8vw, 100px); }
 @media (min-width: 861px) { .fw-case--flip { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); } .fw-case--flip > .fw-shot { order: 2; } }
