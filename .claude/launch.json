@@ -6,6 +6,12 @@
       "runtimeExecutable": "C:\\Program Files\\Git\\usr\\bin\\perl.exe",
       "runtimeArgs": ["tools/serve.pl", "5000"],
       "port": 5000
+    },
+    {
+      "name": "foodidu-5001",
+      "runtimeExecutable": "C:\\Program Files\\Git\\usr\\bin\\perl.exe",
+      "runtimeArgs": ["tools/serve.pl", "5001"],
+      "port": 5001
     }
   ]
 }

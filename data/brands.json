@@ -154,6 +154,37 @@
           ["راجع السعر في صفحة الدفع", "سعر العرض والكوبون الذي فعّلته يُطبَّقان تلقائياً، بدون كود."]
         ]
       },
+      "seasons": [
+        {
+          "post": "11-11-sale-2026",
+          "icon": "bolt",
+          "ends": "11-12",
+          "name": { "en": "11.11 sale", "ar": "عروض 11.11" },
+          "when": { "en": "7 to 12 November in 2025, with bank offers and early access for Prime", "ar": "من 7 إلى 12 نوفمبر في 2025، مع عروض البنوك وتسوق مبكر لمشتركي Prime" }
+        },
+        {
+          "post": "amazon-white-friday-2026",
+          "icon": "tag",
+          "ends": "11-30",
+          "name": { "en": "White Friday", "ar": "الجمعة البيضاء" },
+          "when": { "en": "20 to 30 November in 2025, the biggest sale of the year", "ar": "من 20 إلى 30 نوفمبر في 2025، أكبر تخفيضات السنة" }
+        }
+      ],
+      "tips": {
+        "en": [
+          ["tag", "Clip the coupon", "A product with a coupon shows it under the price. Clip it before you add the product to your cart."],
+          ["bolt", "Catch Lightning Deals", "Limited stock for a short time, one per customer. Add it to your cart as soon as it starts."],
+          ["shield", "Check the Was Price", "It is the average price customers paid over the last 90 days. A deal below it is a real discount."],
+          ["calendar", "Wait for the big seasons", "11.11 and White Friday bring the biggest discounts and bank offers of the year."]
+        ],
+        "ar": [
+          ["tag", "فعّل الكوبون", "المنتج الذي عليه كوبون يظهر تحت سعره، ففعّله قبل أن تضيف المنتج إلى السلة."],
+          ["bolt", "الحق العروض الخاطفة", "كمية محدودة لوقت قصير وعرض واحد لكل عميل، فأضف المنتج إلى السلة فور بدايتها."],
+          ["shield", "راجع السعر السابق", "هو متوسط السعر الذي دفعه العملاء في آخر 90 يوماً، والعرض الذي ينزل تحته خصم حقيقي."],
+          ["calendar", "انتظر المواسم الكبيرة", "عروض 11.11 والجمعة البيضاء فيها أكبر خصومات وعروض بنوك في السنة."]
+        ]
+      },
+      "tipsPost": "amazon-egypt-coupons",
       "about": {
         "en": "Amazon Egypt (amazon.eg) is Amazon's store in Egypt for electronics, mobile phones, home and kitchen, fashion, beauty and groceries. Its Today's Deals page lists new discounts every day by category, and the Coupons tab lets you clip a coupon on a product so the discount applies at checkout, with no promo code needed. Prime members also get free same-day and next-day delivery.",
         "ar": "أمازون مصر (amazon.eg) هو متجر أمازون في مصر للإلكترونيات والموبايلات والمنزل والمطبخ والأزياء والتجميل والبقالة. صفحة عروض اليوم فيها خصومات جديدة كل يوم حسب القسم، وتبويب الكوبونات يتيح لك تفعيل كوبون على المنتج فيُطبَّق الخصم عند الدفع بدون كود خصم. ويحصل مشتركو Prime أيضاً على توصيل مجاني في نفس اليوم أو اليوم التالي."

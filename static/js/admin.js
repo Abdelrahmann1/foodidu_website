@@ -11,7 +11,7 @@ window.FoodiduAdmin = (() => {
   const ICONS = [["fork", "مطاعم"], ["pizza", "بيتزا"], ["basket", "بقالة"], ["bag", "تسوق"], ["gift", "هدية"], ["tag", "خصم"]];
   const RESERVED = ["ar", "en", "promo-codes", "partners", "business", "day-deals", "privacy-policy", "terms-and-conditions", "dashboard", "blog", "first-order-promo-codes", "img", "css", "js", "pages", "components", "404"];
   // key order in the JSON files, so a saved entry looks like the ones written by hand
-  const BRAND_KEYS = ["key", "slug", "name", "logo", "code", "noCode", "category", "region", "regionLabel", "exclusive", "firstOrder", "featured", "priority", "url", "urlLabel", "lastVerified", "badge", "offer", "terms", "where", "note", "steps", "moreCodes", "about", "seo"];
+  const BRAND_KEYS = ["key", "slug", "name", "logo", "code", "noCode", "category", "region", "regionLabel", "exclusive", "firstOrder", "featured", "priority", "url", "urlLabel", "lastVerified", "badge", "offer", "terms", "where", "note", "steps", "seasons", "tips", "tipsPost", "moreCodes", "about", "seo"];
   const REST_KEYS = ["key", "slug", "name", "logo", "category", "region", "regionLabel", "menu", "website", "phone", "branches", "priceSource", "cuisine", "lastChecked", "validUntil", "about", "seo", "offers"];
   const POST_KEYS = ["key", "slug", "status", "published", "updated", "seasonEnd", "brands", "seo", "h1", "lede", "body", "faq"];
   const DEAL_KEYS = ["id", "brand", "name", "logo", "icon", "region", "url", "featured", "days", "title", "details", "source", "sourceLabel", "lastChecked"];
@@ -419,7 +419,7 @@ window.FoodiduAdmin = (() => {
 
   /* ---------- blog: articles in data/blog.json; the site builds /blog/<slug>/ (the Markdown is described in tools/build.pl) ---------- */
   const BLOG_MIN = { words: 400, sections: 2, links: 2 };   // the same quality gate as tools/build.pl
-  const MD_HELP = "فقرات بينها سطر فاضي. ## عنوان قسم · ### عنوان صغير · - نقطة · 1. خطوة · > نصيحة · **كلام تقيل** · [نص](brand:noon) لينك لصفحة كود · [نص](page:/first-order-promo-codes/) لينك لصفحة في الموقع · [نص](https://...) لينك لموقع تاني · {{code:noon}} الكود نفسه و{{offer:noon}} العرض (بيتحدثوا لوحدهم لو الكود اتغير) · [[codes: noon, iherb]] في سطر لوحده: تذاكر الأكواد.";
+  const MD_HELP = "فقرات بينها سطر فاضي. ## عنوان قسم · ### عنوان صغير · - نقطة · 1. خطوة · > نصيحة · **كلام تقيل** · [نص](brand:noon) لينك لصفحة كود · [نص](page:/first-order-promo-codes/) لينك لصفحة في الموقع · [نص](https://...) لينك لموقع تاني · {{code:noon}} الكود نفسه و{{offer:noon}} العرض (بيتحدثوا لوحدهم لو الكود اتغير) · [[codes: noon, iherb]] في سطر لوحده: تذاكر الأكواد · [[amazon]] في سطر لوحده: أول 4 من اختيارات أمازون، أو [[amazon: B08WJKZF75, B0CVW9DPCB]] منتجات معيّنة منها (بالـ ASIN).";
   function mdCheck(src, label) {   // -> { words, sections, links, errors }, counted like the build does
     const s = src || "", errors = [];
     let links = 0;
@@ -431,7 +431,8 @@ window.FoodiduAdmin = (() => {
     }
     for (const m of s.matchAll(/\{\{(?:code|offer):([a-z0-9-]+)\}\}/g)) if (!findBrand(m[1])) errors.push(`${label}: مفيش كود اسمه ${m[1]}`);
     for (const m of s.matchAll(/^\[\[codes:\s*([a-z0-9,\s-]+)\]\]\s*$/gm)) for (const k of m[1].split(/[\s,]+/).filter(Boolean)) { links++; if (!findBrand(k)) errors.push(`${label}: مفيش كود اسمه ${k}`); }
-    const words = (s.replace(/\[\[codes:[^\]]*\]\]/g, "").replace(/\{\{[^}]*\}\}/g, "x").replace(/\]\([^)]*\)/g, "]").match(/[\p{L}\p{N}]+/gu) || []).length;
+    for (const m of s.matchAll(/^\[\[amazon(?::\s*([A-Za-z0-9,\s]+))?\]\]\s*$/gm)) for (const a of (m[1] || "").split(/[\s,]+/).filter(Boolean)) if (!S.data.picks.items.some((x) => x.asin === a.toUpperCase())) errors.push(`${label}: مفيش منتج في اختيارات أمازون بالـ ASIN ده: ${a}`);
+    const words = (s.replace(/\[\[(?:codes|amazon)[^\]]*\]\]/g, "").replace(/\{\{[^}]*\}\}/g, "x").replace(/\]\([^)]*\)/g, "]").match(/[\p{L}\p{N}]+/gu) || []).length;
     return { words, sections: (s.match(/^## /gm) || []).length, links, errors };
   }
   const postUses = (p, key) => (p.brands || []).includes(key) || [p.body.ar, p.body.en, ...(p.faq || []).flatMap((q) => [q.a.ar, q.a.en])]
@@ -764,7 +765,11 @@ window.FoodiduAdmin = (() => {
       S.data.picks.items.length ? tableOf([["المنتج", (p) => p.name.ar], ["رقم المنتج", (p) => el("code", { text: p.asin })], ["ليه بترشحه", (p) => p.note.ar]],
         S.data.picks.items, (p) => [btn("↑", () => movePick(p, -1), "ghost sm"), btn("↓", () => movePick(p, 1), "ghost sm"), btn("تعديل", open(() => pickEditor(p.asin)), "ghost sm"),
           el("a", { class: "dash-btn ghost sm", href: pickUrl(p.asin), target: "_blank", rel: "noopener", text: "افتحه على أمازون" }),
-          btn("حذف", () => { if (!confirm(`تشيل "${p.name.ar}" من الاختيارات؟`)) return; S.data.picks.items.splice(S.data.picks.items.indexOf(p), 1); change("picks", `Remove Amazon pick ${p.asin}`); render(); }, "ghost sm danger")])
+          btn("حذف", () => {
+            // an article that names this ASIN in [[amazon: ...]] would stop the build, so it has to change first
+            const used = S.data.blog.posts.filter((x) => [x.body.ar, x.body.en].some((t) => new RegExp(`^\\[\\[amazon:[^\\]]*\\b${p.asin}\\b`, "im").test(t || "")));
+            if (used.length) return alert(`المنتج ده مستخدم في مقال: ${used.map((x) => x.h1.ar).join("، ")}. شيله من المقال الأول.`);
+            if (!confirm(`تشيل "${p.name.ar}" من الاختيارات؟`)) return; S.data.picks.items.splice(S.data.picks.items.indexOf(p), 1); change("picks", `Remove Amazon pick ${p.asin}`); render(); }, "ghost sm danger")])
         : el("p", { class: "dash-note", text: "لسه مفيش منتجات. الجزء ده مش بيظهر على الموقع غير لما تضيف أول منتج." }));
     else if (S.tab === "featured") body = featuredEditor();
     else body = homeEditor();

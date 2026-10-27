@@ -911,6 +911,19 @@ a.store:hover { background: #000; transform: translateY(-2px); }
 .picks.grid2 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); }
 .pk-note { margin: 0 0 14px; }
 @media (max-width: 560px) { .pick { flex-wrap: wrap; } .pick > div { flex: 1 1 calc(100% - 80px); } .pick .btn { flex: 1 1 100%; justify-content: center; } }
+/* brand page: sale seasons (the next one marked) and saving tips, in the same card style as the picks */
+.seasons, .tips { list-style: none; display: grid; gap: 12px; }
+.tips { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+.season, .tips li { display: flex; align-items: center; gap: 14px; padding: 16px; background: var(--paper); border: 2px solid var(--line); border-radius: 18px; }
+.season > div, .tips li > div { flex: 1; min-width: 0; }
+.season b, .tips li b { display: block; font-size: 1.05rem; }
+.season div > span:not(.pill), .tips li div > span { display: block; color: var(--ink-2); }
+.season .pill { margin-bottom: 4px; }
+.season .btn { flex: none; }
+.season.next { border-color: var(--leaf-deep); background: var(--leaf-soft); }
+.season.next .pick-ic { background: #fff; }
+.tips .pick-ic { width: 52px; height: 52px; }
+@media (max-width: 560px) { .season { flex-wrap: wrap; } .season > div { flex: 1 1 calc(100% - 80px); } .season .btn { flex: 1 1 100%; justify-content: center; } }
 .how b { display: block; font-size: 1.05rem; }
 .how span { color: var(--ink-2); }
 .note { margin-top: 18px; font-size: .88rem; color: var(--ink-2); padding: 14px 16px; border-radius: 14px; background: var(--sun-4); }

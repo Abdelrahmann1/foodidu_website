@@ -238,6 +238,9 @@ my %S = (
   # brand page
   nocode => 'No code needed', nocode_go => 'Order', nocode_aria => '{name}: no code needed, order from {where}',
   nocode_shop => 'Shop', nocode_shop_aria => '{name}: no code needed, shop on {where}',
+  nocode_picks => 'Our picks', nocode_picks_aria => '{name}: no code needed, see the products Foodidu picked',
+  b_seasons => '{name} sale seasons', b_season_next => 'Next up', b_season_read => 'Read the guide',
+  b_tips => 'Ways to save more on {name}',
   pk_h2 => 'Foodidu picks on Amazon', pk_go => 'See it on Amazon', pk_eyebrow => 'Amazon Egypt', pk_all => 'All Amazon picks',
   pk_note => 'Products we picked on Amazon Egypt. These are affiliate links: Foodidu may earn a commission on qualifying purchases, at no extra cost to you. Prices change on Amazon, so check the price on the product page.',
   blog_nav => 'Blog', blog_h1 => 'Foodidu blog', blog_eyebrow => 'From the blog', blog_all => 'All articles', blog_read => 'Read the article', blog_title => 'Foodidu Blog: Saving Guides, Sale Dates and Promo Codes',
@@ -408,6 +411,9 @@ my %S = (
   c_empty => 'لا توجد أكواد تطابق هذا الاختيار.', c_filters => 'تصفية الأكواد',
   nocode => 'بدون كود', nocode_go => 'اطلب', nocode_aria => '{name}: بدون كود، اطلب من {where}',
   nocode_shop => 'تسوّق', nocode_shop_aria => '{name}: بدون كود، تسوّق من {where}',
+  nocode_picks => 'اختياراتنا', nocode_picks_aria => '{name}: بدون كود، شاهد المنتجات التي اختارها Foodidu',
+  b_seasons => 'مواسم تخفيضات {name}', b_season_next => 'الموسم القادم', b_season_read => 'اقرأ الدليل',
+  b_tips => 'طرق توفّر بها أكثر على {name}',
   pk_h2 => 'اختيارات Foodidu من أمازون', pk_go => 'شاهده على أمازون', pk_eyebrow => 'أمازون مصر', pk_all => 'كل اختيارات أمازون',
   pk_note => 'منتجات اخترناها لك من أمازون مصر. هذه روابط أفلييت: قد يحصل Foodidu على عمولة من عمليات الشراء المؤهلة، بدون أي تكلفة إضافية عليك. الأسعار تتغير على أمازون، فراجع السعر في صفحة المنتج.',
   blog_nav => 'المدونة', blog_h1 => 'مدونة Foodidu', blog_eyebrow => 'من المدونة', blog_all => 'كل المقالات', blog_read => 'اقرأ المقال', blog_title => 'مدونة Foodidu: أدلة التوفير ومواعيد العروض وأكواد الخصم',
@@ -591,7 +597,12 @@ sub logo_attrs {   # src + srcset for a logo shown at $size CSS px
 # ------------------------------------------------------------------ components
 sub code_btn {
   my ($b, $l, $lg) = @_;
-  return qq{<span class="code-btn nocode static} . ($lg ? ' lg' : '') . '"><span class="code">' . T($l, 'nocode') . '</span></span>' if $b->{noCode} && !$b->{url};
+  if ($b->{noCode} && !$b->{url}) {   # no outbound link: the button opens the products we picked, when the brand has some
+    return qq{<a class="code-btn nocode} . ($lg ? ' lg' : '') . '" href="' . brand_url($b, $l) . qq{#picks-title" data-track="picks_jump" data-brand="$b->{key}" aria-label="} . Te($l, 'nocode_picks_aria', name => $b->{name}{$l})
+      . '"><span class="code">' . T($l, 'nocode') . '</span><span class="act">' . icon('bag') . '<span class="act-label">' . T($l, 'nocode_picks') . '</span></span></a>'
+      if ($PICKS->{brand} // '') eq $b->{key} && @{ $PICKS->{items} // [] };
+    return qq{<span class="code-btn nocode static} . ($lg ? ' lg' : '') . '"><span class="code">' . T($l, 'nocode') . '</span></span>';
+  }
   my ($go, $aria) = $b->{category} eq 'shopping' ? ('nocode_shop', 'nocode_shop_aria') : ('nocode_go', 'nocode_aria');   # "Shop" for stores like Amazon, "Order" for food
   return qq{<a class="code-btn nocode} . ($lg ? ' lg' : '') . qq{" href="} . esc($b->{url}) . qq{" rel="nofollow sponsored noopener" target="_blank" data-track="brand_link_click" data-brand="$b->{key}" aria-label="}
     . Te($l, $aria, name => $b->{name}{$l}, where => $b->{where}{$l}) . '"><span class="code">' . T($l, 'nocode') . '</span><span class="act">' . icon('external') . '<span class="act-label">' . T($l, $go) . '</span></span></a>' if $b->{noCode};
@@ -1007,6 +1018,7 @@ my @ALL_OFFERS = map { offers_of($_) } @BRANDS;
 #   **bold** · [text](brand:key) a code page · [text](page:/path/) a page of this site · [text](https://...) another site
 #   {{code:key}} the brand's code and {{offer:key}} its offer, read from brands.json so an article never shows a stale code
 #   [[codes: key, key]] on its own line: those brands' code tickets
+#   [[amazon]] on its own line: the first 4 Amazon picks (data/amazon-picks.json), [[amazon: ASIN, ASIN]] those picks; with the affiliate note
 # A published article must pass a quality gate (%BLOG_MIN) or the build stops: no thin or unlinked article goes live.
 my %BLOG_MIN = (words => 400, sections => 2, links => 2);   # the dashboard checks the same numbers
 sub post_url { my ($p, $l) = @_; path_for($l, "/blog/$p->{slug}/") }
@@ -1038,7 +1050,7 @@ sub md_inline {
 }
 sub md_html {   # -> (html, [[id, heading html], ...] for the table of contents)
   my ($src, $l, $st) = @_;
-  $src = ($src // '') =~ s/^((?:#{2,3}\s|\[\[codes:).*)$/\n$1\n/mgr;   # headings and ticket rows are blocks of their own
+  $src = ($src // '') =~ s/^((?:#{2,3}\s|\[\[codes:|\[\[amazon[:\]]).*)$/\n$1\n/mgr;   # headings, ticket rows and picks are blocks of their own
   my (@out, @toc);
   for my $blk (split /\n[ \t]*\n/, $src) {
     $blk =~ s/^\s+|\s+$//g;
@@ -1048,6 +1060,12 @@ sub md_html {   # -> (html, [[id, heading html], ...] for the table of contents)
       my @bs = map { md_brand($_) } grep { length } split /[\s,]+/, $1;
       $st->{links} += @bs;
       push @out, '<ul class="ticket-list post-codes">' . join('', map { map { ticket_li($_, $l) } offers_of($_) } @bs) . '</ul>';
+    } elsif ($blk =~ /^\[\[amazon(?::\s*([A-Za-z0-9,\s]+))?\]\]$/) {   # only products the owner picked: an ASIN that is not in amazon-picks.json stops the build
+      my @all = @{ $PICKS->{items} // [] };
+      my @it = defined $1
+        ? map { my $asin = uc; (grep { $_->{asin} eq $asin } @all)[0] // die "blog: there is no Amazon pick \"$asin\" in data/amazon-picks.json\n" } grep { length } split /[\s,]+/, $1
+        : @all[0 .. ($#all < 3 ? $#all : 3)];
+      push @out, '<div class="post-picks"><p class="note pk-note">' . T($l, 'pk_note') . '</p>' . pick_list($l, '', @it) . '</div>' if @it;
     } elsif ($blk =~ /^(#{2,3})\s+(.+)$/) {
       my ($lvl, $h) = (length $1, md_inline($2, $l, $st));
       if ($lvl == 2) { my $id = 's' . (@toc + 1); push @toc, [$id, $h]; push @out, qq{<h2 id="$id">$h</h2>} }
@@ -1064,7 +1082,7 @@ sub md_html {   # -> (html, [[id, heading html], ...] for the table of contents)
   }
   (join("\n", @out), \@toc);
 }
-sub md_words { my $s = shift // ''; $s =~ s/\[\[codes:[^\]]*\]\]//g; $s =~ s/\{\{[^}]*\}\}/x/g; $s =~ s/\]\([^)]*\)/]/g; my $n = () = $s =~ /[\p{L}\p{N}]+/g; $n }
+sub md_words { my $s = shift // ''; $s =~ s/\[\[(?:codes|amazon)[^\]]*\]\]//g; $s =~ s/\{\{[^}]*\}\}/x/g; $s =~ s/\]\([^)]*\)/]/g; my $n = () = $s =~ /[\p{L}\p{N}]+/g; $n }
 my $NCODES = scalar @ALL_OFFERS;
 my @VERIFIED = sort grep { $_ } map { $_->{lastVerified} } @BRANDS;
 # Brands without lastVerified were never checked by us: they never count as checked anywhere on the site.
@@ -1655,6 +1673,25 @@ HTML
     my $side_codes = join '', map { code_btn($_, $l, 1) } @offers;
     my @picks = ($PICKS->{brand} // '') eq $b->{key} ? @{ $PICKS->{items} } : ();
     my $picks = @picks ? '<section aria-labelledby="picks-title"><h2 id="picks-title">' . T($l, 'pk_h2') . '</h2><p class="note pk-note">' . T($l, 'pk_note') . '</p>' . pick_list($l, '', @picks) . '</section>' : '';
+    # seasons [{post, icon, ends "MM-DD", name, when}]: the brand's big sales with last year's dates; the next one by today's date is marked
+    my %postby = map { $_->{key} => $_ } @PUB;
+    my $seasons = '';
+    if (my @ss = @{ $b->{seasons} // [] }) {
+      my $md = substr($TODAY, 5, 5);
+      my ($next) = grep { $_->{ends} ge $md } @ss;
+      $next //= $ss[0];
+      $seasons = '<section aria-labelledby="seasons-title"><h2 id="seasons-title">' . Te($l, 'b_seasons', name => $name) . '</h2><ul class="seasons">' . join('', map {
+        my $p = $postby{ $_->{post} // '' };
+        '<li class="season' . ($_ == $next ? ' next' : '') . '"><span class="pick-ic">' . icon($_->{icon}) . '</span><div>'
+        . ($_ == $next ? '<span class="pill pill-leaf">' . T($l, 'b_season_next') . '</span>' : '') . '<b>' . esc($_->{name}{$l}) . '</b><span>' . esc($_->{when}{$l}) . '</span></div>'
+        . ($p ? '<a class="btn btn-line" href="' . post_url($p, $l) . '">' . T($l, 'b_season_read') . ' ' . icon('arrow', 'flip') . '</a>' : '') . '</li>'
+      } @ss) . '</ul></section>';
+    }
+    # tips {en, ar: [[icon, title, text]]}, plus tipsPost: an article that explains them in full
+    my $tp = $postby{ $b->{tipsPost} // '' };
+    my $tips = $b->{tips} ? '<section aria-labelledby="tips-title"><h2 id="tips-title">' . Te($l, 'b_tips', name => $name) . '</h2><ul class="tips">'
+      . join('', map { '<li><span class="pick-ic">' . icon($_->[0]) . '</span><div><b>' . esc($_->[1]) . '</b><span>' . esc($_->[2]) . '</span></div></li>' } @{ $b->{tips}{$l} }) . '</ul>'
+      . ($tp ? '<p class="dd-more"><a href="' . post_url($tp, $l) . '">' . esc($tp->{h1}{$l}) . ' ' . icon('arrow', 'flip') . '</a></p>' : '') . '</section>' : '';
     my @cat = grep { $_->{category} eq $b->{category} } @BRANDS;
     my @top = grep { ($_->{priority} // '') ne 'low' } @cat;   # low-priority codes are never the suggested ones
     my ($pos) = grep { $top[$_] eq $b } 0 .. $#top;
@@ -1691,6 +1728,8 @@ $coupons
 <div class="wrap brand-body">
 <article class="prose">
 $picks
+$seasons
+$tips
 <section aria-labelledby="how-title"><h2 id="how-title">@{[ Te($l, $nc ? 'b_how_nocode' : 'b_how', name => $name) ]}</h2>
 <ol class="how">
 @{[ $nc && $b->{steps} ? join('', map { '<li><div><b>' . esc($_->[0]) . '</b><span>' . esc($_->[1]) . '</span></div></li>' } @{ $b->{steps}{$l} })
