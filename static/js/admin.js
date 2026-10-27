@@ -15,8 +15,8 @@ window.FoodiduAdmin = (() => {
   const REST_KEYS = ["key", "slug", "name", "logo", "category", "region", "regionLabel", "menu", "website", "phone", "branches", "priceSource", "cuisine", "lastChecked", "validUntil", "about", "seo", "offers"];
   const POST_KEYS = ["key", "slug", "status", "published", "updated", "seasonEnd", "brands", "seo", "h1", "lede", "body", "faq"];
   const DEAL_KEYS = ["id", "brand", "name", "logo", "icon", "region", "url", "featured", "days", "title", "details", "source", "sourceLabel", "lastChecked"];
-  const PICK_KEYS = ["asin", "icon", "name", "note"];
-  const PICK_ICONS = [["coffee","قهوة"],["milk","لبن"],["rice","رز"],["oil","زيت"],["flour","دقيق"],["drop","مياه وفلاتر"],["roll","ورق ولفافات"],["bottle","زجاجة"]];
+  const PICK_KEYS = ["asin", "icon", "star", "name", "tags", "note"];
+  const PICK_ICONS = [["coffee","قهوة"],["milk","لبن"],["rice","رز"],["oil","زيت"],["flour","دقيق"],["drop","مياه وفلاتر"],["roll","ورق ولفافات"],["bottle","زجاجة"],["kettle","غلاية"],["fryer","إير فراير وأجهزة"]];
   let REPO = "", root = null, token = null;
   const S = { loaded: false, base: null, data: {}, dirty: new Set(), blobs: {}, deletes: new Set(), baseFiles: new Set(), changes: [], logos: {}, tab: "brands", view: null };
   const deployBox = document.createElement("div");
@@ -697,11 +697,15 @@ window.FoodiduAdmin = (() => {
       link: text("لينك المنتج على أمازون مصر", { req: true, dir: "ltr", ph: "https://www.amazon.eg/.../dp/B0XXXXXXXX", hint: "انسخ لينك صفحة المنتج من amazon.eg. لو اللينك قصير (amzn.to) افتحه الأول وانسخ اللينك الطويل من المتصفح. الـ tag بتاعك بيتحط لوحده." }),
       icon: select("الأيقونة", PICK_ICONS, { hint: "رسمة صغيرة جنب المنتج (صور أمازون نفسها مسموحة بس عن طريق الـ API بتاعهم)." }),
       name: bi("اسم المنتج", { req: true, hint: "اسم قصير وواضح، زي: سماعة Anker Soundcore R50i." }),
-      note: bi("ليه بترشحه", { req: true, area: true, hint: "سطر من رأيك أو تجربتك. من غير أسعار: أمازون بتمنع كتابة السعر بالإيد لأنه بيتغير." })
+      note: bi("ليه بترشحه", { req: true, area: true, hint: "سطر من رأيك أو تجربتك. من غير أسعار: أمازون بتمنع كتابة السعر بالإيد لأنه بيتغير." }),
+      tags: bi("شارات (افصل بينها بـ ،)", { hint: "كلمة أو كلمتين لكل شارة، زي: للفطار، للإير فراير، تكفي 6 شهور. من غير أسعار أو نسب خصم أو تقييمات." }),
+      star: check("ترشيح Foodidu", "شارة خضرا «ترشيح Foodidu» وإطار أخضر. خليها لمنتج أو اتنين بس عشان تفرق.")
     };
-    if (p) { f.link.set(`${S.data.picks.store}/dp/${p.asin}`); f.icon.set(p.icon); f.name.set(p.name); f.note.set(p.note); }
+    const splitTags = (s) => (s || "").split(/[,،]/).map((t) => t.trim()).filter(Boolean);
+    if (p) { f.link.set(`${S.data.picks.store}/dp/${p.asin}`); f.icon.set(p.icon); f.name.set(p.name); f.note.set(p.note); f.tags.set({ en: (p.tags?.en || []).join(", "), ar: (p.tags?.ar || []).join("، ") }); f.star.set(p.star); }
     return editor(isNew ? "منتج جديد من أمازون" : `تعديل ${p.name.ar}`, f, async () => {
-      const v = collect(f), next = ordered({ asin: asinOf(v.link), icon: v.icon, name: v.name, note: v.note }, PICK_KEYS);
+      const v = collect(f), tags = { en: splitTags(v.tags.en), ar: splitTags(v.tags.ar) };
+      const next = ordered({ asin: asinOf(v.link), icon: v.icon, ...(v.star ? { star: true } : {}), name: v.name, ...(tags.en.length || tags.ar.length ? { tags } : {}), note: v.note }, PICK_KEYS);
       const arr = S.data.picks.items;
       if (arr.some((x) => x.asin === next.asin && x !== p)) throw new Error("المنتج ده موجود في القايمة قبل كده.");
       if (!isNew && same(next, p, PICK_KEYS)) return false;
@@ -709,7 +713,9 @@ window.FoodiduAdmin = (() => {
       change("picks", `${isNew ? "Add" : "Edit"} Amazon pick ${next.asin} (${next.name.en})`);
     }, { check: () => { const v = collect(f); return [
       ...(v.link && !asinOf(v.link) ? ["اللينك: لازم يبقى لينك صفحة منتج على amazon.eg فيه /dp/ ورقم المنتج"] : []),
-      ...([v.name.ar, v.name.en, v.note.ar, v.note.en].some(hasPrice) ? ["شيل السعر من الاسم أو السطر: أمازون بتمنع كتابة الأسعار بالإيد."] : []),
+      ...([v.name.ar, v.name.en, v.note.ar, v.note.en, v.tags.ar, v.tags.en].some(hasPrice) ? ["شيل السعر من الاسم أو السطر أو الشارات: أمازون بتمنع كتابة الأسعار بالإيد."] : []),
+      ...(/%|٪|\bstars?\b|نجوم|تقييم/i.test(`${v.tags.ar} ${v.tags.en}`) ? ["الشارات: من غير نسب خصم أو تقييمات، دي أرقام أمازون وبتتغير."] : []),
+      ...(splitTags(v.tags.ar).length !== splitTags(v.tags.en).length ? ["الشارات: نفس عدد الشارات بالعربي والإنجليزي."] : []),
     ]; } });
   }
   function movePick(p, step) {

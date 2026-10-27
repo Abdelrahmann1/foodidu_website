@@ -908,6 +908,13 @@ a.store:hover { background: #000; transform: translateY(-2px); }
 .pick-ic .icon { width: 30px; height: 30px; stroke-width: 1.8; }
 .pk-coffee { background: #F4E6D7; } .pk-milk { background: #E6F0FA; } .pk-rice { background: #FFF1CC; } .pk-oil { background: #FFF4C2; }
 .pk-flour { background: #F6EEDC; } .pk-drop { background: #E1F3FA; } .pk-roll { background: #F3EFE8; } .pk-bottle { background: #E5F4EA; }
+.pk-kettle { background: #EEF0F4; } .pk-fryer { background: #FBE7DC; }
+/* the owner's badges on a pick: "Foodidu recommends" and what the product is for */
+.pick .pick-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 6px; }
+.pick .pick-tags .pill { display: inline-flex; overflow: visible; -webkit-line-clamp: unset; color: var(--ink); font-size: .78rem; padding: 3px 10px; background: var(--sun-4); }
+.pick .pick-tags .pill-leaf { background: var(--leaf-soft); color: var(--leaf-deep); }
+.pick .pick-tags .icon { width: 14px; height: 14px; }
+.pick.star { border-color: var(--leaf-deep); }
 .picks.grid2 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); }
 .pk-note { margin: 0 0 14px; }
 @media (max-width: 560px) { .pick { flex-wrap: wrap; } .pick > div { flex: 1 1 calc(100% - 80px); } .pick .btn { flex: 1 1 100%; justify-content: center; } }

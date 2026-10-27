@@ -5,9 +5,29 @@
   "tag": "foodiduoffers-21",
   "items": [
     {
+      "asin": "B0GD7K4M6Z",
+      "icon": "fryer",
+      "star": true,
+      "name": { "en": "Fresh Air Fryer, 5 L, digital screen", "ar": "إير فراير فريش، 5 لتر، شاشة ديجيتال" },
+      "tags": { "en": ["Air fryer", "5 L"], "ar": ["إير فراير", "5 لتر"] },
+      "note": {
+        "en": "A 5 L air fryer from Fresh with 8 ready programs, for fries and chicken with much less oil.",
+        "ar": "إير فراير 5 لتر من فريش فيه 8 برامج جاهزة، للبطاطس والفراخ بزيت أقل بكتير."
+      }
+    },
+    {
+      "asin": "B08J7PCCCX",
+      "icon": "kettle",
+      "star": true,
+      "name": { "en": "Kenwood Metal Kettle, 1.7 L, 2200 W", "ar": "غلاية كينوود معدن، 1.7 لتر، 2200 وات" },
+      "tags": { "en": ["Tea & coffee", "1.7 L"], "ar": ["للشاي والقهوة", "1.7 لتر"] },
+      "note": { "en": "A 1.7 L steel kettle from Kenwood, enough for the whole family's tea and instant coffee.", "ar": "غلاية استانلس 1.7 لتر من كينوود، تكفي شاي ونسكافيه البيت كله." }
+    },
+    {
       "asin": "B08WJKZF75",
       "icon": "coffee",
       "name": { "en": "Nescafé Classic Instant Coffee, 200 g pouch", "ar": "نسكافيه كلاسيك قهوة سريعة التحضير، كيس 200 جرام" },
+      "tags": { "en": ["Coffee", "Value pouch"], "ar": ["للقهوة", "كيس اقتصادي"] },
       "note": {
         "en": "An economy pouch that lasts the whole house a while, and one of the best-selling coffees on Amazon Egypt.",
         "ar": "كيس اقتصادي بيكفي البيت فترة، ومن أكتر القهوة مبيعاً على أمازون مصر."
@@ -17,18 +37,21 @@
       "asin": "B0CVW9DPCB",
       "icon": "milk",
       "name": { "en": "Juhayna Full Cream Milk, 6 × 1 L", "ar": "لبن جهينة كامل الدسم، 6 علب × 1 لتر" },
+      "tags": { "en": ["Breakfast", "6 litres"], "ar": ["للفطار", "6 لتر"] },
       "note": { "en": "Six 1-litre cartons delivered to your door, among Amazon Egypt's top grocery sellers.", "ar": "6 لترات بتوصل لحد باب البيت، ومن الأكثر مبيعاً في البقالة على أمازون مصر." }
     },
     {
       "asin": "B00FFE8TDG",
       "icon": "rice",
       "name": { "en": "Al Doha Egyptian Rice, 1 kg", "ar": "أرز الضحى المصري، 1 كيلو" },
+      "tags": { "en": ["Everyday cooking"], "ar": ["للطبيخ اليومي"] },
       "note": { "en": "Egyptian rice for everyday cooking and stuffed vegetables, with thousands of top reviews.", "ar": "أرز مصري للطبيخ اليومي والمحشي، وعليه آلاف التقييمات العالية." }
     },
     {
       "asin": "B07G86SNYJ",
       "icon": "oil",
       "name": { "en": "Helwa Mixed Cooking Oil, 4.5 L", "ar": "زيت حلوة خليط، 4.5 لتر" },
+      "tags": { "en": ["Frying & cooking", "Big pack"], "ar": ["للقلي والطبخ", "عبوة كبيرة"] },
       "note": {
         "en": "A big bottle for frying and cooking, delivered so you don't carry it home from the supermarket.",
         "ar": "عبوة كبيرة للقلي والطبخ بتوصلك لحد البيت، من غير ما تشيلها من السوبر ماركت."
@@ -38,12 +61,14 @@
       "asin": "B018SJBUIA",
       "icon": "flour",
       "name": { "en": "Al Doha Egyptian Flour, 1 kg", "ar": "دقيق الضحى المصري، 1 كيلو" },
+      "tags": { "en": ["Baking"], "ar": ["للخبيز"] },
       "note": { "en": "For dough, sweets and home baking, one of the best-rated groceries on Amazon Egypt.", "ar": "للعجين والحلويات والخبيز في البيت، ومن أعلى البقالة تقييماً على أمازون مصر." }
     },
     {
       "asin": "B0848Y82N8",
       "icon": "drop",
       "name": { "en": "Tank Power Water Filter Cartridges, 6-month pack", "ar": "شمعات فلتر مياه تانك باور، عبوة 6 شهور" },
+      "tags": { "en": ["Cleaner water", "Lasts 6 months"], "ar": ["مياه أنضف", "تكفي 6 شهور"] },
       "note": {
         "en": "Cartridges for Tank water filters: six months of cleaner drinking water, and a kitchen best seller.",
         "ar": "شمعات لفلاتر مياه تانك تكفي 6 شهور لمياه شرب أنضف، ومن أكتر منتجات المطبخ مبيعاً."
@@ -53,13 +78,60 @@
       "asin": "B07G8KWL8G",
       "icon": "roll",
       "name": { "en": "Sanita Cooking & Baking Paper, 30 cm × 10 m", "ar": "ورق زبدة سانيتا للطبخ والخبيز، 30 سم × 10 متر" },
+      "tags": { "en": ["Oven & air fryer"], "ar": ["للفرن والإير فراير"] },
       "note": { "en": "For the oven and the air fryer, so food doesn't stick to the tray.", "ar": "للفرن والإير فراير، عشان الأكل ما يلزقش في الصينية." }
     },
     {
       "asin": "B0DDYCL1JP",
       "icon": "bottle",
       "name": { "en": "Tank Tritan Water Bottle, 800 ml", "ar": "زجاجة مياه تانك تريتان، 800 مل" },
+      "tags": { "en": ["BPA free", "Work & gym"], "ar": ["خالية من BPA", "للشغل والجيم"] },
       "note": { "en": "BPA-free and leakproof, for work, the gym or school.", "ar": "خالية من BPA ومقفولة كويس ضد التسريب، للشغل والجيم والمدرسة." }
+    },
+    {
+      "asin": "B0BKYF2L8J",
+      "icon": "coffee",
+      "name": { "en": "Sokany Electric Turkish Coffee Maker, 500 ml", "ar": "كنكة قهوة تركي كهربا سوكاني، 500 مل" },
+      "tags": { "en": ["Turkish coffee", "Electric"], "ar": ["قهوة تركي", "كهربا"] },
+      "note": { "en": "An electric stainless steel pot for Turkish coffee, a few cups at a time.", "ar": "كنكة كهربا للقهوة التركي من الاستانلس، بتعمل كذا فنجان مرة واحدة." }
+    },
+    {
+      "asin": "B0BMYX99PZ",
+      "icon": "kettle",
+      "name": { "en": "Tornado Stainless Steel Kettle, 1.7 L", "ar": "غلاية تورنادو استانلس، 1.7 لتر" },
+      "tags": { "en": ["Egyptian brand", "1.7 L"], "ar": ["ماركة مصرية", "1.7 لتر"] },
+      "note": { "en": "A 1.7 L steel kettle from Tornado, an Egyptian brand, for every day.", "ar": "غلاية استانلس 1.7 لتر من تورنادو، ماركة مصرية، للاستخدام اليومي." }
+    },
+    {
+      "asin": "B0B1N5SZSV",
+      "icon": "roll",
+      "name": { "en": "O9 Air Fryer Paper Liners, 100 pieces, 20 cm", "ar": "ورق إير فراير O9، 100 قطعة، 20 سم" },
+      "tags": { "en": ["Air fryer", "Easy cleaning"], "ar": ["للإير فراير", "تنضيف أسهل"] },
+      "note": { "en": "Square liners that keep the air fryer basket clean, for fried food, baking and the microwave.", "ar": "ورق مربع بيحافظ على سلة الإير فراير نضيفة، للقلي والخبيز والميكروويف." }
+    },
+    {
+      "asin": "B09GKBV77S",
+      "icon": "roll",
+      "name": { "en": "Elastic Food Storage Covers", "ar": "أغطية مطاطة لحفظ الأكل" },
+      "tags": { "en": ["Food storage", "Fridge"], "ar": ["حفظ الأكل", "للتلاجة"] },
+      "note": {
+        "en": "Stretchy covers for bowls and plates, to keep leftovers, fruit and vegetables fresh in the fridge.",
+        "ar": "أغطية بتتمط على البولات والأطباق، عشان بواقي الأكل والخضار والفاكهة تفضل فريش في التلاجة."
+      }
+    },
+    {
+      "asin": "B0CTHRHXYS",
+      "icon": "coffee",
+      "name": { "en": "Coffee Talks Coffee Machine Descaler, 100 ml", "ar": "مزيل ترسبات ماكينة القهوة Coffee Talks، 100 مل" },
+      "tags": { "en": ["Coffee machine", "Cleaning"], "ar": ["لماكينة القهوة", "تنضيف"] },
+      "note": { "en": "For espresso, capsule and bean-to-cup machines, so the coffee keeps its taste.", "ar": "لماكينات الإسبريسو والكبسولات والبن، عشان طعم القهوة يفضل زي ما هو." }
+    },
+    {
+      "asin": "B091D3D723",
+      "icon": "bottle",
+      "name": { "en": "Stainless Steel Drinking Straws, 4 pieces with brush", "ar": "شفاطات استانلس ستيل، 4 قطع بفرشاة تنضيف" },
+      "tags": { "en": ["Reusable", "Iced drinks"], "ar": ["بتتستخدم تاني", "للمشروبات الساقعة"] },
+      "note": { "en": "Reusable straws for juice and iced coffee, with a brush to clean them.", "ar": "شفاطات بتتغسل وتتستخدم تاني للعصير والآيس كوفي، ومعاها فرشاة تنضيف." }
     }
   ]
 }

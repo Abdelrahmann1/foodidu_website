@@ -107,7 +107,7 @@ my $PICKS = -f $PK_FILE ? JSON::PP->new->utf8->decode(slurp($PK_FILE, 1)) : { it
 for my $p (@{ $PICKS->{items} }) {
   die "data/amazon-picks.json: \"" . ($p->{asin} // '') . "\" is not an Amazon product ID (10 capital letters or digits)\n" unless ($p->{asin} // '') =~ /^[A-Z0-9]{10}$/;
   for my $k (qw(name note)) { die "data/amazon-picks.json: $p->{asin} needs \"$k\" in English and Arabic\n" unless $p->{$k}{en} && $p->{$k}{ar} }
-  die "data/amazon-picks.json: $p->{asin} has an unknown icon \"$p->{icon}\"\n" if $p->{icon} && $p->{icon} !~ /^(?:coffee|milk|rice|oil|flour|drop|roll|bottle)$/;
+  die "data/amazon-picks.json: $p->{asin} has an unknown icon \"$p->{icon}\"\n" if $p->{icon} && $p->{icon} !~ /^(?:coffee|milk|rice|oil|flour|drop|roll|bottle|kettle|fryer)$/;
 }
 my @DAYS = qw(sat sun mon tue wed thu fri);   # Egyptian week starts on Saturday
 my %DAYI = map { ($DAYS[$_] => $_) } 0 .. $#DAYS;
@@ -238,6 +238,7 @@ my %S = (
   # brand page
   nocode => 'No code needed', nocode_go => 'Order', nocode_aria => '{name}: no code needed, order from {where}',
   nocode_shop => 'Shop', nocode_shop_aria => '{name}: no code needed, shop on {where}',
+  pk_star => 'Foodidu recommends',
   nocode_picks => 'Our picks', nocode_picks_aria => '{name}: no code needed, see the products Foodidu picked',
   b_seasons => '{name} sale seasons', b_season_next => 'Next up', b_season_read => 'Read the guide',
   b_tips => 'Ways to save more on {name}',
@@ -411,6 +412,7 @@ my %S = (
   c_empty => 'لا توجد أكواد تطابق هذا الاختيار.', c_filters => 'تصفية الأكواد',
   nocode => 'بدون كود', nocode_go => 'اطلب', nocode_aria => '{name}: بدون كود، اطلب من {where}',
   nocode_shop => 'تسوّق', nocode_shop_aria => '{name}: بدون كود، تسوّق من {where}',
+  pk_star => 'ترشيح Foodidu',
   nocode_picks => 'اختياراتنا', nocode_picks_aria => '{name}: بدون كود، شاهد المنتجات التي اختارها Foodidu',
   b_seasons => 'مواسم تخفيضات {name}', b_season_next => 'الموسم القادم', b_season_read => 'اقرأ الدليل',
   b_tips => 'طرق توفّر بها أكثر على {name}',
@@ -521,6 +523,8 @@ my %ICON = (
   download => '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
   print    => '<path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/>',
   qr       => '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM21 14v.01M14 21h.01M17.5 21H21v-3.5"/>',
+  pk_kettle => '<path d="M6 10h11l1 9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2l1-9Z"/><path d="M17.2 12.5 20 10"/><path d="M8 10V8a3.5 3.5 0 0 1 7 0v2"/><path d="M10 4h3"/>',
+  pk_fryer  => '<rect x="4" y="3" width="16" height="18" rx="3"/><path d="M4 12h16M9 16h6"/><circle cx="12" cy="7.5" r="1.5"/>',
   pk_coffee => '<path d="M4 9h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9Z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3c-.7 1.1.7 1.9 0 3M12 3c-.7 1.1.7 1.9 0 3"/><path d="M3 22h14"/>',
   pk_milk   => '<path d="M8 2h8v3l2 3.5V21a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V8.5L8 5V2Z"/><path d="M6 8.5h12M8 5h8"/><path d="M9.5 15c1.6-1.3 3.4-1.3 5 0"/>',
   pk_rice   => '<path d="M3 12h18a9 9 0 0 1-18 0Z"/><path d="M6.5 12c0-3 2.4-5 5.5-5s5.5 2 5.5 5"/><path d="M10 9.5v.01M13 8.8v.01M15 10.3v.01M8.8 11v.01"/>',
@@ -1170,7 +1174,9 @@ sub rest_card {
 # Amazon picks (data/amazon-picks.json): the full list on the Amazon page, the first four on the home page under the featured banners.
 sub pick_list {
   my ($l, $cls, @items) = @_;
-  '<ul class="picks' . ($cls ? " $cls" : '') . '">' . join('', map { '<li class="pick"><span class="pick-ic pk-' . ($_->{icon} // 'bag') . '" aria-hidden="true">' . icon($_->{icon} ? "pk_$_->{icon}" : 'bag') . '</span><div><b>' . esc($_->{name}{$l}) . '</b><span>' . esc($_->{note}{$l}) . '</span></div><a class="btn btn-leaf" href="'
+  # badges are the owner's own words (star = "Foodidu recommends", tags = what it is for), never Amazon data like prices or ratings
+  my $tags = sub { my $p = shift; my $t = join '', ($p->{star} ? '<span class="pill pill-leaf">' . icon('gift') . T($l, 'pk_star') . '</span>' : ()), map { '<span class="pill">' . esc($_) . '</span>' } @{ ($p->{tags} // {})->{$l} // [] }; $t ? qq{<p class="pick-tags">$t</p>} : '' };
+  '<ul class="picks' . ($cls ? " $cls" : '') . '">' . join('', map { '<li class="pick' . ($_->{star} ? ' star' : '') . '"><span class="pick-ic pk-' . ($_->{icon} // 'bag') . '" aria-hidden="true">' . icon($_->{icon} ? "pk_$_->{icon}" : 'bag') . '</span><div>' . $tags->($_) . '<b>' . esc($_->{name}{$l}) . '</b><span>' . esc($_->{note}{$l}) . '</span></div><a class="btn btn-leaf" href="'
     . esc("$PICKS->{store}/dp/$_->{asin}?tag=$PICKS->{tag}") . qq{" rel="nofollow sponsored noopener" target="_blank" data-track="brand_link_click" data-brand="$PICKS->{brand}">} . T($l, 'pk_go') . ' ' . icon('external') . '</a></li>' } @items) . '</ul>';
 }
 # The latest published articles on the home page (nothing until one is published).
