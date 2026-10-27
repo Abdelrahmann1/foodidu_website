@@ -128,18 +128,17 @@
       "slug": "Amazon-EG-PromoCode",
       "name": { "en": "Amazon Egypt", "ar": "أمازون مصر" },
       "logo": "amazon-egypt.webp",
-      "code": "",
-      "noCode": true,
+      "code": "SAVE10",
       "category": "shopping",
       "region": "eg",
       "exclusive": false,
       "featured": false,
       "url": "",
-      "badge": { "en": ["Daily", "deals"], "ar": ["عروض", "يومية"] },
-      "offer": { "en": "Today's Deals and coupons on Amazon Egypt, no code needed", "ar": "عروض اليوم والكوبونات على أمازون مصر، بدون كود" },
+      "badge": { "en": ["10%", "off"], "ar": ["10%", "خصم"] },
+      "offer": { "en": "10% off select everyday essentials, up to 150 EGP", "ar": "خصم 10% على مستلزمات يومية مختارة، بحد أقصى 150 جنيه" },
       "terms": {
-        "en": "Deals change every day and apply by themselves at checkout. A coupon applies once you clip it on the product page. Amazon's terms apply.",
-        "ar": "العروض تتغير كل يوم وتُطبَّق تلقائياً عند الدفع، والكوبون يُطبَّق بعد تفعيله من صفحة المنتج. تطبق شروط أمازون."
+        "en": "Amazon's code for its Super Saver Week, which starts on the 25th of every month: 10% off select everyday essentials and diapers on orders of 700 EGP or more, up to 150 EGP. Amazon shows it under \"Join Prime & Save\", so it may need a Prime membership. Amazon's terms apply.",
+        "ar": "كود أمازون لأسبوع Super Saver الذي يبدأ يوم 25 من كل شهر: خصم 10% على مستلزمات يومية مختارة وحفاضات للطلبات من 700 جنيه، بحد أقصى 150 جنيه. تعرضه أمازون تحت «اشترك في Prime ووفّر»، فقد يحتاج اشتراك Prime. تطبق شروط أمازون."
       },
       "where": { "en": "amazon.eg or the Amazon app", "ar": "موقع amazon.eg أو تطبيق أمازون" },
       "steps": {
@@ -186,19 +185,30 @@
       },
       "tipsPost": "amazon-egypt-coupons",
       "about": {
-        "en": "Amazon Egypt (amazon.eg) is Amazon's store in Egypt for electronics, mobile phones, home and kitchen, fashion, beauty and groceries. Its Today's Deals page lists new discounts every day by category, and the Coupons tab lets you clip a coupon on a product so the discount applies at checkout, with no promo code needed. Prime members also get free same-day and next-day delivery.",
-        "ar": "أمازون مصر (amazon.eg) هو متجر أمازون في مصر للإلكترونيات والموبايلات والمنزل والمطبخ والأزياء والتجميل والبقالة. صفحة عروض اليوم فيها خصومات جديدة كل يوم حسب القسم، وتبويب الكوبونات يتيح لك تفعيل كوبون على المنتج فيُطبَّق الخصم عند الدفع بدون كود خصم. ويحصل مشتركو Prime أيضاً على توصيل مجاني في نفس اليوم أو اليوم التالي."
+        "en": "Amazon Egypt (amazon.eg) is Amazon's store in Egypt for electronics, mobile phones, home and kitchen, fashion, beauty and groceries. Its Today's Deals page lists new discounts every day by category, and the Coupons tab lets you clip a coupon on a product so the discount applies at checkout, with no promo code needed. Prime members also get free same-day and next-day delivery. In its Super Saver Week, from the 25th of every month, Amazon also shows the code SAVE10 for 10% off select everyday essentials.",
+        "ar": "أمازون مصر (amazon.eg) هو متجر أمازون في مصر للإلكترونيات والموبايلات والمنزل والمطبخ والأزياء والتجميل والبقالة. صفحة عروض اليوم فيها خصومات جديدة كل يوم حسب القسم، وتبويب الكوبونات يتيح لك تفعيل كوبون على المنتج فيُطبَّق الخصم عند الدفع بدون كود خصم. ويحصل مشتركو Prime أيضاً على توصيل مجاني في نفس اليوم أو اليوم التالي. وفي أسبوع Super Saver، من يوم 25 كل شهر، تعرض أمازون أيضاً كود SAVE10 لخصم 10% على مستلزمات يومية مختارة."
       },
       "seo": {
         "en": {
-          "title": "Amazon Egypt Deals and Coupons: No Promo Code Needed",
-          "description": "Amazon Egypt Today's Deals and coupons: new daily discounts on electronics, home, fashion and groceries on amazon.eg. They apply by themselves, no code needed."
+          "title": "Amazon Egypt Promo Code SAVE10: 10% Off + Daily Deals",
+          "description": "Amazon Egypt promo code SAVE10: 10% off select everyday essentials in Super Saver Week, from the 25th of every month, up to 150 EGP. Plus Today's Deals and coupons."
         },
         "ar": {
-          "title": "عروض وكوبونات أمازون مصر: خصومات يومية بدون كود",
-          "description": "عروض اليوم وكوبونات أمازون مصر: خصومات يومية جديدة على الإلكترونيات والمنزل والأزياء والبقالة على amazon.eg، وتُطبَّق تلقائياً بدون كود خصم."
+          "title": "كود خصم أمازون مصر SAVE10: خصم 10% وعروض يومية",
+          "description": "كود خصم أمازون مصر SAVE10: خصم 10% على مستلزمات يومية مختارة في أسبوع Super Saver من يوم 25 كل شهر، بحد أقصى 150 جنيه، مع عروض اليوم والكوبونات."
         }
-      }
+      },
+      "moreCodes": [
+        {
+          "noCode": true,
+          "badge": { "en": ["Daily", "deals"], "ar": ["عروض", "يومية"] },
+          "offer": { "en": "Today's Deals and coupons on Amazon Egypt, no code needed", "ar": "عروض اليوم والكوبونات على أمازون مصر، بدون كود" },
+          "terms": {
+            "en": "Deals change every day and apply by themselves at checkout. A coupon applies once you clip it on the product page. Amazon's terms apply.",
+            "ar": "العروض تتغير كل يوم وتُطبَّق تلقائياً عند الدفع، والكوبون يُطبَّق بعد تفعيله من صفحة المنتج. تطبق شروط أمازون."
+          }
+        }
+      ]
     },
     {
       "key": "iherb",
