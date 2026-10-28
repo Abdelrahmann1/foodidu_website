@@ -538,6 +538,122 @@
         { label: "الصفحة", get: (d) => d.page || "–" }, { label: "تفاصيل", get: (d) => d.description || "–" }], docs, { empty: "مفيش طلبات شراكة لسه." }));   // the quick form sends only name, person and phone
   }
 
+  /* ---------- 5b. Microsoft Clarity: visitor behaviour from its Data Export API ----------
+     The owner pastes a Clarity export token once; it stays in this browser's localStorage and goes only to clarity.ms.
+     Clarity allows 10 requests a day per project and 1-3 days of data, so a refresh costs 2 requests and the last result is cached. */
+  const CLARITY = { project: "tpp88vrm19", api: "https://www.clarity.ms/export-data/api/v1/project-live-insights", perDay: 10 };
+  const CL_URL = (p) => `https://clarity.microsoft.com/projects/view/${CLARITY.project}/${p}`;
+  const CL_ISSUES = [   // Clarity's behaviour metrics: share of sessions where it happened
+    ["DeadClickCount", "ضغطات ميتة", "ضغط على حاجة مش بتعمل حاجة"],
+    ["RageClickCount", "ضغطات غضب", "ضغط كذا مرة بسرعة في نفس المكان"],
+    ["QuickbackClick", "رجوع سريع", "دخل صفحة ورجع على طول"],
+    ["ExcessiveScroll", "سكرول زيادة", "طلع ونزل كتير وهو بيدوّر"],
+    ["ErrorClickCount", "ضغطات عملت خطأ", "الضغطة طلّعت خطأ في الصفحة"],
+    ["ScriptErrorCount", "أخطاء في الكود", "خطأ JavaScript حصل في الجلسة"]
+  ];
+  const clNum = (v) => { const n = typeof v === "number" ? v : parseFloat(v); return isFinite(n) ? n : null; };
+  const clMetric = (data, name) => (Array.isArray(data) ? data : []).find((m) => String(m.metricName || "").replace(/\s+/g, "").toLowerCase() === name.toLowerCase());
+  const clInfo = (data, name) => { const m = clMetric(data, name); return (m && Array.isArray(m.information)) ? m.information : []; };
+  const clPick = (o, ...keys) => { for (const k of keys) for (const kk of Object.keys(o || {})) if (kk.toLowerCase() === k.toLowerCase()) { const n = clNum(o[kk]); if (n != null) return n; } return null; };
+  const clPage = (o) => { for (const k of Object.keys(o || {})) if (/^(url|page ?url)$/i.test(k)) return String(o[k]); return null; };
+  const clPct = (v) => (v == null ? "–" : (Math.round(v * 10) / 10).toLocaleString("en-US") + "%");
+  const clPath = (u) => { try { const x = new URL(u); return decodeURIComponent(x.pathname) || "/"; } catch (e) { return u; } };
+  function clUsed() { let c = {}; try { c = JSON.parse(store.get("fd_clarity_calls") || "{}"); } catch (e) {} return c.date === today() ? c.n : 0; }
+  function clSpend() { store.set("fd_clarity_calls", JSON.stringify({ date: today(), n: clUsed() + 1 })); }
+  async function clGet(tokenC, nDays, dim) {
+    const r = await fetch(CLARITY.api + "?numOfDays=" + nDays + (dim ? "&dimension1=" + encodeURIComponent(dim) : ""), { headers: { Authorization: "Bearer " + tokenC, "Content-Type": "application/json" } });
+    clSpend();
+    if (!r.ok) { const e = new Error("clarity " + r.status); e.status = r.status; throw e; }
+    return r.json();
+  }
+  function renderClarity(msg) {
+    const sec = $("#clarity");
+    const tokenC = store.get("fd_clarity_token");
+    const top = head("clarity", "سلوك الزوار", "من Microsoft Clarity: الزوار بيعملوا إيه جوه الصفحات، وإيه اللي بيضايقهم.");
+    const links = el("p", { class: "cl-links" }, ext(CL_URL("dashboard"), "داشبورد Clarity"), " · ", ext(CL_URL("impressions"), "تسجيلات الشاشة"), " · ", ext(CL_URL("heatmaps"), "خرايط الضغط"));
+    if (!tokenC) {
+      const inp = el("input", { type: "password", class: "ltr", dir: "ltr", autocomplete: "off", placeholder: "Clarity API token", "aria-label": "توكن Clarity" });
+      const save = el("button", { class: "dash-btn", type: "button", text: "احفظ" });
+      save.addEventListener("click", () => { const v = inp.value.trim(); if (!v) return; store.set("fd_clarity_token", v); inp.value = ""; renderClarity(); });
+      sec.replaceChildren(top, links, card("وصّل Clarity (مرة واحدة)", "عشان أرقام Clarity تظهر هنا.",
+        el("ol", { class: "cl-steps" },
+          el("li", null, "افتح ", ext(CL_URL("settings"), "إعدادات مشروع Foodidu في Clarity"), "، وادخل على ", el("b", { text: "Data Export" }), "."),
+          el("li", null, "اضغط ", el("b", { text: "Generate new API token" }), "، سمّيه Foodidu dashboard، وانسخه."),
+          el("li", null, "الصقه هنا واضغط احفظ. التوكن بيتحفظ في المتصفح ده بس، ومش بيتبعت لحد غير Clarity.")),
+        msg ? el("p", { class: "dash-note", text: msg }) : null,
+        el("div", { class: "cl-row" }, inp, save)));
+      return;
+    }
+    let cache = null;
+    try { cache = JSON.parse(store.get("fd_clarity_cache") || "null"); } catch (e) {}
+    const nDays = +(store.get("fd_clarity_days") || 3);
+    const used = clUsed(), left = CLARITY.perDay - used;
+    const pick = el("select", { "aria-label": "الفترة" }, [[1, "آخر 24 ساعة"], [2, "آخر يومين"], [3, "آخر 3 أيام"]].map(([v, t]) => el("option", { value: String(v), text: t, selected: v === nDays })));
+    pick.addEventListener("change", () => { store.set("fd_clarity_days", pick.value); });
+    const go = el("button", { class: "dash-btn", type: "button", text: "حدّث من Clarity", disabled: left < 2 });
+    const forget = el("button", { class: "dash-btn ghost sm", type: "button", text: "امسح التوكن" });
+    forget.addEventListener("click", () => { store.del("fd_clarity_token"); store.del("fd_clarity_cache"); renderClarity(); });
+    const refresh = async () => {
+      go.disabled = true; go.textContent = "بيحمّل...";
+      const d = +pick.value;
+      try {
+        const [totals, pages] = await Promise.all([clGet(tokenC, d, null), clGet(tokenC, d, "URL")]);
+        store.set("fd_clarity_cache", JSON.stringify({ at: new Date().toISOString(), days: d, totals, pages }));
+        renderClarity();
+      } catch (e) {
+        if (e.status === 401 || e.status === 403) { store.del("fd_clarity_token"); renderClarity("التوكن غلط أو اتلغى من Clarity. اعمل توكن جديد والصقه."); return; }
+        renderClarity(e.status === 429 ? "خلصت طلبات Clarity بتاعة النهارده (10 في اليوم). جرّب بكرة." : "Clarity ما ردّش دلوقتي. جرّب كمان شوية.");
+      }
+    };
+    go.addEventListener("click", refresh);
+    const bar = el("div", { class: "cl-row" }, pick, go,
+      el("span", { class: "cap", text: `استخدمت ${used} من ${CLARITY.perDay} طلبات النهارده (كل تحديث = طلبين).` }), forget);
+    const body = [top, links, bar];
+    if (msg) body.push(el("p", { class: "dash-note", text: msg }));
+    if (!cache) {
+      body.push(el("p", { class: "empty", text: "اضغط \"حدّث من Clarity\" عشان تجيب الأرقام." }));
+      sec.replaceChildren(...body);
+      if (left >= 2 && !msg) refresh();   // first time with a token: fetch once
+      return;
+    }
+    const at = new Date(cache.at);
+    const atDay = new Intl.DateTimeFormat("en-CA", { timeZone: "Africa/Cairo" }).format(at), atTime = at.toLocaleTimeString("en-GB", { timeZone: "Africa/Cairo", hour: "2-digit", minute: "2-digit" });
+    body.push(el("p", { class: "cap", text: `آخر تحديث: ${arDate(atDay)} الساعة ${atTime} · ${cache.days === 1 ? "آخر 24 ساعة" : cache.days === 2 ? "آخر يومين" : "آخر 3 أيام"}` }));
+    const t = clInfo(cache.totals, "Traffic")[0] || {};
+    const sessions = clPick(t, "totalSessionCount"), bots = clPick(t, "totalBotSessionCount");
+    const users = clPick(t, "distantUserCount", "distinctUserCount"), pps = clPick(t, "PagesPerSessionPercentage", "pagesPerSession");
+    const scroll = clPick(clInfo(cache.totals, "ScrollDepth")[0] || {}, "averageScrollDepth");
+    const eng = clInfo(cache.totals, "EngagementTime")[0] || {};
+    const active = clPick(eng, "activeTime"), total = clPick(eng, "totalTime");
+    body.push(el("div", { class: "tiles" },
+      tile("الجلسات", num(sessions), { sub: bots ? `من غير ${num(bots)} جلسة بوتات` : null }),
+      tile("زوار مختلفين", num(users)),
+      tile("صفحات في الجلسة", pps == null ? "–" : (Math.round(pps * 100) / 100).toLocaleString("en-US")),
+      tile("متوسط النزول في الصفحة", clPct(scroll)),
+      tile("وقت التفاعل", active == null ? "–" : num(active) + " ث", { sub: total != null ? `من ${num(total)} ث في الصفحة` : null })));
+    const issues = CL_ISSUES.map(([k, label, hint]) => ({ k, label, hint, v: clPick(clInfo(cache.totals, k)[0] || {}, "sessionsWithMetricPercentage") }));
+    const ic = card("المشاكل اللي بتضايق الزوار", "نسبة الجلسات اللي حصل فيها كل نوع. افتح التسجيلات في Clarity وفلتر بالنوع عشان تشوف بالظبط حصل فين.",
+        table([{ label: "النوع", get: (r) => r.label }, { label: "يعني إيه", get: (r) => r.hint }, { label: "من الجلسات", num: true, get: (r) => clPct(r.v) }], issues.filter((r) => r.v != null), { empty: "Clarity ما رجّعش أرقام المشاكل." }));
+    ic.classList.add("wide");
+    body.push(el("div", { class: "dash-grid", style: "margin-top:14px" }, ic));
+    // per page: sessions from Traffic, plus the share of sessions with dead clicks, rage clicks and quick backs
+    const rows = new Map();
+    const row = (u) => { if (!rows.has(u)) rows.set(u, { page: clPath(u) }); return rows.get(u); };
+    clInfo(cache.pages, "Traffic").forEach((o) => { const u = clPage(o); if (u) row(u).sessions = clPick(o, "totalSessionCount"); });
+    clInfo(cache.pages, "ScrollDepth").forEach((o) => { const u = clPage(o); if (u) row(u).scroll = clPick(o, "averageScrollDepth"); });
+    [["DeadClickCount", "dead"], ["RageClickCount", "rage"], ["QuickbackClick", "back"]].forEach(([k, f]) =>
+      clInfo(cache.pages, k).forEach((o) => { const u = clPage(o); if (u) row(u)[f] = clPick(o, "sessionsWithMetricPercentage"); }));
+    const list = [...rows.values()].filter((r) => r.sessions).sort((a, b) => b.sessions - a.sessions).slice(0, 20);
+    const pc = card("الصفحات", "أكتر 20 صفحة فيها جلسات، ونسبة المشاكل في كل صفحة.",
+      table([{ label: "الصفحة", get: (r) => el("bdi", { class: "ltr", text: r.page }) }, { label: "الجلسات", num: true, get: (r) => num(r.sessions) },
+        { label: "النزول", num: true, get: (r) => clPct(r.scroll) }, { label: "ضغطات ميتة", num: true, get: (r) => clPct(r.dead) },
+        { label: "ضغطات غضب", num: true, get: (r) => clPct(r.rage) }, { label: "رجوع سريع", num: true, get: (r) => clPct(r.back) }], list, { empty: "Clarity ما رجّعش بيانات الصفحات." }));
+    pc.classList.add("wide");
+    body.push(el("div", { class: "dash-grid", style: "margin-top:14px" }, pc));
+    if (sessions == null && !list.length) body.push(el("details", { class: "as-table" }, el("summary", { text: "اللي رجع من Clarity (للمراجعة)" }), el("pre", { class: "ltr cl-raw", dir: "ltr", text: JSON.stringify(cache.totals, null, 1).slice(0, 4000) })));
+    sec.replaceChildren(...body);
+  }
+
   /* ---------- 6. tools & links ---------- */
   function renderTools() {
     const links = [
@@ -545,7 +661,7 @@
       ["Google Analytics", "كل تقارير الزوار", "https://analytics.google.com/"],
       ["Firebase", "الاستضافة والدومينات", `https://console.firebase.google.com/project/${PROJECT}/hosting/sites/${PROJECT}`],
       ["Firestore", "الطلبات وبيانات الموافقة", `https://console.firebase.google.com/project/${PROJECT}/firestore`],
-      ["Microsoft Clarity", "تسجيلات الشاشة وخرائط الضغط", "https://clarity.microsoft.com/"],
+      ["Microsoft Clarity", "تسجيلات الشاشة وخرائط الضغط", CL_URL("dashboard")],
       ["PageSpeed Insights", "سرعة الموقع على الموبايل", "https://pagespeed.web.dev/analysis?url=" + encodeURIComponent(D.site + "/ar/")],
       ["Google Play", "صفحة التطبيق", D.play],
       ["GitHub", "كود الموقع", "https://github.com/Abdelrahmann1/foodidu_website"]
@@ -605,7 +721,7 @@
     loadVisitors().catch((e) => { $("#visitors").classList.remove("dash-loading"); $("#visitors").replaceChildren(head("visitors", "الزوار", ""), apiProblem(e, "ga")); });
     loadGoogle().catch((e) => { $("#google").classList.remove("dash-loading"); $("#google").replaceChildren(head("google", "جوجل", ""), apiProblem(e, "gsc")); });
   }
-  renderOverview(); renderContent(); renderManage(); renderRange(); renderTools(); renderAuth(); renderGates();
+  renderOverview(); renderContent(); renderManage(); renderRange(); renderClarity(); renderTools(); renderAuth(); renderGates();
   loadFb().then((f) => f.auth().onAuthStateChanged((u) => {
     user = u; renderAuth(); renderTools();
     if (u) { loadApplications(); loadLive(); } else renderGates();

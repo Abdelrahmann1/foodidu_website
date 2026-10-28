@@ -2269,7 +2269,7 @@ HTML
 <div class="dash-auth" id="dash-auth"></div>
 </div>
 <nav class="dash-tabs dash-wrap" aria-label="أقسام لوحة التحكم">
-<a href="#overview">نظرة عامة</a><a href="#content">المحتوى</a><a href="#manage">إدارة المحتوى</a><a href="#visitors">الزوار</a><a href="#google">جوجل</a><a href="#applications">طلبات الشراكة</a><a href="#tools">الأدوات</a>
+<a href="#overview">نظرة عامة</a><a href="#content">المحتوى</a><a href="#manage">إدارة المحتوى</a><a href="#visitors">الزوار</a><a href="#google">جوجل</a><a href="#clarity">سلوك الزوار</a><a href="#applications">طلبات الشراكة</a><a href="#tools">الأدوات</a>
 </nav>
 </header>
 <main id="main" class="dash dash-wrap">
@@ -2280,6 +2280,7 @@ HTML
 <div class="dash-range" id="dash-range"></div>
 <section id="visitors" class="dash-sec" aria-labelledby="h-visitors"></section>
 <section id="google" class="dash-sec" aria-labelledby="h-google"></section>
+<section id="clarity" class="dash-sec" aria-labelledby="h-clarity"></section>
 <section id="applications" class="dash-sec" aria-labelledby="h-applications"></section>
 <section id="tools" class="dash-sec" aria-labelledby="h-tools"></section>
 <p class="dash-foot">آخر تحديث لبيانات المحتوى: <bdi>$data{built}</bdi> · الصفحة دي مش ظاهرة في جوجل.</p>
