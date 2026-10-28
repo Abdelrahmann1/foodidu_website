@@ -123,6 +123,8 @@ my $RO_FILE = "$ROOT/data/restaurant-offers.json";
 my @RESTS = -f $RO_FILE ? @{ JSON::PP->new->utf8->decode(slurp($RO_FILE, 1))->{restaurants} // [] } : ();
 my $RO_DATE = -f $RO_FILE ? mdate($RO_FILE) : $DATA_DATE;
 my %RO_DATES = -f $RO_FILE ? %{ part_dates($RO_FILE, sub { +{ map { (($_->{key} // '') => $_) } @{ $_[0]{restaurants} } } }) } : ();
+my $LP_FILE = "$ROOT/data/landings.json";   # landing pages for paid ads: noindex, one language each (see its _help)
+my @LANDINGS = -f $LP_FILE ? @{ JSON::PP->new->utf8->decode(slurp($LP_FILE, 1))->{landings} // [] } : ();
 my $FT_FILE = "$ROOT/data/featured.json";
 my @FO;   # first-order codes, filled once the brands are loaded (used by the footer and /first-order-promo-codes/)
 my $FEAT = -f $FT_FILE ? JSON::PP->new->utf8->decode(slurp($FT_FILE, 1)) : {};
@@ -2190,6 +2192,48 @@ HTML
 </section>
 HTML
   layout(lang => 'en', key => '/404/', title => 'Page not found | Foodidu', desc => "We couldn't find that page.", body => $body, noindex => 1, nolang => 1, file => "$OUT/404.html");
+}
+
+# ---------- ad landing pages (data/landings.json): one language each, noindex, not in the sitemap, linked from nowhere on the site.
+# The code, offer, terms, logo and checked date come from the brand in brands.json; the rest of the copy is the landing's own.
+for my $p (@LANDINGS) {
+  my $l = $p->{lang};
+  my $b = $BYKEY{ $p->{brand} // '' } // die "data/landings.json: \"$p->{slug}\" needs a brand from brands.json\n";
+  die "data/landings.json: \"$p->{slug}\": $b->{key} has no code\n" if $b->{noCode} || !$b->{code};
+  my %post = map { $_->{key} => $_ } @PUB;
+  my $season = $p->{season} && $post{ $p->{season}{post} } ? '<p class="dd-more"><a href="' . post_url($post{ $p->{season}{post} }, $l) . '">' . esc($p->{season}{text}) . ' ' . icon('arrow', 'flip') . '</a></p>' : '';
+  my $checked = fresh($b->{lastVerified}) ? '<p class="checked">' . icon('shield') . esc($p->{checked} =~ s/\{date\}/fmt_date($l, $b->{lastVerified})/er) . '</p>' : '';
+  my $why = join '', map { '<li><span class="pick-ic">' . icon($_->[0]) . '</span><div><b>' . esc($_->[1]) . '</b><span>' . esc($_->[2]) . '</span></div></li>' } @{ $p->{why} };
+  my $steps = join '', map { '<li><div><b>' . esc($_->[0]) . '</b><span>' . esc($_->[1]) . '</span></div></li>' } @{ $p->{steps} };
+  my $go = qq{<a class="btn btn-leaf" href="} . esc($p->{url}) . qq{" rel="nofollow sponsored noopener" target="_blank" data-track="brand_link_click" data-brand="$b->{key}">} . esc($p->{go}) . ' ' . icon('external') . '</a>';
+  my $body = <<"HTML";
+<section class="page-hero brand-hero lp-hero">
+<div class="wrap">
+<div class="bp">
+<div class="bp-id"><span class="bp-logo"><span class="logo-tile">@{[ logo_img($b, $l, 104, 1) ]}</span></span>
+<div class="bp-head"><h1>@{[ esc($p->{h1}) ]}</h1></div></div>
+<div class="bp-lede"><p class="lede">@{[ esc($p->{lede}) ]}</p>$checked</div>
+<div class="coupons bp-coupons">
+<div class="coupon-card"><div class="ticket"><div class="ticket-main">@{[ deal_html($b, $l) ]}<p class="terms">@{[ icon('info') ]}<span><strong>@{[ T($l, 'b_terms') ]}:</strong> @{[ esc($b->{terms}{$l}) ]}</span></p></div><div class="ticket-stub">@{[ code_btn($b, $l, 1) ]}</div></div></div>
+<div class="coupon-actions">$go</div>
+</div>
+</div>
+</div>
+</section>
+<div class="scallop" aria-hidden="true"></div>
+<div class="wrap brand-body ro-body">
+<article class="prose">
+<ul class="tips">$why</ul>
+<section aria-labelledby="how-title"><h2 id="how-title">@{[ esc($p->{steps_title}) ]}</h2><ol class="how">$steps</ol></section>
+$season
+<section aria-labelledby="faq-title"><h2 id="faq-title">@{[ esc($p->{faq_title}) ]}</h2>@{[ faq_html(map { [esc($_->[0]), esc($_->[1])] } @{ $p->{faq} }) ]}</section>
+<p class="note">@{[ esc($p->{disclosure}) ]}</p>
+<p class="dd-more"><a href="@{[ brand_url($b, $l) ]}">@{[ esc($p->{more}) ]} @{[ icon('arrow', 'flip') ]}</a></p>
+</article>
+</div>
+HTML
+  layout(lang => $l, key => "/offer/$p->{slug}/", title => $p->{title}, desc => $p->{description}, body => $body, noindex => 1, nolang => 1, og => "/img/og/$b->{key}-$l.png");
+  print 'Built ' . path_for($l, "/offer/$p->{slug}/") . " (ad landing, noindex)\n";
 }
 
 # ------------------------------------------------------------------ sitemap, robots, manifest

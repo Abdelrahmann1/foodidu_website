@@ -1,0 +1,40 @@
+{
+  "_help": "Landing pages for paid ads (Meta / Facebook). Each one is built in one language at /{lang}/offer/{slug}/ (Arabic: /ar/offer/{slug}/), is noindex, is not in the sitemap and is linked from nowhere on the site, so it never competes with the brand's own page in Google. brand: a key from brands.json; the code, offer, logo and checked date are read from there, so the page never shows a stale code. url: where the \"open the store\" button goes. checked: shown when the brand's code was checked in the last 45 days; {date} is replaced. why: [icon, title, text]. steps: [title, text]. faq: [question, answer]. season: an optional link to a published blog post. Then run: perl tools/build.pl",
+  "landings": [
+    {
+      "slug": "noon-egypt",
+      "lang": "ar",
+      "brand": "noon-egypt",
+      "url": "https://www.noon.com/egypt-ar/",
+      "title": "كود خصم نون مصر WK32: خصم من 5 لـ 7% على طلبك",
+      "description": "انسخ كود خصم نون مصر WK32 واستخدمه على طلبك من تطبيق نون أو noon.com: خصم من 5 لـ 7%. الكود اتجرب من فريق Foodidu.",
+      "h1": "كود خصم نون مصر",
+      "lede": "انسخ الكود وحطه في صفحة الدفع على نون، وخد خصم من 5 لـ 7% على طلبك.",
+      "checked": "اتجرب من فريق Foodidu في {date}",
+      "go": "افتح نون مصر",
+      "why": [
+        ["check", "مش لأول طلب بس", "الكود بيشتغل على طلباتك من نون مصر، مش أول أوردر بس."],
+        ["shield", "اتجرب من فريقنا", "بنجرب الأكواد بنفسنا، وبنكتب آخر مرة اتجرب فيها الكود."],
+        ["gift", "مجاني ومن غير تسجيل", "مش محتاج تعمل حساب على Foodidu: انسخ الكود واستخدمه على طول."]
+      ],
+      "steps_title": "تستخدم الكود إزاي؟",
+      "steps": [
+        ["انسخ الكود", "دوس على زرار «انسخ» اللي جنب الكود."],
+        ["افتح نون", "من تطبيق نون أو موقع noon.com، وحط المنتجات اللي عايزها في السلة."],
+        ["حط الكود في صفحة الدفع", "الصق الكود في خانة الكوبون أو كود الخصم، وهتشوف الخصم قبل ما تأكد الطلب."]
+      ],
+      "faq_title": "أسئلة بتتكرر",
+      "faq": [
+        ["الكود بيشتغل على كل المنتجات؟", "على أغلب المنتجات. لو نون رفض الكود في صفحة الدفع، يبقى المنتج اللي في السلة مستثنى من الأكواد."],
+        ["الكود ده لأول طلب بس؟", "لأ، بيشتغل على طلباتك من نون مصر، مش أول أوردر بس."],
+        ["الكود مشتغلش معايا، أعمل إيه؟", "اتأكد إنك كاتبه بالظبط من غير مسافات، وإنك على نون مصر مش نون في بلد تانية. ولو لسه مش شغال، يبقى المنتج غالباً مستثنى من الأكواد."]
+      ],
+      "season": {
+        "post": "noon-yellow-friday-2026",
+        "text": "الجمعة الصفراء من نون جاية آخر نوفمبر: اعرف مواعيدها وإزاي تستخدم الكود مع التخفيضات"
+      },
+      "more": "كل تفاصيل كود نون مصر",
+      "disclosure": "Foodidu موقع مستقل بيجمع أكواد الخصم، ومش تابع لنون. ممكن ناخد عمولة لما تستخدم الكود، من غير أي تكلفة زيادة عليك."
+    }
+  ]
+}
