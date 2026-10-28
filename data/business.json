@@ -13,8 +13,8 @@
   },
   "h1": { "en": "Everything your restaurant needs, in one place", "ar": "كل أدوات مطعمك في مكان واحد" },
   "lede": {
-    "en": "A QR menu, a loyalty program that brings customers back, an ordering website and app under your own name, your restaurant on Google Maps with real reviews, and visibility on Foodidu. Start free with an exclusive promo code for Foodidu users.",
-    "ar": "منيو QR، وبرنامج ولاء يرجّع عملاءك، وموقع وتطبيق طلبات باسم مطعمك، ومطعمك على جوجل ماب بتقييمات حقيقية، وظهور أمام الباحثين عن العروض على Foodidu. ابدأ مجاناً بكود خصم حصري لعملاء Foodidu."
+    "en": "We build what restaurants and cafés in Egypt need online: a QR menu, an ordering website under your name with its own dashboard, a loyalty program that brings customers back, and your Google Maps profile with real reviews. And we put your restaurant in front of people looking for deals on Foodidu. Start free with an exclusive promo code for Foodidu users.",
+    "ar": "إحنا بنعمل للمطاعم والكافيهات في مصر كل اللي محتاجينه أونلاين: منيو QR، وموقع طلبات باسمك بلوحة تحكم، وبرنامج ولاء يرجّع عملاءك، وصفحتك على جوجل ماب بتقييمات حقيقية. وبنعرض مطعمك قدام الناس اللي بتدوّر على عروض على Foodidu. ابدأ مجاناً بكود خصم حصري لعملاء Foodidu."
   },
   "journey": {
     "title": { "en": "From a first order to a regular customer", "ar": "من أول طلب لحد ما يبقى زبون دائم" },
@@ -45,8 +45,8 @@
       "icon": "qr",
       "name": { "en": "QR code menu", "ar": "منيو إلكتروني QR" },
       "short": {
-        "en": "A QR menu with photos and prices on every table that suggests what completes each order, with group orders and split bills.",
-        "ar": "منيو QR بالصور والأسعار على كل ترابيزة، بيقترح على الزبون اللي يكمّل طلبه، وفيه طلب جماعي بتقسيم الحساب."
+        "en": "We make you a QR menu with photos and prices for every table, that suggests what completes each order, with group orders and split bills.",
+        "ar": "بنعملك منيو QR بالصور والأسعار على كل ترابيزة، بيقترح على الزبون اللي يكمّل طلبه، وفيه طلب جماعي بتقسيم الحساب."
       },
       "seo": {
         "en": {
@@ -60,8 +60,8 @@
       },
       "h1": { "en": "A QR code menu for your restaurant or café", "ar": "منيو إلكتروني بباركود QR لمطعمك أو الكافيه" },
       "lede": {
-        "en": "An online menu with photos and prices that opens on any phone by scanning a code on the table. Update it any time, with no new printing every time a price changes. It suggests what goes with each dish, and friends at one table can order together and split the bill.",
-        "ar": "منيو إلكتروني بالصور والأسعار، بيفتح على أي موبايل بمسح كود على الترابيزة. حدّثه في أي وقت، من غير طباعة منيو جديد كل ما السعر يتغير. وبيقترح على الزبون اللي يكمّل طلبه، والشلة على ترابيزة واحدة تقدر تطلب مع بعض وتقسّم الحساب."
+        "en": "We make your menu online, with photos and prices, and it opens on any phone by scanning a code on the table. Update it any time, with no new printing every time a price changes. It suggests what goes with each dish, and friends at one table can order together and split the bill.",
+        "ar": "بنعملك منيو إلكتروني بالصور والأسعار، بيفتح على أي موبايل بمسح كود على الترابيزة. حدّثه في أي وقت، من غير طباعة منيو جديد كل ما السعر يتغير. وبيقترح على الزبون اللي يكمّل طلبه، والشلة على ترابيزة واحدة تقدر تطلب مع بعض وتقسّم الحساب."
       },
       "about": {
         "title": { "en": "What is a QR code menu?", "ar": "يعني إيه منيو إلكتروني QR؟" },
@@ -224,32 +224,35 @@
       "key": "restaurant-website",
       "icon": "phone",
       "name": { "en": "Ordering website & app", "ar": "موقع وتطبيق طلبات" },
-      "short": { "en": "An ordering website and app under your restaurant's name, so customers order from you directly.", "ar": "موقع طلبات وتطبيق باسم مطعمك، والعميل يطلب منك مباشرة." },
+      "short": {
+        "en": "We design and build an ordering website under your restaurant's name, from scratch, with a dashboard where you take the orders and run your menu and branches.",
+        "ar": "بنصمم ونبني لمطعمك موقع طلبات باسمه من الصفر، ومعاه لوحة تحكم تستقبل منها الطلبات وتدير المنيو والفروع."
+      },
       "seo": {
         "en": {
           "title": "Restaurant Website & Online Ordering App Under Your Name",
-          "description": "An ordering website and mobile app for your restaurant, with your name, logo and domain: customers order directly from you, for delivery or pickup."
+          "description": "We design and build an ordering website for your restaurant, on your domain, with a dashboard for orders, menu and branches. Customers order directly from you."
         },
         "ar": {
           "title": "عمل موقع لمطعم وتطبيق طلبات أونلاين باسمك",
-          "description": "موقع طلبات وتطبيق موبايل لمطعمك باسمك وشعارك ودومينك: العميل يطلب منك مباشرة، توصيل أو استلام، ومنيوك وبرنامج الولاء في مكان واحد."
+          "description": "بنصمم ونبني موقع طلبات لمطعمك باسمك وعلى دومينك، ومعاه لوحة تحكم للطلبات والمنيو والفروع. العميل يطلب منك مباشرة، توصيل أو استلام."
         }
       },
-      "h1": { "en": "An ordering website and app under your name", "ar": "موقع وتطبيق طلبات باسم مطعمك" },
+      "h1": { "en": "We build your restaurant its own ordering website, and the dashboard to run it", "ar": "بنعمل لمطعمك موقع طلبات خاص بيه، ولوحة تحكم تديره منها" },
       "lede": {
-        "en": "Customers order from you directly, for delivery or pickup, on a website and app with your logo and colours. Your customers and orders stay with you.",
-        "ar": "العميل يطلب منك مباشرة، توصيل أو استلام، من موقع وتطبيق بشعارك وألوانك. وعملاءك وطلباتك بيفضلوا معاك."
+        "en": "Not a template: we design the website around your brand. Customers order from it for delivery or pickup, and every order reaches your dashboard, where you follow it to the door, mark a dish as sold out and change a branch's hours. In Arabic and English, on your own domain.",
+        "ar": "مش قالب جاهز: بنصمم الموقع على شكل مطعمك. العميل يطلب منه توصيل أو استلام، وكل طلب بيوصلك على لوحة تحكم تتابعه منها لحد ما يتسلّم، وتقفل الصنف اللي خلص، وتغيّر مواعيد الفرع. بالعربي والإنجليزي، وعلى دومين باسمك."
       },
       "about": {
-        "title": { "en": "Why an ordering website under your name?", "ar": "ليه موقع طلبات باسم مطعمك؟" },
+        "title": { "en": "What exactly do we do?", "ar": "إيه اللي بنعمله بالظبط؟" },
         "text": [
           {
-            "en": "Delivery apps bring orders, but they take a commission on each one and keep the customer's details. A website and app under your own name let your regular customers order from you directly.",
-            "ar": "تطبيقات التوصيل بتجيب طلبات، بس بتاخد عمولة على كل طلب وبيانات العميل بتفضل عندها. موقع وتطبيق باسم مطعمك بيخلّوا زبائنك الدائمين يطلبوا منك مباشرة."
+            "en": "We build your restaurant a complete website: a home page in your brand, the menu with prices and photos, online ordering, a branches page with hours and a map, and a dashboard for you and your team. We hand it over working, on your domain. NILO and TALG on this page are our work: we designed and built both.",
+            "ar": "بنبني لمطعمك موقع كامل: صفحة رئيسية بشكل البراند بتاعك، والمنيو بالأسعار والصور، والطلب أونلاين، وصفحة فروع بالمواعيد والخريطة، ولوحة تحكم ليك ولفريقك. وبنسلّمهولك شغال على دومينك. نيلو وتلج اللي في الصفحة دي من شغلنا: الاتنين من تصميمنا وتنفيذنا."
           },
           {
-            "en": "Your website also shows up on Google when people search for your restaurant's name, with your menu, branches and offers in one place.",
-            "ar": "وكمان موقعك بيظهر في جوجل لما الناس تدوّر على اسم مطعمك، وفيه المنيو والفروع والعروض في مكان واحد."
+            "en": "Why your own website? Delivery apps bring orders, but they take a commission on each one and keep the customer's details. Your own website lets your regulars order from you directly, and it shows up on Google when people search for your restaurant's name.",
+            "ar": "ليه موقع خاص بيك؟ تطبيقات التوصيل بتجيب طلبات، بس بتاخد عمولة على كل طلب وبيانات العميل بتفضل عندها. موقعك الخاص بيخلّي زبونك الدائم يطلب منك على طول، وبيظهر في جوجل لما حد يدوّر على اسم مطعمك."
           }
         ]
       },
@@ -281,45 +284,71 @@
       },
       "features": [
         {
-          "title": { "en": "Your own domain", "ar": "بدومينك الخاص" },
-          "text": { "en": "A website with your restaurant's name, menu and online ordering, on phones and computers.", "ar": "موقع باسم مطعمك، فيه المنيو والطلب أونلاين، على الموبايل والكمبيوتر." }
+          "title": { "en": "Designed for your restaurant", "ar": "تصميم خاص بمطعمك" },
+          "text": { "en": "Not a template: your colours, fonts and photos, built around your brand, like NILO and TALG.", "ar": "مش قالب: ألوانك وخطوطك وصورك، على مقاس البراند بتاعك، زي نيلو وتلج." }
         },
         {
-          "title": { "en": "A mobile app", "ar": "تطبيق موبايل" },
-          "text": { "en": "An app with your logo for Android and iPhone.", "ar": "تطبيق بشعار مطعمك لأندرويد وآيفون." }
+          "title": { "en": "Menu and online ordering", "ar": "منيو وطلب أونلاين" },
+          "text": { "en": "Your menu with photos and prices, a bag, and delivery or pickup: the customer chooses.", "ar": "المنيو بالصور والأسعار، وشنطة مشتريات، والعميل يختار توصيل أو استلام." }
         },
         {
-          "title": { "en": "Delivery and pickup", "ar": "توصيل واستلام" },
-          "text": { "en": "Customers choose delivery or pickup from the branch.", "ar": "العميل يختار التوصيل أو يستلم من الفرع." }
+          "title": { "en": "A dashboard for your orders", "ar": "لوحة تحكم للطلبات" },
+          "text": {
+            "en": "Every new order reaches you; follow it from the kitchen to the customer, and find any order later with all its details.",
+            "ar": "كل طلب جديد بيوصلك، تتابعه من التحضير لحد التسليم، وتلاقي أي طلب بعدين بكل تفاصيله."
+          }
         },
         {
-          "title": { "en": "Your customers stay yours", "ar": "عملاءك ليك" },
-          "text": { "en": "Orders and customer details stay with you, not with a middleman app.", "ar": "بيانات الطلبات والعملاء عندك، مش عند تطبيق وسيط." }
+          "title": { "en": "You run the menu and branches", "ar": "إنت اللي بتدير المنيو والفروع" },
+          "text": { "en": "Mark a dish as sold out or change a branch's hours, and the website shows it right away.", "ar": "اقفل الصنف اللي خلص أو غيّر مواعيد فرع، والموقع يتحدّث على طول." }
         },
         {
-          "title": { "en": "One menu, one loyalty program", "ar": "منيو واحد وولاء واحد" },
-          "text": { "en": "The same menu and loyalty points on the website, the app and in the branch.", "ar": "نفس المنيو ونقاط الولاء في الموقع والتطبيق والفرع." }
+          "title": { "en": "Arabic and English", "ar": "عربي وإنجليزي" },
+          "text": { "en": "Both languages, with a proper right-to-left layout for Arabic.", "ar": "اللغتين، والعربي من اليمين للشمال مظبوط." }
         },
         {
-          "title": { "en": "Found on Google", "ar": "يظهر في جوجل" },
-          "text": { "en": "Pages ready for Google, so people find you when they search for your name.", "ar": "صفحات مجهزة لجوجل، عشان الناس تلاقيك لما تدوّر على اسمك." }
+          "title": { "en": "Your domain and your app", "ar": "دومينك وتطبيقك" },
+          "text": {
+            "en": "The website on a domain with your restaurant's name, and a mobile app for Android and iPhone in the Pro plan.",
+            "ar": "الموقع على دومين باسم مطعمك، وتطبيق موبايل لأندرويد وآيفون في الباقة الاحترافية."
+          }
         }
       ],
       "steps": [
         {
-          "title": { "en": "Agree on the look", "ar": "نتفق على الشكل" },
-          "text": { "en": "Your logo, colours, menu and the order types you want.", "ar": "شعارك وألوانك ومنيوك وأنواع الطلب اللي عايزها." }
+          "title": { "en": "We agree on the look and the menu", "ar": "نتفق على الشكل والمنيو" },
+          "text": {
+            "en": "Send us your logo and menu, and we agree on the pages and how customers order: delivery, pickup or both.",
+            "ar": "ابعتلنا شعارك ومنيوك، ونتفق على الصفحات وطريقة الطلب: توصيل، استلام، أو الاتنين."
+          }
         },
         {
-          "title": { "en": "We build the website and app", "ar": "نبني الموقع والتطبيق" },
-          "text": { "en": "We set up ordering, your domain and the app, and you review them before launch.", "ar": "نجهّز الطلب أونلاين والدومين والتطبيق، وتراجعهم قبل الإطلاق." }
+          "title": { "en": "We design and build it", "ar": "نصمم ونبني" },
+          "text": { "en": "We design the website and the dashboard, and you try both yourself before launch.", "ar": "بنصمم الموقع ولوحة التحكم، وتجربهم بنفسك قبل الإطلاق." }
         },
         {
           "title": { "en": "You start taking orders", "ar": "تبدأ تستقبل طلبات" },
-          "text": { "en": "Customers order from you directly, and we help you announce it.", "ar": "العملاء يطلبوا منك مباشرة، وإحنا نساعدك تعلن عنه." }
+          "text": {
+            "en": "The website goes live on your domain, orders reach your dashboard, and we help you get the word out.",
+            "ar": "الموقع يشتغل على دومينك، والطلبات توصلك على لوحة التحكم، وإحنا نساعدك تعلن عنه."
+          }
         }
       ],
       "faq": [
+        {
+          "q": { "en": "Who takes the orders?", "ar": "مين بيستقبل الطلبات؟" },
+          "a": {
+            "en": "You or your team, on the dashboard, from any phone or computer. Every order shows there with its details, and you move it from preparing to handed over.",
+            "ar": "إنت أو فريقك، على لوحة التحكم من أي موبايل أو كمبيوتر. كل طلب بيظهر فيها بتفاصيله، وتنقله من التحضير لحد التسليم."
+          }
+        },
+        {
+          "q": { "en": "Will I see the design before it is built?", "ar": "هشوف شكل الموقع قبل ما يتعمل؟" },
+          "a": {
+            "en": "Yes. We show you the design first, then we build it, and you try the website and the dashboard before launch.",
+            "ar": "أيوه. بنوريك التصميم الأول، وبعدين نبني، وبتجرّب الموقع ولوحة التحكم قبل الإطلاق."
+          }
+        },
         {
           "q": { "en": "Can I start with the website only?", "ar": "أقدر أبدأ بالموقع بس؟" },
           "a": { "en": "Yes. Start with the website and add the app or the loyalty program whenever you want.", "ar": "أيوه. ابدأ بالموقع، وزوّد التطبيق أو برنامج الولاء وقت ما تحب." }
@@ -340,15 +369,15 @@
           }
         }
       ],
-      "search": "موقع website تطبيق app"
+      "search": "موقع website تطبيق app لوحة تحكم dashboard"
     },
     {
       "key": "google-maps",
       "icon": "pin",
       "name": { "en": "Google Maps & reviews", "ar": "جوجل ماب والتقييمات" },
       "short": {
-        "en": "Your restaurant on Google Maps with photos, hours and menu, and a “Rate us” card that brings real reviews from your customers.",
-        "ar": "مطعمك على جوجل ماب بالصور والمواعيد والمنيو، وكارت «قيّمنا» يجيبلك تقييمات حقيقية من عملاءك."
+        "en": "We add your restaurant to Google Maps or complete its profile with photos, hours and menu, and give you a “Rate us” card that brings real reviews.",
+        "ar": "بنضيف مطعمك على جوجل ماب أو نكمّل صفحتك بالصور والمواعيد والمنيو، ونديك كارت «قيّمنا» يجيبلك تقييمات حقيقية."
       },
       "seo": {
         "en": {
@@ -511,8 +540,8 @@
       "icon": "target",
       "name": { "en": "Visibility on Foodidu", "ar": "ظهور على Foodidu" },
       "short": {
-        "en": "A page for your restaurant and your promo code on Foodidu, in Google, on our WhatsApp channel and our social pages.",
-        "ar": "صفحة لمطعمك وكود خصمك على Foodidu، تظهر في جوجل وفي قناتنا على واتساب وصفحاتنا على السوشيال."
+        "en": "We make your restaurant a page on Foodidu with your promo code, shown in Google, on our WhatsApp channel and our social pages.",
+        "ar": "بنعمل لمطعمك صفحة على Foodidu بكود خصمك، تظهر في جوجل وفي قناتنا على واتساب وصفحاتنا على السوشيال."
       },
       "seo": {
         "en": {
@@ -667,8 +696,8 @@
       "featured": true,
       "name": { "en": "Loyalty program", "ar": "برنامج الولاء" },
       "short": {
-        "en": "Points or a digital stamp card that rewards the customers who come back, and shows you who your regulars are.",
-        "ar": "نقاط أو كارت أختام إلكتروني يكافئ العملاء اللي بيرجعوا، ويعرّفك مين زبائنك الدائمين."
+        "en": "We set up points or a digital stamp card that rewards the customers who come back, and shows you who your regulars are.",
+        "ar": "بنجهّزلك نقاط أو كارت أختام إلكتروني يكافئ العملاء اللي بيرجعوا، ويعرّفك مين زبائنك الدائمين."
       },
       "seo": {
         "en": {
@@ -682,8 +711,8 @@
       },
       "h1": { "en": "A loyalty program that brings customers back", "ar": "برنامج ولاء يرجّع عملاءك" },
       "lede": {
-        "en": "The customer who came once with a promo code should come back every time. Points or a digital stamp card on their phone, with rewards you choose.",
-        "ar": "العميل اللي جه مرة بكود خصم، خليه يرجع كل مرة. نقاط أو كارت أختام إلكتروني على موبايل العميل، ومكافآت أنت اللي بتحددها."
+        "en": "The customer who came once with a promo code should come back every time. We set up points or a digital stamp card on their phone, with rewards you choose.",
+        "ar": "العميل اللي جه مرة بكود خصم، خليه يرجع كل مرة. بنجهّزلك نقاط أو كارت أختام إلكتروني على موبايل العميل، ومكافآت إنت اللي بتحددها."
       },
       "about": {
         "title": { "en": "What is a customer loyalty program?", "ar": "يعني إيه برنامج ولاء العملاء؟" },
