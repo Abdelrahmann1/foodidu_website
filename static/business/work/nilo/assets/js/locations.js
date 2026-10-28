@@ -11,6 +11,7 @@
   const now = new Date(), H = now.getHours() + now.getMinutes() / 60, MONTH = now.getMonth() + 1;
   function status(l) {
     if (l.months && !l.months.includes(MONTH)) return { open: false, text: UI.backIn };
+    if (l.closedToday) return { open: false, text: UI.closedToday };   // set in the owner's dashboard
     const h = H < 6 ? H + 24 : H; // just after midnight still belongs to the evening before
     const open = h >= l.open && h < l.close;
     return { open, text: open ? UI.openNow : UI.opensAt(UI.hour(l.open)) };

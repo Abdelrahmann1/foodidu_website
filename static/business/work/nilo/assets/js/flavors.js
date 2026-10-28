@@ -13,8 +13,8 @@
   bar.innerHTML = FILTERS.map((k) => `<button class="chip" type="button" data-f="${k}" aria-pressed="${k === 'all'}">${UI.filters[k]}<span class="n">${D.FLAVORS.filter((f) => match(f, k)).length}</span></button>`).join('');
   grid.innerHTML = D.FLAVORS.map((f, i) => {
     const art = A.tub({ flavor: f.key, seed: 200 + i });
-    return `<li class="fl-card" data-reveal style="--c:${f.bg}">
-      <div class="fl-top"><span class="tag">${D.t(f.tag)}</span><div class="fl-art">${A.svg(art.vb, art.body)}</div></div>
+    return `<li class="fl-card${f.soldOut ? ' out' : ''}" data-reveal style="--c:${f.bg}">
+      <div class="fl-top"><span class="tag">${D.t(f.tag)}</span>${f.soldOut ? `<span class="out-tag">${UI.soldOut}</span>` : ''}<div class="fl-art">${A.svg(art.vb, art.body)}</div></div>
       <div class="fl-body"><h3>${D.t(f.name)}</h3><p>${D.t(f.short)}</p><div class="fl-meta">${badges(f)}</div>
       <button class="btn btn-cream btn-sm fl-more" type="button" data-open="${f.key}">${UI.more}</button></div></li>`;
   }).join('');

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>NILO · Owner dashboard (demo)</title>
+  <meta name="description" content="The owner's dashboard of the NILO gelato website: orders, flavors and branches in one place, and every change shows on the website. A demo by Foodidu Business with sample data.">
+  <meta name="robots" content="noindex">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Foodidu Business">
+  <meta property="og:title" content="NILO gelato: the owner's dashboard, by Foodidu Business">
+  <meta property="og:description" content="Orders, flavors and branches in one place, and every change shows on the website right away.">
+  <meta property="og:url" content="https://foodidu.com/business/work/nilo/dashboard/">
+  <meta property="og:image" content="https://foodidu.com/business/work/nilo/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0F6E6A">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="alternate" hreflang="en" href="./">
+  <link rel="alternate" hreflang="ar" href="../ar/dashboard/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Changa:wght@400..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+</head>
+<body data-root="../" data-other="../ar/dashboard/" data-back="/business/">
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side">
+    <a class="d-logo" id="sideLogo" href="#overview"><span class="d-mark" data-art="cone" data-scoops="mango" data-seed="4"></span><span><b>nilo</b><small></small></span></a>
+    <nav class="d-nav" id="nav" aria-label="Dashboard"></nav>
+    <div class="side-foot" id="sideFoot"></div>
+  </aside>
+  <main id="main">
+    <div class="mtop" id="mtop"></div>
+    <div class="demo" id="demo"></div>
+    <header class="top" id="top"></header>
+    <noscript><p class="nojs">The dashboard needs JavaScript.</p></noscript>
+    <section class="view" id="v-overview"></section>
+    <section class="view" id="v-orders" hidden></section>
+    <section class="view" id="v-flavors" hidden></section>
+    <section class="view" id="v-branches" hidden></section>
+  </main>
+</div>
+<nav class="tabbar" id="tabbar" aria-label="Dashboard"></nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.NILO_DASH = true;</script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/art.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

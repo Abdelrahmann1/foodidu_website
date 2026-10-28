@@ -90,7 +90,7 @@ window.NILO_DATA = (() => {
       more: 'Details', contains: 'Contains', dairyFree: 'Dairy-free', order: 'Order a scoop', closeDlg: 'Close', count: (n) => `${n} flavors`,
       openNow: 'Open now', opensAt: (h) => `Opens at ${h}`, showMap: 'On the map', backIn: 'Back in June', daily: 'Daily', hours: 'Hours', call: 'Call', area: 'Area', directions: 'Directions',
       hour: (h) => { h %= 24; return `${((h + 11) % 12) + 1}${h < 12 ? 'am' : 'pm'}`; },
-      summer: 'June – September',
+      summer: 'June – September', soldOut: 'Sold out today', closedToday: 'Closed today',
     },
     ar: {
       menu: 'المنيو', close: 'اقفل', openAria: 'افتح المنيو', closeAria: 'اقفل المنيو',
@@ -99,9 +99,29 @@ window.NILO_DATA = (() => {
       more: 'التفاصيل', contains: 'فيه', dairyFree: 'من غير لبن', order: 'اطلب سكوب', closeDlg: 'اقفل', count: (n) => `${n} نكهة`,
       openNow: 'مفتوح دلوقتي', opensAt: (h) => `بيفتح ${h}`, showMap: 'على الخريطة', backIn: 'راجعين في يونيو', daily: 'يوميًا', hours: 'المواعيد', call: 'اتصل', area: 'المنطقة', directions: 'الاتجاهات',
       hour: (h) => { h %= 24; const n = ((h + 11) % 12) + 1; return `${n} ${h < 5 ? 'بالليل' : h < 12 ? 'الصبح' : h < 15 ? 'الضهر' : h < 18 ? 'العصر' : 'بالليل'}`; },
-      summer: 'من يونيو لسبتمبر',
+      summer: 'من يونيو لسبتمبر', soldOut: 'خلصت النهارده', closedToday: 'مقفول النهارده',
     },
   }[L];
 
-  return { L, AR: L === 'ar', t, FLAVORS, LOCATIONS, FEATS, CONTAINS, UI };
+  // The owner's dashboard (dashboard/) keeps its changes in this browser (localStorage 'nilo-admin'): flavors sold out
+  // today, the "new" mark, branch hours and branches closed today. The pages show them; the dashboard reads the data as written above.
+  const d0 = new Date(), today = `${d0.getFullYear()}-${d0.getMonth() + 1}-${d0.getDate()}`;
+  if (!window.NILO_DASH) {
+    let o = {};
+    try { o = JSON.parse(localStorage.getItem('nilo-admin') || '{}') || {}; } catch (e) { o = {}; }
+    const NEW = { en: 'New', ar: 'جديد' }, PLAIN = { milk: { en: 'Classic', ar: 'كلاسيك' }, sorbet: { en: 'Vegan', ar: 'نباتي' } };
+    FLAVORS.forEach((f) => {
+      const a = (o.flavors || {})[f.key] || {};
+      f.soldOut = a.soldOut === today;
+      if (typeof a.isNew === 'boolean' && a.isNew !== !!f.isNew) { f.isNew = a.isNew; f.tag = a.isNew ? NEW : PLAIN[f.base]; }
+    });
+    LOCATIONS.forEach((l) => {
+      const a = (o.branches || {})[l.key] || {};
+      if (a.open >= 0 && a.close > a.open) { l.open = a.open; l.close = a.close; }
+      l.closedToday = a.closedOn === today;
+    });
+    addEventListener('storage', (e) => { if (e.key === 'nilo-admin') location.reload(); });   // the dashboard is open in another tab
+  }
+
+  return { L, AR: L === 'ar', t, FLAVORS, LOCATIONS, FEATS, CONTAINS, UI, today };
 })();

@@ -1861,12 +1861,17 @@
         { "en": "Arabic and English, with a proper right-to-left layout", "ar": "عربي وإنجليزي، والعربي من اليمين للشمال صح" },
         { "en": "A flavors page with filters and a details card for every item", "ar": "صفحة نكهات بفلاتر وكارت تفاصيل لكل صنف" },
         { "en": "Branches on a map with opening hours that update by themselves", "ar": "الفروع على خريطة ومواعيد الفتح بتتحدّث لوحدها" },
-        { "en": "Scroll animations that feel like an app", "ar": "حركة مع السكرول كأنه تطبيق" }
+        { "en": "Scroll animations that feel like an app", "ar": "حركة مع السكرول كأنه تطبيق" },
+        { "en": "An owner's dashboard for orders, flavors and branches; every change shows on the website", "ar": "لوحة تحكم لصاحب المحل للطلبات والنكهات والفروع، وأي تعديل بيظهر على الموقع" }
       ],
       "btn": { "en": "Open the website", "ar": "افتح الموقع" },
       "demo": { "en": "See it live: NILO gelato", "ar": "شوف الموقع لايف: نيلو جيلاتو" },
       "name": { "en": "NILO gelato", "ar": "نيلو جيلاتو" },
-      "cap": { "en": "Our work: NILO gelato", "ar": "من شغلنا: نيلو جيلاتو" }
+      "cap": { "en": "Our work: NILO gelato", "ar": "من شغلنا: نيلو جيلاتو" },
+      "dash": {
+        "url": { "en": "/business/work/nilo/dashboard/", "ar": "/business/work/nilo/ar/dashboard/" },
+        "btn": { "en": "See the owner's dashboard", "ar": "شوف لوحة التحكم" }
+      }
     },
     {
       "key": "talg",

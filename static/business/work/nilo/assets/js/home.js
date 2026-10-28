@@ -38,7 +38,7 @@
   /* ---------- lineup grid + marquee ---------- */
   $('#lineupGrid').innerHTML = D.FLAVORS.map((f, i) => {
     const art = A.tub({ flavor: f.key, seed: 90 + i });
-    return `<li class="lu" data-reveal><span class="tag" style="--tag:${f.bg}">${D.t(f.tag)}</span><div class="lu-art">${A.svg(art.vb, art.body)}</div><h3>${D.t(f.name)}</h3><p>${D.t(f.short)}</p></li>`;
+    return `<li class="lu${f.soldOut ? ' out' : ''}" data-reveal><span class="tag" style="--tag:${f.bg}">${D.t(f.tag)}</span>${f.soldOut ? `<span class="out-tag">${D.UI.soldOut}</span>` : ''}<div class="lu-art">${A.svg(art.vb, art.body)}</div><h3>${D.t(f.name)}</h3><p>${D.t(f.short)}</p></li>`;
   }).join('');
   const names = D.FLAVORS.map((f) => `<span>${D.t(f.name)}<i></i></span>`).join('');
   $('#marquee').innerHTML = names + names;

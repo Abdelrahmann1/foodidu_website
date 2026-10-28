@@ -1803,7 +1803,8 @@ HTML
     my $work_case = sub { my ($w, $flip) = @_;
       '<article class="fw-case' . ($flip ? ' fw-case--flip' : '') . '" id="work-' . $w->{key} . '"><a class="fw-shot" href="' . $w->{url}{$l} . '"><img src="' . $w->{img} . '" alt="' . esc($w->{alt}{$l}) . qq{" width="$w->{w}" height="$w->{h}" loading="lazy" decoding="async"></a>}
       . '<div class="fw-copy"><p class="fw-tag">' . esc($w->{tag}{$l}) . '</p><h3 class="fw-name">' . esc($w->{name}{$l}) . '</h3><p>' . esc($w->{text}{$l}) . '</p><ul class="bz-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{$l}) . '</span></li>' } @{ $w->{points} }) . '</ul>'
-      . '<div class="bz-btns"><a class="bz-btn bz-pri" href="' . $w->{url}{$l} . '">' . esc($w->{btn}{$l}) . ' ' . icon('arrow', 'flip') . '</a><a class="bz-btn bz-ghost" href="' . $w->{url}{$olang} . qq{" lang="$olang">} . T($l, 'biz_work_other') . '</a></div></div></article>' };
+      . '<div class="bz-btns"><a class="bz-btn bz-pri" href="' . $w->{url}{$l} . '">' . esc($w->{btn}{$l}) . ' ' . icon('arrow', 'flip') . '</a><a class="bz-btn bz-ghost" href="' . $w->{url}{$olang} . qq{" lang="$olang">} . T($l, 'biz_work_other') . '</a></div>'
+      . ($w->{dash} ? '<a class="bz-link fw-demo-link" href="' . $w->{dash}{url}{$l} . '">' . esc($w->{dash}{btn}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : '') . '</div></article>' };   # dash: the owner's dashboard built with the site
     my @work = @{ $BIZ->{work} // [] };
     my $work_list = sub { my $i = 0; join '', map { $work_case->($_, $i++ % 2) } @_ };
     my (%demo_for, %work_n);   # the landing's service row shows the first website built for it, and links them all when there are more
