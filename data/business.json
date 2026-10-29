@@ -247,8 +247,8 @@
         "title": { "en": "What exactly do we do?", "ar": "إيه اللي بنعمله بالظبط؟" },
         "text": [
           {
-            "en": "We build your restaurant a complete website: a home page in your brand, the menu with prices and photos, online ordering, a branches page with hours and a map, and a dashboard for you and your team. We hand it over working, on your domain. NILO and TALG on this page are our work: we designed and built both.",
-            "ar": "بنبني لمطعمك موقع كامل: صفحة رئيسية بشكل البراند بتاعك، والمنيو بالأسعار والصور، والطلب أونلاين، وصفحة فروع بالمواعيد والخريطة، ولوحة تحكم ليك ولفريقك. وبنسلّمهولك شغال على دومينك. نيلو وتلج اللي في الصفحة دي من شغلنا: الاتنين من تصميمنا وتنفيذنا."
+            "en": "We build your restaurant a complete website: a home page in your brand, the menu with prices and photos, online ordering, a branches page with hours and a map, and a dashboard for you and your team. We hand it over working, on your domain. NILO, KHABTA and TALG on this page are our work: we designed and built all three.",
+            "ar": "بنبني لمطعمك موقع كامل: صفحة رئيسية بشكل البراند بتاعك، والمنيو بالأسعار والصور، والطلب أونلاين، وصفحة فروع بالمواعيد والخريطة، ولوحة تحكم ليك ولفريقك. وبنسلّمهولك شغال على دومينك. نيلو وخبطة وتلج اللي في الصفحة دي من شغلنا: التلاتة من تصميمنا وتنفيذنا."
           },
           {
             "en": "Why your own website? Delivery apps bring orders, but they take a commission on each one and keep the customer's details. Your own website lets your regulars order from you directly, and it shows up on Google when people search for your restaurant's name.",
@@ -285,7 +285,10 @@
       "features": [
         {
           "title": { "en": "Designed for your restaurant", "ar": "تصميم خاص بمطعمك" },
-          "text": { "en": "Not a template: your colours, fonts and photos, built around your brand, like NILO and TALG.", "ar": "مش قالب: ألوانك وخطوطك وصورك، على مقاس البراند بتاعك، زي نيلو وتلج." }
+          "text": {
+            "en": "Not a template: your colours, fonts and photos, built around your brand, like NILO, KHABTA and TALG.",
+            "ar": "مش قالب: ألوانك وخطوطك وصورك، على مقاس البراند بتاعك، زي نيلو وخبطة وتلج."
+          }
         },
         {
           "title": { "en": "Menu and online ordering", "ar": "منيو وطلب أونلاين" },
@@ -1903,6 +1906,32 @@
       }
     },
     {
+      "key": "khabta",
+      "service": "restaurant-website",
+      "url": { "en": "/business/work/khabta/", "ar": "/business/work/khabta/ar/" },
+      "img": "/business/work/khabta/cover.webp",
+      "w": 1600,
+      "h": 1000,
+      "alt": { "en": "The KHABTA burger website on a laptop and a phone", "ar": "موقع خبطة برجر على لابتوب وموبايل" },
+      "tag": { "en": "From our work · restaurant website", "ar": "من شغلنا · موقع مطعم" },
+      "title": { "en": "A burger restaurant website we designed: KHABTA", "ar": "موقع مطعم برجر صمّمناه: خبطة" },
+      "example": { "en": "KHABTA: a website we built", "ar": "خبطة: موقع صمّمناه" },
+      "text": {
+        "en": "We designed and built the KHABTA smash-burger website: the burger comes apart as you scroll, customers build their own burger with the price in front of them, and a delivery scooter drives past the branches. In Arabic and English.",
+        "ar": "صمّمنا وبنينا موقع خبطة للسماش برجر: البرجر بيتفكّك طبقة طبقة وإنت بتنزل، والعميل بيعمل برجره بنفسه والسعر قدامه، وموتوسيكل التوصيل بيعدّي على الفروع. بالعربي والإنجليزي."
+      },
+      "points": [
+        { "en": "A menu where “Add” flies into the order bag", "ar": "منيو بزرار «ضيف» بيطير على شنطة الطلب" },
+        { "en": "Build your burger: bun, patties, cheese, extras and sauce, with a live drawing and price", "ar": "اعمل برجرك: العيش واللحمة والجبنة والإضافات والصوص، بالرسمة والسعر لحظة بلحظة" },
+        { "en": "The branches along a delivery route, with their hours", "ar": "الفروع على طريق التوصيل بمواعيدها" },
+        { "en": "Arabic and English, with a proper right-to-left layout", "ar": "عربي وإنجليزي، والعربي من اليمين للشمال صح" }
+      ],
+      "btn": { "en": "Open the website", "ar": "افتح الموقع" },
+      "demo": { "en": "See it live: KHABTA", "ar": "شوف الموقع لايف: خبطة" },
+      "name": { "en": "KHABTA smash burgers", "ar": "خبطة: سماش برجر" },
+      "cap": { "en": "Our work: KHABTA", "ar": "من شغلنا: خبطة" }
+    },
+    {
       "key": "talg",
       "service": "restaurant-website",
       "url": { "en": "/business/work/talg/", "ar": "/business/work/talg/ar/" },
@@ -1928,5 +1957,27 @@
       "name": { "en": "TALG ice cream bars", "ar": "تلج: آيس كريم على عصاية" },
       "cap": { "en": "Our work: TALG", "ar": "من شغلنا: تلج" }
     }
-  ]
+  ],
+  "dashboard": {
+    "service": "restaurant-website",
+    "url": { "en": "/business/work/nilo/dashboard/", "ar": "/business/work/nilo/ar/dashboard/" },
+    "img": "/business/work/nilo/dashboard-cover.webp",
+    "w": 1600,
+    "h": 1000,
+    "alt": { "en": "The NILO owner's dashboard on a laptop and a phone", "ar": "لوحة تحكم نيلو على لابتوب وموبايل" },
+    "tag": { "en": "Comes with your website", "ar": "بتيجي مع موقعك" },
+    "name": { "en": "The dashboard you run your restaurant from", "ar": "لوحة التحكم اللي بتدير منها مطعمك" },
+    "text": {
+      "en": "Every ordering website we build comes with a dashboard for you and your team. Try the one we built for NILO: orders come in, and what you change shows on the website.",
+      "ar": "كل موقع طلبات بنعمله بييجي معاه لوحة تحكم ليك ولفريقك. جرّب اللي عملناها لنيلو: الطلبات بتوصل، وأي تعديل بتعمله بيظهر على الموقع."
+    },
+    "points": [
+      { "en": "New orders come in, and you move each one from preparing to handed over", "ar": "الطلبات الجديدة بتوصل، وتنقل كل طلب من التحضير لحد التسليم" },
+      { "en": "All orders with search and filters, and a page for every order", "ar": "كل الطلبات بالبحث والفلاتر، وصفحة لكل طلب" },
+      { "en": "Mark a flavor as sold out today, and the menu on the website shows it", "ar": "اقفل نكهة خلصت النهارده، والمنيو على الموقع يبيّنها" },
+      { "en": "Branch hours and closures, and today's sales at a glance", "ar": "مواعيد الفروع وقفلها، ومبيعات النهارده قدامك" }
+    ],
+    "btn": { "en": "Try the dashboard", "ar": "جرّب لوحة التحكم" },
+    "note": { "en": "A demo with sample orders: try anything, nothing is real.", "ar": "ديمو ببيانات تجريبية: جرّب أي حاجة، مفيش حاجة حقيقية." }
+  }
 }

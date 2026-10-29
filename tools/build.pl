@@ -1803,8 +1803,14 @@ HTML
     my $work_case = sub { my ($w, $flip) = @_;
       '<article class="fw-case' . ($flip ? ' fw-case--flip' : '') . '" id="work-' . $w->{key} . '"><a class="fw-shot" href="' . $w->{url}{$l} . '"><img src="' . $w->{img} . '" alt="' . esc($w->{alt}{$l}) . qq{" width="$w->{w}" height="$w->{h}" loading="lazy" decoding="async"></a>}
       . '<div class="fw-copy"><p class="fw-tag">' . esc($w->{tag}{$l}) . '</p><h3 class="fw-name">' . esc($w->{name}{$l}) . '</h3><p>' . esc($w->{text}{$l}) . '</p><ul class="bz-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{$l}) . '</span></li>' } @{ $w->{points} }) . '</ul>'
-      . '<div class="bz-btns"><a class="bz-btn bz-pri" href="' . $w->{url}{$l} . '">' . esc($w->{btn}{$l}) . ' ' . icon('arrow', 'flip') . '</a><a class="bz-btn bz-ghost" href="' . $w->{url}{$olang} . qq{" lang="$olang">} . T($l, 'biz_work_other') . '</a></div>'
-      . ($w->{dash} ? '<a class="bz-link fw-demo-link" href="' . $w->{dash}{url}{$l} . '">' . esc($w->{dash}{btn}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : '') . '</div></article>' };   # dash: the owner's dashboard built with the site
+      . '<div class="bz-btns"><a class="bz-btn bz-pri" href="' . $w->{url}{$l} . '">' . esc($w->{btn}{$l}) . ' ' . icon('arrow', 'flip') . '</a>'
+      . ($w->{dash} ? '<a class="bz-btn bz-ghost" href="' . $w->{dash}{url}{$l} . '">' . esc($w->{dash}{btn}{$l}) . '</a></div><a class="bz-link fw-other" href="' . $w->{url}{$olang} . qq{" lang="$olang">} . T($l, 'biz_work_other') . '</a>'
+          : '<a class="bz-btn bz-ghost" href="' . $w->{url}{$olang} . qq{" lang="$olang">} . T($l, 'biz_work_other') . '</a></div>') . '</div></article>' };   # dash: the owner's dashboard built with the site
+    # the owner's dashboard (data/business.json "dashboard"): a card like a website's, after the websites of its service
+    my $dash_case = sub { my ($flip) = @_; my $x = $BIZ->{dashboard} or return '';
+      '<article class="fw-case fw-dash' . ($flip ? ' fw-case--flip' : '') . '" id="dashboard"><a class="fw-shot" href="' . $x->{url}{$l} . '"><img src="' . $x->{img} . '" alt="' . esc($x->{alt}{$l}) . qq{" width="$x->{w}" height="$x->{h}" loading="lazy" decoding="async"></a>}
+      . '<div class="fw-copy"><p class="fw-tag">' . esc($x->{tag}{$l}) . '</p><h3 class="fw-name">' . esc($x->{name}{$l}) . '</h3><p>' . esc($x->{text}{$l}) . '</p><ul class="bz-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{$l}) . '</span></li>' } @{ $x->{points} }) . '</ul>'
+      . '<div class="bz-btns"><a class="bz-btn bz-pri" href="' . $x->{url}{$l} . '">' . esc($x->{btn}{$l}) . ' ' . icon('arrow', 'flip') . '</a></div><p class="fw-note">' . esc($x->{note}{$l}) . '</p></div></article>' };
     my @work = @{ $BIZ->{work} // [] };
     my $work_list = sub { my $i = 0; join '', map { $work_case->($_, $i++ % 2) } @_ };
     my (%demo_for, %work_n);   # the landing's service row shows the first website built for it, and links them all when there are more
@@ -1842,6 +1848,7 @@ HTML
         . ($s->{highlight} && $BIZ->{demo} ? '<a class="bz-link bz-demo-link" href="' . path_for($l, '/business/menu-demo/') . '?t=7">' . esc($BIZ->{demo}{btn}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : '')
         . ($wd ? ($work_n{$s->{key}} > 1 && $has_page->($s)
             ? '<a class="bz-btn bz-pri fw-row-btn" href="' . $surl->($s) . '#work">' . T($l, 'biz_work_all') . ' ' . icon('arrow', 'flip') . '</a>'
+              . ($BIZ->{dashboard} && $BIZ->{dashboard}{service} eq $s->{key} ? '<a class="bz-btn bz-ghost fw-row-btn" href="' . $BIZ->{dashboard}{url}{$l} . '">' . esc($BIZ->{dashboard}{btn}{$l}) . '</a>' : '')
             : '<a class="bz-btn bz-pri fw-row-btn" href="' . $wd->{url}{$l} . '">' . esc($wd->{demo}{$l}) . ' ' . icon('arrow', 'flip') . '</a>') : '')
         . ($has_page->($s) ? '<a class="bz-link" href="' . $surl->($s) . '">' . T($l, 'biz_more') . ': ' . esc($s->{name}{$l}) . ' ' . icon('arrow', 'flip') . '</a>' : '')
         . '</div>' . ($wd ? '<div class="bz-row-visual fw-row-visual"><a class="fw-shot" href="' . $wd->{url}{$l} . '"><img src="' . $wd->{img} . '" alt="' . esc($wd->{alt}{$l}) . qq{" width="$wd->{w}" height="$wd->{h}" loading="lazy" decoding="async"></a>}
@@ -1857,7 +1864,7 @@ HTML
       my $svc_checks = join '', map { '<label class="check"><input type="checkbox" name="services" value="' . esc($_->{name}{$l}) . '"><span>' . esc($_->{name}{$l}) . '</span></label>' } @svc;   # nothing ticked in advance: a request shows only what the restaurant chose
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $BIZ->{faq} };
       my $g1 = ($BIZ->{guides} // [])->[0];
-      my $worksec = @work ? qq{<section class="bz-sec fw-band" id="work" aria-labelledby="work-title"><div class="wrap">} . $head->('work-title', T($l, 'biz_work_eyebrow'), (@work > 1 ? T($l, 'biz_work_title') : esc($work[0]{title}{$l})), '', $num->(3)) . $work_list->(@work) . '</div></section>' : '';
+      my $worksec = @work ? qq{<section class="bz-sec fw-band" id="work" aria-labelledby="work-title"><div class="wrap">} . $head->('work-title', T($l, 'biz_work_eyebrow'), (@work > 1 ? T($l, 'biz_work_title') : esc($work[0]{title}{$l})), '', $num->(3)) . $work_list->(@work) . $dash_case->(@work % 2) . '</div></section>' : '';
       my $gband = $g1 ? '<div class="bz-toolband bz-guideband"><img src="/img/mascot/didu-party.svg" alt="" width="110" height="110" loading="lazy"><div><h2>' . esc($g1->{band}{title}{$l}) . '</h2><p>' . esc($g1->{band}{text}{$l}) . '</p></div>'
         . '<a class="bz-btn bz-pri" href="' . path_for($l, "/business/$g1->{key}/") . '">' . esc($g1->{band}{btn}{$l}) . ' ' . icon('arrow', 'flip') . '</a></div>' : '';
       my $aud = @{ $BIZ->{audiences} // [] } ? '<p class="bz-aud"><span>' . T($l, 'biz_aud_lead') . '</span>' . join('', map { '<a href="' . path_for($l, "/business/$_->{key}/") . '">' . icon($_->{icon}) . esc($_->{name}{$l}) . '</a>' } @{ $BIZ->{audiences} }) . '</p>' : '';
@@ -1941,7 +1948,7 @@ HTML
       my @qa = map { [esc($_->{q}{$l}), esc($_->{a}{$l})] } @{ $s->{faq} };
       my @sw = grep { $_->{service} eq $s->{key} } @work;   # what we built for this service, first thing under the hero
       my $worksec = @sw ? qq{<section class="bz-sec fw-band" id="work" aria-labelledby="work-title"><div class="wrap">}
-        . $head->('work-title', T($l, 'biz_work_eyebrow'), (@sw > 1 ? T($l, 'biz_work_title') : esc($sw[0]{example}{$l})), T($l, 'biz_work_sub')) . $work_list->(@sw) . '</div></section>' : '';
+        . $head->('work-title', T($l, 'biz_work_eyebrow'), (@sw > 1 ? T($l, 'biz_work_title') : esc($sw[0]{example}{$l})), T($l, 'biz_work_sub')) . $work_list->(@sw) . ($BIZ->{dashboard} && $BIZ->{dashboard}{service} eq $s->{key} ? $dash_case->(@sw % 2) : '') . '</div></section>' : '';
       # real restaurant pages on Foodidu (services "examples": brand keys), to show what the restaurant's page looks like
       my $ex = $s->{examples};
       $worksec .= qq{<section class="bz-sec fw-band" id="examples" aria-labelledby="ex-title"><div class="wrap">} . $head->('ex-title', T($l, 'biz_examples'), esc($ex->{title}{$l}), esc($ex->{text}{$l}))

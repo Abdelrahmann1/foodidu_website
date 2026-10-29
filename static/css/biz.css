@@ -673,6 +673,9 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .fw-copy .bz-list { margin-top: 16px; }
 .fw-copy .bz-btns { margin-top: 22px; }
 .fw-demo-link { display: flex; width: fit-content; margin-top: 12px; }
+.fw-other { display: inline-flex; margin-top: 12px; font-size: .95rem; }
+.fw-note { margin-top: 10px; color: var(--bz-ink-2); font-size: .9rem; }
+.fw-row-btn + .fw-row-btn { margin-top: 10px; }
 @media (max-width: 860px) { .fw-case { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 700px) {
   .fw-copy { text-align: center; }

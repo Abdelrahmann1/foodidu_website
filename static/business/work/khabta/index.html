@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>KHABTA · Smash burgers from Cairo</title>
+  <meta name="description" content="KHABTA smashes fresh beef on a screaming-hot griddle across Cairo. Menu, build your own burger and branches. Website by Foodidu Business.">
+  <meta name="robots" content="noindex">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Foodidu Business">
+  <meta property="og:title" content="KHABTA smash burgers: a restaurant website by Foodidu Business">
+  <meta property="og:description" content="A restaurant website designed and built by Foodidu Business: a menu with online ordering, build your own burger with a live price, and the branches along a delivery route, in Arabic and English.">
+  <meta property="og:url" content="https://foodidu.com/business/work/khabta/">
+  <meta property="og:image" content="https://foodidu.com/business/work/khabta/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#1B1B1F">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="alternate" hreflang="en" href="./">
+  <link rel="alternate" hreflang="ar" href="ar/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Outfit:wght@400;600;700;800&family=IBM+Plex+Sans+Arabic:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="loading">
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="loader" id="loader" aria-hidden="true"><div class="loader-burger" id="loaderBurger"></div><p class="loader-pct" id="loaderPct">0%</p><p class="loader-msg" id="loaderMsg"></p></div>
+
+<header class="hdr" id="hdr">
+  <a class="logo" href="#top" aria-label="KHABTA home"><span id="logoArt"></span><span class="logo-word">KHABTA</span></a>
+  <nav class="nav" aria-label="Main"><a href="#menu">Menu</a><a href="#build">Build</a><a href="#where">Branches</a><a href="#order">Order</a></nav>
+  <a class="hbtn" href="ar/" hreflang="ar" lang="ar" aria-label="النسخة العربية">ع</a>
+  <button class="hbtn bag-btn" id="bagBtn" type="button" aria-label="Open your order"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 12.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M9 8V6a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span class="bag-count" id="bagCount">0</span></button>
+  <a class="btn btn-flame order-cta" href="#order">Order now</a>
+  <button class="hbtn menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+</header>
+<nav class="menu-overlay" id="menuOverlay" aria-hidden="true"><a href="#menu">Menu</a><a href="#build">Build</a><a href="#where">Branches</a><a href="#order">Order</a></nav>
+
+<div class="scrim" id="scrim"></div>
+<aside class="bag" id="bag" aria-hidden="true" aria-label="Your order">
+  <div class="bag-head"><h2>Your order</h2><button class="bag-x" id="bagX" type="button" aria-label="Close">&times;</button></div>
+  <ul class="bag-list" id="bagList"></ul>
+  <div class="bag-foot"><div class="bag-total"><span id="totalLabel"></span><span id="bagTotal"></span></div><button class="btn btn-flame" id="checkout" type="button"></button><p class="bag-note" id="bagNote"></p></div>
+</aside>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="hero-stage">
+      <div class="hero-copy">
+        <span class="kicker">Smash burgers · Cairo</span>
+        <h1 class="hero-title"><span>Smashed.</span><span>Stacked.</span><span>Sorted.</span></h1>
+        <p class="hero-sub">Beef ground every morning, smashed thin on a screaming-hot griddle, and stacked before the cheese stops melting.</p>
+        <div class="hero-ctas"><a class="btn" href="#menu">See the menu</a><a class="btn btn-ghost" href="#build">Build your own</a></div>
+      </div>
+      <div class="hero-burger" id="heroBurger" data-labels='Bottom bun, toasted too|Two 90g patties, smashed thin|Cheddar that actually melts|Pickles & raw onion|Khabta sauce (we’re not telling)|Potato bun, toasted in butter'></div>
+      <p class="hero-hint" aria-hidden="true">Scroll to take it apart ↓</p>
+    </div>
+  </section>
+
+  <div class="strips" aria-hidden="true">
+    <div class="strip b"><div class="strip-track"><span>Hot off the griddle<i></i></span><span>Made in Cairo<i></i></span><span>Extra sauce<i></i></span><span>Open late<i></i></span><span>Hot off the griddle<i></i></span><span>Made in Cairo<i></i></span><span>Extra sauce<i></i></span><span>Open late<i></i></span></div></div>
+    <div class="strip a"><div class="strip-track"><span>Smashed daily<i></i></span><span>Crispy edges<i></i></span><span>Melty cheese<i></i></span><span>Toasted buns<i></i></span><span>No frozen stuff<i></i></span><span>Smashed daily<i></i></span><span>Crispy edges<i></i></span><span>Melty cheese<i></i></span><span>Toasted buns<i></i></span><span>No frozen stuff<i></i></span></div></div>
+  </div>
+
+  <section class="smash" id="smash" aria-label="Smash">
+    <div class="smash-grid">
+      <div><h2 class="smash-title" data-reveal>No frozen patties.<br><em>No shortcuts.</em><br>Just one good smash.</h2><p class="smash-copy" data-reveal>We grind the beef every morning, roll it into balls and smash each one on a griddle hot enough to build a crust in seconds. That crust is the whole point.</p></div>
+      <div class="griddle" id="griddle" role="button" tabindex="0" aria-label="Tap to smash">
+        <span class="griddle-hint">Tap to smash ↓</span>
+        <svg class="sizzle" viewBox="0 0 360 60" aria-hidden="true"><path d="M60 50Q50 30 64 10M130 54Q118 30 134 6M226 54Q214 30 230 6M296 50Q286 30 300 10"/></svg>
+        <div class="ball"></div><div class="spat" id="spat"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats" aria-label="Numbers"><div class="stats-grid"><div class="stat" data-reveal><b data-count="90">0</b><span>g · per patty</span></div><div class="stat" data-reveal><b data-count="3">0</b><span>min · griddle to bag</span></div><div class="stat" data-reveal><b data-count="6">0</b><span>branches in Cairo</span></div><div class="stat" data-reveal><b data-count="0">0</b><span>frozen anything</span></div></div></section>
+
+  <section class="sec menu-sec" id="menu" aria-labelledby="menuTitle">
+    <div class="sec-head"><span class="kicker" data-reveal>The line-up</span><h2 class="sec-title" id="menuTitle" data-reveal>Pick your smash</h2><p class="sec-sub" data-reveal>Six burgers, one griddle, zero fillers.</p></div>
+    <ul class="menu-grid" id="menuGrid"></ul>
+  </section>
+
+  <section class="sec build" id="build" aria-labelledby="buildTitle">
+    <div class="sec-head"><span class="kicker" data-reveal>Your way</span><h2 class="sec-title" id="buildTitle" data-reveal>Build your burger</h2><p class="sec-sub" data-reveal>Pick everything. We'll smash it.</p></div>
+    <div class="build-grid">
+      <div id="buildSteps"></div>
+      <div class="build-art"><div id="buildArt"></div><div class="build-total"><span class="build-price" id="buildPrice"></span><button class="btn" id="buildAdd" type="button"></button></div></div>
+    </div>
+  </section>
+
+  <section class="route" id="where" aria-labelledby="whereTitle">
+    <div class="route-stage">
+      <div class="route-head"><span class="kicker">Across Cairo</span><h2 class="sec-title" id="whereTitle">Where we smash</h2><p class="sec-sub">One scooter, six branches, zero cold fries.</p></div>
+      <div class="route-wrap"><div class="route-track" id="track"></div></div>
+    </div>
+  </section>
+
+  <section class="order" id="order" aria-labelledby="orderTitle">
+    <h2 class="order-title" id="orderTitle" data-reveal>Hungry? The griddle's already hot.</h2>
+    <p data-reveal>Pickup in ten minutes or delivery to your door. Build your order and we start smashing.</p>
+    <div class="hero-ctas" data-reveal><button class="btn" type="button" id="orderOpen">Order now</button><a class="btn btn-ghost" href="#build">Build your own</a></div>
+  </section>
+</main>
+
+<footer class="ftr">
+  <div class="ftr-top"><nav aria-label="Footer"><a href="#menu">Menu</a><a href="#build">Build</a><a href="#where">Branches</a><a href="#order">Order</a></nav><p>Smash burgers · Cairo · Open late<br>© 2026 KHABTA. Website by Foodidu Business.</p></div>
+  <p class="ftr-word" aria-hidden="true">KHABTA</p>
+</footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/art.js"></script>
+<script src="assets/js/main.js"></script>
+<a class="fd-back" href="/business/">← Back to Foodidu Business</a>
+<style>.fd-back{position:fixed;z-index:75;bottom:14px;inset-inline-start:14px;display:inline-flex;align-items:center;padding:10px 15px 9px;border-radius:999px;background:#1B1B1F;color:#FFF0D6;font:700 13px/1 'Outfit',system-ui,sans-serif;text-decoration:none;box-shadow:0 8px 22px -8px rgba(0,0,0,.55);transition:opacity .3s,transform .3s}.fd-back.off{opacity:0;transform:translateY(20px);pointer-events:none}.fd-back:hover{background:#FF6A13;color:#1B1B1F}</style>
+<script>(()=>{const b=document.querySelector('.fd-back');const f=()=>{const y=scrollY,e=document.documentElement.scrollHeight-innerHeight;b.classList.toggle('off',y>220&&y<e-500)};addEventListener('scroll',f,{passive:true});f()})();</script>
+</body>
+</html>
