@@ -241,6 +241,21 @@ my %S = (
   nocode => 'No code needed', nocode_go => 'Order', nocode_aria => '{name}: no code needed, order from {where}',
   nocode_shop => 'Shop', nocode_shop_aria => '{name}: no code needed, shop on {where}',
   pk_star => 'Foodidu recommends',
+  cf_title => 'Promo Code Finder: Paste a Product Link, Get the Code', cf_nav => 'Promo code finder', cf_hint => 'Got a product link? Paste it and get the code',
+  cf_desc => 'Found a product on Amazon, noon, iHerb or another store? Paste its link and see the promo codes for that store, with their terms. Free and private.',
+  cf_h1 => 'Paste a product link, get the promo code', cf_lede => "Choose your product in any store we cover, paste its link here, and we'll show you that store's codes and take you back to the product.",
+  cf_label => 'Product link', cf_go => 'Find the code', cf_private => "The link stays in your browser: we don't save it or send it anywhere.",
+  cf_how => 'How it works', cf_s1 => 'Choose your product', cf_s1p => 'Open it on the store, in the browser or the app, and copy its link.', cf_s2 => 'Paste the link here', cf_s2p => 'We read the store from the link and show its codes and their terms.',
+  cf_s3 => 'Copy the code and buy', cf_s3p => 'Copy the code, open the product, and add the code at checkout.', cf_stores => 'Stores this tool covers',
+  cf_q1 => 'How does the tool work?', cf_a1 => 'It reads the store from the link and shows the codes we have for that store, with their terms. Everything happens in your browser.',
+  cf_q2 => 'Does the code work on every product?', cf_a2 => 'Not always. Every code has its own terms, so read them under the code and check the discount at checkout before you pay.',
+  cf_q3 => 'Why does it say a short Amazon link is not supported?', cf_a3 => 'Links like amzn.eu from the Amazon app hide the product. Open the link in your browser, then copy the long link from the address bar.',
+  cf_q4 => 'Does Foodidu earn from this?', cf_a4 => 'Some buttons are affiliate links, and we say so next to them: Foodidu may earn a commission on qualifying purchases, at no extra cost to you. The price is the same.',
+  cf_js_bad => "This doesn't look like a link. Copy the product link from the address bar or the share button.", cf_js_none => "We don't have a code for this store yet.", cf_js_all => 'Browse all promo codes',
+  cf_js_short => "This is a short Amazon link, so we can't read the product from it. Open it in your browser, then copy the long link from the address bar and paste it here.",
+  cf_js_other => 'We only cover amazon.eg, and this link is from another Amazon store.', cf_js_noasin => 'This is an Amazon page, not a product. Open the product itself and copy its link.',
+  cf_js_open => 'Open the product', cf_js_copy => 'Copy the link', cf_js_copied => 'Copied', cf_js_found => 'Codes for {store}',
+  cf_js_aff => 'Affiliate link: Foodidu may earn a commission on qualifying purchases, at no extra cost to you.', cf_js_ref => 'This link carries our iHerb Rewards code, so you can save it or share it. Foodidu may earn iHerb credit from it.',
   nocode_picks => 'Our picks', nocode_picks_aria => '{name}: no code needed, see the products Foodidu picked',
   b_seasons => '{name} sale seasons', b_season_next => 'Next up', b_season_read => 'Read the guide',
   b_tips => 'Ways to save more on {name}',
@@ -415,6 +430,21 @@ my %S = (
   nocode => 'بدون كود', nocode_go => 'اطلب', nocode_aria => '{name}: بدون كود، اطلب من {where}',
   nocode_shop => 'تسوّق', nocode_shop_aria => '{name}: بدون كود، تسوّق من {where}',
   pk_star => 'ترشيح Foodidu',
+  cf_title => 'أداة كود الخصم: الصق لينك المنتج واعرف الكود', cf_nav => 'أداة كود الخصم', cf_hint => 'عندك لينك منتج؟ الصقه واعرف الكود',
+  cf_desc => 'وجدت منتجاً على أمازون أو نون أو آي هيرب أو متجر آخر؟ الصق لينكه واعرف أكواد الخصم لهذا المتجر بشروطها. مجاناً، واللينك يبقى في متصفحك.',
+  cf_h1 => 'الصق لينك المنتج واعرف كود الخصم', cf_lede => 'اختر منتجك من أي متجر نغطيه، والصق لينكه هنا، وسنعرض لك أكواد هذا المتجر ونعيدك إلى المنتج.',
+  cf_label => 'لينك المنتج', cf_go => 'اعرف الكود', cf_private => 'اللينك يبقى في متصفحك: لا نحفظه ولا نرسله إلى أي مكان.',
+  cf_how => 'طريقة استخدام الأداة', cf_s1 => 'اختر منتجك', cf_s1p => 'افتحه على المتجر، في المتصفح أو التطبيق، وانسخ لينكه.', cf_s2 => 'الصق اللينك هنا', cf_s2p => 'نقرأ المتجر من اللينك ونعرض أكواده وشروطها.',
+  cf_s3 => 'انسخ الكود واشترِ', cf_s3p => 'انسخ الكود، وافتح المنتج، وأضف الكود في صفحة الدفع.', cf_stores => 'المتاجر التي تغطيها الأداة',
+  cf_q1 => 'كيف تعمل الأداة؟', cf_a1 => 'تقرأ المتجر من اللينك وتعرض الأكواد المتاحة عندنا لهذا المتجر بشروطها. وكل شيء يحدث في متصفحك.',
+  cf_q2 => 'هل يعمل الكود على كل المنتجات؟', cf_a2 => 'ليس دائماً. لكل كود شروطه، فاقرأها تحت الكود وتأكد من الخصم في صفحة الدفع قبل أن تدفع.',
+  cf_q3 => 'لماذا لا تقبل الأداة لينك أمازون المختصر؟', cf_a3 => 'اللينكات مثل amzn.eu من تطبيق أمازون تخفي المنتج. افتح اللينك في المتصفح، ثم انسخ اللينك الطويل من شريط العنوان.',
+  cf_q4 => 'هل يربح Foodidu من هذه الأداة؟', cf_a4 => 'بعض الأزرار روابط أفلييت، ونوضّح ذلك بجانبها: قد يحصل Foodidu على عمولة من عمليات الشراء المؤهلة، بدون أي تكلفة إضافية عليك. والسعر لا يتغير.',
+  cf_js_bad => 'هذا لا يبدو لينكاً. انسخ لينك المنتج من شريط العنوان أو زر المشاركة.', cf_js_none => 'لا يوجد عندنا كود لهذا المتجر حتى الآن.', cf_js_all => 'تصفّح كل أكواد الخصم',
+  cf_js_short => 'هذا لينك أمازون مختصر، ولا نستطيع قراءة المنتج منه. افتحه في المتصفح، ثم انسخ اللينك الطويل من شريط العنوان والصقه هنا.',
+  cf_js_other => 'نغطي amazon.eg فقط، وهذا اللينك من متجر أمازون آخر.', cf_js_noasin => 'هذه صفحة في أمازون وليست منتجاً. افتح المنتج نفسه وانسخ لينكه.',
+  cf_js_open => 'افتح المنتج', cf_js_copy => 'انسخ اللينك', cf_js_copied => 'تم النسخ', cf_js_found => 'أكواد {store}',
+  cf_js_aff => 'رابط أفلييت: قد يحصل Foodidu على عمولة من عمليات الشراء المؤهلة، بدون أي تكلفة إضافية عليك.', cf_js_ref => 'هذا اللينك يحمل كودنا في برنامج iHerb Rewards، ويمكنك حفظه أو مشاركته. وقد يحصل Foodidu منه على رصيد من آي هيرب.',
   nocode_picks => 'اختياراتنا', nocode_picks_aria => '{name}: بدون كود، شاهد المنتجات التي اختارها Foodidu',
   b_seasons => 'مواسم تخفيضات {name}', b_season_next => 'الموسم القادم', b_season_read => 'اقرأ الدليل',
   b_tips => 'طرق توفّر بها أكثر على {name}',
@@ -677,7 +707,15 @@ sub search_form {
   . qq{<label class="sr-only" for="q">} . T($l, 'search_label') . '</label>'
   . qq{<div class="search-box">} . icon('search') . qq{<input id="q" name="q" type="search" placeholder="} . T($l, 'search_ph') . qq{" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-results" enterkeyhint="search">}
   . qq{<button class="btn btn-ink" type="submit">} . T($l, 'search_btn') . '</button></div>'
-  . qq{<ul class="search-results" id="search-results" role="listbox" hidden></ul></form>};
+  . qq{<ul class="search-results" id="search-results" role="listbox" hidden></ul></form>}
+  . '<p class="search-hint"><a href="' . path_for($l, '/code-finder/') . '">' . T($l, 'cf_hint') . ' ' . icon('arrow', 'flip') . '</a></p>';
+}
+# Hosts of a brand's site for the code finder: "hosts" in brands.json (an entry may add a path, "noon.com/egypt-"), else the host of its url.
+sub store_hosts {
+  my $b = shift;
+  return @{ $b->{hosts} } if $b->{hosts};
+  my ($h) = ($b->{url} // '') =~ m{^https?://(?:www\.)?([^/]+)}i;
+  return !$h || $h =~ /(?:^|\.)(?:facebook|instagram|google|apple)\.com$/ ? () : ($h);
 }
 sub band {   # the restaurants band; $wa: + a WhatsApp button (home page only)
   my ($l, $wa) = @_;
@@ -939,6 +977,7 @@ $a{body}
 <nav aria-label="Foodidu"><h2>Foodidu</h2><ul class="foot-links">
 <li><a href="$codes">@{[ T($l, 'foot_all') ]}</a></li>
 @{[ @FO ? '<li><a href="' . path_for($l, '/first-order-promo-codes/') . '">' . T($l, 'fo_h1') . '</a></li>' : '' ]}
+<li><a href="@{[ path_for($l, '/code-finder/') ]}">@{[ T($l, 'cf_nav') ]}</a></li>
 @{[ @DDEALS ? '<li><a href="' . path_for($l, '/day-deals/') . '">' . T($l, 'dd_nav') . '</a></li>' : '' ]}
 @{[ @PUB ? '<li><a href="' . path_for($l, '/blog/') . '">' . T($l, 'blog_h1') . '</a></li>' : '' ]}
 @{[ join '', map { '<li><a href="' . rest_url($_, $l) . '">' . Te($l, 'ro_h1', name => $_->{name}{$l}) . '</a></li>' } @RESTS ]}
@@ -974,9 +1013,9 @@ HTML
     my $bcss = asset('/css/biz.css');
     my $more = join '', map { qq{\n<link rel="stylesheet" href="$_">} } @{ $a{styles} // [] };
     $html =~ s{(<link rel="stylesheet" href="[^"]+">)}{$1\n<link rel="stylesheet" href="$bcss">$more};
-    my $js = join '', map { qq{\n<script src="$_" defer></script>} } @{ $a{scripts} // [] };
-    $html =~ s{(<script src="[^"]+" defer></script>)}{$1$js} if $js;
   }
+  my $pagejs = join '', map { qq{\n<script src="$_" defer></script>} } @{ $a{scripts} // [] };
+  $html =~ s{(<script src="[^"]+" defer></script>)}{$1$pagejs} if $pagejs;
   # the icons this page uses, once each, right after <body> (icon() only points at them)
   my %seen; my @used = grep { $ICON{$_} && !$seen{$_}++ } $html =~ /#ic-([A-Za-z0-9_]+)/g;
   my $sprite = '<svg class="sprite" width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">' . join('', map { qq{<symbol id="ic-$_" viewBox="0 0 24 24">$ICON{$_}</symbol>} } @used) . '</svg>';
@@ -1416,6 +1455,59 @@ HTML
       body => $body, nav => 'codes', crumbs => $crumbs, pagetype => 'CollectionPage', og => "/img/og/codes-$l.png",
       ld => [ { '@type' => 'ItemList', name => T($l, 'fo_h1'), numberOfItems => scalar @fob,
         itemListElement => [ map { { '@type' => 'ListItem', position => ++$i, name => $_->{name}{$l}, url => absu(brand_url($_, $l)) } } @fob ] }, faq_ld(@qa) ]);
+  }
+
+  # ---------- code finder: the visitor pastes a product link and sees that store's codes (static/js/code-finder.js, all in the browser).
+  # amazon.eg policy: "All Special Links must be accessed directly from your Site", so an Amazon link only ever exists as a button on this
+  # page, with no copy button; and no reward for using it. Low-priority brands are left out, as everywhere we suggest a code.
+  {
+    my @sb = grep { ($_->{priority} // '') ne 'low' && store_hosts($_) } @BRANDS;
+    my %cft = map { ($_ => T($l, "cf_js_$_")) } qw(bad none all short other noasin open copy copied found aff ref);
+    my @stores = map { my $b = $_; {
+      k => $b->{key}, n => $b->{name}{$l}, m => [ map { [ split m{(?=/)}, $_, 2 ] } store_hosts($b) ],
+      ($b->{refParam} ? (ref => $b->{refParam}, code => $b->{code}) : ()), ($b->{key} eq ($PICKS->{brand} // '') ? (amazon => 1) : ()) } } @sb;
+    my $tpls = join '', map { my $b = $_; qq{<template id="cf-s-$b->{key}"><ul class="ticket-list post-codes">} . join('', map { ticket_li($_, $l) } offers_of($b)) . '</ul></template>' } @sb;
+    my $logos = join '', map { '<li><a href="' . brand_url($_, $l) . '"><span class="logo-tile">' . logo_img($_, $l, 42) . '</span><b>' . esc($_->{name}{$l}) . '</b></a></li>' } @sb;
+    my @qa = map { [T($l, "cf_q$_"), T($l, "cf_a$_")] } 1 .. 4;
+    my $url = path_for($l, '/code-finder/');
+    my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'cf_nav'), $url]];
+    my $steps = join '', map { "<li><div><b>" . T($l, "cf_s$_") . '</b><span>' . T($l, "cf_s${_}p") . '</span></div></li>' } 1 .. 3;
+    my $body = <<"HTML";
+<section class="page-hero">
+<div class="wrap">
+@{[ crumbs_html($l, $crumbs) ]}
+<h1>@{[ T($l, 'cf_h1') ]}</h1>
+<p class="lede">@{[ T($l, 'cf_lede') ]}</p>
+<form class="cf-form" id="cf-form" novalidate>
+<label class="sr-only" for="cf-url">@{[ T($l, 'cf_label') ]}</label>
+<input id="cf-url" type="text" dir="ltr" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" maxlength="2000" placeholder="https://www.amazon.eg/dp/...">
+<button class="btn btn-ink" type="submit">@{[ T($l, 'cf_go') ]}</button>
+</form>
+<p class="cf-private">@{[ icon('shield') ]}<span>@{[ T($l, 'cf_private') ]}</span></p>
+</div>
+</section>
+<div class="scallop" aria-hidden="true"></div>
+<section class="wrap section-tight cf-out" id="cf-out" aria-live="polite" hidden></section>
+<section class="wrap section-tight" aria-labelledby="cf-how-title">
+<div class="section-head"><h2 class="h2" id="cf-how-title">@{[ T($l, 'cf_how') ]}</h2></div>
+<ol class="how">$steps</ol>
+</section>
+<section class="wrap section-tight" aria-labelledby="cf-stores-title">
+<div class="section-head"><h2 class="h2" id="cf-stores-title">@{[ T($l, 'cf_stores') ]}</h2></div>
+<ul class="cf-stores">$logos</ul>
+</section>
+<section class="wrap section-tight two-col" aria-labelledby="cf-faq-title">
+<div><p class="eyebrow">@{[ T($l, 'faq_eyebrow') ]}</p><h2 class="h2" id="cf-faq-title">@{[ T($l, 'faq_title') ]}</h2></div>
+@{[ faq_html(@qa) ]}
+</section>
+@{[ wa_cta($l) ]}
+@{[ band($l) ]}
+$tpls
+HTML
+    layout(lang => $l, key => '/code-finder/', title => T($l, 'cf_title'), desc => T($l, 'cf_desc'), body => $body, crumbs => $crumbs, og => "/img/og/codes-$l.png",
+      fd => { cf => { stores => \@stores, tag => $PICKS->{tag}, store => $PICKS->{store}, all => path_for($l, '/promo-codes/'), t => \%cft } }, scripts => [asset('/js/code-finder.js')],
+      ld => [ { '@type' => 'WebApplication', name => T($l, 'cf_nav'), url => absu($url), description => T($l, 'cf_desc'), applicationCategory => 'ShoppingApplication', operatingSystem => 'Any',
+        browserRequirements => 'Requires JavaScript', isAccessibleForFree => JSON::PP::true, offers => { '@type' => 'Offer', price => '0', priceCurrency => 'EGP' } }, faq_ld(@qa) ]);
   }
 
   # ---------- blog: every article at /blog/<slug>/ (a draft is built too, for review, but noindex and linked from nowhere)
