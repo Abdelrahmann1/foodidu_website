@@ -247,8 +247,8 @@
         "title": { "en": "What exactly do we do?", "ar": "إيه اللي بنعمله بالظبط؟" },
         "text": [
           {
-            "en": "We build your restaurant a complete website: a home page in your brand, the menu with prices and photos, online ordering, a branches page with hours and a map, and a dashboard for you and your team. We hand it over working, on your domain. NILO, KHABTA and TALG on this page are our work: we designed and built all three.",
-            "ar": "بنبني لمطعمك موقع كامل: صفحة رئيسية بشكل البراند بتاعك، والمنيو بالأسعار والصور، والطلب أونلاين، وصفحة فروع بالمواعيد والخريطة، ولوحة تحكم ليك ولفريقك. وبنسلّمهولك شغال على دومينك. نيلو وخبطة وتلج اللي في الصفحة دي من شغلنا: التلاتة من تصميمنا وتنفيذنا."
+            "en": "We build your restaurant a complete website: a home page in your brand, the menu with prices and photos, online ordering, a branches page with hours and a map, and a dashboard for you and your team. We hand it over working, on your domain. OVERFLOW, NILO, KHABTA and TALG on this page are our work: we designed and built all four.",
+            "ar": "بنبني لمطعمك موقع كامل: صفحة رئيسية بشكل البراند بتاعك، والمنيو بالأسعار والصور، والطلب أونلاين، وصفحة فروع بالمواعيد والخريطة، ولوحة تحكم ليك ولفريقك. وبنسلّمهولك شغال على دومينك. أوفرفلو ونيلو وخبطة وتلج اللي في الصفحة دي من شغلنا: الأربعة من تصميمنا وتنفيذنا."
           },
           {
             "en": "Why your own website? Delivery apps bring orders, but they take a commission on each one and keep the customer's details. Your own website lets your regulars order from you directly, and it shows up on Google when people search for your restaurant's name.",
@@ -286,8 +286,8 @@
         {
           "title": { "en": "Designed for your restaurant", "ar": "تصميم خاص بمطعمك" },
           "text": {
-            "en": "Not a template: your colours, fonts and photos, built around your brand, like NILO, KHABTA and TALG.",
-            "ar": "مش قالب: ألوانك وخطوطك وصورك، على مقاس البراند بتاعك، زي نيلو وخبطة وتلج."
+            "en": "Not a template: your colours, fonts and photos, built around your brand, like OVERFLOW, NILO, KHABTA and TALG.",
+            "ar": "مش قالب: ألوانك وخطوطك وصورك، على مقاس البراند بتاعك، زي أوفرفلو ونيلو وخبطة وتلج."
           }
         },
         {
@@ -1875,6 +1875,42 @@
   },
   "work": [
     {
+      "key": "overflow",
+      "service": "restaurant-website",
+      "best": true,
+      "url": { "en": "/business/work/overflow/", "ar": "/business/work/overflow/ar/" },
+      "img": "/business/work/overflow/cover.webp",
+      "w": 1600,
+      "h": 1000,
+      "alt": { "en": "The OVERFLOW burger website on a laptop and a phone", "ar": "موقع أوفرفلو برجر على لابتوب وموبايل" },
+      "tag": { "en": "Our best work · website + dashboard", "ar": "أقوى شغلنا · موقع ولوحة تحكم" },
+      "title": { "en": "A complete ordering system we built: OVERFLOW", "ar": "نظام طلبات كامل بنيناه: أوفرفلو" },
+      "example": { "en": "OVERFLOW: a complete ordering system", "ar": "أوفرفلو: نظام طلبات كامل" },
+      "text": {
+        "en": "The biggest thing we have built: an ordering website and a dashboard that work together. Customers pick a branch, build their order and pay their way, and the order reaches the kitchen screen the moment they place it.",
+        "ar": "أكبر حاجة عملناها: موقع طلبات ولوحة تحكم شغالين مع بعض. العميل يختار الفرع ويعمل طلبه ويختار طريقة الدفع، والطلب يوصل شاشة المطبخ في نفس اللحظة."
+      },
+      "points": [
+        { "en": "A photo menu: sizes, toppings and extras, with the price changing as you pick", "ar": "منيو بالصور: الأحجام والإضافات، والسعر بيتغيّر مع كل اختيار" },
+        { "en": "Checkout with pickup or delivery, a time slot, cash, card or wallet, and a promo code", "ar": "إتمام الطلب: استلام أو توصيل، ميعاد، كاش أو كارت أو محفظة، وكود خصم" },
+        { "en": "A tracking page that moves on its own when the kitchen moves the order", "ar": "صفحة متابعة بتتحرك لوحدها مع كل خطوة في المطبخ" },
+        { "en": "Website in Arabic and English, with a proper right-to-left layout", "ar": "الموقع بالعربي والإنجليزي، والعربي من اليمين للشمال صح" }
+      ],
+      "flow": [
+        { "en": "The customer orders on the website", "ar": "العميل بيطلب من الموقع" },
+        { "en": "The order lands on the kitchen screen with a chime", "ar": "الطلب بيوصل شاشة المطبخ بجرس" },
+        { "en": "The customer follows it live on their phone", "ar": "العميل بيتابعه لايف من موبايله" }
+      ],
+      "btn": { "en": "Open the website", "ar": "افتح الموقع" },
+      "demo": { "en": "See it live: OVERFLOW", "ar": "شوف الموقع لايف: أوفرفلو" },
+      "name": { "en": "OVERFLOW burgers & fries", "ar": "أوفرفلو: برجر وبطاطس" },
+      "cap": { "en": "Our work: OVERFLOW", "ar": "من شغلنا: أوفرفلو" },
+      "dash": {
+        "url": { "en": "/business/work/overflow/dashboard/", "ar": "/business/work/overflow/dashboard/" },
+        "btn": { "en": "See the dashboard", "ar": "شوف لوحة التحكم" }
+      }
+    },
+    {
       "key": "nilo",
       "service": "restaurant-website",
       "url": { "en": "/business/work/nilo/", "ar": "/business/work/nilo/ar/" },
@@ -1960,24 +1996,24 @@
   ],
   "dashboard": {
     "service": "restaurant-website",
-    "url": { "en": "/business/work/nilo/dashboard/", "ar": "/business/work/nilo/ar/dashboard/" },
-    "img": "/business/work/nilo/dashboard-cover.webp",
+    "url": { "en": "/business/work/overflow/dashboard/", "ar": "/business/work/overflow/dashboard/" },
+    "img": "/business/work/overflow/dashboard-cover.webp",
     "w": 1600,
     "h": 1000,
-    "alt": { "en": "The NILO owner's dashboard on a laptop and a phone", "ar": "لوحة تحكم نيلو على لابتوب وموبايل" },
+    "alt": { "en": "The OVERFLOW dashboard on a laptop and a phone", "ar": "لوحة تحكم أوفرفلو على لابتوب وموبايل" },
     "tag": { "en": "Comes with your website", "ar": "بتيجي مع موقعك" },
     "name": { "en": "The dashboard you run your restaurant from", "ar": "لوحة التحكم اللي بتدير منها مطعمك" },
     "text": {
-      "en": "Every ordering website we build comes with a dashboard for you and your team. Try the one we built for NILO: orders come in, and what you change shows on the website.",
-      "ar": "كل موقع طلبات بنعمله بييجي معاه لوحة تحكم ليك ولفريقك. جرّب اللي عملناها لنيلو: الطلبات بتوصل، وأي تعديل بتعمله بيظهر على الموقع."
+      "en": "Every ordering website we build comes with a dashboard for you and your team. Try the one we built for OVERFLOW: press “Simulate order” and watch it reach the kitchen screen.",
+      "ar": "كل موقع طلبات بنعمله بييجي معاه لوحة تحكم ليك ولفريقك. جرّب اللي عملناها لأوفرفلو: دوس Simulate order وشوف الطلب بيوصل شاشة المطبخ."
     },
     "points": [
-      { "en": "New orders come in, and you move each one from preparing to handed over", "ar": "الطلبات الجديدة بتوصل، وتنقل كل طلب من التحضير لحد التسليم" },
-      { "en": "All orders with search and filters, and a page for every order", "ar": "كل الطلبات بالبحث والفلاتر، وصفحة لكل طلب" },
-      { "en": "Mark a flavor as sold out today, and the menu on the website shows it", "ar": "اقفل نكهة خلصت النهارده، والمنيو على الموقع يبيّنها" },
-      { "en": "Branch hours and closures, and today's sales at a glance", "ar": "مواعيد الفروع وقفلها، ومبيعات النهارده قدامك" }
+      { "en": "A kitchen screen: orders arrive with a chime, and every ticket has a timer until it is handed over", "ar": "شاشة مطبخ: الطلب يوصل بجرس، ولكل طلب تايمر لحد ما يتسلّم" },
+      { "en": "All orders with search and filters, each order's details, and an export to CSV", "ar": "كل الطلبات بالبحث والفلاتر، وتفاصيل كل طلب، وتصدير CSV" },
+      { "en": "Change a price or mark an item sold out, and the website updates at once", "ar": "غيّر سعر أو اقفل صنف خلص، والموقع يتحدّث في نفس اللحظة" },
+      { "en": "Sales, customers and busy hours in charts, and every branch in one place", "ar": "المبيعات والعملاء وأوقات الزحمة في رسومات، وكل الفروع في مكان واحد" }
     ],
     "btn": { "en": "Try the dashboard", "ar": "جرّب لوحة التحكم" },
-    "note": { "en": "A demo with sample orders: try anything, nothing is real.", "ar": "ديمو ببيانات تجريبية: جرّب أي حاجة، مفيش حاجة حقيقية." }
+    "note": { "en": "A demo with sample orders: try anything, nothing is real.", "ar": "ديمو بالإنجليزي وببيانات تجريبية: جرّب أي حاجة، مفيش حاجة حقيقية." }
   }
 }

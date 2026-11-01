@@ -676,7 +676,12 @@ html[lang="en"] .biz h1, html[lang="en"] .biz h2 { letter-spacing: -.02em; }
 .fw-other { display: inline-flex; margin-top: 12px; font-size: .95rem; }
 .fw-note { margin-top: 10px; color: var(--bz-ink-2); font-size: .9rem; }
 .fw-row-btn + .fw-row-btn { margin-top: 10px; }
-@media (max-width: 860px) { .fw-case { grid-template-columns: minmax(0, 1fr); } }
+.fw-best { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); padding: clamp(18px, 3vw, 36px); border: 3px solid var(--v2-ink); border-radius: 30px; background: var(--v2-paper); box-shadow: var(--v2-sh); }
+.fw-best .fw-tag { border-color: var(--v2-ink); background: var(--v2-sun); color: var(--v2-ink); }
+.fw-flow { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; counter-reset: fw-flow; }
+.fw-flow li { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 2px solid var(--v2-ink); border-radius: 16px; background: var(--v2-sun-soft); color: var(--v2-ink); font-weight: 700; line-height: 1.4; counter-increment: fw-flow; }
+.fw-flow li::before { content: counter(fw-flow); flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--v2-ink); color: var(--v2-sun); font-size: .95rem; }
+@media (max-width: 860px) { .fw-case, .fw-best { grid-template-columns: minmax(0, 1fr); } .fw-flow { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 700px) {
   .fw-copy { text-align: center; }
   .fw-copy .bz-list { width: fit-content; margin-inline: auto; text-align: start; }

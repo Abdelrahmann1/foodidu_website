@@ -1801,11 +1801,12 @@ HTML
     # in a list every other card has the screenshot on the other side
     my $olang = $l eq 'ar' ? 'en' : 'ar';
     my $work_case = sub { my ($w, $flip) = @_;
-      '<article class="fw-case' . ($flip ? ' fw-case--flip' : '') . '" id="work-' . $w->{key} . '"><a class="fw-shot" href="' . $w->{url}{$l} . '"><img src="' . $w->{img} . '" alt="' . esc($w->{alt}{$l}) . qq{" width="$w->{w}" height="$w->{h}" loading="lazy" decoding="async"></a>}
+      '<article class="fw-case' . ($w->{best} ? ' fw-best' : '') . ($flip ? ' fw-case--flip' : '') . '" id="work-' . $w->{key} . '"><a class="fw-shot" href="' . $w->{url}{$l} . '"><img src="' . $w->{img} . '" alt="' . esc($w->{alt}{$l}) . qq{" width="$w->{w}" height="$w->{h}" loading="lazy" decoding="async"></a>}
       . '<div class="fw-copy"><p class="fw-tag">' . esc($w->{tag}{$l}) . '</p><h3 class="fw-name">' . esc($w->{name}{$l}) . '</h3><p>' . esc($w->{text}{$l}) . '</p><ul class="bz-list">' . join('', map { '<li>' . icon('check') . '<span>' . esc($_->{$l}) . '</span></li>' } @{ $w->{points} }) . '</ul>'
       . '<div class="bz-btns"><a class="bz-btn bz-pri" href="' . $w->{url}{$l} . '">' . esc($w->{btn}{$l}) . ' ' . icon('arrow', 'flip') . '</a>'
       . ($w->{dash} ? '<a class="bz-btn bz-ghost" href="' . $w->{dash}{url}{$l} . '">' . esc($w->{dash}{btn}{$l}) . '</a></div><a class="bz-link fw-other" href="' . $w->{url}{$olang} . qq{" lang="$olang">} . T($l, 'biz_work_other') . '</a>'
-          : '<a class="bz-btn bz-ghost" href="' . $w->{url}{$olang} . qq{" lang="$olang">} . T($l, 'biz_work_other') . '</a></div>') . '</div></article>' };   # dash: the owner's dashboard built with the site
+          : '<a class="bz-btn bz-ghost" href="' . $w->{url}{$olang} . qq{" lang="$olang">} . T($l, 'biz_work_other') . '</a></div>') . '</div>'
+      . ($w->{flow} ? '<ol class="fw-flow">' . join('', map { '<li>' . esc($_->{$l}) . '</li>' } @{ $w->{flow} }) . '</ol>' : '') . '</article>' };   # dash: the owner's dashboard built with the site; flow: what happens to an order, on the best work
     # the owner's dashboard (data/business.json "dashboard"): a card like a website's, after the websites of its service
     my $dash_case = sub { my ($flip) = @_; my $x = $BIZ->{dashboard} or return '';
       '<article class="fw-case fw-dash' . ($flip ? ' fw-case--flip' : '') . '" id="dashboard"><a class="fw-shot" href="' . $x->{url}{$l} . '"><img src="' . $x->{img} . '" alt="' . esc($x->{alt}{$l}) . qq{" width="$x->{w}" height="$x->{h}" loading="lazy" decoding="async"></a>}

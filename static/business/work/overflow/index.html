@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>OVERFLOW · Burgers & Fries in Cairo</title>
+  <meta name="description" content="Fresh beef burgers, fifteen free toppings and fresh-cut fries. Order pickup or delivery from four OVERFLOW kitchens in Cairo. Website by Foodidu Business.">
+  <meta name="robots" content="noindex">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Foodidu Business">
+  <meta property="og:title" content="OVERFLOW: a restaurant website and dashboard by Foodidu Business">
+  <meta property="og:description" content="A complete ordering system designed and built by Foodidu Business: customers order and track live, and every order lands on the kitchen screen at once.">
+  <meta property="og:url" content="https://foodidu.com/business/work/overflow/">
+  <meta property="og:image" content="https://foodidu.com/business/work/overflow/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#000000">
+  <link rel="alternate" hreflang="ar" href="ar/index.html">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800;900&family=Cairo:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-alt="ar/index.html" data-page="home" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="hdr" id="hdr"></header>
+<main id="main">
+  <section class="hero torn">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1600688640154-9619e002df30?w=2000&q=72&auto=format" alt="A double cheeseburger with fries">
+    <div class="hero-copy">
+      <h1 class="cap h-xl"><span>Fresh.</span> <span>Stacked.</span><br><span>Overflow.</span></h1>
+      <p>Real food is the whole point at OVERFLOW. The burgers are made to order, the fries are cut fresh every morning, the fifteen toppings are free, and every bag goes out with an extra scoop of fries. That’s who we are.</p>
+      <div class="btns"><a class="btn btn-lg" href="menu.html">Start your order <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 12.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M9 8V6a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></a></div>
+    </div>
+  </section>
+
+  <section class="sec center" id="how">
+    <div class="narrow">
+      <h2 class="cap h-lg">Order ahead. Watch it live.</h2><span class="orn"></span>
+      <p class="lead">Pick your store, build your burger exactly how you like it, and pay when you pick up. Then follow your order from the ticket rail to the grill to the bag, live, on your phone.</p>
+      <div class="steps">
+        <div class="step" data-reveal><b>1</b><h3 class="cap h-sm">Pick a store</h3><p>Choose pickup or delivery and the kitchen closest to you.</p></div>
+        <div class="step" data-reveal><b>2</b><h3 class="cap h-sm">Build it</h3><p>Fifteen free toppings, extra cheese or bacon, free shake mix-ins.</p></div>
+        <div class="step" data-reveal><b>3</b><h3 class="cap h-sm">Pay your way</h3><p>Cash or card at the counter, or cash on delivery. No account needed.</p></div>
+        <div class="step" data-reveal><b>4</b><h3 class="cap h-sm">Track it live</h3><p>Received, on the grill, ready, on its way. Your order page updates by itself.</p></div>
+      </div>
+      <div class="btns" style="justify-content:center;margin-top:34px"><a class="btn" href="menu.html">Start your order</a><a class="btn" href="track.html">Track an order</a></div>
+    </div>
+  </section>
+
+  <section class="sec food center" id="food">
+    <img class="deco deco-fries" src="https://images.unsplash.com/photo-1615485290836-4ebcebf44aaf?w=700&q=72&auto=format" alt="">
+    <img class="deco deco-tom" src="https://images.unsplash.com/photo-1587486938113-d6d38d424efa?w=600&q=72&auto=format" alt="">
+    <img class="deco deco-tom2" src="https://images.unsplash.com/photo-1587486938113-d6d38d424efa?w=500&q=72&auto=format" alt="">
+    <img class="deco deco-fries2" src="https://images.unsplash.com/photo-1615485290836-4ebcebf44aaf?w=600&q=72&auto=format" alt="">
+    <h2 class="cap h-lg" style="position:relative">The food</h2><span class="orn" style="position:relative"></span>
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="split" data-reveal>
+      <div class="split-img"><img src="https://images.unsplash.com/photo-1553787499-6f9133860278?w=1100&h=880&fit=crop&q=72&auto=format" alt="A chocolate milkshake with whipped cream" loading="lazy"></div>
+      <div class="split-card"><h2 class="cap h-md red">No tricks.<br>Just mix-ins.</h2><p>Hand-spun vanilla shakes with any of eleven mix-ins blended in, free. Bacon and banana is a real order here, and nobody judges.</p><div class="btns"><button class="btn" type="button" id="promoBtn">Build a shake</button></div></div>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="band torn" data-reveal>
+      <img src="https://images.unsplash.com/photo-1522244451342-a41bf8a13d73?w=2000&q=72&auto=format" alt="Patties searing on a flaming grill" loading="lazy">
+      <div class="tape t1" aria-hidden="true"><span>Fresh beef</span><span>Never frozen</span><span>Fresh beef</span><span>Never frozen</span></div>
+      <div class="band-copy right"><h2 class="cap h-xl">Overflow<br>unwrapped</h2><p>Take a look inside our kitchens: beef pressed by hand every morning, potatoes cut on site, and a grill that never gets a day off. Here’s the how and why behind OVERFLOW.</p><div class="btns"><a class="btn btn-white" href="menu.html">About our food</a></div></div>
+    </div>
+  </section>
+
+  <section class="sec-tight" id="story">
+    <div class="band bw torn" data-reveal>
+      <img src="https://images.unsplash.com/photo-1555992336-fb0d29498b13?w=2000&q=72&auto=format" alt="A classic diner with booth seating" loading="lazy">
+      <div class="badge-ring" aria-hidden="true"><svg viewBox="0 0 200 200"><defs><path id="ringp" d="M100 100m-82 0a82 82 0 1 1 164 0a82 82 0 1 1 -164 0"/></defs><circle cx="100" cy="100" r="96" fill="none" stroke="#fff" stroke-width="2"/><text fill="#fff" font-family="Public Sans, sans-serif" font-weight="900" font-size="15" letter-spacing="1.4" textLength="512" lengthAdjust="spacing"><textPath href="#ringp">HANDCRAFTED BURGERS · SINCE 2026 · CAIRO · </textPath></text></svg><b>Over<br>flow</b></div>
+      <div class="band-copy"><h2 class="cap h-xl">About us</h2><p>OVERFLOW started with one griddle, one counter and one rule: never send out a bag that isn’t full. Four kitchens later, the rule hasn’t changed.</p><div class="btns"><a class="btn btn-white" href="locations.html">Our stores</a></div></div>
+    </div>
+  </section>
+
+  <section class="sec-tight" id="crew">
+    <div class="band torn" data-reveal>
+      <img src="https://images.unsplash.com/photo-1651977560788-98792cd34da0?w=2000&q=72&auto=format" alt="Crew members working the line" loading="lazy">
+      <div class="band-copy right"><h2 class="cap h-xl">We love<br>our crew</h2><p>Meet the people behind every burger: fast, friendly and a little bit obsessed with toasting buns right.</p><div class="btns"><a class="btn btn-white" href="locations.html">Meet the crew</a><a class="btn" href="locations.html">Join our crew</a></div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="group">
+    <div class="split" data-reveal>
+      <div class="split-img"><img src="https://images.unsplash.com/photo-1593759608142-e9b18c0dbe86?w=1100&h=880&fit=crop&q=72&auto=format" alt="A burger and fries in a takeaway box" loading="lazy"></div>
+      <div class="split-card"><span style="display:inline-block;color:var(--red)"><svg class="card-icon" style="width:84px;height:84px" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 24l24-12 24 12-24 12Z" fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M8 24v18l24 12 24-12V24" fill="#fff" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M32 36v18" stroke="currentColor" stroke-width="2.6"/><circle cx="22" cy="25" r="3.6" fill="currentColor"/><circle cx="32" cy="20" r="3.6" fill="currentColor"/><circle cx="42" cy="25" r="3.6" fill="currentColor"/><circle cx="32" cy="30" r="3.6" fill="currentColor"/></svg></span><h2 class="cap h-md red">Feeding a group?</h2><p>Office lunch, match night, a birthday. Order ten burgers or more and we’ll bag and label every one by name, with a family bucket of fries on us.</p><div class="btns"><a class="btn" href="menu.html">Order for a group</a></div></div>
+    </div>
+  </section>
+
+  <section class="sec-tight" style="padding-bottom:70px">
+    <div class="finder" data-reveal>
+      <div class="finder-card"><svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.5s-7.5-6.6-7.5-12.2a7.5 7.5 0 0 1 15 0c0 5.6-7.5 12.2-7.5 12.2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><h2 class="cap h-md red">Find a store</h2><p>Four OVERFLOW kitchens across Cairo, open late every day.</p><div class="mini-stores" id="miniStores"></div><a class="btn" href="locations.html">Search locations</a></div>
+      <div class="finder-img"><img src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=1100&h=1100&fit=crop&q=72&auto=format" alt="Friends sharing burgers and fries" loading="lazy"></div>
+    </div>
+  </section>
+
+  <section class="blk torn center" id="toppings">
+    <div class="narrow">
+      <h2 class="cap h-lg">15 toppings.<br>Always free.</h2><span class="orn light"></span>
+      <p class="lead">Pick as many as you like on any burger, dog or sandwich. “All the way” is the eight the crew would choose.</p>
+      <p class="count-line" id="playCount"></p>
+      <div class="chips" id="playChips"></div>
+      <div class="btns" style="justify-content:center;margin-top:28px"><button class="btn" type="button" id="playOrder">Order it this way</button><button class="btn btn-white" type="button" id="playAll">All the way</button><button class="btn btn-line" type="button" id="playClear">Plain</button></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="duo">
+      <article data-reveal><div class="duo-img"><img src="https://images.unsplash.com/photo-1568901839061-11e2837cd2b7?w=900&h=600&fit=crop&q=72&auto=format" alt="Someone enjoying a burger" loading="lazy"></div><h3 class="cap h-md red">Treat someone</h3><p>The best gift is the one they can eat. Send a burger to a friend’s door in about forty minutes.</p><a class="btn" href="menu.html">Order for someone</a></article>
+      <article data-reveal><div class="duo-img"><img src="https://images.unsplash.com/photo-1761095596618-081ea3f043a5?w=900&h=600&fit=crop&q=72&auto=format" alt="Chefs working in a busy kitchen" loading="lazy"></div><h3 class="cap h-md red">Join the crew</h3><p>Good shifts, free meals and a team that has your back. We’re hiring at all four stores.</p><a class="btn" href="locations.html">Find a store</a></article>
+    </div>
+  </section>
+</main>
+<footer class="ftr" id="ftr"></footer>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>
