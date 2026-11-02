@@ -256,6 +256,14 @@ my %S = (
   cf_js_other => 'We only cover amazon.eg, and this link is from another Amazon store.', cf_js_noasin => 'This is an Amazon page, not a product. Open the product itself and copy its link.',
   cf_js_open => 'Open the product', cf_js_copy => 'Copy the link', cf_js_copied => 'Copied', cf_js_found => 'Codes for {store}',
   cf_js_aff => 'Affiliate link: Foodidu may earn a commission on qualifying purchases, at no extra cost to you.', cf_js_ref => 'This link carries our iHerb Rewards code, so you can save it or share it. Foodidu may earn iHerb credit from it.',
+  cf_js_post => 'A ready post for Facebook and Instagram', cf_js_pname => 'Product name (optional)', cf_js_pname_ph => 'e.g. Samsung earbuds',
+  cf_js_fb => 'Facebook', cf_js_ig => 'Instagram', cf_js_copy_post => 'Copy the post',
+  cf_js_post_note => "Instagram doesn't open links in a post, so the Instagram post names the code and Foodidu instead of a link.",
+  cf_js_h_name => '🛍️ {name} from {store}', cf_js_h_code => '🛍️ {store} promo code', cf_js_h_plain => '🛍️ Check out this product on {store}',
+  cf_js_code => '🎟️ Promo code: {code}', cf_js_offer => '✅ {offer}', cf_js_link => '🛒 Product link: {link}',
+  cf_js_amz => '🛒 The product, with Amazon coupons and deals: {link}', cf_js_how => '📌 Add the code at checkout, before you pay.',
+  cf_js_more => '🔎 More {store} codes: {page}', cf_js_more_ig => '🔎 More promo codes on foodidu.com', cf_js_amz_ig => '🔎 Amazon coupons and deals on foodidu.com',
+  cf_js_tag_code => '#PromoCode #{tag}PromoCode #Coupon #Foodidu', cf_js_tag_deal => '#Deals #{tag}Deals #Foodidu',
   nocode_picks => 'Our picks', nocode_picks_aria => '{name}: no code needed, see the products Foodidu picked',
   b_seasons => '{name} sale seasons', b_season_next => 'Next up', b_season_read => 'Read the guide',
   b_tips => 'Ways to save more on {name}',
@@ -445,6 +453,14 @@ my %S = (
   cf_js_other => 'نغطي amazon.eg فقط، وهذا اللينك من متجر أمازون آخر.', cf_js_noasin => 'هذه صفحة في أمازون وليست منتجاً. افتح المنتج نفسه وانسخ لينكه.',
   cf_js_open => 'افتح المنتج', cf_js_copy => 'انسخ اللينك', cf_js_copied => 'تم النسخ', cf_js_found => 'أكواد {store}',
   cf_js_aff => 'رابط أفلييت: قد يحصل Foodidu على عمولة من عمليات الشراء المؤهلة، بدون أي تكلفة إضافية عليك.', cf_js_ref => 'هذا اللينك يحمل كودنا في برنامج iHerb Rewards، ويمكنك حفظه أو مشاركته. وقد يحصل Foodidu منه على رصيد من آي هيرب.',
+  cf_js_post => 'بوست جاهز لفيسبوك وإنستجرام', cf_js_pname => 'اسم المنتج (اختياري)', cf_js_pname_ph => 'مثلاً: سماعة سامسونج',
+  cf_js_fb => 'فيسبوك', cf_js_ig => 'إنستجرام', cf_js_copy_post => 'انسخ البوست',
+  cf_js_post_note => 'إنستجرام لا يفتح اللينكات داخل البوست، لذلك يذكر بوست إنستجرام الكود وموقع Foodidu بدلاً من اللينك.',
+  cf_js_h_name => '🛍️ {name} من {store}', cf_js_h_code => '🛍️ كود خصم {store}', cf_js_h_plain => '🛍️ شوف المنتج ده على {store}',
+  cf_js_code => '🎟️ كود الخصم: {code}', cf_js_offer => '✅ {offer}', cf_js_link => '🛒 لينك المنتج: {link}',
+  cf_js_amz => '🛒 المنتج وكوبونات وعروض أمازون من هنا: {link}', cf_js_how => '📌 اكتب الكود في صفحة الدفع قبل ما تدفع.',
+  cf_js_more => '🔎 كل أكواد {store}: {page}', cf_js_more_ig => '🔎 أكواد خصم أكتر على foodidu.com', cf_js_amz_ig => '🔎 كوبونات وعروض أمازون على foodidu.com',
+  cf_js_tag_code => '#كود_خصم #كود_خصم_{tag} #كوبون_خصم #Foodidu', cf_js_tag_deal => '#عروض #عروض_{tag} #Foodidu',
   nocode_picks => 'اختياراتنا', nocode_picks_aria => '{name}: بدون كود، شاهد المنتجات التي اختارها Foodidu',
   b_seasons => 'مواسم تخفيضات {name}', b_season_next => 'الموسم القادم', b_season_read => 'اقرأ الدليل',
   b_tips => 'طرق توفّر بها أكثر على {name}',
@@ -1459,13 +1475,21 @@ HTML
 
   # ---------- code finder: the visitor pastes a product link and sees that store's codes (static/js/code-finder.js, all in the browser).
   # amazon.eg policy: "All Special Links must be accessed directly from your Site", so an Amazon link only ever exists as a button on this
-  # page, with no copy button; and no reward for using it. Low-priority brands are left out, as everywhere we suggest a code.
+  # page, with no copy button; and no reward for using it. Its social post links to this page (#amazon.eg/dp/ASIN), never to Amazon.
+  # Low-priority brands are left out, as everywhere we suggest a code.
   {
     my @sb = grep { ($_->{priority} // '') ne 'low' && store_hosts($_) } @BRANDS;
-    my %cft = map { ($_ => T($l, "cf_js_$_")) } qw(bad none all short other noasin open copy copied found aff ref);
-    my @stores = map { my $b = $_; {
+    my %cft = map { ($_ => T($l, "cf_js_$_")) } qw(bad none all short other noasin open copy copied found aff ref post pname pname_ph fb ig copy_post post_note
+      h_name h_code h_plain code offer link amz how more more_ig amz_ig tag_code tag_deal);
+    # the ready social post: no code or offer for Amazon (SAVE10 runs one week a month), and no post at all for a store
+    # whose program bans posting its code on social media ("noSocial" in brands.json, like noon Egypt's Boostiny terms)
+    my @stores = map { my $b = $_; my $amz = $b->{key} eq ($PICKS->{brand} // '');
+      (my $tg = $b->{name}{$l}) =~ s/[\x{064B}-\x{0652}\x{0640}]//g;   # hashtags break on Arabic diacritics
+      $tg =~ s/[^\p{L}\p{N}]+/$l eq 'ar' ? '_' : ''/ge; $tg =~ s/^_+|_+$//g;
+      {
       k => $b->{key}, n => $b->{name}{$l}, m => [ map { [ split m{(?=/)}, $_, 2 ] } store_hosts($b) ],
-      ($b->{refParam} ? (ref => $b->{refParam}, code => $b->{code}) : ()), ($b->{key} eq ($PICKS->{brand} // '') ? (amazon => 1) : ()) } } @sb;
+      ($b->{refParam} ? (ref => $b->{refParam}, code => $b->{code}) : ()), ($amz ? (amazon => 1) : ()),
+      ($b->{noSocial} ? (nocap => 1) : (c => ($amz || $b->{noCode} ? '' : $b->{code} // ''), o => ($amz ? '' : $b->{offer}{$l} // ''), p => absu(brand_url($b, $l)), tg => $tg)) } } @sb;
     my $tpls = join '', map { my $b = $_; qq{<template id="cf-s-$b->{key}"><ul class="ticket-list post-codes">} . join('', map { ticket_li($_, $l) } offers_of($b)) . '</ul></template>' } @sb;
     my $logos = join '', map { '<li><a href="' . brand_url($_, $l) . '"><span class="logo-tile">' . logo_img($_, $l, 42) . '</span><b>' . esc($_->{name}{$l}) . '</b></a></li>' } @sb;
     my @qa = map { [T($l, "cf_q$_"), T($l, "cf_a$_")] } 1 .. 4;
@@ -1505,7 +1529,7 @@ HTML
 $tpls
 HTML
     layout(lang => $l, key => '/code-finder/', title => T($l, 'cf_title'), desc => T($l, 'cf_desc'), body => $body, crumbs => $crumbs, og => "/img/og/codes-$l.png",
-      fd => { cf => { stores => \@stores, tag => $PICKS->{tag}, store => $PICKS->{store}, all => path_for($l, '/promo-codes/'), t => \%cft } }, scripts => [asset('/js/code-finder.js')],
+      fd => { cf => { stores => \@stores, tag => $PICKS->{tag}, store => $PICKS->{store}, all => path_for($l, '/promo-codes/'), self => absu($url), t => \%cft } }, scripts => [asset('/js/code-finder.js')],
       ld => [ { '@type' => 'WebApplication', name => T($l, 'cf_nav'), url => absu($url), description => T($l, 'cf_desc'), applicationCategory => 'ShoppingApplication', operatingSystem => 'Any',
         browserRequirements => 'Requires JavaScript', isAccessibleForFree => JSON::PP::true, offers => { '@type' => 'Offer', price => '0', priceCurrency => 'EGP' } }, faq_ld(@qa) ]);
   }
