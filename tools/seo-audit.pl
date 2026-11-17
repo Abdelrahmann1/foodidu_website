@@ -75,7 +75,8 @@ for my $f (@files) {
     elsif ($m{canon} ne $want) { E($id, "canonical $m{canon} != $want") }
     my %alt; $alt{$1} = $2 while $html =~ /<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g;
     for my $hl (qw(en ar x-default)) { E($id, "missing hreflang $hl") unless $alt{$hl} }
-    E($id, "hreflang for own language ($m{lang}) does not point to itself") if $m{lang} && $alt{$m{lang}} && $alt{$m{lang}} ne $want;
+    # own language: the plain tag (en/ar) points to itself, or on a regional twin page a regional tag (en-EG, ar-SA ...) does
+    E($id, "hreflang for own language ($m{lang}) does not point to itself") if $m{lang} && !grep { /^\Q$m{lang}\E(-|$)/ && $alt{$_} eq $want } keys %alt;
     for my $hl (keys %alt) {
       (my $p = $alt{$hl}) =~ s/^\Q$SITE\E//;
       if (!resolves($p)) { E($id, "hreflang $hl target missing: $p"); next }

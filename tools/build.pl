@@ -922,7 +922,7 @@ sub layout {
   $nav .= '<div class="nav-extra"><p class="nav-label">' . T($l, 'menu_more') . '</p>'
     . ($a{nolang} ? '' : qq{<a class="nav-lang" href="} . path_for($other, $key) . qq{" hreflang="$other" lang="$other">} . icon('globe') . "<span>$other_label</span></a>")
     . store_buttons($l, 'stores-menu') . '</div>';
-  my $alt_links = $a{noindex} ? '' : join("\n", (map { qq{<link rel="alternate" hreflang="$_" href="} . absu(path_for($_, $key)) . '">' } @LANGS), qq{<link rel="alternate" hreflang="x-default" href="} . absu(path_for('en', $key)) . '">');
+  my $alt_links = $a{noindex} ? '' : join("\n", map { qq{<link rel="alternate" hreflang="$_->[0]" href="$_->[1]">} } alternates($key));
   my $lang_link = $a{nolang} ? '' : qq{<a class="lang" href="} . path_for($other, $key) . qq{" hreflang="$other" lang="$other" aria-label="$other_label">} . icon('globe') . qq{<span class="lang-long">$other_label</span></a>};
   my $robots = $a{noindex} ? 'noindex,follow' : 'index,follow,max-image-preview:large,max-snippet:-1';
   my $locale = $l eq 'ar' ? 'ar_EG' : 'en_US';
@@ -1069,6 +1069,28 @@ sub biz_search {
 
 }
 my %BYKEY = map { ($_->{key} => $_) } @BRANDS;
+# Regional twins (brands.json "regionalTwin": the key of the store's main page): two pages for one store in different
+# countries, like noon Egypt and noon GCC. Their hreflang tags name each page's countries (en-EG, ar-SA ...), so Google
+# shows each country its own page instead of the two competing; plain en/ar and x-default point at the main page.
+my %REGION_CC = (eg => ['EG'], gcc => [qw(SA AE KW QA BH OM)]);
+my %TWINS;   # page key "/Slug/" => [main brand, regional brand]
+for my $b (grep { $_->{regionalTwin} } @BRANDS) {
+  my $main = $BYKEY{ $b->{regionalTwin} } or die "regionalTwin: there is no brand \"$b->{regionalTwin}\"\n";
+  $TWINS{"/$_->{slug}/"} = [$main, $b] for $main, $b;
+}
+sub alternates {   # [hreflang, absolute url] for a page key, used by the page head and the sitemap
+  my $key = shift;
+  my $t = $TWINS{$key};
+  return ((map { [$_, absu(path_for($_, $key))] } @LANGS), ['x-default', absu(path_for('en', $key))]) unless $t;
+  my ($main, $reg) = @$t;
+  my @out;
+  for my $b ($main, $reg) {
+    for my $l (@LANGS) { push @out, ["$l-$_", absu(brand_url($b, $l))] for map { @{ $REGION_CC{$_} // [] } } regions($b->{region}) }
+  }
+  push @out, [$_, absu(brand_url($main, $_))] for @LANGS;
+  push @out, ['x-default', absu(brand_url($main, 'en'))];
+  @out;
+}
 sub count_cat { my $c = shift; my @o = map { offers_of($_) } grep { $_->{category} eq $c } @BRANDS; scalar @o }
 my @ALL_OFFERS = map { offers_of($_) } @BRANDS;
 @FO = grep { $_->{firstOrder} } @ALL_OFFERS;   # codes for a new account's first order: /first-order-promo-codes/
@@ -2369,8 +2391,8 @@ HTML
   for my $key (sort { ($a eq '/' ? '' : $a) cmp ($b eq '/' ? '' : $b) } keys %by) {
     for my $p (sort { $a->{lang} cmp $b->{lang} } @{ $by{$key} }) {
       $xml .= "<url><loc>" . absu(path_for($p->{lang}, $key)) . "</loc><lastmod>$p->{lastmod}</lastmod>";
-      $xml .= qq{<xhtml:link rel="alternate" hreflang="$_" href="} . absu(path_for($_, $key)) . '"/>' for @LANGS;
-      $xml .= qq{<xhtml:link rel="alternate" hreflang="x-default" href="} . absu(path_for('en', $key)) . qq{"/></url>\n};
+      $xml .= qq{<xhtml:link rel="alternate" hreflang="$_->[0]" href="$_->[1]"/>} for alternates($key);
+      $xml .= "</url>\n";
     }
   }
   $xml .= "</urlset>\n";
