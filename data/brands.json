@@ -70,7 +70,7 @@
       "url": "https://www.noon.com/egypt-en/",
       "hosts": ["noon.com/egypt-"],
       "noSocial": true,
-      "lastVerified": "2026-10-28",
+      "lastVerified": "2026-11-18",
       "badge": { "en": ["10%", "off"], "ar": ["10%", "خصم"] },
       "offer": { "en": "10% off for new customers (up to EGP 50), 5% for existing customers (up to EGP 25)", "ar": "خصم 10% للعملاء الجدد (حتى 50 جنيهاً)، و5% للعملاء الحاليين (حتى 25 جنيهاً)" },
       "terms": {
@@ -266,7 +266,7 @@
       "url": "",
       "hosts": ["iherb.com"],
       "refParam": "rcode",
-      "lastVerified": "2026-10-01",
+      "lastVerified": "2026-11-18",
       "badge": { "en": ["5%", "off"], "ar": ["5%", "خصم"] },
       "offer": { "en": "5% off eligible products, in every country", "ar": "خصم 5% على المنتجات المشمولة في كل الدول" },
       "terms": { "en": "5% off eligible products on iHerb, in any country iHerb ships to.", "ar": "خصم 5% على المنتجات المشمولة في آي هيرب، في أي دولة يشحن لها." },
