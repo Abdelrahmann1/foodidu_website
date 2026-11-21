@@ -1101,6 +1101,8 @@ a.store:hover { background: #000; transform: translateY(-2px); }
 }
 .foot-grid { display: grid; grid-template-columns: 1.3fr 1.6fr 1fr; gap: 36px; padding-block: 56px 36px; }
 .foot-brand p { margin-top: 14px; max-width: 26em; font-size: .95rem; }
+.foot-sister a { font-weight: 700; }
+.foot-sister a:hover { color: var(--sun); }
 .social { display: flex; gap: 10px; margin-top: 18px; }
 .social a { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: rgba(255, 255, 255, .08); transition: background-color .15s, color .15s; }
 .social a:hover { background: var(--sun); color: var(--ink); }

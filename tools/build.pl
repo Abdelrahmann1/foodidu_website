@@ -160,6 +160,7 @@ my %S = (
   logo_alt => '{name} logo',
   foot_blurb => 'Promo codes and discounts for restaurants, groceries and online shopping in Egypt and the GCC.',
   foot_codes => 'Promo codes', foot_code_link => '{name} promo code', foot_all => 'All promo codes', privacy => 'Privacy policy', terms => 'Terms & conditions',
+  foot_sister => 'From the same team: {link} — verified promo codes for Noon, iHerb, DeFacto, Puma and more in Egypt and the Gulf', foot_sister_name => 'Dealora',
   cookie_settings => 'Cookie settings', made => 'Made with love for food lovers.', disclaimer => 'Brand names and logos belong to their owners. As an Amazon Associate, Foodidu earns from qualifying purchases.',
   cookie_text => 'We use cookies to understand how Foodidu is used and to improve it.', accept => 'Accept', decline => 'Decline', cookies => 'Cookies',
   # home
@@ -360,6 +361,7 @@ my %S = (
   logo_alt => 'شعار {name}',
   foot_blurb => 'Foodidu (فوديدو): أكواد وكوبونات خصم للمطاعم والبقالة والتسوق أونلاين في مصر والخليج.',
   foot_codes => 'أكواد الخصم', foot_code_link => 'كود خصم {name}', foot_all => 'كل أكواد الخصم', privacy => 'سياسة الخصوصية', terms => 'الشروط والأحكام',
+  foot_sister => 'من نفس الفريق: {link} — أكواد خصم متراجعة لنون واي هيرب وديفاكتو وبوما وغيرهم في مصر والخليج', foot_sister_name => 'ديلورا',
   cookie_settings => 'إعدادات ملفات تعريف الارتباط', made => 'صُنع بحب لعشّاق الأكل.', disclaimer => 'أسماء وشعارات العلامات التجارية مملوكة لأصحابها. بصفتنا شريكاً في برنامج أمازون للشركاء، يحصل Foodidu على عمولة من عمليات الشراء المؤهلة.',
   cookie_text => 'نستخدم ملفات تعريف الارتباط لفهم كيفية استخدام Foodidu وتحسينه.', accept => 'موافق', decline => 'رفض', cookies => 'ملفات تعريف الارتباط',
   h_title => 'Foodidu – أكواد وكوبونات خصم في مصر والخليج',
@@ -988,7 +990,7 @@ $a{body}
 <footer class="site-footer">
 <div class="wrap">
 <div class="foot-grid">
-<div class="foot-brand"><a class="brand" href="$home" aria-label="@{[ T($l, 'home_logo') ]}"><img src="$LOGO" width="140" height="55" alt="Foodidu" loading="lazy"></a><p>@{[ T($l, 'foot_blurb') ]}</p><div class="social">$social</div><h2 class="foot-app">@{[ T($l, 'foot_app') ]}</h2>@{[ store_buttons($l, 'stores-foot') ]}</div>
+<div class="foot-brand"><a class="brand" href="$home" aria-label="@{[ T($l, 'home_logo') ]}"><img src="$LOGO" width="140" height="55" alt="Foodidu" loading="lazy"></a><p>@{[ T($l, 'foot_blurb') ]}</p><p class="foot-sister">@{[ T($l, 'foot_sister', link => qq{<a href="https://dealora-offers.online/$l">} . T($l, 'foot_sister_name') . '</a>') ]}</p><div class="social">$social</div><h2 class="foot-app">@{[ T($l, 'foot_app') ]}</h2>@{[ store_buttons($l, 'stores-foot') ]}</div>
 <nav aria-label="@{[ T($l, 'foot_codes') ]}"><h2>@{[ T($l, 'foot_codes') ]}</h2><ul class="foot-links cols">$foot_codes</ul></nav>
 <nav aria-label="Foodidu"><h2>Foodidu</h2><ul class="foot-links">
 <li><a href="$codes">@{[ T($l, 'foot_all') ]}</a></li>
