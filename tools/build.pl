@@ -257,9 +257,10 @@ my %S = (
   cf_js_other => 'We only cover amazon.eg, and this link is from another Amazon store.', cf_js_noasin => 'This is an Amazon page, not a product. Open the product itself and copy its link.',
   cf_js_open => 'Open the product', cf_js_copy => 'Copy the link', cf_js_copied => 'Copied', cf_js_found => 'Codes for {store}',
   cf_js_aff => 'Affiliate link: Foodidu may earn a commission on qualifying purchases, at no extra cost to you.', cf_js_ref => 'This link carries our iHerb Rewards code, so you can save it or share it. Foodidu may earn iHerb credit from it.',
-  cf_js_post => 'A ready post for Facebook and Instagram', cf_js_pname => 'Product name (optional)', cf_js_pname_ph => 'e.g. Samsung earbuds',
-  cf_js_fb => 'Facebook', cf_js_ig => 'Instagram', cf_js_copy_post => 'Copy the post',
-  cf_js_post_note => "Instagram doesn't open links in a post, so the Instagram post names the code and Foodidu instead of a link.",
+  cf_js_post => 'A ready post for Facebook, Instagram and TikTok', cf_js_pname => 'Product name (optional)', cf_js_pname_ph => 'e.g. Samsung earbuds',
+  cf_js_fb => 'Facebook', cf_js_ig => 'Instagram / TikTok', cf_js_copy_post => 'Copy the post',
+  cf_js_post_note => "Instagram and TikTok don't open links in a post, so that post names the code and Foodidu instead of a link.",
+  cf_js_amz_disc => '#ad As an Amazon Associate, Foodidu earns from qualifying purchases.',
   cf_js_h_name => '🛍️ {name} from {store}', cf_js_h_code => '🛍️ {store} promo code', cf_js_h_plain => '🛍️ Check out this product on {store}',
   cf_js_code => '🎟️ Promo code: {code}', cf_js_offer => '✅ {offer}', cf_js_link => '🛒 Product link: {link}',
   cf_js_amz => '🛒 The product, with Amazon coupons and deals: {link}', cf_js_how => '📌 Add the code at checkout, before you pay.',
@@ -455,9 +456,10 @@ my %S = (
   cf_js_other => 'نغطي amazon.eg فقط، وهذا اللينك من متجر أمازون آخر.', cf_js_noasin => 'هذه صفحة في أمازون وليست منتجاً. افتح المنتج نفسه وانسخ لينكه.',
   cf_js_open => 'افتح المنتج', cf_js_copy => 'انسخ اللينك', cf_js_copied => 'تم النسخ', cf_js_found => 'أكواد {store}',
   cf_js_aff => 'رابط أفلييت: قد يحصل Foodidu على عمولة من عمليات الشراء المؤهلة، بدون أي تكلفة إضافية عليك.', cf_js_ref => 'هذا اللينك يحمل كودنا في برنامج iHerb Rewards، ويمكنك حفظه أو مشاركته. وقد يحصل Foodidu منه على رصيد من آي هيرب.',
-  cf_js_post => 'بوست جاهز لفيسبوك وإنستجرام', cf_js_pname => 'اسم المنتج (اختياري)', cf_js_pname_ph => 'مثلاً: سماعة سامسونج',
-  cf_js_fb => 'فيسبوك', cf_js_ig => 'إنستجرام', cf_js_copy_post => 'انسخ البوست',
-  cf_js_post_note => 'إنستجرام لا يفتح اللينكات داخل البوست، لذلك يذكر بوست إنستجرام الكود وموقع Foodidu بدلاً من اللينك.',
+  cf_js_post => 'بوست جاهز لفيسبوك وإنستجرام وتيك توك', cf_js_pname => 'اسم المنتج (اختياري)', cf_js_pname_ph => 'مثلاً: سماعة سامسونج',
+  cf_js_fb => 'فيسبوك', cf_js_ig => 'إنستجرام / تيك توك', cf_js_copy_post => 'انسخ البوست',
+  cf_js_post_note => 'إنستجرام وتيك توك لا يفتحان اللينكات داخل البوست، لذلك يذكر هذا البوست الكود وموقع Foodidu بدلاً من اللينك.',
+  cf_js_amz_disc => '#إعلان بصفتنا شريكاً في برنامج أمازون للشركاء، يحصل Foodidu على عمولة من عمليات الشراء المؤهلة.',
   cf_js_h_name => '🛍️ {name} من {store}', cf_js_h_code => '🛍️ كود خصم {store}', cf_js_h_plain => '🛍️ شوف المنتج ده على {store}',
   cf_js_code => '🎟️ كود الخصم: {code}', cf_js_offer => '✅ {offer}', cf_js_link => '🛒 لينك المنتج: {link}',
   cf_js_amz => '🛒 المنتج وكوبونات وعروض أمازون من هنا: {link}', cf_js_how => '📌 اكتب الكود في صفحة الدفع قبل ما تدفع.',
@@ -1504,7 +1506,7 @@ HTML
   {
     my @sb = grep { ($_->{priority} // '') ne 'low' && store_hosts($_) } @BRANDS;
     my %cft = map { ($_ => T($l, "cf_js_$_")) } qw(bad none all short other noasin open copy copied found aff ref post pname pname_ph fb ig copy_post post_note
-      h_name h_code h_plain code offer link amz how more more_ig amz_ig tag_code tag_deal);
+      h_name h_code h_plain code offer link amz how more more_ig amz_ig amz_disc tag_code tag_deal);
     # the ready social post: no code or offer for Amazon (SAVE10 runs one week a month), and no post at all for a store
     # whose program bans posting its code on social media ("noSocial" in brands.json, like noon Egypt's Boostiny terms)
     my @stores = map { my $b = $_; my $amz = $b->{key} eq ($PICKS->{brand} // '');

@@ -1,5 +1,5 @@
 /* Promo code finder (/code-finder/): the visitor pastes a product link and sees that store's codes, with a button back to the product
-   and a ready post for Facebook and Instagram.
+   and a ready post for Facebook, Instagram and TikTok.
    Everything happens in the browser: the link is never saved or sent, only the store's key goes to analytics.
    Amazon: the tagged link exists only as a button on this page, never to copy. amazon.eg's policy says "All Special Links must be
    accessed directly from your Site" and forbids any reward for using them, so an Amazon post links to this page (#amazon.eg/dp/ASIN),
@@ -92,7 +92,8 @@
   }
 
   function fmt(t, v) { return t.replace(/\{(\w+)\}/g, function (m, k) { return v[k] != null ? v[k] : m; }); }
-  // the post's blocks, with a blank line between them. Instagram doesn't open links in a post, so its post has none
+  // the post's blocks, with a blank line between them. Instagram (and TikTok) don't open links in a post, so that post has none.
+  // An Amazon post says right under its first line that Foodidu earns from Amazon, so the disclosure shows before "See more"
   function caption(s, link, name, fb) {
     var v = { store: s.n, name: name, code: s.c, offer: s.o, link: link, page: s.p, tag: s.tg };
     var deal = [], go = [];
@@ -102,7 +103,7 @@
     if (s.c) go.push(T.how);
     if (!fb) go.push(s.amazon ? T.amz_ig : T.more_ig);
     else if (!s.amazon) go.push(fmt(T.more, v));
-    return [[fmt(name ? T.h_name : s.c ? T.h_code : T.h_plain, v)], deal, go, [fmt(s.c ? T.tag_code : T.tag_deal, v)]]
+    return [[fmt(name ? T.h_name : s.c ? T.h_code : T.h_plain, v)], s.amazon ? [T.amz_disc] : [], deal, go, [fmt(s.c ? T.tag_code : T.tag_deal, v)]]
       .filter(function (g) { return g.length; })
       .map(function (g) { return g.join("\n"); }).join("\n\n");
   }
