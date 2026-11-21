@@ -945,6 +945,61 @@ a.store:hover { background: #000; transform: translateY(-2px); }
 .picks.grid2 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); }
 .pk-note { margin: 0 0 14px; }
 @media (max-width: 560px) { .pick { flex-wrap: wrap; } .pick > div { flex: 1 1 calc(100% - 80px); } .pick .btn { flex: 1 1 100%; justify-content: center; } }
+
+/* ---------- Amazon deals (data/amazon-deals.json): flash-sale card + discount cards per category ---------- */
+.ad-flash {
+  position: relative; overflow: hidden; display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  margin-top: 18px; padding: clamp(18px, 3vw, 26px); border-radius: var(--r); color: var(--sun-4); box-shadow: 0 6px 0 var(--ink-deep);
+  background: radial-gradient(circle at 10% 20%, rgba(255, 209, 92, .32), transparent 42%),
+    repeating-linear-gradient(-45deg, rgba(255, 209, 92, .07) 0 14px, transparent 14px 28px), var(--ink);
+}
+.ad-flash-txt { flex: 1 1 260px; min-width: 0; }
+.ad-flash h3 { font-size: clamp(1.45rem, 2.8vw, 2rem); color: var(--sun); margin: 8px 0 6px; }
+.ad-flash p { margin: 0; }
+.ad-flash .btn { flex: none; }
+.ad-bolt { flex: none; display: grid; place-items: center; width: 68px; height: 68px; border-radius: 50%; background: var(--sun); color: var(--ink); box-shadow: 0 0 0 7px rgba(255, 209, 92, .2); animation: ad-zap 2.6s var(--ease) infinite; }
+.ad-bolt .icon { width: 34px; height: 34px; fill: currentColor; }
+.ad-kicker { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border-radius: 999px; background: var(--sun); color: var(--ink); font-weight: 700; font-size: .82rem; letter-spacing: .04em; text-transform: uppercase; }
+.ad-live { width: 8px; height: 8px; border-radius: 50%; background: #D93A3F; animation: ad-blink 1.2s steps(2, start) infinite; }
+@keyframes ad-zap { 0%, 68%, 100% { transform: scale(1) rotate(0); } 74% { transform: scale(1.14) rotate(-10deg); } 82% { transform: scale(.95) rotate(7deg); } 90% { transform: scale(1.04) rotate(0); } }
+@keyframes ad-blink { to { visibility: hidden; } }
+.ad-ic { flex: none; display: grid; place-items: center; border-radius: 14px; border: 2px solid var(--line); background: var(--sun-4); color: var(--ink); transition: transform .25s var(--ease); }
+.ad-ic .icon { stroke-width: 1.8; }
+.ad-cats-h { font-size: clamp(1.25rem, 2.2vw, 1.5rem); margin: 30px 0 12px; }
+.ad-cats { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 12px; }
+.ad-cat {
+  --ac: var(--sun-2); position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 10px; padding: 20px 16px 16px;
+  background: var(--paper); border: 2px solid var(--line); border-radius: 18px; transition: transform .18s var(--ease), border-color .18s, box-shadow .18s;
+}
+.ad-cat::before { content: ""; position: absolute; inset: 0 0 auto; height: 6px; background: var(--ac); }
+.ad-cat:nth-child(3n+2) { --ac: var(--leaf); }
+.ad-cat:nth-child(3n) { --ac: var(--ink-2); }
+.ad-cat:hover { transform: translateY(-3px); border-color: var(--ink); box-shadow: 0 6px 0 var(--ink); }
+.ad-cat .ad-ic { width: 52px; height: 52px; }
+.ad-cat .ad-ic .icon { width: 26px; height: 26px; }
+.ad-cat:hover .ad-ic { transform: rotate(-8deg) scale(1.06); }
+.ad-txt b { display: block; font-size: 1.05rem; }
+.ad-txt span { color: var(--ink-2); font-size: .92rem; }
+.ad-tiers { display: flex; flex-wrap: wrap; gap: 8px; margin: auto 0 0; }
+.ad-tier { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; border: 1.5px solid var(--line-2); background: var(--sun-4); color: var(--ink); font-weight: 700; font-size: .88rem; text-decoration: none; }
+.ad-tier:hover { background: var(--sun); border-color: var(--ink); }
+.ad-tier.hot { background: var(--ink); border-color: var(--ink); color: var(--sun); }
+.ad-tier.hot:hover { background: var(--ink-deep); }
+.ad-tier .icon { width: 15px; height: 15px; }
+.ad-tier.hot .icon { fill: currentColor; }
+.ad-chips { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
+@media (max-width: 700px) {   /* phones: three rows that scroll sideways instead of a long list */
+  .ad-chips { grid-template-columns: none; grid-auto-flow: column; grid-template-rows: repeat(3, auto); grid-auto-columns: minmax(200px, 72%); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; }
+  .ad-chips li { scroll-snap-align: start; }
+}
+.ad-chip { display: flex; align-items: center; gap: 10px; height: 100%; padding: 10px 12px; background: var(--paper); border: 2px solid var(--line); border-radius: 16px; text-decoration: none; transition: transform .18s var(--ease), border-color .18s, box-shadow .18s; }
+.ad-chip:hover { transform: translateY(-2px); border-color: var(--ink); box-shadow: 0 4px 0 var(--ink); }
+.ad-chip:hover .ad-ic { transform: rotate(-8deg); }
+.ad-chip .ad-ic { width: 42px; height: 42px; border-radius: 12px; }
+.ad-chip .ad-ic .icon { width: 22px; height: 22px; }
+.ad-chip b { display: block; font-size: .95rem; line-height: 1.25; }
+.ad-chip small { color: var(--leaf-deep); font-weight: 700; font-size: .8rem; }
+@media (max-width: 560px) { .ad-flash .btn { flex: 1 1 100%; justify-content: center; } .ad-bolt { width: 56px; height: 56px; } .ad-bolt .icon { width: 28px; height: 28px; } }
 /* brand page: sale seasons (the next one marked) and saving tips, in the same card style as the picks */
 .seasons, .tips { list-style: none; display: grid; gap: 12px; }
 .tips { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }

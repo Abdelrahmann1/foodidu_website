@@ -109,6 +109,23 @@ for my $p (@{ $PICKS->{items} }) {
   for my $k (qw(name note)) { die "data/amazon-picks.json: $p->{asin} needs \"$k\" in English and Arabic\n" unless $p->{$k}{en} && $p->{$k}{ar} }
   die "data/amazon-picks.json: $p->{asin} has an unknown icon \"$p->{icon}\"\n" if $p->{icon} && $p->{icon} !~ /^(?:coffee|milk|rice|oil|flour|drop|roll|bottle|kettle|fryer)$/;
 }
+# Amazon deals (data/amazon-deals.json): a flash-sale card and discount cards per category that open Amazon's own deals and
+# filtered search with the picks' affiliate tag. Never a price or a product: Amazon filters, so what opens is always current.
+my $AD_FILE = "$ROOT/data/amazon-deals.json";
+my $ADEALS = -f $AD_FILE ? JSON::PP->new->utf8->decode(slurp($AD_FILE, 1)) : { categories => [] };
+{
+  my %seen;
+  for my $c (@{ $ADEALS->{categories} }) {
+    my $k = $c->{key} // '';
+    die "data/amazon-deals.json: \"$k\" needs a key of small letters\n" unless $k =~ /^[a-z][a-z0-9-]*$/;
+    die "data/amazon-deals.json: the key \"$k\" is used twice\n" if $seen{$k}++;
+    die "data/amazon-deals.json: $k: \"node\" must be the category number from an amazon.eg link\n" unless ($c->{node} // '') =~ /^\d{6,15}$/;
+    die "data/amazon-deals.json: $k has an unknown icon \"" . ($c->{icon} // '') . "\"\n" unless ($c->{icon} // '') =~ /^(?:phone|basket|ad_(?:headphones|washer|sofa|shirt|perfume|blocks|gamepad))$/;
+    for my $f (qw(name note)) { die "data/amazon-deals.json: $k needs \"$f\" in English and Arabic\n" unless $c->{$f}{en} && $c->{$f}{ar} }
+  }
+  for my $t (@{ $ADEALS->{tiers} // [] }) { die "data/amazon-deals.json: tier \"$t\" must be a whole percent from 5 to 90\n" unless $t =~ /^\d+$/ && $t >= 5 && $t <= 90 }
+  die "data/amazon-deals.json: \"flash\" must be a path on amazon.eg, like /deals\n" if defined $ADEALS->{flash} && $ADEALS->{flash} !~ m{^/[\w/-]*$};
+}
 my @DAYS = qw(sat sun mon tue wed thu fri);   # Egyptian week starts on Saturday
 my %DAYI = map { ($DAYS[$_] => $_) } 0 .. $#DAYS;
 my %DSHORT = (
@@ -271,6 +288,12 @@ my %S = (
   b_tips => 'Ways to save more on {name}',
   pk_h2 => 'Foodidu picks on Amazon', pk_go => 'See it on Amazon', pk_eyebrow => 'Amazon Egypt', pk_all => 'All Amazon picks',
   pk_note => 'Products we picked on Amazon Egypt. These are affiliate links: Foodidu may earn a commission on qualifying purchases, at no extra cost to you. Prices change on Amazon, so check the price on the product page.',
+  ad_eyebrow => 'Amazon Egypt deals', ad_h2 => "Today's Amazon deals: flash sales and discounts", ad_all => 'All Amazon deals',
+  ad_sub => 'Open the deals by category straight on Amazon Egypt: only products that are discounted right now.',
+  ad_kicker => 'Flash sale', ad_flash_h => "Lightning deals and today's offers", ad_flash_btn => 'Open the flash deals',
+  ad_flash_p => 'Limited-time deals that Amazon adds all day. Each one ends when its time or its stock runs out, so check back often.',
+  ad_cats_h => 'Discounts by category', ad_tier => '{n}%+ off', ad_tier_aria => '{name}: products {n}% off or more on Amazon',
+  ad_note => 'These are affiliate links: Foodidu may earn a commission on qualifying purchases, at no extra cost to you. Amazon sets the discounts and they change all the time, so check the price on the product page.',
   blog_nav => 'Blog', blog_h1 => 'Foodidu blog', blog_eyebrow => 'From the blog', blog_all => 'All articles', blog_read => 'Read the article', blog_title => 'Foodidu Blog: Saving Guides, Sale Dates and Promo Codes',
   blog_desc => 'Guides to save on food delivery, groceries and online shopping in Egypt and the GCC: sale season dates, how promo codes work, and which codes to use.',
   blog_lede => 'Practical guides to pay less: sale season dates, how promo codes work, and the codes we test ourselves.',
@@ -470,6 +493,12 @@ my %S = (
   b_tips => 'طرق توفّر بها أكثر على {name}',
   pk_h2 => 'اختيارات Foodidu من أمازون', pk_go => 'شاهده على أمازون', pk_eyebrow => 'أمازون مصر', pk_all => 'كل اختيارات أمازون',
   pk_note => 'منتجات اخترناها لك من أمازون مصر. هذه روابط أفلييت: قد يحصل Foodidu على عمولة من عمليات الشراء المؤهلة، بدون أي تكلفة إضافية عليك. الأسعار تتغير على أمازون، فراجع السعر في صفحة المنتج.',
+  ad_eyebrow => 'عروض أمازون مصر', ad_h2 => 'عروض أمازون النهارده: فلاش سيل وخصومات', ad_all => 'كل عروض أمازون',
+  ad_sub => 'افتح العروض حسب القسم على أمازون مصر مباشرة: منتجات عليها خصم دلوقتي بس.',
+  ad_kicker => 'فلاش سيل', ad_flash_h => 'عروض البرق وعروض النهارده', ad_flash_btn => 'افتح عروض الفلاش',
+  ad_flash_p => 'عروض لوقت محدود أمازون بتنزّلها طول اليوم، وكل عرض بيخلص لما وقته أو الكمية تخلص، فارجع كل شوية.',
+  ad_cats_h => 'خصومات حسب القسم', ad_tier => 'خصم {n}% وأكتر', ad_tier_aria => '{name}: منتجات عليها خصم {n}% أو أكتر على أمازون',
+  ad_note => 'دي روابط أفلييت: قد يحصل Foodidu على عمولة من عمليات الشراء المؤهلة، بدون أي تكلفة إضافية عليك. أمازون هي اللي بتحدد الخصومات وبتتغير طول الوقت، فراجع السعر في صفحة المنتج.',
   blog_nav => 'المدونة', blog_h1 => 'مدونة Foodidu', blog_eyebrow => 'من المدونة', blog_all => 'كل المقالات', blog_read => 'اقرأ المقال', blog_title => 'مدونة Foodidu: أدلة التوفير ومواعيد العروض وأكواد الخصم',
   blog_desc => 'أدلة للتوفير في طلبات الأكل والبقالة والتسوق أونلاين في مصر والخليج: مواعيد مواسم التخفيضات، وطريقة عمل أكواد الخصم، والأكواد التي تستخدمها.',
   blog_lede => 'أدلة عملية لتدفع أقل: مواعيد مواسم التخفيضات، وطريقة عمل أكواد الخصم، والأكواد التي نجرّبها بأنفسنا.',
@@ -614,6 +643,14 @@ my %ICON = (
   clock    => '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   menubook => '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5Z"/><path d="M4 19a2 2 0 0 1 2-2h13v4H6a2 2 0 0 1-2-2ZM9 7h6M9 11h6"/>',
   bolt     => '<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>',
+  # Amazon deals categories (data/amazon-deals.json)
+  ad_headphones => '<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="5" height="7" rx="2"/><rect x="16" y="14" width="5" height="7" rx="2"/>',
+  ad_washer => '<rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M4 7h16M7.5 4.8h.01M10.5 4.8h.01"/><circle cx="12" cy="14" r="4.5"/><path d="M9.5 15c1.2-1 2.8 1 5 0"/>',
+  ad_sofa => '<path d="M5 11V8a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v3"/><path d="M3 13a2 2 0 0 1 4 0v2h10v-2a2 2 0 0 1 4 0v5H3v-5Z"/><path d="M5 18v2M19 18v2"/>',
+  ad_shirt => '<path d="M9 3 4 5.5 2.5 10l3.5 1.2V21h12v-9.8l3.5-1.2L20 5.5 15 3a3 3 0 0 1-6 0Z"/>',
+  ad_perfume => '<path d="M10 3h4v3h-4zM9 6h6"/><rect x="5" y="9" width="14" height="12" rx="3"/><path d="M12 6v3"/><circle cx="12" cy="15" r="2.5"/>',
+  ad_blocks => '<rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/><rect x="8" y="3" width="8" height="8" rx="1.5"/><path d="M7 17h.01M17 17h.01M12 7h.01"/>',
+  ad_gamepad => '<path d="M7 7h10a5 5 0 0 1 4.6 7l-1.2 3a2.5 2.5 0 0 1-4.2.6L14.5 16h-5l-1.7 1.6a2.5 2.5 0 0 1-4.2-.6l-1.2-3A5 5 0 0 1 7 7Z"/><path d="M7.5 10v3M6 11.5h3M15.5 11h.01M17.5 13h.01"/>',
   calendar => '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="m9.5 15 2 2 3.5-3.5"/>',
   pizza    => '<path d="M12 3 4.5 19.5c4.8 2 10.2 2 15 0Z"/><path d="M6.8 14.5c3.4 1.3 7 1.3 10.4 0"/><circle cx="12" cy="10.5" r="1.2"/><circle cx="10" cy="15.6" r=".9"/><circle cx="14.2" cy="15.6" r=".9"/>',
   facebook => '<path fill="currentColor" stroke="none" d="M14 8h3V4h-3c-2.8 0-4.5 1.8-4.5 4.6V11H7v4h2.5v7h4v-7h3l.5-4h-3.5V9c0-.6.4-1 1-1Z"/>',
@@ -1281,6 +1318,39 @@ sub picks_home {
   qq{<section class="wrap section-tight" aria-labelledby="hpk-title"><div class="section-head"><div><p class="eyebrow">} . T($l, 'pk_eyebrow') . qq{</p><h2 class="h2" id="hpk-title">} . T($l, 'pk_h2') . '</h2><p class="section-sub">' . T($l, 'pk_note') . '</p></div>'
     . '<a class="btn btn-ink" href="' . brand_url($b, $l) . '#picks-title">' . T($l, 'pk_all') . ' ' . icon('arrow', 'flip') . '</a></div>' . pick_list($l, 'grid2', @items) . '</section>';
 }
+# Amazon deals (data/amazon-deals.json): the full section on the Amazon page ($home false), a short one on the home page.
+# Every link opens Amazon itself (its deals page, or a category filtered to "n% off or more"), tagged, nofollow sponsored.
+sub amazon_deals {
+  my ($l, $home) = @_;
+  my @cats = @{ $ADEALS->{categories} // [] };
+  my $b = $BYKEY{ $PICKS->{brand} // '' };
+  return '' unless @cats && $b && $PICKS->{tag} && $PICKS->{store};
+  my @tiers = @{ $ADEALS->{tiers} // [] } ? @{ $ADEALS->{tiers} } : (20);
+  my $q = "tag=$PICKS->{tag}&language=" . ($l eq 'ar' ? 'ar_AE' : 'en_AE');   # Amazon opens in the page's language
+  my $go = sub {   # (url, deal for the partner report, class, inner html, aria-label)
+    my ($url, $deal, $cls, $html, $aria) = @_;
+    '<a class="' . $cls . '" href="' . esc($url) . '" rel="nofollow sponsored noopener" target="_blank" data-track="brand_link_click" data-brand="' . esc($b->{key}) . qq{" data-deal="$deal"}
+      . ($aria ? ' aria-label="' . esc($aria) . '"' : '') . ">$html</a>";
+  };
+  my $cat_url = sub { my ($c, $t) = @_; "$PICKS->{store}/s?rh=n%3A$c->{node}%2Cp_8%3A$t-&$q" };
+  my $flash = '<div class="ad-flash"><span class="ad-bolt" aria-hidden="true">' . icon('bolt') . '</span><div class="ad-flash-txt"><p class="ad-kicker"><span class="ad-live" aria-hidden="true"></span>'
+    . T($l, 'ad_kicker') . '</p><h3>' . T($l, 'ad_flash_h') . '</h3><p>' . T($l, 'ad_flash_p') . '</p></div>'
+    . $go->($PICKS->{store} . ($ADEALS->{flash} // '/deals') . "?$q", 'flash', 'btn btn-sun', T($l, 'ad_flash_btn') . ' ' . icon('external')) . '</div>';
+  my $note = '<p class="note pk-note">' . T($l, 'ad_note') . '</p>';
+  if ($home) {   # one chip per category, to its first tier; the full cards are on the Amazon page
+    my $chips = join '', map { my $c = $_; '<li>' . $go->($cat_url->($c, $tiers[0]), "$c->{key}_$tiers[0]", 'ad-chip',
+      '<span class="ad-ic" aria-hidden="true">' . icon($c->{icon}) . '</span><span><b>' . esc($c->{name}{$l}) . '</b><small>' . T($l, 'ad_tier', n => $tiers[0]) . '</small></span>') . '</li>' } @cats;
+    return qq{<section class="wrap section-tight amz-deals home-ad" aria-labelledby="had-title"><div class="section-head"><div><p class="eyebrow">} . T($l, 'ad_eyebrow') . qq{</p><h2 class="h2" id="had-title">} . T($l, 'ad_h2')
+      . '</h2><p class="section-sub">' . T($l, 'ad_sub') . '</p></div><a class="btn btn-ink" href="' . brand_url($b, $l) . '#amz-deals">' . T($l, 'ad_all') . ' ' . icon('arrow', 'flip') . '</a></div>'
+      . $flash . qq{<ul class="ad-chips">$chips</ul>$note</section>};
+  }
+  my $cards = join '', map { my $c = $_; my $name = $c->{name}{$l};
+    '<li class="ad-cat"><span class="ad-ic" aria-hidden="true">' . icon($c->{icon}) . '</span><div class="ad-txt"><b>' . esc($name) . '</b><span>' . esc($c->{note}{$l}) . '</span></div><p class="ad-tiers">'
+    . join('', map { my $t = $_; $go->($cat_url->($c, $t), "$c->{key}_$t", 'ad-tier' . ($t == $tiers[-1] && @tiers > 1 ? ' hot' : ''), icon($t == $tiers[-1] && @tiers > 1 ? 'bolt' : 'tag') . T($l, 'ad_tier', n => $t), Te($l, 'ad_tier_aria', name => $name, n => $t)) } @tiers)
+    . '</p></li>' } @cats;
+  '<section class="amz-deals" id="amz-deals" aria-labelledby="ad-title"><h2 id="ad-title">' . T($l, 'ad_h2') . '</h2><p>' . T($l, 'ad_sub') . "</p>$flash"
+    . '<h3 class="ad-cats-h">' . T($l, 'ad_cats_h') . qq{</h3><ul class="ad-cats">$cards</ul>$note</section>};
+}
 # Featured-partner banners under the home hero (data/featured.json): one or more partners side by side ("partners",
 # or the older single "partner"). Gone after "until"; site.js also hides them on that date when the site was not rebuilt.
 sub feat_keys { my $p = $FEAT->{partners} // ($FEAT->{partner} ? [$FEAT->{partner}] : []); @$p }
@@ -1369,6 +1439,7 @@ for my $l (@LANGS) {
 @{[ $nfeat > 6 ? qq{<p class="more-mobile"><a class="btn btn-ink" href="$codes">} . T($l, 'h_see_all', n => $NCODES) . ' ' . icon('arrow', 'flip') . '</a></p>' : '' ]}
 </section>
 @{[ @DDEALS ? qq{<section class="wrap section-tight home-dd" aria-labelledby="dd-title"><div class="section-head"><div><p class="eyebrow">} . T($l, 'dd_eyebrow') . qq{</p><h2 class="h2" id="dd-title">} . T($l, 'dd_title') . '</h2><p class="section-sub">' . T($l, 'dd_sub') . qq{</p></div><a class="btn btn-ink" href="} . path_for($l, '/day-deals/') . '">' . T($l, 'dd_all') . ' ' . icon('arrow', 'flip') . '</a></div>' . dday_list($l, @DDEALS) . (@DDEALS > 3 ? '<p class="more-dd"><a class="btn btn-ink" href="' . path_for($l, '/day-deals/') . '">' . T($l, 'dd_all') . ' (' . scalar(@DDEALS) . ') ' . icon('arrow', 'flip') . '</a></p>' : '') . '</section>' : '' ]}
+@{[ amazon_deals($l, 1) ]}
 @{[ picks_home($l) ]}
 @{[ wa_cta($l) ]}
 <section class="wrap section-tight home-brands" aria-labelledby="brands-title">
@@ -1822,6 +1893,7 @@ HTML
     } @offers;
     my $side_codes = join '', map { code_btn($_, $l, 1) } @offers;
     my @picks = ($PICKS->{brand} // '') eq $b->{key} ? @{ $PICKS->{items} } : ();
+    my $adeals = ($PICKS->{brand} // '') eq $b->{key} ? amazon_deals($l) : '';
     my $picks = @picks ? '<section aria-labelledby="picks-title"><h2 id="picks-title">' . T($l, 'pk_h2') . '</h2><p class="note pk-note">' . T($l, 'pk_note') . '</p>' . pick_list($l, '', @picks) . '</section>' : '';
     # seasons [{post, icon, ends "MM-DD", name, when}]: the brand's big sales with last year's dates; the next one by today's date is marked
     my %postby = map { $_->{key} => $_ } @PUB;
@@ -1877,6 +1949,7 @@ $coupons
 <div class="scallop" aria-hidden="true"></div>
 <div class="wrap brand-body">
 <article class="prose">
+$adeals
 $picks
 $seasons
 $tips
