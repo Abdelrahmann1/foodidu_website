@@ -731,15 +731,17 @@ window.FoodiduAdmin = (() => {
 
   /* ---------- Amazon deals (data/amazon-deals.json): the flash-sale card and the discount cards per category ----------
      A category is an amazon.eg category number ("node"); the site opens Amazon's search for it filtered to "n% off or more" for
-     each tier, with the tag from amazon-picks.json. Nothing here is a price, so nothing goes stale. */
+     each tier, with the tag from amazon-picks.json. Nothing here is a price. The filter is loose: many products it lists show
+     a smaller discount or none, so the texts here must not promise the percentage.
+     The test links have no tag: the owner's own clicks are not referrals. */
   const adTiers = () => (S.data.adeals.tiers && S.data.adeals.tiers.length ? S.data.adeals.tiers : [20]);
-  const adUrl = (node, tier) => `${S.data.picks.store}/s?rh=n%3A${node}%2Cp_8%3A${tier}-&tag=${S.data.picks.tag}`;
+  const adUrl = (node, tier) => `${S.data.picks.store}/s?rh=n%3A${node}%2Cp_8%3A${tier}-`;
   // the category number from an amazon.eg link: ...node=123..., ...rh=n%3A123..., or the number itself
   const nodeOf = (s) => { s = (s || "").trim(); if (/^\d{6,15}$/.test(s)) return s; if (!/^https:\/\/(?:www\.)?amazon\.eg\//i.test(s)) return ""; const m = /[?&]node=(\d{6,15})\b/.exec(s) || /\bn(?:%3A|:)(\d{6,15})\b/i.exec(s); return m ? m[1] : ""; };
   function adEditor(key) {
     const c = key && S.data.adeals.categories.find((x) => x.key === key), isNew = !c;
     const f = {
-      link: text("لينك القسم على أمازون مصر (أو رقمه)", { req: true, dir: "ltr", ph: "https://www.amazon.eg/-/en/b/?node=18018102031", hint: "افتح القسم على amazon.eg وانسخ اللينك من المتصفح: لازم يكون فيه node= أو n: ورقم. بعد ما تكتبه اضغط «جرّب اللينك» واتأكد إن أمازون بتعرض منتجات عليها خصم، لأن فيه أقسام صفحتها رئيسية من غير منتجات." }),
+      link: text("لينك القسم على أمازون مصر (أو رقمه)", { req: true, dir: "ltr", ph: "https://www.amazon.eg/-/en/b/?node=18018102031", hint: "افتح القسم على amazon.eg وانسخ اللينك من المتصفح: لازم يكون فيه node= أو n: ورقم. بعد ما تكتبه اضغط «جرّب اللينك» واتأكد إن أمازون بتعرض منتجات والخصومات مناسبة، لأن فيه أقسام صفحتها رئيسية من غير منتجات، وفلتر الخصم مش دقيق. لينك التجربة من غير الـ tag بتاعك." }),
       key: text("اسم قصير بالإنجليزي", { req: true, dir: "ltr", ph: "electronics", pattern: /^[a-z][a-z0-9-]*$/, patternMsg: "حروف إنجليزي صغيرة وأرقام و - بس، من غير مسافات", hint: "بيظهر في تقارير الضغطات (electronics_20 مثلاً). ما يتكررش." }),
       icon: select("الأيقونة", AD_ICONS),
       name: bi("اسم القسم", { req: true, hint: "اسم قصير، زي: إلكترونيات، البيت والمطبخ." }),
@@ -767,7 +769,7 @@ window.FoodiduAdmin = (() => {
   function adSettingsEditor() {
     const d = S.data.adeals;
     const f = {
-      tiers: text("نسب الخصم (افصل بينها بـ ،)", { req: true, dir: "ltr", ph: "20, 50", hint: "كل نسبة بتعمل زرار في كل قسم: «خصم 20% وأكتر» بيفتح المنتجات اللي عليها خصم 20% أو أكتر. من 5 لـ 90، ومن 1 لـ 3 نسب. آخر نسبة بتبقى الزرار الغامق." }),
+      tiers: text("نسب الخصم (افصل بينها بـ ،)", { req: true, dir: "ltr", ph: "20, 50", hint: "كل نسبة بتعمل زرار في كل قسم: «خصم 20% وأكتر» بيفتح فلتر الـ 20% على أمازون. خد بالك: الفلتر مش مضمون، وكل ما النسبة تكبر بيطلع منتجات أكتر خصمها أقل منها. من 5 لـ 90، ومن 1 لـ 3 نسب. آخر نسبة بتبقى الزرار الغامق." }),
       flash: text("صفحة الفلاش سيل على أمازون", { req: true, dir: "ltr", ph: "/deals", pattern: /^\/[\w/-]*$/, patternMsg: "مسار على amazon.eg بيبدأ بـ /، زي /deals", hint: "الكارت الكبير بيفتح الصفحة دي على amazon.eg. سيبها /deals (عروض النهارده) إلا لو أمازون عملت صفحة لموسم معيّن." })
     };
     const parse = (s) => (s || "").split(/[,،\s]+/).filter(Boolean).map(Number);
@@ -844,7 +846,7 @@ window.FoodiduAdmin = (() => {
             if (!confirm(`تشيل "${p.name.ar}" من الاختيارات؟`)) return; S.data.picks.items.splice(S.data.picks.items.indexOf(p), 1); change("picks", `Remove Amazon pick ${p.asin}`); render(); }, "ghost sm danger")])
         : el("p", { class: "dash-note", text: "لسه مفيش منتجات. الجزء ده مش بيظهر على الموقع غير لما تضيف أول منتج." }));
     else if (S.tab === "adeals") body = el("div", null,
-      el("p", { class: "dash-note" }, "سكشن «عروض أمازون النهارده» في صفحة أمازون وفي الصفحة الرئيسية: كارت فلاش سيل بيفتح صفحة ", el("bdi", { dir: "ltr", text: S.data.adeals.flash || "/deals" }), ` على أمازون، وكارت لكل قسم فيه زرار لكل نسبة خصم (${adTiers().map((t) => t + "%").join(" و ")} وأكتر). كل زرار بيفتح منتجات القسم اللي عليها الخصم ده على أمازون نفسها بالـ tag بتاعك، فمفيش أسعار تتحدّث. الترتيب هنا هو ترتيبها على الموقع.`),
+      el("p", { class: "dash-note" }, "سكشن «عروض أمازون النهارده» في صفحة أمازون وفي الصفحة الرئيسية: كارت فلاش سيل بيفتح صفحة ", el("bdi", { dir: "ltr", text: S.data.adeals.flash || "/deals" }), ` على أمازون، وكارت لكل قسم فيه زرار لكل نسبة خصم (${adTiers().map((t) => t + "%").join(" و ")} وأكتر). كل زرار بيفتح فلتر الخصم بتاع القسم على أمازون بالـ tag بتاعك. الفلتر مش مضمون: ممكن يعرض منتجات خصمها أقل من النسبة، فجرّب القسم الأول (لينكات التجربة هنا من غير tag). الترتيب هنا هو ترتيبها على الموقع.`),
       el("p", { class: "adm-add" }, btn("+ قسم جديد", open(() => adEditor(null))), " ", btn("نسب الخصم وصفحة الفلاش", open(adSettingsEditor), "ghost")),
       S.data.adeals.categories.length ? tableOf([["القسم", (c) => c.name.ar], ["رقم القسم", (c) => el("code", { text: c.node })], ["تحت الاسم", (c) => c.note.ar]],
         S.data.adeals.categories, (c) => [btn("↑", () => moveAd(c, -1), "ghost sm"), btn("↓", () => moveAd(c, 1), "ghost sm"), btn("تعديل", open(() => adEditor(c.key)), "ghost sm"),
