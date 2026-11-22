@@ -729,26 +729,24 @@ window.FoodiduAdmin = (() => {
     render();
   }
 
-  /* ---------- Amazon deals (data/amazon-deals.json): the flash-sale card and the discount cards per category ----------
-     A category is an amazon.eg category number ("node"); the site opens Amazon's search for it filtered to "n% off or more" for
-     each tier, with the tag from amazon-picks.json. Nothing here is a price. The filter is loose: many products it lists show
-     a smaller discount or none, so the texts here must not promise the percentage.
-     The test links have no tag: the owner's own clicks are not referrals. */
-  const adTiers = () => (S.data.adeals.tiers && S.data.adeals.tiers.length ? S.data.adeals.tiers : [20]);
-  const adUrl = (node, tier) => `${S.data.picks.store}/s?rh=n%3A${node}%2Cp_8%3A${tier}-`;
+  /* ---------- Amazon deals (data/amazon-deals.json): the flash-sale card and one deals button per category ----------
+     A category is an amazon.eg category number ("node"); its button opens Amazon's search for it with a loose discount filter,
+     so the texts never name a percentage. The test links have no tag: the owner's own clicks are not referrals. */
+  const AD_FILTER = 20;   // as $AD_FILTER in tools/build.pl
+  const adUrl = (node) => `${S.data.picks.store}/s?rh=n%3A${node}%2Cp_8%3A${AD_FILTER}-`;
   // the category number from an amazon.eg link: ...node=123..., ...rh=n%3A123..., or the number itself
   const nodeOf = (s) => { s = (s || "").trim(); if (/^\d{6,15}$/.test(s)) return s; if (!/^https:\/\/(?:www\.)?amazon\.eg\//i.test(s)) return ""; const m = /[?&]node=(\d{6,15})\b/.exec(s) || /\bn(?:%3A|:)(\d{6,15})\b/i.exec(s); return m ? m[1] : ""; };
   function adEditor(key) {
     const c = key && S.data.adeals.categories.find((x) => x.key === key), isNew = !c;
     const f = {
-      link: text("لينك القسم على أمازون مصر (أو رقمه)", { req: true, dir: "ltr", ph: "https://www.amazon.eg/-/en/b/?node=18018102031", hint: "افتح القسم على amazon.eg وانسخ اللينك من المتصفح: لازم يكون فيه node= أو n: ورقم. بعد ما تكتبه اضغط «جرّب اللينك» واتأكد إن أمازون بتعرض منتجات والخصومات مناسبة، لأن فيه أقسام صفحتها رئيسية من غير منتجات، وفلتر الخصم مش دقيق. لينك التجربة من غير الـ tag بتاعك." }),
-      key: text("اسم قصير بالإنجليزي", { req: true, dir: "ltr", ph: "electronics", pattern: /^[a-z][a-z0-9-]*$/, patternMsg: "حروف إنجليزي صغيرة وأرقام و - بس، من غير مسافات", hint: "بيظهر في تقارير الضغطات (electronics_20 مثلاً). ما يتكررش." }),
+      link: text("لينك القسم على أمازون مصر (أو رقمه)", { req: true, dir: "ltr", ph: "https://www.amazon.eg/-/en/b/?node=18018102031", hint: "افتح القسم على amazon.eg وانسخ اللينك من المتصفح: لازم يكون فيه node= أو n: ورقم. بعد ما تكتبه اضغط «جرّب اللينك» واتأكد إن أمازون بتعرض منتجات وعروض مناسبة، لأن فيه أقسام صفحتها رئيسية من غير منتجات. لينك التجربة من غير الـ tag بتاعك." }),
+      key: text("اسم قصير بالإنجليزي", { req: true, dir: "ltr", ph: "electronics", pattern: /^[a-z][a-z0-9-]*$/, patternMsg: "حروف إنجليزي صغيرة وأرقام و - بس، من غير مسافات", hint: "بيظهر في تقارير الضغطات (electronics مثلاً). ما يتكررش، وما يبقاش flash." }),
       icon: select("الأيقونة", AD_ICONS),
       name: bi("اسم القسم", { req: true, hint: "اسم قصير، زي: إلكترونيات، البيت والمطبخ." }),
       note: bi("السطر اللي تحت الاسم", { req: true, hint: "بيوصف القسم فيه إيه، زي: سماعات ولابتوبات وشاشات. من غير أسعار أو نسب خصم: الخصم بيحدده أمازون." })
     };
     const tryIt = el("a", { class: "dash-btn ghost sm", target: "_blank", rel: "noopener", text: "جرّب اللينك على أمازون", hidden: true });
-    const updTry = () => { const n = nodeOf(f.link.get()); tryIt.hidden = !n; if (n) tryIt.href = adUrl(n, adTiers()[0]); };
+    const updTry = () => { const n = nodeOf(f.link.get()); tryIt.hidden = !n; if (n) tryIt.href = adUrl(n); };
     f.link.input.addEventListener("input", updTry);
     f.link.node.append(tryIt);
     if (c) { f.link.set(c.node); f.key.set(c.key); f.icon.set(c.icon); f.name.set(c.name); f.note.set(c.note); }
@@ -756,6 +754,7 @@ window.FoodiduAdmin = (() => {
     return editor(isNew ? "قسم جديد في عروض أمازون" : `تعديل ${c.name.ar}`, f, async () => {
       const v = collect(f), arr = S.data.adeals.categories;
       const next = ordered({ key: v.key, node: nodeOf(v.link), icon: v.icon, name: v.name, note: v.note }, AD_KEYS);
+      if (next.key === "flash") throw new Error("الاسم flash محجوز لكارت الفلاش سيل. اختار اسم تاني.");
       if (arr.some((x) => x.key === next.key && x !== c)) throw new Error("الاسم القصير ده مستخدم لقسم تاني. غيّره.");
       if (arr.some((x) => x.node === next.node && x !== c)) throw new Error("القسم ده موجود في القايمة قبل كده.");
       if (!isNew && same(next, c, AD_KEYS)) return false;
@@ -763,28 +762,21 @@ window.FoodiduAdmin = (() => {
       change("adeals", `${isNew ? "Add" : "Edit"} Amazon deals category ${next.key} (${next.name.en})`);
     }, { check: () => { const v = collect(f); return [
       ...(v.link && !nodeOf(v.link) ? ["اللينك: لازم يبقى لينك قسم على amazon.eg فيه node= أو n: ورقم القسم (أو الرقم لوحده)"] : []),
-      ...([v.name.ar, v.name.en, v.note.ar, v.note.en].some((s) => hasPrice(s) || /%|٪/.test(s)) ? ["شيل الأسعار ونسب الخصم من الاسم والسطر: أمازون هي اللي بتحدد الخصم، والنسب بتتظبط من «نسب الخصم»."] : []),
+      ...([v.name.ar, v.name.en, v.note.ar, v.note.en].some((s) => hasPrice(s) || /%|٪/.test(s)) ? ["شيل الأسعار ونسب الخصم من الاسم والسطر: أمازون هي اللي بتحدد الخصم، ومش بنوعد الزائر بنسبة."] : []),
     ]; } });
   }
-  function adSettingsEditor() {
-    const d = S.data.adeals;
+  function adFlashEditor() {
+    const d = S.data.adeals, cur = d.flash || "/deals";
     const f = {
-      tiers: text("نسب الخصم (افصل بينها بـ ،)", { req: true, dir: "ltr", ph: "20, 50", hint: "كل نسبة بتعمل زرار في كل قسم: «خصم 20% وأكتر» بيفتح فلتر الـ 20% على أمازون. خد بالك: الفلتر مش مضمون، وكل ما النسبة تكبر بيطلع منتجات أكتر خصمها أقل منها. من 5 لـ 90، ومن 1 لـ 3 نسب. آخر نسبة بتبقى الزرار الغامق." }),
       flash: text("صفحة الفلاش سيل على أمازون", { req: true, dir: "ltr", ph: "/deals", pattern: /^\/[\w/-]*$/, patternMsg: "مسار على amazon.eg بيبدأ بـ /، زي /deals", hint: "الكارت الكبير بيفتح الصفحة دي على amazon.eg. سيبها /deals (عروض النهارده) إلا لو أمازون عملت صفحة لموسم معيّن." })
     };
-    const parse = (s) => (s || "").split(/[,،\s]+/).filter(Boolean).map(Number);
-    f.tiers.set(adTiers().join(", ")); f.flash.set(d.flash || "/deals");
-    return editor("نسب الخصم وصفحة الفلاش سيل", f, async () => {
-      const tiers = parse(f.tiers.get()), flash = f.flash.get();
-      if (tiers.join() === adTiers().join() && flash === (d.flash || "/deals")) return false;
-      d.tiers = tiers; d.flash = flash;
-      change("adeals", `Amazon deals: tiers ${tiers.join(", ")}, flash ${flash}`);
-    }, { check: () => { const t = parse(f.tiers.get()); return [
-      ...(t.some((n) => !Number.isInteger(n) || n < 5 || n > 90) ? ["نسب الخصم: أرقام صحيحة من 5 لـ 90"] : []),
-      ...(!t.length ? ["نسب الخصم: اكتب نسبة واحدة على الأقل"] : []),
-      ...(t.length > 3 ? ["نسب الخصم: 3 نسب بالكتير، عشان الزراير تفضل واضحة"] : []),
-      ...(new Set(t).size !== t.length || t.some((n, i) => i && n <= t[i - 1]) ? ["نسب الخصم: من الأصغر للأكبر ومن غير تكرار، زي 20، 50"] : []),
-    ]; } });
+    f.flash.set(cur);
+    return editor("صفحة الفلاش سيل", f, async () => {
+      const flash = f.flash.get();
+      if (flash === cur) return false;
+      d.flash = flash;
+      change("adeals", `Amazon deals: flash page ${flash}`);
+    });
   }
   function moveAd(c, step) {
     const arr = S.data.adeals.categories, i = arr.indexOf(c), j = i + step;
@@ -846,11 +838,11 @@ window.FoodiduAdmin = (() => {
             if (!confirm(`تشيل "${p.name.ar}" من الاختيارات؟`)) return; S.data.picks.items.splice(S.data.picks.items.indexOf(p), 1); change("picks", `Remove Amazon pick ${p.asin}`); render(); }, "ghost sm danger")])
         : el("p", { class: "dash-note", text: "لسه مفيش منتجات. الجزء ده مش بيظهر على الموقع غير لما تضيف أول منتج." }));
     else if (S.tab === "adeals") body = el("div", null,
-      el("p", { class: "dash-note" }, "سكشن «عروض أمازون النهارده» في صفحة أمازون وفي الصفحة الرئيسية: كارت فلاش سيل بيفتح صفحة ", el("bdi", { dir: "ltr", text: S.data.adeals.flash || "/deals" }), ` على أمازون، وكارت لكل قسم فيه زرار لكل نسبة خصم (${adTiers().map((t) => t + "%").join(" و ")} وأكتر). كل زرار بيفتح فلتر الخصم بتاع القسم على أمازون بالـ tag بتاعك. الفلتر مش مضمون: ممكن يعرض منتجات خصمها أقل من النسبة، فجرّب القسم الأول (لينكات التجربة هنا من غير tag). الترتيب هنا هو ترتيبها على الموقع.`),
-      el("p", { class: "adm-add" }, btn("+ قسم جديد", open(() => adEditor(null))), " ", btn("نسب الخصم وصفحة الفلاش", open(adSettingsEditor), "ghost")),
+      el("p", { class: "dash-note" }, "سكشن «عروض أمازون النهارده» في صفحة أمازون وفي الصفحة الرئيسية: كارت فلاش سيل بيفتح صفحة ", el("bdi", { dir: "ltr", text: S.data.adeals.flash || "/deals" }), " على أمازون، وكارت لكل قسم فيه زرار «شوف العروض» بالـ tag بتاعك. مفيش نسب مكتوبة للزائر، لأن فلتر الخصم في أمازون مش دقيق. لينكات التجربة هنا من غير tag. الترتيب هنا هو ترتيبها على الموقع."),
+      el("p", { class: "adm-add" }, btn("+ قسم جديد", open(() => adEditor(null))), " ", btn("صفحة الفلاش سيل", open(adFlashEditor), "ghost")),
       S.data.adeals.categories.length ? tableOf([["القسم", (c) => c.name.ar], ["رقم القسم", (c) => el("code", { text: c.node })], ["تحت الاسم", (c) => c.note.ar]],
         S.data.adeals.categories, (c) => [btn("↑", () => moveAd(c, -1), "ghost sm"), btn("↓", () => moveAd(c, 1), "ghost sm"), btn("تعديل", open(() => adEditor(c.key)), "ghost sm"),
-          el("a", { class: "dash-btn ghost sm", href: adUrl(c.node, adTiers()[0]), target: "_blank", rel: "noopener", text: "جرّبه على أمازون" }),
+          el("a", { class: "dash-btn ghost sm", href: adUrl(c.node), target: "_blank", rel: "noopener", text: "جرّبه على أمازون" }),
           btn("حذف", () => { if (!confirm(`تشيل قسم "${c.name.ar}" من عروض أمازون؟`)) return; S.data.adeals.categories.splice(S.data.adeals.categories.indexOf(c), 1); change("adeals", `Remove Amazon deals category ${c.key}`); render(); }, "ghost sm danger")])
         : el("p", { class: "dash-note", text: "لسه مفيش أقسام. السكشن مش بيظهر على الموقع غير لما تضيف أول قسم." }));
     else if (S.tab === "featured") body = featuredEditor();

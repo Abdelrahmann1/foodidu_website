@@ -1,7 +1,6 @@
 {
-  "_help": "Amazon deals section: a flash-sale card (Amazon's own Today's Deals page) and discount cards per category, on the Amazon Egypt page (full) and the home page (short), with the affiliate tag from amazon-picks.json. Each category opens Amazon's search for that category (node = the number after node= or n: in an amazon.eg category link) filtered to products discounted by at least each tier (Amazon's p_8 filter), so the page never shows a price or a product, only Amazon's own filter. Each item: key, node, icon (phone, basket or one of the ad_ icons in tools/build.pl), name and note in en + ar. Edit it from the dashboard (إدارة المحتوى > عروض أمازون).",
+  "_help": "Amazon deals section: a flash-sale card (the amazon.eg page in \"flash\") and one \"See the deals\" button per category, on the Amazon Egypt page (full) and the home page (short), with the affiliate tag from amazon-picks.json. A button opens Amazon's search for that category (node = the number after node= or n: in an amazon.eg category link) with a loose discount filter: not every product it lists is discounted, so never write a percentage or promise a discount here. Each item: key (not flash), node, icon (phone, basket or one of the ad_ icons in tools/build.pl), name and note in en + ar. Edit it from the dashboard (إدارة المحتوى > عروض أمازون).",
   "flash": "/deals",
-  "tiers": [20, 50],
   "categories": [
     {
       "key": "electronics",
