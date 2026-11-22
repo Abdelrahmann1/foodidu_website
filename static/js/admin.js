@@ -6,7 +6,7 @@
 window.FoodiduAdmin = (() => {
   "use strict";
   const BRANCH = "main", TOKEN_KEY = "fd_gh_token";
-  const FILES = { brands: "data/brands.json", rests: "data/restaurant-offers.json", deals: "data/day-deals.json", featured: "data/featured.json", home: "data/home.json", blog: "data/blog.json", picks: "data/amazon-picks.json", firebase: "firebase.json" };
+  const FILES = { brands: "data/brands.json", rests: "data/restaurant-offers.json", deals: "data/day-deals.json", featured: "data/featured.json", home: "data/home.json", blog: "data/blog.json", picks: "data/amazon-picks.json", adeals: "data/amazon-deals.json", firebase: "firebase.json" };
   const DAYS = [["sat", "السبت"], ["sun", "الأحد"], ["mon", "الاتنين"], ["tue", "التلات"], ["wed", "الأربع"], ["thu", "الخميس"], ["fri", "الجمعة"]];
   const ICONS = [["fork", "مطاعم"], ["pizza", "بيتزا"], ["basket", "بقالة"], ["bag", "تسوق"], ["gift", "هدية"], ["tag", "خصم"]];
   const RESERVED = ["ar", "en", "promo-codes", "partners", "business", "day-deals", "privacy-policy", "terms-and-conditions", "dashboard", "blog", "first-order-promo-codes", "img", "css", "js", "pages", "components", "404"];
@@ -17,6 +17,9 @@ window.FoodiduAdmin = (() => {
   const DEAL_KEYS = ["id", "brand", "name", "logo", "icon", "region", "url", "featured", "days", "title", "details", "source", "sourceLabel", "lastChecked"];
   const PICK_KEYS = ["asin", "icon", "star", "name", "tags", "note"];
   const PICK_ICONS = [["coffee","قهوة"],["milk","لبن"],["rice","رز"],["oil","زيت"],["flour","دقيق"],["drop","مياه وفلاتر"],["roll","ورق ولفافات"],["bottle","زجاجة"],["kettle","غلاية"],["fryer","إير فراير وأجهزة"]];
+  // Amazon deals categories (data/amazon-deals.json); the icons must match the list tools/build.pl accepts
+  const AD_KEYS = ["key", "node", "icon", "name", "note"];
+  const AD_ICONS = [["ad_headphones", "سماعة (إلكترونيات)"], ["phone", "موبايل"], ["ad_washer", "غسالة (أجهزة منزلية)"], ["ad_sofa", "كنبة (البيت)"], ["ad_shirt", "تيشيرت (موضة)"], ["basket", "سلة (سوبر ماركت)"], ["ad_perfume", "برفان"], ["ad_blocks", "مكعبات (ألعاب أطفال)"], ["ad_gamepad", "دراع (ألعاب فيديو)"]];
   let REPO = "", root = null, token = null;
   const S = { loaded: false, base: null, data: {}, dirty: new Set(), blobs: {}, deletes: new Set(), baseFiles: new Set(), changes: [], logos: {}, tab: "brands", view: null };
   const deployBox = document.createElement("div");
@@ -726,6 +729,69 @@ window.FoodiduAdmin = (() => {
     render();
   }
 
+  /* ---------- Amazon deals (data/amazon-deals.json): the flash-sale card and the discount cards per category ----------
+     A category is an amazon.eg category number ("node"); the site opens Amazon's search for it filtered to "n% off or more" for
+     each tier, with the tag from amazon-picks.json. Nothing here is a price, so nothing goes stale. */
+  const adTiers = () => (S.data.adeals.tiers && S.data.adeals.tiers.length ? S.data.adeals.tiers : [20]);
+  const adUrl = (node, tier) => `${S.data.picks.store}/s?rh=n%3A${node}%2Cp_8%3A${tier}-&tag=${S.data.picks.tag}`;
+  // the category number from an amazon.eg link: ...node=123..., ...rh=n%3A123..., or the number itself
+  const nodeOf = (s) => { s = (s || "").trim(); if (/^\d{6,15}$/.test(s)) return s; if (!/^https:\/\/(?:www\.)?amazon\.eg\//i.test(s)) return ""; const m = /[?&]node=(\d{6,15})\b/.exec(s) || /\bn(?:%3A|:)(\d{6,15})\b/i.exec(s); return m ? m[1] : ""; };
+  function adEditor(key) {
+    const c = key && S.data.adeals.categories.find((x) => x.key === key), isNew = !c;
+    const f = {
+      link: text("لينك القسم على أمازون مصر (أو رقمه)", { req: true, dir: "ltr", ph: "https://www.amazon.eg/-/en/b/?node=18018102031", hint: "افتح القسم على amazon.eg وانسخ اللينك من المتصفح: لازم يكون فيه node= أو n: ورقم. بعد ما تكتبه اضغط «جرّب اللينك» واتأكد إن أمازون بتعرض منتجات عليها خصم، لأن فيه أقسام صفحتها رئيسية من غير منتجات." }),
+      key: text("اسم قصير بالإنجليزي", { req: true, dir: "ltr", ph: "electronics", pattern: /^[a-z][a-z0-9-]*$/, patternMsg: "حروف إنجليزي صغيرة وأرقام و - بس، من غير مسافات", hint: "بيظهر في تقارير الضغطات (electronics_20 مثلاً). ما يتكررش." }),
+      icon: select("الأيقونة", AD_ICONS),
+      name: bi("اسم القسم", { req: true, hint: "اسم قصير، زي: إلكترونيات، البيت والمطبخ." }),
+      note: bi("السطر اللي تحت الاسم", { req: true, hint: "بيوصف القسم فيه إيه، زي: سماعات ولابتوبات وشاشات. من غير أسعار أو نسب خصم: الخصم بيحدده أمازون." })
+    };
+    const tryIt = el("a", { class: "dash-btn ghost sm", target: "_blank", rel: "noopener", text: "جرّب اللينك على أمازون", hidden: true });
+    const updTry = () => { const n = nodeOf(f.link.get()); tryIt.hidden = !n; if (n) tryIt.href = adUrl(n, adTiers()[0]); };
+    f.link.input.addEventListener("input", updTry);
+    f.link.node.append(tryIt);
+    if (c) { f.link.set(c.node); f.key.set(c.key); f.icon.set(c.icon); f.name.set(c.name); f.note.set(c.note); }
+    updTry();
+    return editor(isNew ? "قسم جديد في عروض أمازون" : `تعديل ${c.name.ar}`, f, async () => {
+      const v = collect(f), arr = S.data.adeals.categories;
+      const next = ordered({ key: v.key, node: nodeOf(v.link), icon: v.icon, name: v.name, note: v.note }, AD_KEYS);
+      if (arr.some((x) => x.key === next.key && x !== c)) throw new Error("الاسم القصير ده مستخدم لقسم تاني. غيّره.");
+      if (arr.some((x) => x.node === next.node && x !== c)) throw new Error("القسم ده موجود في القايمة قبل كده.");
+      if (!isNew && same(next, c, AD_KEYS)) return false;
+      if (c) arr[arr.indexOf(c)] = next; else arr.push(next);
+      change("adeals", `${isNew ? "Add" : "Edit"} Amazon deals category ${next.key} (${next.name.en})`);
+    }, { check: () => { const v = collect(f); return [
+      ...(v.link && !nodeOf(v.link) ? ["اللينك: لازم يبقى لينك قسم على amazon.eg فيه node= أو n: ورقم القسم (أو الرقم لوحده)"] : []),
+      ...([v.name.ar, v.name.en, v.note.ar, v.note.en].some((s) => hasPrice(s) || /%|٪/.test(s)) ? ["شيل الأسعار ونسب الخصم من الاسم والسطر: أمازون هي اللي بتحدد الخصم، والنسب بتتظبط من «نسب الخصم»."] : []),
+    ]; } });
+  }
+  function adSettingsEditor() {
+    const d = S.data.adeals;
+    const f = {
+      tiers: text("نسب الخصم (افصل بينها بـ ،)", { req: true, dir: "ltr", ph: "20, 50", hint: "كل نسبة بتعمل زرار في كل قسم: «خصم 20% وأكتر» بيفتح المنتجات اللي عليها خصم 20% أو أكتر. من 5 لـ 90، ومن 1 لـ 3 نسب. آخر نسبة بتبقى الزرار الغامق." }),
+      flash: text("صفحة الفلاش سيل على أمازون", { req: true, dir: "ltr", ph: "/deals", pattern: /^\/[\w/-]*$/, patternMsg: "مسار على amazon.eg بيبدأ بـ /، زي /deals", hint: "الكارت الكبير بيفتح الصفحة دي على amazon.eg. سيبها /deals (عروض النهارده) إلا لو أمازون عملت صفحة لموسم معيّن." })
+    };
+    const parse = (s) => (s || "").split(/[,،\s]+/).filter(Boolean).map(Number);
+    f.tiers.set(adTiers().join(", ")); f.flash.set(d.flash || "/deals");
+    return editor("نسب الخصم وصفحة الفلاش سيل", f, async () => {
+      const tiers = parse(f.tiers.get()), flash = f.flash.get();
+      if (tiers.join() === adTiers().join() && flash === (d.flash || "/deals")) return false;
+      d.tiers = tiers; d.flash = flash;
+      change("adeals", `Amazon deals: tiers ${tiers.join(", ")}, flash ${flash}`);
+    }, { check: () => { const t = parse(f.tiers.get()); return [
+      ...(t.some((n) => !Number.isInteger(n) || n < 5 || n > 90) ? ["نسب الخصم: أرقام صحيحة من 5 لـ 90"] : []),
+      ...(!t.length ? ["نسب الخصم: اكتب نسبة واحدة على الأقل"] : []),
+      ...(t.length > 3 ? ["نسب الخصم: 3 نسب بالكتير، عشان الزراير تفضل واضحة"] : []),
+      ...(new Set(t).size !== t.length || t.some((n, i) => i && n <= t[i - 1]) ? ["نسب الخصم: من الأصغر للأكبر ومن غير تكرار، زي 20، 50"] : []),
+    ]; } });
+  }
+  function moveAd(c, step) {
+    const arr = S.data.adeals.categories, i = arr.indexOf(c), j = i + step;
+    if (j < 0 || j >= arr.length) return;
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+    change("adeals", `Move Amazon deals category ${c.key} ${step < 0 ? "up" : "down"}`);
+    render();
+  }
+
   // brands as the site lists them: priority "top", then normal, then "low", each in brands.json order
   const siteOrder = () => ["top", "", "low"].flatMap((p) => S.data.brands.brands.filter((b) => (b.priority || "") === p));
   function move(b, step) {   // swap with the next brand of the same priority group in brands.json
@@ -742,7 +808,7 @@ window.FoodiduAdmin = (() => {
     if (!root) return;
     if (!token) return renderConnect();
     if (!S.loaded) { root.replaceChildren(el("p", { class: "dash-note", text: "بيحمّل البيانات من GitHub..." })); return; }
-    const tabs = [["brands", `الأكواد (${S.data.brands.brands.length})`], ["rests", `عروض المطاعم (${S.data.rests.restaurants.length})`], ["deals", `عروض الأيام (${S.data.deals.deals.length})`], ["blog", `المدونة (${S.data.blog.posts.length})`], ["picks", `اختيارات أمازون (${S.data.picks.items.length})`], ["featured", "العرض المميز"], ["home", "كروت الرئيسية"]];
+    const tabs = [["brands", `الأكواد (${S.data.brands.brands.length})`], ["rests", `عروض المطاعم (${S.data.rests.restaurants.length})`], ["deals", `عروض الأيام (${S.data.deals.deals.length})`], ["blog", `المدونة (${S.data.blog.posts.length})`], ["picks", `اختيارات أمازون (${S.data.picks.items.length})`], ["adeals", `عروض أمازون (${S.data.adeals.categories.length})`], ["featured", "العرض المميز"], ["home", "كروت الرئيسية"]];
     let body;
     if (S.view) body = S.view();
     else if (S.tab === "brands") body = el("div", null, el("p", { class: "adm-add" }, btn("+ كود جديد", open(() => brandEditor(null)))),
@@ -777,6 +843,14 @@ window.FoodiduAdmin = (() => {
             if (used.length) return alert(`المنتج ده مستخدم في مقال: ${used.map((x) => x.h1.ar).join("، ")}. شيله من المقال الأول.`);
             if (!confirm(`تشيل "${p.name.ar}" من الاختيارات؟`)) return; S.data.picks.items.splice(S.data.picks.items.indexOf(p), 1); change("picks", `Remove Amazon pick ${p.asin}`); render(); }, "ghost sm danger")])
         : el("p", { class: "dash-note", text: "لسه مفيش منتجات. الجزء ده مش بيظهر على الموقع غير لما تضيف أول منتج." }));
+    else if (S.tab === "adeals") body = el("div", null,
+      el("p", { class: "dash-note" }, "سكشن «عروض أمازون النهارده» في صفحة أمازون وفي الصفحة الرئيسية: كارت فلاش سيل بيفتح صفحة ", el("bdi", { dir: "ltr", text: S.data.adeals.flash || "/deals" }), ` على أمازون، وكارت لكل قسم فيه زرار لكل نسبة خصم (${adTiers().map((t) => t + "%").join(" و ")} وأكتر). كل زرار بيفتح منتجات القسم اللي عليها الخصم ده على أمازون نفسها بالـ tag بتاعك، فمفيش أسعار تتحدّث. الترتيب هنا هو ترتيبها على الموقع.`),
+      el("p", { class: "adm-add" }, btn("+ قسم جديد", open(() => adEditor(null))), " ", btn("نسب الخصم وصفحة الفلاش", open(adSettingsEditor), "ghost")),
+      S.data.adeals.categories.length ? tableOf([["القسم", (c) => c.name.ar], ["رقم القسم", (c) => el("code", { text: c.node })], ["تحت الاسم", (c) => c.note.ar]],
+        S.data.adeals.categories, (c) => [btn("↑", () => moveAd(c, -1), "ghost sm"), btn("↓", () => moveAd(c, 1), "ghost sm"), btn("تعديل", open(() => adEditor(c.key)), "ghost sm"),
+          el("a", { class: "dash-btn ghost sm", href: adUrl(c.node, adTiers()[0]), target: "_blank", rel: "noopener", text: "جرّبه على أمازون" }),
+          btn("حذف", () => { if (!confirm(`تشيل قسم "${c.name.ar}" من عروض أمازون؟`)) return; S.data.adeals.categories.splice(S.data.adeals.categories.indexOf(c), 1); change("adeals", `Remove Amazon deals category ${c.key}`); render(); }, "ghost sm danger")])
+        : el("p", { class: "dash-note", text: "لسه مفيش أقسام. السكشن مش بيظهر على الموقع غير لما تضيف أول قسم." }));
     else if (S.tab === "featured") body = featuredEditor();
     else body = homeEditor();
     root.replaceChildren(

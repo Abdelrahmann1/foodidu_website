@@ -1,16 +1,70 @@
 {
-  "_help": "Amazon deals section: a flash-sale card (Amazon's own Today's Deals page) and discount cards per category, on the Amazon Egypt page (full) and the home page (short), with the affiliate tag from amazon-picks.json. Each category opens Amazon's search for that category (node = the number after node= or n: in an amazon.eg category link) filtered to products discounted by at least each tier (Amazon's p_8 filter), so the page never shows a price or a product, only Amazon's own filter. Each item: key, node, icon (phone, basket or one of the ad_ icons in tools/build.pl), name and note in en + ar.",
+  "_help": "Amazon deals section: a flash-sale card (Amazon's own Today's Deals page) and discount cards per category, on the Amazon Egypt page (full) and the home page (short), with the affiliate tag from amazon-picks.json. Each category opens Amazon's search for that category (node = the number after node= or n: in an amazon.eg category link) filtered to products discounted by at least each tier (Amazon's p_8 filter), so the page never shows a price or a product, only Amazon's own filter. Each item: key, node, icon (phone, basket or one of the ad_ icons in tools/build.pl), name and note in en + ar. Edit it from the dashboard (إدارة المحتوى > عروض أمازون).",
   "flash": "/deals",
   "tiers": [20, 50],
   "categories": [
-    { "key": "electronics", "node": "18018102031", "icon": "ad_headphones", "name": { "en": "Electronics", "ar": "إلكترونيات" }, "note": { "en": "Headphones, laptops, screens and smart gadgets", "ar": "سماعات ولابتوبات وشاشات وأجهزة ذكية" } },
-    { "key": "phones", "node": "21832868031", "icon": "phone", "name": { "en": "Phones & accessories", "ar": "موبايلات وإكسسوارات" }, "note": { "en": "Phones, chargers, power banks and cases", "ar": "موبايلات وشواحن وباور بانك وجرابات" } },
-    { "key": "appliances", "node": "21863792031", "icon": "ad_washer", "name": { "en": "Home appliances", "ar": "أجهزة منزلية" }, "note": { "en": "Washers, fridges, air fryers and kitchen machines", "ar": "غسالات وتلاجات وإير فراير وأجهزة مطبخ" } },
-    { "key": "home", "node": "18021933031", "icon": "ad_sofa", "name": { "en": "Home & kitchen", "ar": "البيت والمطبخ" }, "note": { "en": "Cookware, bedding, storage and décor", "ar": "أدوات مطبخ ومفارش وتخزين وديكور" } },
-    { "key": "fashion", "node": "18018165031", "icon": "ad_shirt", "name": { "en": "Fashion", "ar": "موضة" }, "note": { "en": "Clothes, shoes, bags and watches", "ar": "لبس وأحذية وشنط وساعات" } },
-    { "key": "grocery", "node": "26082334031", "icon": "basket", "name": { "en": "Supermarket", "ar": "سوبر ماركت" }, "note": { "en": "Coffee, rice, oil and everyday groceries", "ar": "قهوة ورز وزيت وطلبات البيت" } },
-    { "key": "perfumes", "node": "21826026031", "icon": "ad_perfume", "name": { "en": "Perfumes", "ar": "عطور" }, "note": { "en": "Perfumes for men and women", "ar": "برفانات رجالي وحريمي" } },
-    { "key": "toys", "node": "18022503031", "icon": "ad_blocks", "name": { "en": "Toys & games", "ar": "ألعاب أطفال" }, "note": { "en": "Toys, puzzles and games for kids", "ar": "لعب وبازل وألعاب للأطفال" } },
-    { "key": "gaming", "node": "18022560031", "icon": "ad_gamepad", "name": { "en": "Video games", "ar": "ألعاب فيديو" }, "note": { "en": "Consoles, controllers and games", "ar": "أجهزة ودراعات وألعاب" } }
+    {
+      "key": "electronics",
+      "node": "18018102031",
+      "icon": "ad_headphones",
+      "name": { "en": "Electronics", "ar": "إلكترونيات" },
+      "note": { "en": "Headphones, laptops, screens and smart gadgets", "ar": "سماعات ولابتوبات وشاشات وأجهزة ذكية" }
+    },
+    {
+      "key": "phones",
+      "node": "21832868031",
+      "icon": "phone",
+      "name": { "en": "Phones & accessories", "ar": "موبايلات وإكسسوارات" },
+      "note": { "en": "Phones, chargers, power banks and cases", "ar": "موبايلات وشواحن وباور بانك وجرابات" }
+    },
+    {
+      "key": "appliances",
+      "node": "21863792031",
+      "icon": "ad_washer",
+      "name": { "en": "Home appliances", "ar": "أجهزة منزلية" },
+      "note": { "en": "Washers, fridges, air fryers and kitchen machines", "ar": "غسالات وتلاجات وإير فراير وأجهزة مطبخ" }
+    },
+    {
+      "key": "home",
+      "node": "18021933031",
+      "icon": "ad_sofa",
+      "name": { "en": "Home & kitchen", "ar": "البيت والمطبخ" },
+      "note": { "en": "Cookware, bedding, storage and décor", "ar": "أدوات مطبخ ومفارش وتخزين وديكور" }
+    },
+    {
+      "key": "fashion",
+      "node": "18018165031",
+      "icon": "ad_shirt",
+      "name": { "en": "Fashion", "ar": "موضة" },
+      "note": { "en": "Clothes, shoes, bags and watches", "ar": "لبس وأحذية وشنط وساعات" }
+    },
+    {
+      "key": "grocery",
+      "node": "26082334031",
+      "icon": "basket",
+      "name": { "en": "Supermarket", "ar": "سوبر ماركت" },
+      "note": { "en": "Coffee, rice, oil and everyday groceries", "ar": "قهوة ورز وزيت وطلبات البيت" }
+    },
+    {
+      "key": "perfumes",
+      "node": "21826026031",
+      "icon": "ad_perfume",
+      "name": { "en": "Perfumes", "ar": "عطور" },
+      "note": { "en": "Perfumes for men and women", "ar": "برفانات رجالي وحريمي" }
+    },
+    {
+      "key": "toys",
+      "node": "18022503031",
+      "icon": "ad_blocks",
+      "name": { "en": "Toys & games", "ar": "ألعاب أطفال" },
+      "note": { "en": "Toys, puzzles and games for kids", "ar": "لعب وبازل وألعاب للأطفال" }
+    },
+    {
+      "key": "gaming",
+      "node": "18022560031",
+      "icon": "ad_gamepad",
+      "name": { "en": "Video games", "ar": "ألعاب فيديو" },
+      "note": { "en": "Consoles, controllers and games", "ar": "أجهزة ودراعات وألعاب" }
+    }
   ]
 }
