@@ -32,7 +32,11 @@ my ($WA) = map { $_->[2] } grep { $_->[0] eq 'whatsapp' } @SOCIAL;   # the Whats
 
 my $PLAY_URL = 'https://play.google.com/store/apps/details?id=com.fooddidu.app';
 my $APPSTORE_URL = 'https://apps.apple.com/app/id6818665166';   # Apple sends each visitor to their own country's store
+my $YOUTUBE_URL = 'https://www.youtube.com/@Foodidu';
 my $LOGO = '/img/foodidu-logo.svg';   # the "welcome to Foodidu" brand logo, 767x304
+# Real screens of the app (static/img/app/<lang>/, 540x1174 WebP from the App Store screenshots). Shown on /about/ and listed
+# as the app's screenshots in its JSON-LD, so search engines and AI assistants show these instead of guessing.
+my @APP_SHOTS = (['01_home', 'shot_home'], ['02_near_you', 'shot_near'], ['03_deals', 'shot_deals'], ['04_codes', 'shot_codes'], ['05_weekly', 'shot_weekly']);
 
 sub slurp { my ($f, $raw) = @_; open my $fh, ($raw ? '<:raw' : '<:encoding(UTF-8)'), $f or die "read $f: $!"; local $/; my $s = <$fh>; close $fh; $s }
 sub spit  { my ($f, $s, $raw) = @_; make_path(dirname($f)); open my $fh, ($raw ? '>:raw' : '>:encoding(UTF-8)'), $f or die "write $f: $!"; print $fh $s; close $fh }
@@ -209,6 +213,31 @@ my %S = (
   app_f3 => 'Limited-time deals', app_f3p => 'Catch exclusive promotions and discounts before they end.',
   app_f4 => 'Menus before you go', app_f4p => 'Explore the menu before you visit, so you know what to order.',
   gp_small => 'Get it on', gp_big => 'Google Play', as_small => 'Download on the', as_big => 'App Store', foot_app => 'Get the app',
+  org_desc => 'Free website and app for promo codes, restaurant deals and places to eat in Egypt and the GCC.',
+  foot_about => 'About Foodidu',
+  ab_seo => 'About Foodidu: promo codes and food deals in Egypt',
+  ab_desc => 'Foodidu (فوديدو) is a free website and app for promo codes, restaurant deals and places to eat in Egypt and the GCC. What it offers and how codes are checked.',
+  ab_h1 => 'About Foodidu',
+  ab_lead => 'Foodidu (فوديدو) is a free website and app that helps people in Egypt and the GCC save on food and shopping: promo codes for restaurants, grocery delivery and online stores, plus restaurants, cafés and deals near you in Cairo.',
+  ab_web_h => 'The website: foodidu.com',
+  ab_web_p => "foodidu.com lists promo codes and discounts for {brands} in three groups: restaurants, groceries and online shopping. Every code shows its conditions up front (first order, minimum amount, app only). The site also has first-order codes, offers that come back on a fixed weekday, a code finder and a blog. It works in Arabic and English, and you don't need an account.",
+  ab_app_h => 'The app: iPhone and Android',
+  ab_app_p => 'The Foodidu app shows restaurants and cafés near you in Cairo with their opening hours and menus, their offers and limited-time deals, weekly deals, promo codes and Foodidu Picks. It is free and comes in Arabic, English, Spanish, French, German, Russian and Chinese.',
+  ab_shots_h => 'Screens from the app',
+  shot_home => 'Foodidu app home screen with search and food categories', shot_near => 'Foodidu app: restaurants and cafés near you',
+  shot_deals => 'Foodidu app: restaurant deals and offers', shot_codes => 'Foodidu app: promo codes', shot_weekly => 'Foodidu app: weekly deals',
+  ab_check_h => 'How we check codes',
+  ab_check_p => 'Codes come from the brands themselves and their official channels, and our team checks them by hand. A code page shows "Checked by Foodidu" with the date of the last check. Brands can change or end an offer at any time, so every code shows its conditions next to it.',
+  ab_biz_h => 'Foodidu Business',
+  ab_biz_p => 'For restaurants and cafés in Egypt, {link} offers a QR menu, a loyalty program, an ordering website, help on Google Maps and visibility on Foodidu.',
+  ab_links_h => 'Official links', ab_links_p => "Foodidu's official website, apps and accounts:", ab_logo_p => 'The official Foodidu logo:', ab_logo_alt => 'Official Foodidu logo',
+  ab_l_site => 'Website', ab_l_ios => 'iPhone app (App Store)', ab_l_android => 'Android app (Google Play)', ab_l_wa => 'WhatsApp channel',
+  ab_faq_h => 'Questions about Foodidu',
+  ab_q2 => 'Is Foodidu free?', ab_a2 => "Yes. The website and the app are free, and you can copy any code on the website without an account.",
+  ab_q3 => 'Does Foodidu have an app?', ab_a3 => 'Yes: for iPhone on the App Store and for Android on Google Play. Search for "Foodidu" or "فوديدو".',
+  ab_q4 => 'Where does Foodidu work?', ab_a4 => "The promo codes cover Egypt and the GCC. The app's restaurants, cafés and deals are in Cairo.",
+  ab_q5 => 'How does Foodidu check its codes?', ab_a5 => 'Our team checks codes by hand. Every code shows its conditions, and a code page shows the date it was last checked.',
+  ab_q6 => 'How can a restaurant work with Foodidu?', ab_a6 => 'Through {link}: send an exclusive promo code for Foodidu users, or ask for a QR menu, a loyalty program or an ordering website. It starts free.',
   dd_nav => 'Day deals', dd_eyebrow => 'Weekly day deals', dd_title => 'Deals that come back every week',
   dd_sub => "Some brands run a special offer on a fixed day of the week. Here's what's on and when.",
   dd_all => 'All day deals', dd_every => 'Every', dd_today => 'Today!', dd_source => 'Source',
@@ -370,7 +399,7 @@ my %S = (
   te_title => 'Terms & Conditions', te_desc => 'The terms that apply when you use Foodidu and its promo codes, including code availability, accuracy and your responsibilities.',
   updated => 'Last updated: {date}',
   # home faq
-  q1 => 'What is Foodidu?', a1 => 'Foodidu is a free website that collects promo codes and discounts for restaurants, grocery apps and online shopping in Egypt and the GCC, in Arabic and English.',
+  q1 => 'What is Foodidu?', a1 => 'Foodidu (فوديدو) is a free website and app. The website collects promo codes and discounts for restaurants, grocery apps and online shopping in Egypt and the GCC, in Arabic and English. The app, for iPhone and Android, shows restaurants, cafés and deals near you in Cairo.',
   q2 => 'Is Foodidu free?', a2 => "Yes. You don't need an account. Copy any code and use it directly in the brand's app or website.",
   q3 => 'How do I use a promo code?', a3 => "Tap Copy on the code, open the brand's app or website, add your order to the cart and paste the code in the promo code field at checkout.",
   q4 => "Why didn't a code work?", a4 => 'Most codes have conditions, such as first order only or a minimum order amount, and brands can change or end offers at any time. Check the conditions on the code page and make sure you typed it exactly.',
@@ -416,6 +445,31 @@ my %S = (
   app_f3 => 'عروض لفترة محدودة', app_f3p => 'استفد من الخصومات والعروض الحصرية قبل انتهائها.',
   app_f4 => 'المنيو قبل الزيارة', app_f4p => 'تصفّح قائمة الطعام قبل زيارتك لتعرف ماذا ستطلب.',
   gp_small => 'احصل عليه من', gp_big => 'Google Play', as_small => 'حمّله من', as_big => 'App Store', foot_app => 'حمّل التطبيق',
+  org_desc => 'موقع وتطبيق مجانيان لأكواد الخصم وعروض المطاعم وأماكن الأكل في مصر والخليج.',
+  foot_about => 'عن Foodidu',
+  ab_seo => 'عن Foodidu (فوديدو): أكواد خصم وعروض أكل في مصر',
+  ab_desc => 'Foodidu (فوديدو) موقع وتطبيق مجانيان لأكواد الخصم وعروض المطاعم وأماكن الأكل في مصر والخليج. تعرّف على ما يقدّمه وكيف نراجع الأكواد.',
+  ab_h1 => 'عن Foodidu',
+  ab_lead => 'Foodidu (فوديدو) موقع وتطبيق مجانيان يساعدانك على التوفير في الأكل والتسوق في مصر والخليج: أكواد خصم للمطاعم وتوصيل البقالة والمتاجر أونلاين، إلى جانب المطاعم والكافيهات والعروض القريبة منك في القاهرة.',
+  ab_web_h => 'الموقع: foodidu.com',
+  ab_web_p => 'يعرض foodidu.com أكواد وعروض خصم لـ {brands} في ثلاث فئات: المطاعم والبقالة والتسوق أونلاين. كل كود يوضّح شروطه من البداية (أول طلب، أو حد أدنى للطلب، أو على التطبيق فقط). وفي الموقع أيضاً أكواد أول طلب، وعروض تتكرر في يوم ثابت من الأسبوع، وأداة للبحث عن الأكواد، ومدوّنة. الموقع بالعربية والإنجليزية ولا يحتاج إلى حساب.',
+  ab_app_h => 'التطبيق: آيفون وأندرويد',
+  ab_app_p => 'يعرض تطبيق Foodidu المطاعم والكافيهات القريبة منك في القاهرة بمواعيد العمل والمنيو، وعروضها والعروض المحدودة، والعروض الأسبوعية، وأكواد الخصم، واختيارات Foodidu. التطبيق مجاني ومتاح بالعربية والإنجليزية والإسبانية والفرنسية والألمانية والروسية والصينية.',
+  ab_shots_h => 'من شاشات التطبيق',
+  shot_home => 'تطبيق Foodidu: الشاشة الرئيسية مع البحث وفئات الأكل', shot_near => 'تطبيق Foodidu: مطاعم وكافيهات قريبة منك',
+  shot_deals => 'تطبيق Foodidu: عروض المطاعم', shot_codes => 'تطبيق Foodidu: أكواد الخصم', shot_weekly => 'تطبيق Foodidu: العروض الأسبوعية',
+  ab_check_h => 'كيف نراجع الأكواد',
+  ab_check_p => 'تأتي الأكواد من العلامات التجارية نفسها ومن قنواتها الرسمية، ويراجعها فريقنا يدوياً. وتعرض صفحة الكود عبارة «تحقّق منه Foodidu» مع تاريخ آخر مراجعة. ويمكن للعلامات التجارية تغيير العرض أو إنهاؤه في أي وقت، لذلك يظهر بجانب كل كود شروطه.',
+  ab_biz_h => 'Foodidu Business',
+  ab_biz_p => 'للمطاعم والكافيهات في مصر، يقدّم {link} منيو QR، وبرنامج ولاء، وموقع طلبات، ومساعدة على خرائط Google، وظهوراً على Foodidu.',
+  ab_links_h => 'الروابط الرسمية', ab_links_p => 'موقع Foodidu وتطبيقاته وحساباته الرسمية:', ab_logo_p => 'الشعار الرسمي لـ Foodidu:', ab_logo_alt => 'الشعار الرسمي لـ Foodidu',
+  ab_l_site => 'الموقع', ab_l_ios => 'تطبيق آيفون (App Store)', ab_l_android => 'تطبيق أندرويد (Google Play)', ab_l_wa => 'قناة واتساب',
+  ab_faq_h => 'أسئلة عن Foodidu',
+  ab_q2 => 'هل Foodidu مجاني؟', ab_a2 => 'نعم. الموقع والتطبيق مجانيان، ويمكنك نسخ أي كود من الموقع دون حساب.',
+  ab_q3 => 'هل يوجد تطبيق لـ Foodidu؟', ab_a3 => 'نعم، لآيفون على App Store ولأندرويد على Google Play. ابحث عن «Foodidu» أو «فوديدو».',
+  ab_q4 => 'أين يعمل Foodidu؟', ab_a4 => 'أكواد الخصم تغطي مصر والخليج، أما المطاعم والكافيهات والعروض في التطبيق ففي القاهرة.',
+  ab_q5 => 'كيف يراجع Foodidu الأكواد؟', ab_a5 => 'يراجع فريقنا الأكواد يدوياً. كل كود يظهر بشروطه، وتعرض صفحة الكود تاريخ آخر مراجعة له.',
+  ab_q6 => 'كيف يتعاون مطعم مع Foodidu؟', ab_a6 => 'من خلال {link}: أرسل كود خصم حصرياً لعملاء Foodidu، أو اطلب منيو QR أو برنامج ولاء أو موقع طلبات. البداية مجانية.',
   dd_nav => 'عروض الأيام', dd_eyebrow => 'عروض الأيام', dd_title => 'عروض تتكرر كل أسبوع',
   dd_sub => 'بعض العلامات التجارية تقدّم عرضاً خاصاً في يوم ثابت من الأسبوع. هنا تعرف العرض وموعده.',
   dd_all => 'كل عروض الأيام', dd_every => 'كل', dd_today => 'اليوم!', dd_source => 'المصدر',
@@ -572,7 +626,7 @@ my %S = (
   te_seo => 'الشروط والأحكام لاستخدام موقع Foodidu',
   te_title => 'الشروط والأحكام', te_desc => 'الشروط التي تنطبق عند استخدامك Foodidu وأكواد الخصم، بما في ذلك توفّر الأكواد ودقتها ومسؤولياتك كمستخدم.',
   updated => 'آخر تحديث: {date}',
-  q1 => 'ما هو Foodidu؟', a1 => 'Foodidu (فوديدو) موقع مجاني يجمع أكواد وكوبونات الخصم للمطاعم وتطبيقات البقالة والتسوق أونلاين في مصر والخليج، باللغتين العربية والإنجليزية.',
+  q1 => 'ما هو Foodidu؟', a1 => 'Foodidu (فوديدو) موقع وتطبيق مجانيان. الموقع يجمع أكواد وكوبونات الخصم للمطاعم وتطبيقات البقالة والتسوق أونلاين في مصر والخليج، باللغتين العربية والإنجليزية. والتطبيق، لآيفون وأندرويد، يعرض المطاعم والكافيهات والعروض القريبة منك في القاهرة.',
   q2 => 'هل Foodidu مجاني؟', a2 => 'نعم، لا تحتاج إلى حساب. انسخ أي كود واستخدمه مباشرة في تطبيق أو موقع العلامة التجارية.',
   q3 => 'كيف أستخدم كود الخصم؟', a3 => 'اضغط «انسخ» على الكود، وافتح تطبيق أو موقع العلامة التجارية، وأضف طلبك إلى السلة، ثم الصق الكود في خانة كود الخصم أو البرومو كود عند الدفع.',
   q4 => 'لماذا لم يعمل الكود؟', a4 => 'معظم الأكواد لها شروط مثل أول طلب فقط أو حد أدنى لقيمة الطلب، ويمكن للعلامات التجارية تغيير العروض أو إنهاؤها في أي وقت. راجع الشروط في صفحة الكود وتأكد أنك كتبته كما هو تماماً.',
@@ -643,6 +697,7 @@ my %ICON = (
   store    => '<path d="M4 9h16l-1-5H5L4 9Z"/><path d="M5 9v11h14V9M9 20v-6h6v6"/>',
   phone    => '<rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M11 18.5h2"/>',
   play     => '<path fill="currentColor" stroke="none" d="M5 3.8v16.4a1 1 0 0 0 1.5.9l14-8.2a1 1 0 0 0 0-1.8l-14-8.2A1 1 0 0 0 5 3.8Z"/>',
+  apple    => '<path fill="currentColor" stroke="none" d="M12.15 6.9c-.95 0-2.42-1.08-3.96-1.04-2.04.03-3.91 1.18-4.96 3.01-2.12 3.68-.55 9.1 1.52 12.09 1.01 1.45 2.2 3.09 3.79 3.04 1.52-.07 2.09-.99 3.93-.99 1.83 0 2.35.99 3.96.95 1.64-.03 2.68-1.48 3.68-2.95 1.16-1.69 1.63-3.33 1.66-3.42-.04-.01-3.18-1.22-3.22-4.86-.03-3.04 2.48-4.49 2.6-4.56-1.43-2.09-3.62-2.32-4.39-2.38-2-.16-3.68 1.09-4.61 1.09Zm3.38-3.07c.84-1.01 1.4-2.43 1.25-3.83-1.21.05-2.66.8-3.53 1.82-.78.9-1.45 2.34-1.27 3.71 1.34.1 2.71-.69 3.55-1.7Z"/>',
   clock    => '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   menubook => '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5Z"/><path d="M4 19a2 2 0 0 1 2-2h13v4H6a2 2 0 0 1-2-2ZM9 7h6M9 11h6"/>',
   bolt     => '<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>',
@@ -795,8 +850,21 @@ sub store_buttons {
   $cls = $cls ? " $cls" : '';
   qq{<div class="stores$cls"><a class="store" href="$PLAY_URL" rel="noopener" target="_blank" data-track="app_download_click" data-store="google_play">} . icon('play')
   . '<span><small>' . T($l, 'gp_small') . '</small><b>' . T($l, 'gp_big') . '</b></span></a>'
-  . qq{<a class="store" href="$APPSTORE_URL" rel="noopener" target="_blank" data-track="app_download_click" data-store="app_store">} . icon('phone')
+  . qq{<a class="store" href="$APPSTORE_URL" rel="noopener" target="_blank" data-track="app_download_click" data-store="app_store">} . icon('apple')
   . '<span><small>' . T($l, 'as_small') . '</small><b>' . T($l, 'as_big') . '</b></span></a></div>';
+}
+# The app in JSON-LD (home page and /about/): both stores, the official logo and real screenshots.
+sub app_ld {
+  my ($l) = @_;
+  { '@type' => 'MobileApplication', '@id' => "$SITE/#app", name => 'Foodidu', alternateName => ['فوديدو', 'Foodidu: Restaurant Offers'],
+    operatingSystem => 'iOS, Android', applicationCategory => 'LifestyleApplication', description => strip_tags(T($l, 'app_sub')),
+    url => absu(path_for($l, '/about/')), installUrl => [$APPSTORE_URL, $PLAY_URL], sameAs => [$APPSTORE_URL, $PLAY_URL],
+    image => "$SITE/img/foodidu-logo-512.png", screenshot => [ map { "$SITE/img/app/$l/$_->[0].webp" } @APP_SHOTS ],
+    inLanguage => [qw(ar en es fr de ru zh)], publisher => { '@id' => "$SITE/#org" }, offers => { '@type' => 'Offer', price => '0', priceCurrency => 'EGP' } }
+}
+sub app_shots {   # a scrolling row of the real app screens
+  my ($l) = @_;
+  '<ul class="app-shots">' . join('', map { qq{<li><img src="/img/app/$l/$_->[0].webp" alt="} . T($l, $_->[1]) . qq{" width="540" height="1174" loading="lazy" decoding="async"></li>} } @APP_SHOTS) . '</ul>';
 }
 sub app_section {
   my ($l) = @_;
@@ -934,9 +1002,9 @@ sub layout {
   my $title = $a{title};
   my $og = absu($a{og} // "/img/og/home-$l.png");
   my @g = (
-    { '@type' => 'Organization', '@id' => "$SITE/#org", name => 'Foodidu', alternateName => 'فوديدو', url => "$SITE/",
-      logo => { '@type' => 'ImageObject', url => "$SITE/img/foodidu-logo-512.png", width => 512, height => 512 },
-      sameAs => [ map { $_->[2] } @SOCIAL ] },
+    { '@type' => 'Organization', '@id' => "$SITE/#org", name => 'Foodidu', alternateName => 'فوديدو', url => "$SITE/", description => T($l, 'org_desc'),
+      logo => { '@type' => 'ImageObject', url => "$SITE/img/foodidu-logo-512.png", width => 512, height => 512 }, image => "$SITE/img/foodidu-logo-512.png",
+      sameAs => [ (map { $_->[2] } @SOCIAL), $YOUTUBE_URL, $APPSTORE_URL, $PLAY_URL ] },
     { '@type' => 'WebSite', '@id' => "$SITE/#website", url => "$SITE/", name => 'Foodidu', alternateName => 'فوديدو', inLanguage => ['en', 'ar'], publisher => { '@id' => "$SITE/#org" } },
     { '@type' => ($a{pagetype} // 'WebPage'), '@id' => "$url#webpage", url => $url, name => $title, description => $a{desc}, inLanguage => $l,
       isPartOf => { '@id' => "$SITE/#website" }, dateModified => ($a{lastmod} // $DATA_DATE), primaryImageOfPage => { '@type' => 'ImageObject', url => $og },
@@ -1036,6 +1104,7 @@ $a{body}
 <div class="foot-brand"><a class="brand" href="$home" aria-label="@{[ T($l, 'home_logo') ]}"><img src="$LOGO" width="140" height="55" alt="Foodidu" loading="lazy"></a><p>@{[ T($l, 'foot_blurb') ]}</p><p class="foot-sister">@{[ T($l, 'foot_sister', link => qq{<a href="https://dealora-offers.online/$l">} . T($l, 'foot_sister_name') . '</a>') ]}</p><div class="social">$social</div><h2 class="foot-app">@{[ T($l, 'foot_app') ]}</h2>@{[ store_buttons($l, 'stores-foot') ]}</div>
 <nav aria-label="@{[ T($l, 'foot_codes') ]}"><h2>@{[ T($l, 'foot_codes') ]}</h2><ul class="foot-links cols">$foot_codes</ul></nav>
 <nav aria-label="Foodidu"><h2>Foodidu</h2><ul class="foot-links">
+<li><a href="@{[ path_for($l, '/about/') ]}">@{[ T($l, 'foot_about') ]}</a></li>
 <li><a href="$codes">@{[ T($l, 'foot_all') ]}</a></li>
 @{[ @FO ? '<li><a href="' . path_for($l, '/first-order-promo-codes/') . '">' . T($l, 'fo_h1') . '</a></li>' : '' ]}
 <li><a href="@{[ path_for($l, '/code-finder/') ]}">@{[ T($l, 'cf_nav') ]}</a></li>
@@ -1477,9 +1546,7 @@ for my $l (@LANGS) {
 </section>
 HTML
     layout(lang => $l, key => '/', title => T($l, 'h_title'), desc => T($l, 'h_desc'), body => $body,
-      ld => [ faq_ld(@qa), { '@type' => 'MobileApplication', name => 'Foodidu', alternateName => 'فوديدو', operatingSystem => 'Android, iOS',
-        applicationCategory => 'LifestyleApplication', installUrl => [$PLAY_URL, $APPSTORE_URL], url => $PLAY_URL, description => strip_tags(T($l, 'app_sub')),
-        publisher => { '@id' => "$SITE/#org" }, offers => { '@type' => 'Offer', price => '0', priceCurrency => 'EGP' } } ],
+      ld => [ faq_ld(@qa), app_ld($l) ],
       fd => { brands => search_index($l, 1) }, og => "/img/og/home-$l.png");
   }
 
@@ -2401,6 +2468,32 @@ HTML
       . T($l, 'updated', date => ($p eq 'pr' ? fmt_date($l, '2026-10-16') : $l eq 'en' ? 'October 2026' : 'أكتوبر 2026')) . qq{</p></div></section><div class="scallop" aria-hidden="true"></div><div class="wrap legal">$content</div>};
     layout(lang => $l, key => "/$slug/", title => T($l, "${p}_seo"), desc => T($l, "${p}_desc"), body => $body, crumbs => $crumbs, lastmod => mdate($src));
   }
+
+  # ---------- about: what Foodidu is (website and app), how codes are checked, the official links and logo. Plain facts that
+  # search engines and AI assistants can quote; its JSON-LD repeats the app with both stores and real screenshots.
+  {
+    my $key = '/about/';
+    my $crumbs = [[T($l, 'home'), path_for($l, '/')], [T($l, 'ab_h1'), path_for($l, $key)]];
+    my $biz = '<a href="' . path_for($l, '/business/') . '">Foodidu Business</a>';
+    my @qa = ([T($l, 'q1'), T($l, 'a1')], map { [T($l, "ab_q$_"), T($l, "ab_a$_", link => $biz)] } 2 .. 6);
+    my @links = ([T($l, 'ab_l_site'), absu(path_for($l, '/'))], [T($l, 'ab_l_ios'), $APPSTORE_URL], [T($l, 'ab_l_android'), $PLAY_URL],
+      ($WA ? [T($l, 'ab_l_wa'), $WA] : ()), (map { [$_->[1], $_->[2]] } grep { $_->[0] ne 'whatsapp' } @SOCIAL), ['YouTube', $YOUTUBE_URL]);
+    my $links = '<ul class="about-links">' . join('', map { my $t = $_->[1] =~ s{^https?://(?:www\.)?}{}r =~ s{/$}{}r;
+      '<li>' . $_->[0] . ': <a href="' . esc($_->[1]) . '" rel="noopener" target="_blank"><bdi dir="ltr">' . esc($t) . '</bdi></a></li>' } @links) . '</ul>';
+    my $body = qq{<section class="page-hero"><div class="wrap">} . crumbs_html($l, $crumbs) . '<h1>' . T($l, 'ab_h1') . '</h1><p class="lede">' . T($l, 'ab_lead') . '</p></div></section>'
+      . '<div class="scallop" aria-hidden="true"></div><div class="wrap legal about">'
+      . '<h2>' . T($l, 'ab_web_h') . '</h2><p>' . T($l, 'ab_web_p', brands => nbrands($l, scalar @BRANDS)) . '</p>'
+      . '<h2>' . T($l, 'ab_app_h') . '</h2><p>' . T($l, 'ab_app_p') . '</p>' . store_buttons($l)
+      . '<h3>' . T($l, 'ab_shots_h') . '</h3>' . app_shots($l)
+      . '<h2>' . T($l, 'ab_check_h') . '</h2><p>' . T($l, 'ab_check_p') . '</p>'
+      . '<h2>' . T($l, 'ab_biz_h') . '</h2><p>' . T($l, 'ab_biz_p', link => $biz) . '</p>'
+      . '<h2>' . T($l, 'ab_links_h') . '</h2><p>' . T($l, 'ab_links_p') . "</p>$links"
+      . '<p>' . T($l, 'ab_logo_p') . qq{</p><img class="about-logo" src="$LOGO" alt="} . T($l, 'ab_logo_alt') . '" width="304" height="120" loading="lazy" decoding="async">'
+      . '</div>'
+      . qq{<section class="wrap section-tight two-col" aria-labelledby="faq-title"><div><h2 class="h2" id="faq-title">} . T($l, 'ab_faq_h') . '</h2></div>' . faq_html(@qa) . '</section>';
+    layout(lang => $l, key => $key, title => T($l, 'ab_seo'), desc => T($l, 'ab_desc'), body => $body, crumbs => $crumbs, pagetype => 'AboutPage',
+      about => { '@id' => "$SITE/#org" }, lastmod => '2026-11-27', ld => [ app_ld($l), faq_ld(@qa) ]);
+  }
 }
 
 # ---------- 404 (bilingual, noindex)
@@ -2478,6 +2571,27 @@ HTML
   $xml .= "</urlset>\n";
   spit("$OUT/sitemap.xml", $xml);
   spit("$OUT/robots.txt", "User-agent: *\nAllow: /\n\nSitemap: $SITE/sitemap.xml\n");
+  # llms.txt (llmstxt.org): a plain summary for AI assistants, built from the same data as the pages, so it never goes stale.
+  {
+    my $u = sub { absu(path_for('en', $_[0])) };
+    my $t = "# Foodidu (فوديدو)\n\n> " . strip_tags(T('en', 'a1')) . "\n\n"
+      . "Foodidu lists promo codes and discounts for " . nbrands('en', scalar @BRANDS) . " in restaurants, groceries and online shopping. "
+      . "Every code shows its conditions, and codes are checked by hand. The website and the app are free.\n\n"
+      . "- Official logo: $SITE/img/foodidu-logo-512.png\n- iPhone app (App Store): $APPSTORE_URL\n- Android app (Google Play): $PLAY_URL\n"
+      . "- Arabic version of the website: " . absu(path_for('ar', '/')) . "\n\n## Main pages\n\n"
+      . "- [About Foodidu](" . $u->('/about/') . "): what Foodidu is, the website and the app, how codes are checked, official links\n"
+      . "- [All promo codes](" . $u->('/promo-codes/') . "): every code on Foodidu, by category\n"
+      . (@FO ? "- [First order promo codes](" . $u->('/first-order-promo-codes/') . "): codes for a first order on an app or website\n" : '')
+      . (@DDEALS ? "- [Weekly day deals](" . $u->('/day-deals/') . "): offers that come back on the same weekday\n" : '')
+      . "- [Code finder](" . $u->('/code-finder/') . "): paste a product link and get that store's codes\n"
+      . (@PUB ? "- [Blog](" . $u->('/blog/') . "): saving guides and sale dates\n" : '')
+      . "- [Foodidu Business](" . $u->('/business/') . "): QR menu, loyalty program, ordering website and visibility for restaurants and cafés in Egypt\n"
+      . "\n## Promo codes by brand\n\n"
+      . join('', map { "- [" . strip_tags(T('en', 'foot_code_link', name => $_->{name}{en})) . "](" . absu(brand_url($_, 'en')) . "): " . strip_tags(offers_text($_, 'en')) . "\n" } @BRANDS)
+      . (@RESTS ? "\n## Restaurant offers\n\n" . join('', map { "- [" . strip_tags(T('en', 'ro_h1', name => $_->{name}{en})) . "](" . absu(rest_url($_, 'en')) . ")\n" } @RESTS) : '')
+      . "\n## Official profiles\n\n" . join('', map { "- $_->[1]: $_->[2]\n" } @SOCIAL) . "- YouTube: $YOUTUBE_URL\n";
+    spit("$OUT/llms.txt", $t);
+  }
   spit("$OUT/site.webmanifest", JSON::PP->new->canonical->pretty->encode({
     name => 'Foodidu', short_name => 'Foodidu', description => 'Promo codes & discounts in Egypt and the GCC',
     start_url => '/', scope => '/', display => 'standalone', background_color => '#FFF9EB', theme_color => '#FFD15C',

@@ -125,6 +125,16 @@ One-time setup:
 1. **Deploy key for GitHub:** Firebase console > Project settings > Service accounts > Generate new private key (a JSON file). In GitHub: the repo > Settings > Secrets and variables > Actions > New repository secret, name `FIREBASE_SERVICE_ACCOUNT`, paste the whole JSON. Then delete the downloaded file.
 2. **GitHub token for the dashboard (per browser):** github.com/settings/personal-access-tokens/new, Repository access: only `foodidu_website`, Permissions: Contents = Read and write, Actions = Read-only. Paste it in the dashboard under إدارة المحتوى. It stays in that browser only; **Disconnect GitHub** removes it.
 
+## AI assistants (ChatGPT, Gemini, Perplexity)
+
+AI assistants describe Foodidu from what they find on the web. Three things on the site give them the facts first-hand:
+
+- **`/about/` and `/ar/about/`**: what Foodidu is (the website and the iPhone/Android app), how codes are checked, Foodidu Business, every official link, the official logo, a row of real app screens and an FAQ. JSON-LD: `AboutPage` about the `Organization`, the app (`MobileApplication`) and the FAQ. Texts are the `ab_*` strings in `tools/build.pl`.
+- **The app in JSON-LD** (`app_ld` in `tools/build.pl`, on the home page and `/about/`): both stores, the logo, and the screens in `static/img/app/<lang>/` as `screenshot`. These come from the App Store screenshots (`store_assets/screenshots/` in the app repo), resized to 540 px WebP; replace them when the app looks different. The `Organization` lists the stores and YouTube in `sameAs`.
+- **`/llms.txt`**: a plain-text summary with the main pages and every brand's code page, rebuilt from the data on every build.
+
+Keep the same logo, name and description everywhere else too (App Store, Google Play, social profiles): assistants trust facts that agree across sources.
+
 ## SEO already in place
 
 - Pre-rendered HTML for all 34 pages (no JS needed to read content).

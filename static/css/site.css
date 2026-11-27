@@ -1137,6 +1137,14 @@ a.store:hover { background: #000; transform: translateY(-2px); }
 .legal a { font-weight: 700; color: var(--ink); }
 .updated { font-weight: 500; margin-top: 10px; }
 
+/* about: store buttons, a row of real app screens, the official logo */
+.legal a.store { color: #fff; font-weight: 500; }
+.legal .app-shots { display: flex; gap: 14px; overflow-x: auto; padding: 4px 2px 14px; margin: 10px 0 0; list-style: none; scroll-snap-type: x mandatory; }
+.app-shots li { flex: 0 0 auto; scroll-snap-align: start; }
+.app-shots img { display: block; width: clamp(150px, 38vw, 190px); height: auto; border-radius: 22px; border: 2px solid var(--ink-deep); box-shadow: 0 4px 0 rgba(0, 0, 0, .18); }
+.legal .about-links { padding-inline-start: 1.3em; }
+.about-logo { display: block; width: 240px; max-width: 100%; height: auto; margin-top: 10px; }
+
 /* 404 */
 .lost { text-align: center; padding-block: clamp(56px, 10vw, 120px); }
 .lost img { width: 220px; height: auto; margin: 0 auto 18px; }
