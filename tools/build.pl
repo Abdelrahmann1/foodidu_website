@@ -31,6 +31,7 @@ my @SOCIAL = (
 my ($WA) = map { $_->[2] } grep { $_->[0] eq 'whatsapp' } @SOCIAL;   # the WhatsApp channel: follow cards on the pages
 
 my $PLAY_URL = 'https://play.google.com/store/apps/details?id=com.fooddidu.app';
+my $APPSTORE_URL = 'https://apps.apple.com/app/id6818665166';   # Apple sends each visitor to their own country's store
 my $LOGO = '/img/foodidu-logo.svg';   # the "welcome to Foodidu" brand logo, 767x304
 
 sub slurp { my ($f, $raw) = @_; open my $fh, ($raw ? '<:raw' : '<:encoding(UTF-8)'), $f or die "read $f: $!"; local $/; my $s = <$fh>; close $fh; $s }
@@ -207,7 +208,7 @@ my %S = (
   app_f2 => 'Hours & offers', app_f2p => 'Check opening hours and the special offers each place has.',
   app_f3 => 'Limited-time deals', app_f3p => 'Catch exclusive promotions and discounts before they end.',
   app_f4 => 'Menus before you go', app_f4p => 'Explore the menu before you visit, so you know what to order.',
-  gp_small => 'Get it on', gp_big => 'Google Play', as_small => 'Coming soon on', as_big => 'App Store', foot_app => 'Get the app',
+  gp_small => 'Get it on', gp_big => 'Google Play', as_small => 'Download on the', as_big => 'App Store', foot_app => 'Get the app',
   dd_nav => 'Day deals', dd_eyebrow => 'Weekly day deals', dd_title => 'Deals that come back every week',
   dd_sub => "Some brands run a special offer on a fixed day of the week. Here's what's on and when.",
   dd_all => 'All day deals', dd_every => 'Every', dd_today => 'Today!', dd_source => 'Source',
@@ -414,7 +415,7 @@ my %S = (
   app_f2 => 'مواعيد وعروض', app_f2p => 'اعرف مواعيد العمل والعروض الخاصة المتاحة في كل مكان.',
   app_f3 => 'عروض لفترة محدودة', app_f3p => 'استفد من الخصومات والعروض الحصرية قبل انتهائها.',
   app_f4 => 'المنيو قبل الزيارة', app_f4p => 'تصفّح قائمة الطعام قبل زيارتك لتعرف ماذا ستطلب.',
-  gp_small => 'احصل عليه من', gp_big => 'Google Play', as_small => 'قريباً على', as_big => 'App Store', foot_app => 'حمّل التطبيق',
+  gp_small => 'احصل عليه من', gp_big => 'Google Play', as_small => 'حمّله من', as_big => 'App Store', foot_app => 'حمّل التطبيق',
   dd_nav => 'عروض الأيام', dd_eyebrow => 'عروض الأيام', dd_title => 'عروض تتكرر كل أسبوع',
   dd_sub => 'بعض العلامات التجارية تقدّم عرضاً خاصاً في يوم ثابت من الأسبوع. هنا تعرف العرض وموعده.',
   dd_all => 'كل عروض الأيام', dd_every => 'كل', dd_today => 'اليوم!', dd_source => 'المصدر',
@@ -794,7 +795,8 @@ sub store_buttons {
   $cls = $cls ? " $cls" : '';
   qq{<div class="stores$cls"><a class="store" href="$PLAY_URL" rel="noopener" target="_blank" data-track="app_download_click" data-store="google_play">} . icon('play')
   . '<span><small>' . T($l, 'gp_small') . '</small><b>' . T($l, 'gp_big') . '</b></span></a>'
-  . '<span class="store soon" aria-disabled="true">' . icon('phone') . '<span><small>' . T($l, 'as_small') . '</small><b>' . T($l, 'as_big') . '</b></span></span></div>';
+  . qq{<a class="store" href="$APPSTORE_URL" rel="noopener" target="_blank" data-track="app_download_click" data-store="app_store">} . icon('phone')
+  . '<span><small>' . T($l, 'as_small') . '</small><b>' . T($l, 'as_big') . '</b></span></a></div>';
 }
 sub app_section {
   my ($l) = @_;
@@ -1475,8 +1477,8 @@ for my $l (@LANGS) {
 </section>
 HTML
     layout(lang => $l, key => '/', title => T($l, 'h_title'), desc => T($l, 'h_desc'), body => $body,
-      ld => [ faq_ld(@qa), { '@type' => 'MobileApplication', name => 'Foodidu', alternateName => 'فوديدو', operatingSystem => 'Android',
-        applicationCategory => 'LifestyleApplication', installUrl => $PLAY_URL, url => $PLAY_URL, description => strip_tags(T($l, 'app_sub')),
+      ld => [ faq_ld(@qa), { '@type' => 'MobileApplication', name => 'Foodidu', alternateName => 'فوديدو', operatingSystem => 'Android, iOS',
+        applicationCategory => 'LifestyleApplication', installUrl => [$PLAY_URL, $APPSTORE_URL], url => $PLAY_URL, description => strip_tags(T($l, 'app_sub')),
         publisher => { '@id' => "$SITE/#org" }, offers => { '@type' => 'Offer', price => '0', priceCurrency => 'EGP' } } ],
       fd => { brands => search_index($l, 1) }, og => "/img/og/home-$l.png");
   }
@@ -2511,7 +2513,7 @@ HTML
     codes => \@codes, restaurants => \@rests, deals => \@deals,
     featured => ($fp ? { active => ($FEAT->{active} ? $T : $F), partner => join('، ', map { $_->[1]{name}{ar} } @fps), until => $FEAT->{until}, sponsored => ($FEAT->{sponsored} ? $T : $F),
       page => ($fr ? rest_url($fr, 'ar') : brand_url($fp, 'ar')) } : undef),
-    appCheck => ($appcheck ? $T : $F), ga => { measurementId => $measurement }, gsc => { site => "$SITE/" }, play => $PLAY_URL,
+    appCheck => ($appcheck ? $T : $F), ga => { measurementId => $measurement }, gsc => { site => "$SITE/" }, play => $PLAY_URL, appStore => $APPSTORE_URL,
     assets => { admin => asset('/js/admin.js'), art => asset('/js/art.js') }, repo => 'Abdelrahmann1/foodidu_website',
   );
   my $json = JSON::PP->new->canonical->encode(\%data); $json =~ s{</}{<\\/}g;

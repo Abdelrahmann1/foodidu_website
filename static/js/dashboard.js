@@ -664,6 +664,7 @@
       ["Microsoft Clarity", "تسجيلات الشاشة وخرائط الضغط", CL_URL("dashboard")],
       ["PageSpeed Insights", "سرعة الموقع على الموبايل", "https://pagespeed.web.dev/analysis?url=" + encodeURIComponent(D.site + "/ar/")],
       ["Google Play", "صفحة التطبيق", D.play],
+      ["App Store", "صفحة التطبيق على آيفون", D.appStore],
       ["GitHub", "كود الموقع", "https://github.com/Abdelrahmann1/foodidu_website"]
     ];
     const setup = [
