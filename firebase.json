@@ -192,8 +192,9 @@
       { "source": "/8orders-promocode/", "destination": "/8Orders-PromoCode/", "type": 301 },
       { "source": "/ar/8orders-promocode", "destination": "/ar/8Orders-PromoCode/", "type": 301 },
       { "source": "/ar/8orders-promocode/", "destination": "/ar/8Orders-PromoCode/", "type": 301 },
-      { "source": "/place/:id", "destination": "https://foodidu-mobile-dashbaord.vercel.app/place/:id", "type": 302 },
-      { "source": "/place/:id/", "destination": "https://foodidu-mobile-dashbaord.vercel.app/place/:id", "type": 302 }
+      { "source": "/place/:id", "destination": "https://app.foodidu.com/place/:id", "type": 302 },
+      { "source": "/place/:id/", "destination": "https://app.foodidu.com/place/:id", "type": 302 },
+      { "source": "/app/**", "destination": "/", "type": 302 }
     ],
     "headers": [
       {
